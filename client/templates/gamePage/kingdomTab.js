@@ -10,9 +10,8 @@ Template.kingdomTab.helpers({
 	'inventoryItem' : function(type){	
 		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return;
-		}else{
-			return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); //array of objects of eqp
-
+		}else{ 
+			return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); 
 		}
 	},
 
