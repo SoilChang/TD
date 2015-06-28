@@ -4,11 +4,27 @@ Template.gameTab.events({
 	},
 	'mouseleave #c-game-closeButton': function(){
 		$('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
+	},
+
+	'click #pauseBtn': function() {
+		togglePause();
+	}
+	'click #restartBtn': function(){
+		restart();
 	}
 
 });
 
+
 Template.gameTab.onRendered(function() {
+	$('#c-game-left_hand_menu').css({'left':'180px', 'height':'540px'});
+	$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
+	$('#btmMenu').css({'top':'480px'});
+	$('#btmMenu').animate({top:'550px'},1000);
+});
+
+
+
 
 	/*content page
 	-Game Data
@@ -1406,4 +1422,3 @@ Template.gameTab.onRendered(function() {
 	    };
 	};
 
-});
