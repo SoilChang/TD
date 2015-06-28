@@ -1,0 +1,92 @@
+<template name="gamePage">
+	<div  id="gamePageBody">
+		<!-- top nav bar-->
+		<nav class="navbar navbar-inverse navbar-fixed-top" >				
+	  		<div class="container">
+	  			<ul class="nav nav-pills col-lg-offset-3 col-md-offset-3 col-ms-offset-3">
+				  <li role="presentation" ><a href="{{pathFor 'firstPage'}}">Home</a></li>
+				  <li role="presentation"><a href="{{pathFor 'albumPage'}}">Album</a></li>
+				  {{#if currentUser}}
+				  <li role="presentation"><a href="{{pathFor 'leaderBoard'}}">Leader Board</a></li>
+				  <li role="presentation"><a href="{{pathFor 'feedback'}}">Feedback</a></li>
+				  {{/if}}
+				  <li role="presentation"><a href="#">{{> loginButtons}}</a></li>
+				</ul>
+	  		</div>
+		</nav>
+
+		<!--Left hand floating nav bar-->
+		<div id="leftHandBar" >
+
+			<div id="profilePic" >
+				<img style="height:100px; width:100px; " src='{{loadProfilePicture}}'>
+			</div>
+
+			<!-- Single button 1 -->
+			<div class="btn-group" id="b1">
+				<a href="{{pathFor 'kingdomTab'}}">
+					<button type="button" class="btn menuButton">
+				    	Kingdom
+				  	</button>
+				  	</a>
+		  	</div>
+
+		  	<!-- Single button 2-->
+			<div class="btn-group" id="b2">
+				<a href="{{pathFor 'ruleTab'}}">
+				  <button type="button" class="btn menuButton" >
+				    Rules
+				  </button>
+				</a>
+			</div>
+
+			<!-- Single button 3-->
+			<div class="btn-group" id="b3">
+				<a href="{{pathFor 'towerTypeTab'}}">
+				  <button type="button" class="btn menuButton" >
+				    Tower Type
+				  </button>
+				 </a>
+			</div>
+
+			<!-- Single button 4-->
+			<div class="btn-group" id="b4">
+				<a href="{{pathFor 'alliesTab'}}">
+				  <button type="button" class="btn menuButton" >
+				    Allies
+				  </button>
+				 </a>
+			</div>
+
+			<!-- Single button 5-->
+			<div class="btn-group" id="b5">
+				<a href="{{pathFor 'shopTab'}}">
+				  <button type="button" class="btn menuButton" >
+				    Shop
+				  </button>
+				 </a>
+			</div>
+
+			<!-- single button 6 -->
+			<div class="btn-group" id="b6">
+				<a href="{{pathFor 'gameTab'}}">
+				  <button type="button" class="btn menuButton" >
+				    Game
+				  </button>
+				</a>
+			</div>
+
+		</div>
+
+		{{updateUserStats}}
+
+		<!--center preview windown-->
+		<div id="c-centerSpace">
+			{{ >yield }}
+		</div>
+	</div>
+</template>
+
+<template name='storage'>
+		
+</template>

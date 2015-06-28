@@ -1,0 +1,23 @@
+<template  name="firstPage" >
+	<div id="firstPageBody">
+	<!-- the div for light house -->
+		<div>
+			<img src="images/firstPage/lightHouse.png" id="lighthouse">
+			<img src="images/firstPage/credit.png"  id="credit">
+		</div>
+		<!-- the div for second tower -->
+		<div>
+			<a href="{{pathFor 'albumPage'}}">
+				<img src="images/firstPage/2ndTower.png" id="secTower">
+			</a>
+			<img src="images/firstPage/photoBook.png" id="photoBook">
+			<!-- the following helper is to hide and show photo book -->
+			
+		</div>
+		<!-- the div for the knight -->
+		<div>
+			<a href="{{pathFor 'gamePage'}}"><img src="../images/firstPage/knight.png" id="knight"></a>
+			<img src="images/firstPage/enter.png" id="enter">
+		</div>
+	</div>
+</template>

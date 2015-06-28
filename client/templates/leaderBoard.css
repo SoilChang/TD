@@ -1,0 +1,36 @@
+#leaderBoardBody{
+	margin-top: -73px;
+	background-image: url('images/leaderBoard/background.png');
+	width: 1303px;
+	height:700px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+#lb_display{
+	position: absolute;
+	height: 500px;
+	width: 850px;
+	background-color: rgba(174, 188, 131, 0.8);
+	top: 50px;
+	margin-left:200px;
+	border-radius:5px;
+	border: solid #A35200 2px;
+}
+
+#bluejay{
+	position: absolute;
+	margin-left: 1060px;
+	margin-top: 535px;
+	height: 130px;
+	width: 150px;
+	background-image: url('/images/leaderBoard/bluejay.png');
+	background-size:  100% auto;
+	background-repeat: no-repeat;
+}
+
+.category{
+	color: yellow;
+	font-family: cursive;
+	display: inline-block;
+}

@@ -1,0 +1,68 @@
+/*this style sheet is particular for the center game preview window*/
+#c-game-left_hand_menu{
+	position: absolute;
+	background-color: rgba(141, 195, 198, 0.7);
+	height: 540px;
+	width: 170px;
+	left: 180px;
+	margin-top:0px;
+	z-index: 0;
+	border-radius:5px;
+}
+
+#c-game-game_canvas{
+	background-color: #CC6600;
+	/*rgba function generates semi-transparent background*/
+	background-color: rgba(48, 75, 91, 0.7);
+	border: ridge #522900;
+	position: absolute;
+	height:550px;
+	width: 900px;
+	top:0%;
+	left: 175px;
+	z-index: 10;
+	overflow-x: scroll;
+	overflow-y:scroll;
+	z-index: 5;
+}
+
+#c-game-left_hand_menu-lupper_section-words{
+	color: red;
+}
+#c-game-left_hand_menu-lupper_section{
+	display: block;
+	width:120px;
+}
+#c-game-left_hand_menu-lower_section{
+	display: block;
+	width: 120px;
+	text-align: center;
+
+}
+
+#btmMenu{
+	position: absolute;
+	height:60px;
+	width: 900px;
+	background-color: rgba(141, 195, 198, 0.7);
+	left: 175px;
+	top: 480px;
+	border-radius:5px;
+	z-index: 0;
+	
+}
+
+#c-game-closeButton{
+	position:absolute;
+	height: 30px;
+	width: 30px;
+	margin-top: 0px;
+	margin-left:1020px;
+	background-image: url("images/gamePage/closeButton.png");
+	background-size: 100% auto;
+	z-index: 11;
+}
+
+#playingField{
+	z-index: 5;
+}

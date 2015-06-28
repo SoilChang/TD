@@ -1,0 +1,7 @@
+#feedbackBody{
+	background-image: url('/images/feedback/background.jpg');
+	margin-top: -60px;
+
+    background-repeat: no-repeat;
+    background-size:  auto 100%;
+}

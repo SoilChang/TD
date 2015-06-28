@@ -1,0 +1,24 @@
+<template name="individual_Item_inventory">
+		<div>
+			<h4 class="c-shop-item_display-name">{{name}}</h4>
+			<img src="{{url}}" class="c-shop-item_display-image">
+			<div class="c-shop-item_display-description">
+				<p> HP Bonus: {{hpBonus}} <br> Armour Bonus:{{armourBonus}} <br> Attack Bonus:{{attackBonus}}% <br>Magical Power: {{magicalPower}}<br> price: {{price}} </p>
+			</div>
+			<!-- return the class "greenTick", which will show the item is equipped -->
+			<div class="{{checkIfequipped}}">	
+			</div>
+			<!-- equip button -->
+			<div class="inventory_button" >
+				<button id="equipButton" class="btn btn-default">
+					equip
+				</button>
+			</div>
+			<!-- sell button -->
+			<div class="inventory_button" >
+				<button id="sellButton" class="btn btn-default"  role="button">sell</button>
+				<p>(25% refund)</p>
+			</div>
+		</div>
+		<hr>
+</template>

@@ -1,0 +1,24 @@
+#c-Rules-closeButton{
+	position:absolute;
+	height: 30px;
+	width: 30px;
+	margin-top: 0px;
+	margin-left:845px;
+	background-image: url("images/gamePage/closeButton.png");
+	background-size: 100% auto;
+	z-index: 11;
+}
+
+
+#c-Rules-h1,
+#c-Tower_Type-h1{
+	text-shadow:1px 1px 0 rgba(128,255,136,1);font-weight:normal;color:#C94928;letter-spacing:0pt;word-spacing:1pt;text-align:center;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+}
+#c-Rules-h2,
+#c-Tower_Type-h2{
+	text-shadow:1px 1px 0 rgba(128,255,136,1);font-weight:normal;color:#2D8C33;letter-spacing:0pt;word-spacing:1pt;text-align:left;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+}
+#c-Rules-p,
+#c-Tower_Type-p{
+	text-shadow:1px 1px 0 rgba(255,255,0,1);font-weight:normal;color:#2D8C73;letter-spacing:0pt;word-spacing:1pt;font-size:20px;text-align:left;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+}

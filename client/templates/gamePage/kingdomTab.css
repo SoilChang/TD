@@ -1,0 +1,82 @@
+#c-kingdom-profile_pic{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 2%;
+	width: 100px;
+	height: 100px;
+}
+
+#c-kingdom-Name_and_Status{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 2%;
+	margin-left: 2%;
+	width: 800px;
+	height: 100px;
+	
+}
+
+#c-kingdom-status_box{
+	display: inline-block;
+	width: 700px;
+
+}
+#c-kingdom-status_button{
+	display: inline-block;
+	width: 50px;
+
+}
+#c-kingdom-status_p{
+	font-size: 20px;
+	color: yellow;
+}
+
+/*live and armour div*/
+#c-kingdom-LiveArmour{
+	margin-top:70px;
+	height: 140px;	
+	font-family: cursive;
+	color: #00FF00;
+}
+
+/*equipment obtained*/
+#c-kingdom-equipment{
+	margin-top: 7%;
+	height: 250px;
+}
+
+#c-kingdom-button_group{
+	margin-top: 100px;
+}
+
+#c-kingdom-item_display-Helmets,
+#c-kingdom-item_display-Chest_Plates,
+#c-kingdom-item_display-Legs,
+#c-kingdom-item_display-Arms,
+#c-kingdom-item_display-Weapons,
+#c-kingdom-item_display-Mystical_Relic{
+	height:370px;
+	background-color:#969E96;
+	border-radius-bottom: 5%;
+	overflow-y:auto;
+	overflow-x: hidden;
+	border-radius:5px;
+}
+
+#c-kingdom-closeButton{
+	position:absolute;
+	height: 30px;
+	width: 30px;
+	margin-top: 0px;
+	margin-left:845px;
+	background-image: url("images/gamePage/closeButton.png");
+	background-size: 100% auto;
+	z-index: 11;
+}
+
+.inventory_button{
+	position:relative;
+	display: block;
+
+	margin-top: 20px;
+}

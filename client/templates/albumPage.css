@@ -1,0 +1,77 @@
+#firstPageBody{
+	margin-top: -73px;
+	width: 1303px;
+	height:700px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+
+#banner{
+	position: relative;
+	height: 90px;
+	border-radius: 5px;
+	background-color: #664C00;
+}
+#banner-header{
+	text-shadow:1px 1px 0 rgba(60,176,153,1);font-weight:bold;text-decoration:underline overline;text-transform:uppercase;color:#434099;background-color:#664C00;letter-spacing:4pt;word-spacing:9pt;font-size:65px;text-align:center;font-family:impact, sans-serif;line-height:1;
+}
+
+#carousel{
+	height: 453px;
+}
+
+#wrapper{
+	position:absolute;
+	height:453px;
+	width: 1000px;
+	left:11.5%;
+	overflow: hidden;
+	background-color: rgba(244, 219, 239, 0.7);
+
+}
+
+#regulator{
+	height: 453px;
+	width: 1000px;
+	-webkit-background-size: auto 100% ;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+#footer{
+	position: absolute;
+	height: 96px;
+	background-color:#A39264 ;
+	bottom:0%;
+	text-shadow:1px 1px 0 rgba(60,176,153,1);font-weight:bold;text-transform:uppercase;color:#2F3021;letter-spacing:-1pt;word-spacing:-2pt;font-size:42px;text-align:center;font-family:courier new, courier, monospace;line-height:1;
+
+}
+
+#footer-back_arrow{
+	position: absolute;
+	top: 10%;
+	height: 50px;
+}
+
+#footer-back{
+	position: absolute;
+	left: 170px;
+	bottom:-40px;
+	color: black;
+}
+#footer-forward_arrow{
+	position: absolute;
+	left:750px;
+	top: 15%;
+	height: 50px;
+}
+#footer-forward{
+	position: absolute;
+	right: 110px;
+	bottom:-40px;
+	color: black;
+}
+
+

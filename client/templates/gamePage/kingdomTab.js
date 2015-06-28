@@ -1,0 +1,54 @@
+// render the user data into the template
+Template.kingdomTab.helpers({
+	'userDataLoad': function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return;
+		}else{
+			return Meteor.users.find();
+		}
+	},
+	'inventoryItem' : function(type){	
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return;
+		}else{
+			return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); //array of objects of eqp
+
+		}
+	},
+
+	
+});
+
+
+// a meteor call to set the status message
+Template.kingdomTab.events({
+	'click #c-kingdom-status_button': function(e){
+		e.preventDefault();
+		var currentUserId = Meteor.userId(); //Meteor.userId() returns the current user id from database		
+		var inputText = $('input[name=inputText]').val();
+		Meteor.call('setStatusMessage' ,inputText, currentUserId)
+	},
+
+	'click #sellButton': function(){
+		var currentUserId = Meteor.userId();
+		var itemCode = this._id;
+		var selling = confirm("Are you sure you want to sell this item. You only get 25% refund.");
+		if(selling){
+			Meteor.call('sellEquipment', itemCode, currentUserId);
+		}		
+	},
+
+	'click #equipButton': function(){
+		var currentUserId = Meteor.userId();
+		var itemCode = this._id;
+		Meteor.call('equipping',itemCode, currentUserId);
+	},
+
+	'mouseenter #c-kingdom-closeButton': function(){
+		$('#c-kingdom-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
+	},
+
+	'mouseleave #c-kingdom-closeButton': function(){
+		$('#c-kingdom-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
+	}
+});

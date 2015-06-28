@@ -1,0 +1,161 @@
+<template name="kingdomTab">
+	<div  id="c-kingdom">
+
+		<!-- the following is kingdom tab close button -->
+		<a href="{{pathFor 'gamePage'}}">
+			<div id="c-kingdom-closeButton">			
+			</div>
+		</a>
+
+		
+		{{#each userDataLoad }}
+			<div>
+				
+				<div id="c-kingdom-Name_and_Status">
+					<h2 style="text-align:center; color:yellow;">{{username}}</h2>
+					<form class="form ">
+					    <input id="c-kingdom-status_box" type="text" class="form-control" placeholder="Set your status for your friends to see!!" name="inputText">			  
+					  	<input id="c-kingdom-status_button" type="button" class="btn btn-default" value="Set">
+					</form>
+					<p id="c-kingdom-status_p">status: {{statusMessage}}</p>
+				</div>	
+			</div>
+
+	
+		<!-- shows hp and armour value -->
+		<div  id="c-kingdom-LiveArmour">
+			<h3>Gem owned: {{gem}} </h3>
+			<h3>HP Bonus: {{hpBonus}} </h3>
+			<h3>Armour Bonus: {{armourBonus}}</h3>
+			<h3>Atk Bonus: {{attackBonus}} % </h3>
+			<h3>inventory</h3>
+		</div>
+
+		{{/each}}
+
+		
+		<div id="c-kingdom-button_group"  class="btn-group">
+			<button id='c-kingdom-button_group-Helmets'        type="button" class="btn btn-primary">Helmets</button>
+			<button id='c-kingdom-button_group-Chest_Plates'   type="button" class="btn btn-primary">Chest Plates</button>
+			<button id="c-kingdom-button_group-Legs"           type="button" class="btn btn-primary">Legs</button>
+			<button id='c-kingdom-button_group-Arms'           type="button" class="btn btn-primary">Arms</button>
+			<button id='c-kingdom-button_group-Weapons'        type="button" class="btn btn-primary">Weapons</button>
+			<button id='c-kingdom-button_group-Mystical_Relic' type="button" class="btn btn-primary">Mystical Relic</button>
+		</div>
+
+		<div>
+			<!-- tab for helmet -->
+			<div id="c-kingdom-item_display-Helmets" >
+				{{ #each inventoryItem 'helmet'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+
+			<!-- tab for chest plate -->
+			<div id="c-kingdom-item_display-Chest_Plates">
+				{{ #each inventoryItem 'chestPlate'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+
+			<!-- tab for legs -->
+			<div id="c-kingdom-item_display-Legs" >
+				{{ #each inventoryItem 'leg'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+			<!-- tab for arms -->
+			<div id="c-kingdom-item_display-Arms" >
+				{{ #each inventoryItem 'arm'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+			<!-- tab for weapons -->
+			<div id="c-kingdom-item_display-Weapons" >
+				{{ #each inventoryItem 'weapon'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+
+			<!-- tab for relic -->
+			<div id="c-kingdom-item_display-Mystical_Relic" >
+				{{ #each inventoryItem 'relic'}}
+					{{ >individual_Item_inventory }}
+				{{/each }}
+			</div>
+
+			<!-- the following script is to display item display tab -->
+			<script type="text/javascript">
+				$('#c-kingdom').ready(function(){
+					$('#c-kingdom-item_display-Helmets').hide();
+					$('#c-kingdom-item_display-Chest_Plates').hide();
+					$('#c-kingdom-item_display-Legs').hide();
+					$('#c-kingdom-item_display-Arms').hide();
+					$('#c-kingdom-item_display-Weapons').hide();
+					$('#c-kingdom-item_display-Mystical_Relic').hide();
+
+					// when click on helmet, show helmet tab and hide the rest
+					$('#c-kingdom-button_group-Helmets').click(function(){
+						$('#c-kingdom-item_display-Helmets').show();
+						$('#c-kingdom-item_display-Chest_Plates').hide();
+						$('#c-kingdom-item_display-Legs').hide();
+						$('#c-kingdom-item_display-Arms').hide();
+						$('#c-kingdom-item_display-Weapons').hide();
+						$('#c-kingdom-item_display-Mystical_Relic').hide();
+					});
+
+					// when click on chest plate, show chest plate tab and hide the rest
+					$('#c-kingdom-button_group-Chest_Plates').click(function(){
+						$('#c-kingdom-item_display-Helmets').hide();
+						$('#c-kingdom-item_display-Chest_Plates').show();
+						$('#c-kingdom-item_display-Legs').hide();
+						$('#c-kingdom-item_display-Arms').hide();
+						$('#c-kingdom-item_display-Weapons').hide();
+						$('#c-kingdom-item_display-Mystical_Relic').hide();
+					});
+
+					// when click on legs, show legs tab and hide the rest
+					$('#c-kingdom-button_group-Legs').click(function(){
+						$('#c-kingdom-item_display-Helmets').hide();
+						$('#c-kingdom-item_display-Chest_Plates').hide();
+						$('#c-kingdom-item_display-Legs').show();
+						$('#c-kingdom-item_display-Arms').hide();
+						$('#c-kingdom-item_display-Weapons').hide();
+						$('#c-kingdom-item_display-Mystical_Relic').hide();
+					});
+
+					// when click on arms, show arms tab and hide the rest
+					$('#c-kingdom-button_group-Arms').click(function(){
+						$('#c-kingdom-item_display-Helmets').hide();
+						$('#c-kingdom-item_display-Chest_Plates').hide();
+						$('#c-kingdom-item_display-Legs').hide();
+						$('#c-kingdom-item_display-Arms').show();
+						$('#c-kingdom-item_display-Weapons').hide();
+						$('#c-kingdom-item_display-Mystical_Relic').hide();
+					});
+
+					// when click on weapon, show weapon tab and hide the rest
+					$('#c-kingdom-button_group-Weapons').click(function(){
+						$('#c-kingdom-item_display-Helmets').hide();
+						$('#c-kingdom-item_display-Chest_Plates').hide();
+						$('#c-kingdom-item_display-Legs').hide();
+						$('#c-kingdom-item_display-Arms').hide();
+						$('#c-kingdom-item_display-Weapons').show();
+						$('#c-kingdom-item_display-Mystical_Relic').hide();
+					});
+
+					// when click on mystical chest, show mystical chest tab and hide the rest
+					$('#c-kingdom-button_group-Mystical_Relic').click(function(){
+						$('#c-kingdom-item_display-Helmets').hide();
+						$('#c-kingdom-item_display-Chest_Plates').hide();
+						$('#c-kingdom-item_display-Legs').hide();
+						$('#c-kingdom-item_display-Arms').hide();
+						$('#c-kingdom-item_display-Weapons').hide();
+						$('#c-kingdom-item_display-Mystical_Relic').show();
+					});
+				});
+			</script>
+		</div>
+	</div>
+	
+</template>

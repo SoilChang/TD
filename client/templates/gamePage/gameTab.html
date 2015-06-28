@@ -1,0 +1,18 @@
+<template name="gameTab">
+	<div id="c-game">
+		<!-- the following is close button -->
+		<a href="{{pathFor 'gamePage'}}">
+			<div id="c-game-closeButton">			
+			</div>
+		</a>
+
+		<!-- Option bar on the left for Game Canvas -->
+		{{> leftHandMenu}}
+
+		<!-- bottom menu -->
+		{{> btmMenu}}
+
+		<!-- Game Canvas -->
+		{{> gameCanvas}}
+	</div>
+</template>
