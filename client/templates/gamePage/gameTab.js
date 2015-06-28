@@ -8,7 +8,7 @@ Template.gameTab.events({
 
 	'click #pauseBtn': function() {
 		togglePause();
-	},
+	}
 	'click #restartBtn': function(){
 		restart();
 	},
