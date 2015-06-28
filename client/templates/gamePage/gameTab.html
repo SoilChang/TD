@@ -20,11 +20,11 @@
 						Regen: <span id="regen"></span><br>
 					</p>
 				</div>	
-				<input type="button" value="start" id="pauseBtn" >
-				<input type="button" value="restart" id="restartBtn" ><br> 
-				<input type="button" value="Check Range" id="rangeBtn" onclick="towerType=(towerType)?false:true;toggleAoe()"><br>
+				<input type="button" value="start" id="pauseBtn">
+				<input type="button" value="restart" id="restartBtn"><br> 
+				<input type="button" value="Check Range" id="rangeBtn"><br>
 				<input type="button" value="1x" id="ffBtn" onclick="ff()">
-				<input type="button" value="next wave" id="nextBtn" onclick="nextWave()">
+				<input type="button" value="next wave" id="nextBtn">
 				<p class="gameInfo">Wave: <span id="wave"></span> </p>	
 				<p class="gameInfo">Next wave:<span id="cdTimer" class="gameInfo"></span>s</p>
 				<p class="titles">Tower Info</p>
@@ -37,23 +37,15 @@
 		<!-- bottom menu -->
 		<div id="btmMenu">
 			<div id="towerMenu">		
-				<button class="towerBtn" onclick="buyTower('iceTower')">
-					<img src="images/ice_tower.png" class="tower">
+				<button class="towerBtn" id="iceBtn">
+					<img src="/images/gameImages/ice_tower.png" class="tower">
 					<p class="towerName">Ice Tower</p>
 				</button>
-				<button class="towerBtn" onclick="buyTower('lightTower')">
-					<img src="images/light_tower.png" class="tower">
+				<button class="towerBtn" id="lightBtn">
+					<img src="/images/gameImages/light_tower.png" class="tower">
 					<p class="towerName">Light Tower</p>
 				</button>	
-			</div>
-			<div id="powerMenu">
-				<button class="towerBtn" onclick="buyTower('lightTower')">
-					<p class="towerName">att spd</p>
-				</button>	
-				<button class="towerBtn" onclick="buyTower('lightTower')">
-					<p class="towerName">att dmg</p>
-				</button>	
-				<button class="towerBtn" onclick="power('freeze')">
+				<button class="towerBtn" id="freezePower">
 					<p class="towerName">freeze</p>
 				</button>	
 			</div>
