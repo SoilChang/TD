@@ -216,9 +216,9 @@ function imageload() {
         images: ["/images/gameImages/iceShot.png"],
         frames: {width:30, height:30, count:4},
         animations: {
-            fire:[3,3,"fire1",.5],
-            fire1:[2,2,"fire2",2],
-            fire2:[1,1,"fire3",2],
+            fire:[3,3,"fire1"],
+            fire1:[2,2,"fire2"],
+            fire2:[1,1,"fire3"],
             fire3:[0]
         }
     };
