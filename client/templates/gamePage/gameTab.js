@@ -8,10 +8,11 @@ Template.gameTab.events({
 
 	'click #pauseBtn': function() {
 		togglePause();
-	}
+	},
 	'click #restartBtn': function(){
 		restart();
-	}
+	},
+	
 
 });
 
@@ -21,7 +22,7 @@ Template.gameTab.onRendered(function() {
 	$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
 	$('#btmMenu').css({'top':'480px'});
 	$('#btmMenu').animate({top:'550px'},1000);
-});
+
 
 
 
@@ -1421,4 +1422,4 @@ Template.gameTab.onRendered(function() {
 	        };
 	    };
 	};
-
+});
