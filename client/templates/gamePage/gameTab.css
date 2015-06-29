@@ -1,4 +1,90 @@
-/*this style sheet is particular for the center game preview window*/
+#c-shop{
+	position: absolute;
+	
+	/*rgba function generates semi-transparent background*/
+	background-image: url('/images/gamePage/shopBoard.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	border: ridge #522900;
+	left:0%;
+	top:0%;
+	height: 550px;
+	width: 900px;
+	overflow-y: scroll;
+	overflow-x:hidden;
+}
+
+#shopSign{
+	background-image: url('/images/gamePage/shopSign.png');
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+
+	margin-left: 50px;
+	width: 780px;
+	height: 200px;
+}
+		
+
+
+#c-shop-button_group{
+	margin-top: -130px;
+	margin-left: 50px;
+}
+
+/*text styling for the rules*/
+
+#c-shop-item_display-Helmets,
+#c-shop-item_display-Chest_Plates,
+#c-shop-item_display-Legs,
+#c-shop-item_display-Arms,
+#c-shop-item_display-Weapons,
+#c-shop-item_display-Mystical_Relic{
+	margin-top: -50px;
+	margin-left: 90px;
+	height:370px;
+	width:700px; 
+	background-color:#CC9900;
+	border-radius-bottom: 5%;
+	overflow-y:auto;
+	overflow-x: hidden;
+	border-radius:5px;
+}
+
+/*styling for the word in item display tab*/
+.c-shop-item_display-name{
+	text-shadow:1px 3px 5px rgba(248,255,36,1);font-weight:bold;color:#342EE6;letter-spacing:1pt;word-spacing:2pt;font-size:15px;text-align:left;font-family:verdana, sans-serif;line-height:0;
+}
+
+.c-shop-item_display-image{
+	width: 100px;
+	height:100px;
+	display: inline-block;
+	margin-top: 10px;	
+	vertical-align: top;
+	
+}
+
+.c-shop-item_display-description{
+	display: inline-block;
+	/*margin-left: 150px;*/
+	height: 100px;
+	width:600px;
+	margin-top: 10px;	
+	vertical-align: top;
+	
+	/*from text style generator v*/
+	font-weight:bold;color:#243524;font-size:16px;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;
+}
+
+.c-shop-item_display-buy_button{
+	display: inline-block;
+	margin-top:10%;
+}
+
+
+
+
+
 #c-game-left_hand_menu{
 	position: absolute;
 	background-color: rgba(141, 195, 198, 0.7);

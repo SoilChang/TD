@@ -34,7 +34,8 @@
 }
 
 #regulator{
-	height: 453px;
+
+	height: 500px;
 	width: 1000px;
 	-webkit-background-size: auto 100% ;
 	background-repeat: no-repeat;
