@@ -14,7 +14,6 @@ Template.kingdomTab.helpers({
 			return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); 
 		}
 	},
-
 	
 });
 
