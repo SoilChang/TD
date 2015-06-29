@@ -1,12 +1,17 @@
 <template name="albumPage">
+
+	<title>Album Page</title>
+	<script type="text/javascript" src="albumPage.js"></script>
+	<link rel="stylesheet" type="text/css" href="albumPage.css">
+
 	<div id="albumPageBody">
 		<!-- banner at top -->
-		<div id="banner" >
+		<div id="banner" class="col-lg-12">
 			<h1 id="banner-header">Photo Book</h1>
 		</div>
 
 		<!-- carousel  -->
-		<div id="carousel" class="carousel slide  " data-ride="carousel">
+		<div id="carousel" class="carousel slide col-lg-12 " data-ride="carousel">
 		  <!-- Indicators -->
 		  <ol class="carousel-indicators">
 		    <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -73,7 +78,7 @@
 		<!-- footer -->
 		<div id="footer" class="col-lg-12">
 			<!-- for going back first page -->
-			<div id='footer-back_arrow'  >
+			<div id='footer-back_arrow' class="col-lg-4" >
 				<a href="{{pathFor 'firstPage'}}">
 					<img src="../images/albumPage/back.png" style="max-height: 50px;">
 					<h1 id="footer-back">back</h1>
@@ -81,7 +86,7 @@
 
 			</div>
 			<!-- for going forward to game page -->
-			<div id='footer-forward_arrow'  >
+			<div id='footer-forward_arrow' class="col-lg-5" >
 				<a href="{{pathFor 'gamePage'}}">
 					<img src="../images/albumPage/forward.png" style="max-height: 45px;" >
 					<h1 id="footer-forward">continue to game</h1>

@@ -1,14 +1,14 @@
-/*#albumPageBody{
+#firstPageBody{
 	margin-top: -73px;
 	width: 1303px;
 	height:700px;
     background-repeat: no-repeat;
     background-size: 100% auto;
-}*/
+}
 
 
 #banner{
-	position: absolute;
+	position: relative;
 	height: 90px;
 	border-radius: 5px;
 	background-color: #664C00;
