@@ -33,12 +33,18 @@ Template.gameTab.events({
 	}
 
 });
-var test2
+var attBonus, hpBonus, armorBonus, gameState
+attBonus = 0;
+hpBonus = 0;
+armorBonus = 0;
+gameState = 0;
+
 Template.gameTab.helpers({
     checker:function() {
         if(Meteor.user() !== null && Meteor.loggingIn() !== true){
-            test2 = Meteor.user().hpBonus;
-            console.log(Meteor.user());
+            hpBonus = Meteor.user().hpBonus;
+            attBonus = Meteor.user().attackBonus;
+            armorBonus = Meteor.user().armourBonus;
         }
     }
 
@@ -51,7 +57,11 @@ Template.gameTab.onRendered(function() {
 	$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
 	$('#btmMenu').css({'top':'480px'});
 	$('#btmMenu').animate({top:'550px'},1000);
-    init();
+    if (!gameState) {
+        init();
+    } else {
+        continueGame();
+    }
 });
 
 
@@ -64,11 +74,11 @@ Template.gameTab.onRendered(function() {
 -Monster Objects
 -Game Events
 -Game Buttons
--Game Grids*/
+-Behind the Game*/
 
 
-var gameState, stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
-output, cash, score, health, coordinates, time, castleData, wave, //game data
+var stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
+gameProgress, cash, score, health, coordinates, time, castleData, wave, //game data
 s1, s2, s3,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
@@ -86,8 +96,8 @@ checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
                 Game Data
 
 #########################################################################*/
-castleData = {"hp":20,"armor": 0,"attack":0,"regen":0}
-gameState = 0
+castleData = {"hp":20, "armor":0,"attack":0,"regen":0}
+gameProgress = {} //saved game
 monsterData = {} //types of monsters
 monsters = [] //monsters on map
 shots = [] //shots on map
@@ -142,9 +152,13 @@ function init() {
     //line of creep path
     //path();
 
+    //update castle with equipment bonus
+    castleData["armor"] = armorBonus;
+    castleData["attack"] = attBonus;
+
     //edit UI
     document.getElementById("pauseBtn").value = "start";
-    document.getElementById("armor").innerHTML = gameState//castleData["armor"]; 
+    document.getElementById("armor").innerHTML = castleData["armor"]; 
     document.getElementById("bonus").innerHTML = castleData["attack"];
     document.getElementById("regen").innerHTML = castleData["regen"]
 
@@ -162,15 +176,54 @@ function init() {
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
 
-
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-
     stage.update();
 };
+
+function continueGame() {
+    stage = new createjs.Stage("playingField");
+    stage.enableMouseOver();
+
+    stage.addChild(background);
+    stage.addChild(castle);
+
+    grid();
+
+    castleData["armor"] = armorBonus
+    castleData["attack"] = attBonus
+
+    document.getElementById('pauseBtn').value = 'play';
+    document.getElementById("armor").innerHTML = castleData["armor"]; 
+    document.getElementById("bonus").innerHTML = castleData["attack"];
+    document.getElementById("regen").innerHTML = castleData["regen"]
+
+    document.getElementById("score").innerHTML = score; 
+    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("wave").innerHTML = wave; 
+    document.getElementById("health").innerHTML = health;
+    document.getElementById("cdTimer").innerHTML = (countDown/20);
+
+    if (towers) {
+        addition(towers);    
+        for (var i=0;i<towers.length;i++) {
+            var t = towers[i].bg;
+            hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
+        }
+    }
+    if (monsters) {
+        addition(monsters);
+    }
+    if (shots) {
+        addition(shots);
+    }
+
+
+    stage.addChild(pScreen);
+}
+
+function saving() {
+
+}
+
 
 
 function path() {
@@ -403,7 +456,7 @@ function buildTower(event) {
                 var newImage = new createjs.Bitmap(towerType["image"]);
                 var newTower = new createjs.Container();
                 newTower.mouseChildren = false;
-                newTower.bg = event.target;
+                newTower.bg = event.target.pt;
                 newTower.name = towerName;
                 newTower.num = towerNum;
                 newTower.level = 1;
@@ -679,6 +732,9 @@ function cAnimation() {
 //ticker events
 function tick(event) {
     errorTextcd();
+    if (document.getElementById("cash")==null) {
+        createjs.Ticker.setPaused(true);
+    }
 
     if (!createjs.Ticker.getPaused()) {
         timer();//countdown of next wave
@@ -701,10 +757,6 @@ function tick(event) {
             }
         }
     };
- 
-    time = Math.round(createjs.Ticker.getTime(true)/100)/10
-    output.text = "Paused = "+createjs.Ticker.getPaused()+"\n"+
-        "Time = "+ time + "\n" + test2
 
     stage.update(event); // important!!
 };
@@ -836,7 +888,11 @@ function monsterMovement() {
         //monster attacks castle
         else { 
             if (!mob.dead) {
-                health-=mob.damage-castleData["armor"];
+                if ((mob.damage-castleData["armor"])<=0){
+
+                } else {
+                    health-=(mob.damage-castleData["armor"]);
+                }
                 document.getElementById("health").innerHTML = health;
                 castleText.text = health + "/" + castleData["hp"]
                 castleHpI.sourceRect = 
@@ -1206,9 +1262,16 @@ function isOver() {
 
 /*#########################################################################
 
-                Game Grids
+                Behind the Game 
 
 #########################################################################*/
+
+//adds image back to canvas
+function addition(arrays) {
+    for (var i=0;i<arrays.length;i++) {
+        stage.addChild(arrays[i]);
+    };
+};
 
 //highlight grid when tower is selected
 var targetGrid = new createjs.Shape();
@@ -1272,6 +1335,7 @@ function grid() {
             hitsT[0][i][j].graphics.beginFill("#f00").drawRect(32*i,32*j,32,32);
             hitsT[0][i][j].alpha=0.01;
             hitsT[0][i][j].coord=[32*i,32*j]
+            hitsT[0][i][j].pt=[0,i,j];
             hitsT[0][i][j].on("mouseover", buildTower);
             hitsT[0][i][j].on("mouseout", buildTower);
             hitsT[0][i][j].on("click", buildTower); 
@@ -1293,6 +1357,7 @@ function grid() {
                 (stage.canvas.height-32),32,32);
             hitsT[1][i][j].alpha=0.01;
             hitsT[1][i][j].coord=[64+32*i,stage.canvas.height-32];
+            hitsT[1][i][j].pt=[1,i,j];
             hitsT[1][i][j].on("mouseover", buildTower);
             hitsT[1][i][j].on("mouseout", buildTower);
             hitsT[1][i][j].on("click", buildTower); 
@@ -1314,6 +1379,7 @@ function grid() {
                 32*j,32,32);
             hitsT[2][i][j].alpha=0.01;
             hitsT[2][i][j].coord=[128+32*i,32*j];
+            hitsT[2][i][j].pt=[2,i,j];
             hitsT[2][i][j].on("mouseover", buildTower);
             hitsT[2][i][j].on("mouseout", buildTower);
             hitsT[2][i][j].on("click", buildTower); 
@@ -1335,6 +1401,7 @@ function grid() {
                 64+32*j,32,32);
             hitsT[3][i][j].alpha=0.01;
             hitsT[3][i][j].coord=[128+32*i,64+32*j];
+            hitsT[3][i][j].pt=[3,i,j];
             hitsT[3][i][j].on("mouseover", buildTower);
             hitsT[3][i][j].on("mouseout", buildTower);
             hitsT[3][i][j].on("click", buildTower); 
@@ -1356,6 +1423,7 @@ function grid() {
                 stage.canvas.height-160+32*j,32,32);
             hitsT[4][i][j].alpha=0.01;
             hitsT[4][i][j].coord=[192+32*i,stage.canvas.height-160+32*j];
+            hitsT[4][i][j].pt=[4,i,j];
             hitsT[4][i][j].on("mouseover", buildTower);
             hitsT[4][i][j].on("mouseout", buildTower);
             hitsT[4][i][j].on("click", buildTower); 
@@ -1377,6 +1445,7 @@ function grid() {
                 128+32*j,32,32);
             hitsT[5][i][j].alpha=0.01;
             hitsT[5][i][j].coord=[256+32*i,128+32*j];
+            hitsT[5][i][j].pt=[5,i,j];
             hitsT[5][i][j].on("mouseover", buildTower);
             hitsT[5][i][j].on("mouseout", buildTower);
             hitsT[5][i][j].on("click", buildTower); 
@@ -1398,6 +1467,7 @@ function grid() {
                 256+32*j,32,32);
             hitsT[6][i][j].alpha=0.01;
             hitsT[6][i][j].coord=[256+32*i,256+32*j];
+            hitsT[6][i][j].pt=[6,i,j];
             hitsT[6][i][j].on("mouseover", buildTower);
             hitsT[6][i][j].on("mouseout", buildTower);
             hitsT[6][i][j].on("click", buildTower); 
@@ -1419,6 +1489,7 @@ function grid() {
                 192+32*j,32,32);
             hitsT[7][i][j].alpha=0.01;
             hitsT[7][i][j].coord=[256+32*i,192+32*j];
+            hitsT[7][i][j].pt=[7,i,j];
             hitsT[7][i][j].on("mouseover", buildTower);
             hitsT[7][i][j].on("mouseout", buildTower);
             hitsT[7][i][j].on("click", buildTower); 
@@ -1440,6 +1511,7 @@ function grid() {
                 128+32*j,32,32);
             hitsT[8][i][j].alpha=0.01;
             hitsT[8][i][j].coord=[704+32*i,128+32*j];
+            hitsT[8][i][j].pt=[8,i,j];
             hitsT[8][i][j].on("mouseover", buildTower);
             hitsT[8][i][j].on("mouseout", buildTower);
             hitsT[8][i][j].on("click", buildTower); 
@@ -1461,6 +1533,7 @@ function grid() {
                 32*j,32,32);
             hitsT[9][i][j].alpha=0.01;
             hitsT[9][i][j].coord=[704+32*i,128+32*j];
+            hitsT[9][i][j].pt=[9,i,j];
             hitsT[9][i][j].on("mouseover", buildTower);
             hitsT[9][i][j].on("mouseout", buildTower);
             hitsT[9][i][j].on("click", buildTower); 
