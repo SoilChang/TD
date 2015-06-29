@@ -38,7 +38,6 @@ Template.gameTab.helpers({
     checker:function() {
         if(Meteor.user() !== null && Meteor.loggingIn() !== true){
             test2 = Meteor.user().hpBonus;
-            console.log(Meteor.user());
         }
     }
 
