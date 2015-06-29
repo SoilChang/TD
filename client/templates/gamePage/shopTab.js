@@ -19,6 +19,7 @@ Template.shopTab.events({
 				if(confirm("Are you sure you want to purchase this item?")){
 					var currentUserId = Meteor.userId();
 					var itemCode = this._id;
+			
 					/* function(err,enough) is to check if the use has enough gem. I copy this code from online
 					hence i don't know exactly why it works. but when i return 'true' on the method on server
 					the true will somehow appear in the 'enough' variable*/
