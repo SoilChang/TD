@@ -52,16 +52,7 @@
 	
 }
 
-#c-game-closeButton{
-	position:absolute;
-	height: 30px;
-	width: 30px;
-	margin-top: 0px;
-	margin-left:1020px;
-	background-image: url("images/gamePage/closeButton.png");
-	background-size: 100% auto;
-	z-index: 11;
-}
+
 
 #playingField{
 	z-index: 5;
