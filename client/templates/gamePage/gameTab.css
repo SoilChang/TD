@@ -16,9 +16,9 @@
 	background-color: rgba(48, 75, 91, 0.7);
 	border: ridge #522900;
 	position: absolute;
-	height:550px;
+	height:544px;
 	width: 900px;
-	top:0%;
+	top:0px;
 	left: 175px;
 	z-index: 10;
 	overflow-x: scroll;
@@ -55,5 +55,6 @@
 
 
 #playingField{
+	margin-top: 2px;
 	z-index: 5;
 }

@@ -30,5 +30,3 @@ Template.gamePage.helpers({
 		}
 	},
 });
-
-
