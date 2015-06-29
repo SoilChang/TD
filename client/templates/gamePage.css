@@ -187,17 +187,7 @@ body{
 
 }
 
-.greenTick{
-	display: inline-block;
-	vertical-align: top;
-	margin-top: -100px;
-	margin-left: 700px;
-	height: 90px;
-	width: 90px;
-	background-image: url('/images/gamePage/greenTick.png');
-	background-size: 100% auto;
-	background-repeat: no-repeat;
-}
+
 
 
 

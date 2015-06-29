@@ -46,6 +46,7 @@
 }
 
 #c-kingdom-button_group{
+	margin-left: 35px;
 	margin-top: 100px;
 }
 
@@ -55,8 +56,11 @@
 #c-kingdom-item_display-Arms,
 #c-kingdom-item_display-Weapons,
 #c-kingdom-item_display-Mystical_Relic{
+	margin-top: 10px;
+	margin-left: 90px;
 	height:370px;
-	background-color:#969E96;
+	width:700px; 
+	background-color:#936E00;
 	border-radius-bottom: 5%;
 	overflow-y:auto;
 	overflow-x: hidden;
@@ -73,10 +77,52 @@
 	background-size: 100% auto;
 	z-index: 11;
 }
+#containerEachItem{
+	height: 230px;
+}
 
 .inventory_button{
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 10px;
+	height: 30px;
+	width: 100px;
 	position:relative;
-	display: block;
-
 	margin-top: 20px;
+}
+
+.greenTick{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: -100px;
+	margin-left: 600px;
+	height: 90px;
+	width: 90px;
+	background-image: url('/images/gamePage/greenTick.png');
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+}
+.kingdomTab_item_name{
+	text-shadow:1px 3px 5px rgba(248,255,36,1);font-weight:bold;color:#342EE6;letter-spacing:1pt;word-spacing:2pt;font-size:15px;text-align:left;font-family:verdana, sans-serif;line-height:0;
+}
+
+.kingdomTab_item_image{
+	width: 100px;
+	height:100px;
+	display: inline-block;
+	margin-top: 10px;	
+	vertical-align: top;
+
+	
+}
+
+.kingdomTab_item_description{
+	display: inline-block;
+	/*margin-left: 150px;*/
+	height: 100px;
+	width:400px;
+	margin-top: 10px;	
+	vertical-align: top;
+	/*from text style generator v*/
+	font-weight:bold;color:#243524;font-size:16px;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;
 }
