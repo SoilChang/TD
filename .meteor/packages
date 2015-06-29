@@ -10,9 +10,9 @@ jquery
 linto:jquery-ui
 nrafter:createjs
 iron:router
-accounts-password
 accounts-ui
 underscore
 meteorhacks:aggregate
 sacha:spin
 manuelschoebel:wait-on-lib
+accounts-facebook
