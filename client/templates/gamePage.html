@@ -1,5 +1,6 @@
 <template name="gamePage">
 	<div  id="gamePageBody">
+
 		<!-- top nav bar-->
 		<nav class="navbar navbar-inverse navbar-fixed-top" >				
 	  		<div class="container">
@@ -14,7 +15,6 @@
 				</ul>
 	  		</div>
 		</nav>
-
 		<!--Left hand floating nav bar-->
 		<div id="leftHandBar" >
 
@@ -78,13 +78,16 @@
 
 		</div>
 
+
 		{{updateUserStats}}
 
 		<!--center preview windown-->
 		<div id="c-centerSpace">
 			{{ >yield }}
+			
 		</div>
 	</div>
+	
 </template>
 
 <template name='storage'>

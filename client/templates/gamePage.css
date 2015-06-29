@@ -17,6 +17,7 @@ body{
 
 /* styling of the left hand bar*/
 #leftHandBar{
+	position: absolute;
 	height: 570px;
 	width: 200px;
 	border: 2px solid white;
@@ -24,7 +25,7 @@ body{
 	background-color: #2A2A2F;
 	margin-left: 10px;
 	margin-top:85px;
-	float:left;
+
 }
 
 /*position of the profile pic, on the left hand bar. it needs to be linked to real profile in the future*/
@@ -57,36 +58,36 @@ body{
 /* this part is for the positioning of each button*/
 #b1{
 	position:absolute;
-	top:27%;
+	top:120px;
 	
 }
 
 #b2{
 	position:absolute;
-	top:34%;
+	top:170px;
 	
 }
 
 #b3{
 	position:absolute;
-	top:41%;
+	top:220px;
 	
 }
 
 #b4{
 	position:absolute;
-	top:48%;
+	top:270px;
 	
 }
 
 #b5{
 	position:absolute;
-	top:55%;
+	top:320px;
 	
 }
 #b6{
 	position: absolute;
-	top:62%;
+	top:370px;
 }
 
 .menuButton{
