@@ -9,6 +9,7 @@
 
 #banner{
 	position: relative;
+	margin-top: -55px;
 	height: 90px;
 	border-radius: 5px;
 	background-color: #664C00;
@@ -18,12 +19,13 @@
 }
 
 #carousel{
-	height: 453px;
+	top:0px;
+	height: 500px;
 }
 
 #wrapper{
 	position:absolute;
-	height:453px;
+	height:500px;
 	width: 1000px;
 	left:11.5%;
 	overflow: hidden;
