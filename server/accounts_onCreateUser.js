@@ -4,7 +4,7 @@ Accounts.onCreateUser(function(options,user) {
 	user.attackBonus = 0;
 	user.gem = 100;
 	user.profilePicture = "/images/gamePage/unknownUser.png";
-	user.statusMessage = undefined;
+	user.statusMessage = null;
 	user.equipped = [];
 	user.inventory = [];
 	user.record = [{date:"123", wave: 80}, {date: "456", wave: 80}];

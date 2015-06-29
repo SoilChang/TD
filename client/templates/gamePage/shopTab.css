@@ -8,3 +8,7 @@
 	background-size: 100% auto;
 	z-index: 11;
 }
+
+.individualItem{
+	height: 150px;
+}

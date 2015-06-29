@@ -42,9 +42,13 @@ gameState = 0;
 Template.gameTab.helpers({
     checker:function() {
         if(Meteor.user() !== null && Meteor.loggingIn() !== true){
+<<<<<<< HEAD
             hpBonus = Meteor.user().hpBonus;
             attBonus = Meteor.user().attackBonus;
             armorBonus = Meteor.user().armourBonus;
+=======
+            test2 = Meteor.user().hpBonus;
+>>>>>>> origin/master
         }
     }
 

@@ -1,8 +1,8 @@
 <template name="individual_Item_inventory">
-		<div>
-			<h4 class="c-shop-item_display-name">{{name}}</h4>
-			<img src="{{url}}" class="c-shop-item_display-image">
-			<div class="c-shop-item_display-description">
+		<div id="containerEachItem">
+			<h4 class="kingdomTab_item_name">{{name}}</h4>
+			<img src="{{url}}" class="kingdomTab_item_image">
+			<div class="kingdomTab_item_description">
 				<p> HP Bonus: {{hpBonus}} <br> Armour Bonus:{{armourBonus}} <br> Attack Bonus:{{attackBonus}}% <br>Magical Power: {{magicalPower}}<br> price: {{price}} </p>
 			</div>
 			<!-- return the class "greenTick", which will show the item is equipped -->

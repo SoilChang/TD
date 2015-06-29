@@ -5,7 +5,15 @@ Template.shopTab.helpers({
 		}else{
 			return eqpList.find({ type: type, _id:{$nin:Meteor.user().inventory} },  {sort:{price:1} }  ); //array of objects of eqp
 		}
-	}, 
+	},
+
+	'gemStoneCount': function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return 0;
+		}else{
+			return Meteor.user().gem;
+		}
+	} 
 			
 });
 
