@@ -42,9 +42,18 @@ gameState = 0;
 Template.gameTab.helpers({
     checker:function() {
         if(Meteor.user() !== null && Meteor.loggingIn() !== true){
+<<<<<<< HEAD
             hpBonus = Meteor.user().hpBonus;
             attBonus = Meteor.user().attackBonus;
             armorBonus = Meteor.user().armourBonus;
+=======
+
+            hpBonus = Meteor.user().hpBonus;
+            attBonus = Meteor.user().attackBonus;
+            armorBonus = Meteor.user().armourBonus;
+            test2 = Meteor.user().hpBonus;
+
+>>>>>>> origin/master
         }
     }
 
@@ -245,7 +254,7 @@ function path() {
 function imageload() {
     //background image
     backgroundI = new Image();
-    backgroundI.src = "/images/gameImages/firstStage.png"
+    backgroundI.src = "/images/gameImages/3dStage.png"
     //load background
     background = new createjs.Bitmap(backgroundI);
     stage.addChild(background);

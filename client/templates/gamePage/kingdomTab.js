@@ -2,16 +2,20 @@
 Template.kingdomTab.helpers({
 	'userDataLoad': function(){
 		if(Meteor.user() === null || Meteor.loggingIn() === true){
-			return;
+			return [{username:"Log In To See", gem: 0, hpBonus: 0,armourBonus:0,attackBonus:0}] ;
 		}else{
 			return Meteor.users.find();
 		}
 	},
 	'inventoryItem' : function(type){	
-		if(Meteor.user() === null || Meteor.loggingIn() === true){
-			return;
+		if(Meteor.user() === null || Meteor.loggingIn() === true){	
+			return [{dataNotFound:true}];
 		}else{ 
-			return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); 
+			if(eqpList.find({ type: type , _id:{$in: Meteor.user().inventory}}).count() === 0){
+				return [{dataNotFound:true}];
+			}else{
+				return eqpList.find({ type: type , _id:{$in: Meteor.user().inventory} }, {sort:{price:1} }); 
+			}
 		}
 	},
 	

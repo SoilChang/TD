@@ -1,5 +1,11 @@
 <template name="individual_Item_inventory">
+		{{#if dataNotFound}}
+			<a href="{{pathFor 'shopTab'}}">
+				<h1 style="margin-left:30px;">Go To the Shop and Buy Some Items!!</h1>
+			</a>
+		{{else}}
 		<div id="containerEachItem">
+
 			<h4 class="kingdomTab_item_name">{{name}}</h4>
 			<img src="{{url}}" class="kingdomTab_item_image">
 			<div class="kingdomTab_item_description">
@@ -21,4 +27,5 @@
 			</div>
 		</div>
 		<hr>
+		{{/if}}
 </template>
