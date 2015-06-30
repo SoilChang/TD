@@ -5,7 +5,7 @@ Template.feedback.events({
 			name: $(e.target).find('[name=name]').val(),
 			email: $(e.target).find('[name=email]').val(),
 			title: $(e.target).find('[name=title]').val(),
-			coomment: $(e.target).find('[name=coomment]').val()
+			comments: $(e.target).find('[name=comments]').val()
 		};
 
 
