@@ -48,7 +48,9 @@ Meteor.methods({
 	// update user's hp, armour and atk bonus to database according to the eqp obtained. 
 	'updateUserstat': function(hpPlus,armourPlus,atkPlus,currentUserId){
 		Meteor.users.update( {_id:currentUserId}, {$set: {hpBonus: hpPlus, armourBonus:armourPlus, attackBonus:atkPlus }});
-	}
+	},
+
+	
 
 	
 });
