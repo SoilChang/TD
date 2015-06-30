@@ -40,7 +40,7 @@ armorBonus = 0;
 gameState = 0;
 
 Template.gameTab.helpers({
-    checker:function() {
+    extraction:function() {
         if(Meteor.user() !== null && Meteor.loggingIn() !== true){
             hpBonus = Meteor.user().hpBonus;
             attBonus = Meteor.user().attackBonus;
@@ -110,7 +110,6 @@ towerName = false
 hoverGrid = false //identify current grid
 hoverT = false //image of tower selected to buy
 cash = 40;
-health = castleData["hp"];
 wave = 0;
 score = 0;
 checkGG = 0;
@@ -121,13 +120,13 @@ countDown = 0
 lastMon = false
 coordinates = [
 [96, 0],
-[96, 480],
+[94, 480],
 [800, 480],
 [800, 96],
-[224, 96],
-[224, 352],
-[672, 352],
-[672, 224],
+[220, 96],
+[220, 352],
+[668, 352],
+[668, 224],
 [384, 224]
 ];
 
@@ -143,21 +142,23 @@ function init() {
     stage = new createjs.Stage("playingField");
     stage.enableMouseOver();
 
-    pauseScreen(); //load pause screen in canvas
+    //update castle with equipment bonus
+    castleData["armor"] = armorBonus;
+    castleData["attack"] = attBonus;
+    castleData["hp"] += hpBonus;
+    health = castleData["hp"];
+
     imageload(); //load image into canvas
     grid(); //load grid onto map
+    pauseScreen(); //load pause screen in canvas
     addTower(); //creates tower data
     gridData(); //adds grid data into canvas
     addMonster(); //creates monster data
     //line of creep path
     //path();
 
-    //update castle with equipment bonus
-    castleData["armor"] = armorBonus;
-    castleData["attack"] = attBonus;
 
     //edit UI
-    document.getElementById("pauseBtn").value = "start";
     document.getElementById("armor").innerHTML = castleData["armor"]; 
     document.getElementById("bonus").innerHTML = castleData["attack"];
     document.getElementById("regen").innerHTML = castleData["regen"]
@@ -176,12 +177,19 @@ function init() {
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
 
+
+    // game test
+    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
+    output.lineHeight = 15;
+    output.textBaseline = "top";
+    output.x = 10;
+    output.y = stage.canvas.height-output.lineHeight*4-10;
+
     stage.update();
 };
 
 function continueGame() {
     stage = new createjs.Stage("playingField");
-    stage.enableMouseOver();
 
     stage.addChild(background);
     stage.addChild(castle);
@@ -191,7 +199,6 @@ function continueGame() {
     castleData["armor"] = armorBonus
     castleData["attack"] = attBonus
 
-    document.getElementById('pauseBtn').value = 'play';
     document.getElementById("armor").innerHTML = castleData["armor"]; 
     document.getElementById("bonus").innerHTML = castleData["attack"];
     document.getElementById("regen").innerHTML = castleData["regen"]
@@ -200,7 +207,8 @@ function continueGame() {
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health;
-    document.getElementById("cdTimer").innerHTML = (countDown/20);
+    document.getElementById("cdTimer").innerHTML = 
+    ((countDown/20)<=0)? 0 : (countDown/20);
 
     if (towers) {
         addition(towers);    
@@ -211,16 +219,40 @@ function continueGame() {
     }
     if (monsters) {
         addition(monsters);
+        stopAnimate(true);
     }
     if (shots) {
         addition(shots);
     }
 
+    if (wave!=0) {
+        document.getElementById('pauseBtn').value = 'Play';
+        stage.addChild(pScreen);
+    } else {
+        stage.enableMouseOver();
+    }
 
-    stage.addChild(pScreen);
+    // game test
+    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
+    output.lineHeight = 15;
+    output.textBaseline = "top";
+    output.x = 10;
+    output.y = stage.canvas.height-output.lineHeight*4-10;
+
+    stage.update();
+
 }
 
 function saving() {
+    gameProgress['cash'] = cash;
+    gameProgress['score'] = score;
+    gameProgress['health'] = health;
+
+    gameProgress['tower'] = towers;
+    gameProgress['monster'] = monsters;
+    gameProgress['shot'] = shots;
+
+    Meteor.call('saveGame', gameProgress);
 
 }
 
@@ -355,12 +387,14 @@ function imageload() {
 #########################################################################*/
 
 function power(type) {
-    if (type == "freeze") {
-        for (var i=0;i<monsters.length;i++) {
-            monsters[i].speed=0
-            monsters[i].freezeCd = 60
-        }
-        stopAnimate(true);
+    if (!createjs.Ticker.getPaused()) {
+        if (type == "freeze") {
+            for (var i=0;i<monsters.length;i++) {
+                monsters[i].speed=0
+                monsters[i].freezeCd = 60
+            }
+            stopAnimate(true);
+        }   
     }
 }
 
@@ -397,8 +431,15 @@ function addTower() {
 function buyTower(type) {
     var splash = ""
     var effect = ""
-    towerType = towerData[type];
-    towerName = type
+    if (!createjs.Ticker.getPaused()) {
+        towerType = towerData[type];
+        towerName = type
+    } else {
+        if (wave==0) {
+            towerType = towerData[type];
+            towerName = type
+        }
+    }
     if (towers.length != 0) {
         toggleAoe();        
     }
@@ -757,6 +798,11 @@ function tick(event) {
             }
         }
     };
+    //testings
+
+    time = Math.round(createjs.Ticker.getTime(true)/100)/10
+    output.text = "Paused = "+createjs.Ticker.getPaused()+ "\n"
+
 
     stage.update(event); // important!!
 };
@@ -1191,27 +1237,30 @@ function nextWave() {
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
-        if (wave%10 ==0) {
+        if (wave%10 == 0) {
             monsterData["mario"]["bounty"]+=1
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
-
+        }
+        if (wave&15 == 0) {
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
+
         }
         if (wave%5 == 0) {
-            cMonster("warrior",10);
-            monsterData["warrior"]["hp"]*=2.4
+            cMonster("armored",10);
+            monsterData["armored"]["hp"]*=2.8
         }
         else if (wave%3 == 0) {
-            cMonster("armored",10);
-            monsterData["armored"]["hp"]*=2.5
+            cMonster("warrior",10);
+            monsterData["warrior"]["hp"]*=2
         }
         else {
             cMonster("mario",10);
             monsterData["mario"]["hp"]*=1.3
         }
+        saving();
     }
 }
 
@@ -1221,8 +1270,10 @@ function togglePause() {
     createjs.Ticker.setPaused(!paused);
     if (!paused) {
         stage.addChild(pScreen);
+        stage.enableMouseOver(0);
     } else {
         stage.removeChild(pScreen);
+        stage.enableMouseOver();
     }
     document.getElementById("pauseBtn").value = !paused ? "play" : "pause";
 
