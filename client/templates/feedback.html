@@ -29,34 +29,38 @@
 		<!-- feedback form -->
 		<form class="main form page" style="width: 700px; margin-left:300px;">
 			<!-- name -->
-			<div class="form-group">
+			<div class="form-group {{errorClass 'name'}}">
 				<label class="control-label" for="name">Name</label>
 				<div class="controls">
 					<input name="name" id="name" type="text" value="" placeholder="Jon Snow" class="form-control"/>
+					<span class="help-block">{{errorMessage 'name'}}</span>
 				</div>
 			</div>
 
 			<!--email  -->
-			<div class="form-group">
+			<div class="form-group {{errorClass 'email'}}">
 				<label class="control-label" for="email">Email</label>
 				<div class="controls">
 					<input name="email" id="email" type="text" value="" placeholder="youDontKnowAnything@jonsnow.com" class="form-control"/>
+					<span class="help-block">{{errorMessage 'email'}}</span>
 				</div>
 			</div>
 
 			<!--title  -->
-			<div class="form-group">
+			<div class="form-group {{errorClass 'title'}}">
 				<label class="control-label" for="title">Title</label>
 				<div class="controls">
 					<input name="title" id="title" type="text" value="" placeholder="He dies knowing nothing still" class="form-control"/>
+					<span class="help-block">{{errorMessage 'title'}}</span>
 				</div>
 			</div>
 
 			<!--comment  -->
-			<div class="form-group">
-				<label class="control-label" for="title">Tell us more</label>
+			<div class="form-group {{errorClass 'comments'}}">
+				<label class="control-label" for="comments">Tell us more</label>
 				<div class="controls">
 					<textarea name="comments" id="comments" type="text" rows="5" placeholder="Tell us what you know" class="form-control"></textarea>
+					<span class="help-block">{{errorMessage 'comments'}}</span>
 				</div>
 			</div>
 
