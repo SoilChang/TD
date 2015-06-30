@@ -252,8 +252,9 @@ function saving() {
     gameProgress['monster'] = monsters;
     gameProgress['shot'] = shots;
 
-    Meteor.call('saveGame', gameProgress);
-
+    if(Meteor.user() !== null && Meteor.loggingIn() !== true){
+        Meteor.call('saveGame', gameProgress, Meteor.userId());
+    };
 }
 
 
@@ -775,11 +776,10 @@ function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
         createjs.Ticker.setPaused(true);
-    }
+    };
 
     if (!createjs.Ticker.getPaused()) {
         timer();//countdown of next wave
-
 
         monsterEffect();//controls effect on monster
         towerAttacks();//check for tower attack

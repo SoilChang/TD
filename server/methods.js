@@ -66,7 +66,8 @@ Meteor.methods({
     	return true;
  	},
 
-	'saveGame': function(currentGame) {
+ 	//save current game state
+	'saveGame': function(currentGame,currentUserId) {
 		Meteor.users.update( {_id:currentUserId}, {$set: {savedGame: currentGame }});
 	}
 	
