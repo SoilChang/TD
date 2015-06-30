@@ -17,6 +17,7 @@
 			</h1>
 			<h1 style="margin-left:150px; color:white;" >We appreciate your feedback</h1>
 		</div>
+
 		<!-- make the pineapple move -->
 		<script type="text/javascript">
 			$('#logo').ready(function(){
@@ -24,34 +25,42 @@
 			});
 		</script>
 
+
 		<!-- feedback form -->
-		<div id='page_content' style="height:1000px;width:1100px; margin-left:100px; background-color:;">
-			<div>
-				<h3>Nickname: <input style="margin-left:103px; width:700px;" type='text' placeholder='Jon Snow'></h3>
+		<form class="main form page" style="width: 700px; margin-left:300px;">
+			<!-- name -->
+			<div class="form-group">
+				<label class="control-label" for="name">Name</label>
+				<div class="controls">
+					<input name="name" id="name" type="text" value="" placeholder="Jon Snow" class="form-control"/>
+				</div>
 			</div>
-			<div>
-				<h3>E-mail: <input style="margin-left:140px; width:700px; " type='text' placeholder='YouDontKnowAnything@jonsnow.com'>  </h3>
-			</div>
-			<div>
-				<h3>suggestion: 
-					<select style="margin-left:90px;">
-						<option value="0" selected="selected" >(start to know something)</option>
-						<option value="1">Game mechanism</option>
-						<option value="2">Game Graphics</option>
-						<option value="3">Bug Report</option>
-						<option value="4">Personal Issue</option>
-						<option value="5">Feature suggestion</option>
-						<option value="6">Just wanna rant </option>
-						<option value="7">General feedback </option>
-					</select>
-				</h3>
 
-				<h3 style="display:block;">Details:</h3> 
-				<textarea style='height:400px; width:700px; display:block; margin-left:150px;'></textarea>
-
-				<input class="submit-button" type="submit" name="submit" value="Send the text fly" onclick="#';" style="margin-left:150px; margin-top:30px;">
-				
+			<!--email  -->
+			<div class="form-group">
+				<label class="control-label" for="email">Email</label>
+				<div class="controls">
+					<input name="email" id="email" type="text" value="" placeholder="youDontKnowAnything@jonsnow.com" class="form-control"/>
+				</div>
 			</div>
-		</div>
+
+			<!--title  -->
+			<div class="form-group">
+				<label class="control-label" for="title">Title</label>
+				<div class="controls">
+					<input name="title" id="title" type="text" value="" placeholder="He dies knowing nothing still" class="form-control"/>
+				</div>
+			</div>
+
+			<!--comment  -->
+			<div class="form-group">
+				<label class="control-label" for="title">Tell us more</label>
+				<div class="controls">
+					<textarea name="comments" id="comments" type="text" rows="5" placeholder="Tell us what you know" class="form-control"></textarea>
+				</div>
+			</div>
+
+			<input type="submit" value="Submit" class="btn btn-primary"/>
+		</form>
 	</div>
 </template>
