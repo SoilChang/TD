@@ -248,7 +248,7 @@ function path() {
 function imageload() {
     //background image
     backgroundI = new Image();
-    backgroundI.src = "/images/gameImages/firstStage.png"
+    backgroundI.src = "/images/gameImages/3dStage.png"
     //load background
     background = new createjs.Bitmap(backgroundI);
     stage.addChild(background);
