@@ -7,11 +7,12 @@ Meteor.publish('equipments', function() {
 Meteor.publish('userData', function(){
 	if(!this.userId)
 		return null;
-	return Meteor.users.find( {_id : this.userId});
+	return Meteor.users.find( {_id : this.userId} );
 });
 
+// publish other user's data. but only limited fields
 Meteor.publish('gameScore', function(){
 	if(!this.userId)
 		return null;
-	return Meteor.users.find( {},{fields:{username:1,savedGame:1}});
+	return Meteor.users.find( {},{fields:{username:1,record:1}});
 });
