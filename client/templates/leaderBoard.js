@@ -7,3 +7,9 @@ Template.leaderBoard.events({
 		$('#bluejay').css({'width':'150px', 'margin-top':'535px', 'margin-left': '1060px'});
 	}
 })
+
+Template.leaderBoard.helpers({
+	playerScore: function(){
+		return Meteor.users.find();
+	}
+});

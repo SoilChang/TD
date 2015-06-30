@@ -3,6 +3,7 @@
 Deps.autorun(function(){
   Meteor.subscribe('userData');
   Meteor.subscribe('equipments');
+  Meteor.subscribe('gameScore');
 });
 
 Template.registerHelper('updateUserStats', function(){

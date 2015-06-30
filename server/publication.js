@@ -9,3 +9,9 @@ Meteor.publish('userData', function(){
 		return null;
 	return Meteor.users.find( {_id : this.userId});
 });
+
+Meteor.publish('gameScore', function(){
+	if(!this.userId)
+		return null;
+	return Meteor.users.find( {},{fields:{username:1,savedGame:1}});
+});

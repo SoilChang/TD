@@ -251,6 +251,7 @@ function saving() {
     gameProgress['tower'] = towers;
     gameProgress['monster'] = monsters;
     gameProgress['shot'] = shots;
+    gameProgress['date'] = new Date();
 
     if(Meteor.user() !== null && Meteor.loggingIn() !== true){
         Meteor.call('saveGame', gameProgress, Meteor.userId());
