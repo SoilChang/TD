@@ -20,16 +20,19 @@
                  Variables
 
 #########################################################################*/
-var attBonus, hpBonus, armorBonus, gameState
+var attBonus, hpBonus, armorBonus, regenBonus, gameLoaded, gameState, gameRunning
 attBonus = 0;
 hpBonus = 0;
 armorBonus = 0;
+regenBonus = 0;
 gameLoaded = 0;
 gameState = 0;
+gameRunning = 0;
 
 //#########################################################################
 var gameTicker, stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
-gameProgress, cash, score, health, coordinates, time, castleData, wave, //game stats
+gameProgress, cash, score, health, maxHealth,
+coordinates, time, castleData, origin, wave, //game stats
 s1, s2, s3,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
@@ -47,28 +50,12 @@ checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
                  Game Data
 
 #########################################################################*/
-castleData = {"hp":20, "armor":0,"attack":0,"regen":0}
+//castleData = {"hp":20, "armor":0,"attack":0,"regen":0}
 gameProgress = {} //saved game
 monsterData = {} //types of monsters
-monsters = [] //monsters on map
-shots = [] //shots on map
 towerData = {} //types of towers
-towerNum = 0 //index of tower being built
-towers = []   //towers currently on map
-targetTower = false //selected tower on map
-towerType = false //selected tower to buy
-towerName = false 
-hoverGrid = false //identify current grid
-hoverT = false //image of tower selected to buy
-cash = 40;
-wave = 0;
-score = 0;
-checkGG = 0;
 ffCount = [20,40,80]
-ffCounter = 1
-errorCD = 0
-countDown = 0
-lastMon = false
+maxHealth = 20
 coordinates = [
 [96, 0],
 [94, 480],
@@ -80,6 +67,52 @@ coordinates = [
 [668, 224],
 [384, 224]
 ];
+
+function gameData(type) {
+    switch (type) {
+        case 'new' :
+            monsters = [] //monsters on map
+            shots = [] //shots on map
+            towers = []   //towers currently on map
+            towerNum = 0 //index of tower being built
+            score = 0;
+            health = maxHealth;
+            cash = 40;
+            wave = 0;
+            checkGG = 0;
+            ffCounter = 1
+            errorCD = 0 //time for error message to stay on canvas
+            countDown = 0 //countdown to next wave
+            lastMon = false //to start countdown
+            targetTower = false //selected tower on map
+            towerType = false //selected tower to buy
+            towerName = false 
+            hoverGrid = false //identify current grid
+            hoverT = false //image of tower selected to buy
+            break;
+        case 'saved' :
+            monsters = gameProgress['monster']
+            shots = gameProgress['shot']
+            towers = gameProgress['tower']
+            towerNum = gameProgress['towerNum']
+            score = gameProgress['score']
+            health = gameProgress['health']
+            cash = gameProgress['cash']
+            wave = gameProgress['wave']
+            countDown = gameProgress['countDown']
+            checkGG = 0
+            ffCounter = 1
+            errorCD = 0 //time for error message to stay on canvas
+            lastMon = false //to start countdown
+            targetTower = false //selected tower on map
+            towerType = false //selected tower to buy
+            towerName = false 
+            hoverGrid = false //identify current grid
+            hoverT = false //image of tower selected to buy
+            break;
+    }
+
+}
 
 /*#########################################################################
 
@@ -122,7 +155,12 @@ Template.gameTab.events({
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
+        createjs.Ticker.setPaused(true);
         stage.removeAllChildren();
+        gameState = 0;
+        if (towers) {
+            gameRunning=1;
+        };
         menu();
     }
 
@@ -217,7 +255,7 @@ function menu() {
     redArrow2.y = 5;
     var blueArrow2 = new createjs.Bitmap(blueArrowI);
     blueArrow2.y = 5;
-    var line2 = new createjs.Text("Continue Game",
+    var line2 = new createjs.Text("Continue Game (Current)",
     "48px Florence", '#888');
     line2.x = 40;
     var c2 = new createjs.Container();
@@ -230,6 +268,14 @@ function menu() {
     over2.graphics.beginFill("#000").drawRect(0, 0,
         line2.getMeasuredWidth() + 38, line2.getMeasuredHeight());
     c2.hitArea = over2;
+
+    if (gameRunning) {
+        line2.color = '#ffa500'
+        c2.on('mouseover',handleLine)
+        c2.on('mouseout',handleLine)
+        c2.on('click',handleLine)
+
+    }
 
     //to enable continue game
     /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
@@ -271,11 +317,7 @@ function menu() {
                 newGame();
             } 
             else if (event.target == c2) {
-                if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-                    gameProgress = Meteor.user().savedGame
-                } else {
-                }
-                continueGame()
+                currentGame()
             }
         }
     }
@@ -316,7 +358,7 @@ function imageload() {
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     castleText = new createjs.Text(
-        castleData["hp"] + "/" + castleData["hp"] , "11px Arial", "#fff");
+        0 + "/" + 0 , "11px Arial", "#fff");
     castleText.y = -16
     castleText.x = 33
     castleText.textAlign = "center"
@@ -407,11 +449,11 @@ function imageload() {
 
 #########################################################################*/
 function newGame() {
+    gameData('new');//load game data
+
     //update castle with equipment bonus
-    castleData["armor"] = armorBonus;
-    castleData["attack"] = attBonus;
-    castleData["hp"] += hpBonus;
-    health = castleData["hp"];
+    health += hpBonus;
+    castleText.text = health + '/' + maxHealth
 
     stage.addChild(background)
     stage.addChild(castle)
@@ -421,9 +463,10 @@ function newGame() {
 
 
     //edit UI
-    document.getElementById("armor").innerHTML = castleData["armor"]; 
-    document.getElementById("bonus").innerHTML = castleData["attack"];
-    document.getElementById("regen").innerHTML = castleData["regen"]
+    document.getElementById('pauseBtn').value = 'Start'
+    document.getElementById("armor").innerHTML = armorBonus 
+    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
@@ -448,20 +491,8 @@ function newGame() {
 };
 
 function continueGame() {
-    //update castle with equipment bonus
-    castleData["armor"] = armorBonus;
-    castleData["attack"] = attBonus;
-    castleData["hp"] += hpBonus;
-
-    score = gameProgress['score'];
-    cash = gameProgress['cash'];
-    health = gameProgress['health'];
-    countDown = gameProgress['countDown'];
-    towerNum = gameProgress['towerNum'];
-
-    towers = gameProgress['towers'];
-    monsters = gameProgress['monsters'];
-    shots = gameProgress['shots'];
+    stage.enableMouseOver(0);
+    gameData('saved');
 
     stage.addChild(background)
     stage.addChild(castle)
@@ -470,45 +501,49 @@ function continueGame() {
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Play';
-    document.getElementById("armor").innerHTML = castleData["armor"]; 
-    document.getElementById("bonus").innerHTML = castleData["attack"];
-    document.getElementById("regen").innerHTML = castleData["regen"]
+    document.getElementById("armor").innerHTML = armorBonus 
+    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health;
-    document.getElementById("cdTimer").innerHTML = (countDown/20);
+    document.getElementById("cdTimer").innerHTML = 
+    ((countDown/20)<=0) ? 0 : (countDown/20);
 
     // creates ticks
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
 
-    if (towers) {
+
+    /*if (towers) {
         addition(towers);    
         for (var i=0;i<towers.length;i++) {
             var t = towers[i].bg;
             hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
+
         }
     }
-    if (monsters) {
+    /*if (monsters) {
         addition(monsters);
         stopAnimate(true);
     }
     if (shots) {
         addition(shots);
-    }
+    }*/
 
-    /* 
-    gameTest
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
+    
+    //gameTest
+    output = stage.addChild(new createjs.Text('' + towers, "14px monospace", "#000"));
     output.lineHeight = 15;
     output.textBaseline = "top";
     output.x = 10;
     output.y = stage.canvas.height-output.lineHeight*4-10;
-    */
+    
 
-    stage.addChild(pScreen);
+    stage.addChild(towers[0])
+    //stage.addChild(pScreen);
     stage.update();
 
 };
@@ -522,19 +557,16 @@ function currentGame() {
 
     grid();
 
-    castleData["armor"] = armorBonus
-    castleData["attack"] = attBonus
-
-    document.getElementById("armor").innerHTML = castleData["armor"]; 
-    document.getElementById("bonus").innerHTML = castleData["attack"];
-    document.getElementById("regen").innerHTML = castleData["regen"]
+    document.getElementById("armor").innerHTML = armorBonus 
+    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health;
     document.getElementById("cdTimer").innerHTML = 
-    ((countDown/20)<=0)? 0 : (countDown/20);
+    ((countDown/20)<=0) ? 0 : (countDown/20);
 
     if (towers) {
         addition(towers);    
@@ -572,9 +604,10 @@ function currentGame() {
 };
 
 function saving() {
-    gameProgress['cash'] = cash;
     gameProgress['score'] = score;
+    gameProgress['cash'] = cash;
     gameProgress['health'] = health;
+    gameProgress['wave'] = wave;
     gameProgress['towerNum'] = towerNum;
     gameProgress['countDown'] = countDown;
 
@@ -689,7 +722,7 @@ function buildTower(event) {
         }  
     }
     //buying of tower
-    if (event.type == "click" && !createjs.Ticker.getPaused()) {
+    if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType) {
             if (towerType["cost"][0]<=cash) {
                 $(function() {
@@ -714,7 +747,7 @@ function buildTower(event) {
                 newTower.speed = towerType["speed"]
                 newTower.damage = towerType["damage"][0];
                 newTower.bonus = 
-                Math.round(castleData["attack"]/100*newTower.damage);
+                Math.round(attBonus/100*newTower.damage);
                 newTower.effect = towerType["effect"];
                 newTower.cost = towerType["cost"][1];
                 newTower.sell = towerType["cost"][0];
@@ -832,7 +865,7 @@ function upgradeTower() {
         targetTower.damage = 
         towerData[targetTower.name]["damage"][targetTower.level];
         targetTower.bonus = 
-        Math.round(castleData["attack"]/100*targetTower.damage);
+        Math.round(attBonus/100*targetTower.damage);
         targetTower.range = 
         towerData[targetTower.name]["range"][targetTower.level];
         targetTower.maxCd = 
@@ -1136,15 +1169,15 @@ function monsterMovement() {
         //monster attacks castle
         else { 
             if (!mob.dead) {
-                if ((mob.damage-castleData["armor"])<=0){
+                if ((mob.damage-armorBonus)<=0){
 
                 } else {
-                    health-=(mob.damage-castleData["armor"]);
+                    health-=(mob.damage-armorBonus);
                 }
                 document.getElementById("health").innerHTML = health;
-                castleText.text = health + "/" + castleData["hp"]
+                castleText.text = health + "/" + maxHealth
                 castleHpI.sourceRect = 
-                new createjs.Rectangle(0,0,health/castleData["hp"]*64,10);
+                new createjs.Rectangle(0,0,health/maxHealth*64,10);
                 mob.dead++;
                 stage.removeChild(mob);
                 monsters.splice(i,1);
@@ -1436,6 +1469,9 @@ function ff() {
 //next wave
 function nextWave() {
     if (!createjs.Ticker.getPaused()) {
+        if (Meteor.user() !== null) {
+            saving();
+        }
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
@@ -1461,10 +1497,6 @@ function nextWave() {
         else {
             cMonster("mario",10);
             monsterData["mario"]["hp"]*=1.3
-        }
-
-        if (Meteor.user() !== null) {
-            saving();
         }
     }
 }
@@ -1509,6 +1541,20 @@ function restart() {
 
 //game over
 function isOver() {
+    if (Meteor.user() !== null) {
+        var d = new Date().toString().split(' ')
+        var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
+        var gameRecord = {
+            createdBy: Meteor.userId(),
+            warriorName: (Meteor.user().username) ? 
+                Meteor.user().username : Meteor.user().profile.name ,
+            waveCleared: wave,
+            score: score,
+            date: date
+        }
+
+        Meteor.call('pushRanking', gameRecord);
+    };
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         restart();
     } else {

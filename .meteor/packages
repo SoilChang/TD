@@ -8,7 +8,6 @@ meteor-platform
 twbs:bootstrap
 jquery
 linto:jquery-ui
-nrafter:createjs
 iron:router
 accounts-ui
 underscore
