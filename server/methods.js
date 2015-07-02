@@ -91,6 +91,21 @@ Meteor.methods({
 		check(currentGame, Object);
 		check(currentUserId, String);
 		Meteor.users.update( {_id:currentUserId}, {$set: {savedGame: currentGame }});
+	},
+
+	// push data into ranking database
+	'pushRanking': function(record){
+		check(record, Object);
+
+		// inserting latest record
+		Ranking.insert(record);
+
+		// pull out the worse record after comparing
+		if(Ranking.find({createdBy: Metoer.userId()}).count === 11){
+			var list = Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
+			var lowestScore = list[9].score;
+			Ranking.remove({createeBy: Metoer.userId(), score: lowestScore});
+		} 
 	}
 	
 });

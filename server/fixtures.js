@@ -385,4 +385,11 @@ if( eqpList.findOne({name:"Undead Bone"}) === undefined ){
 }
 
 
+// Ranking.insert({
+// 	createdBy:'no1',
+// 	warriorName: 'chew zhi jiang',
+// 	waveCleared:80,
+// 	score: 200,
+// 	date: "national day",
+// })
 

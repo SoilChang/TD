@@ -10,9 +10,6 @@ Meteor.publish('userData', function(){
 	return Meteor.users.find( {_id : this.userId} );
 });
 
-// publish other user's data. but only limited fields
-Meteor.publish('gameScore', function(){
-	if(!this.userId)
-		return null;
-	return Meteor.users.find( {},{fields:{username:1,record:1}});
-});
+Meteor.publish('ranking', function(){
+	return Ranking.find();
+})

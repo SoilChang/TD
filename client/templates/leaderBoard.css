@@ -16,6 +16,18 @@
 	margin-left:200px;
 	border-radius:5px;
 	border: solid #A35200 2px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+#lb_personalRanking{
+	position: absolute;
+	height: 500px;
+	width: 850px;
+	background-color: rgba(174, 188, 131, 0.8);
+	top: 50px;
+	margin-left:200px;
+	border-radius:5px;
+	border: solid #A35200 2px;
 }
 
 #bluejay{
@@ -30,9 +42,15 @@
 }
 
 .category{
-	color: yellow;
-	font-family: cursive;
-	display: inline-block;
+	text-shadow:3px 0px 8px rgba(87,238,255,1);
+	font-weight:normal;
+	color:#1F7FBF;
+	letter-spacing:1pt;
+	word-spacing:-7pt;
+	font-size:30px;
+	text-align:center;
+	font-family:arial black, sans-serif;
+	line-height:1;
 }
 
 #lb_option{
@@ -41,4 +59,10 @@
 	margin-top: 70px;
 	margin-left: 50px;
 	text-align: center;
+}
+
+.listText{
+	font-size: 20px;
+	font-family: cursive;
+	color:green;
 }

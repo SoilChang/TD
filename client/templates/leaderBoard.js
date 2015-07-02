@@ -9,7 +9,11 @@ Template.leaderBoard.events({
 })
 
 Template.leaderBoard.helpers({
-	playerScore: function(){
-		return Meteor.users.find({},{sort:{record:-1}});
+	globalRanking: function(){
+		return Ranking.find({},{sort: {score:-1}, limit: 10});
+	},
+
+	personalRanking: function(){
+		return Ranking.find({createdBy: Meteor.userId()}, {sort: {score:-1}});
 	}
 });

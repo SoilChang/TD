@@ -7,7 +7,6 @@ Accounts.onCreateUser(function(options,user) {
 	user.equipped = [];
 	user.inventory = [];
 	user.savedGame = {};
-	user.record = [{date: "123", score:80, wave:20}];
 	if (options.profile)
     	user.profile = options.profile;
  	return user;

@@ -1,17 +1,59 @@
 <template name="leaderBoard">
 <div id="leaderBoardBody">
 	<div id="lb_option">
-		<button type="button" class="btn btn-block">Global Ranking</button>
-		<button type="button" class="btn btn-block">Personal Ranking</button>
+		<button id="globalBtn" type="button" class="btn btn-block">Global Ranking</button>
+		<button id="personalBtn" type="button" class="btn btn-block">Personal Ranking</button>
+
 	</div>
 
 	<div id="lb_globalRanking">
+		<h1 class="category">Global Ranking</h1>
 		<ol>
-		{{#each playerScore}}
-			<li>{{record.date}}  {{username}}  {{record.wave}}</li>
+		{{#each globalRanking}}
+			<li style="font-size:20px; width:750px;">
+				<span style="font-size:20px; color:#FFFFCC;">{{warriorName}}:</span>
+				<span style="left:600px;position:absolute;">{{date}}</span>
+				<br>
+				<img src="/images/leaderBoard/score.png">:<span style="position:absolute; margin-left:30px">{{score}}</span> 
+				<img src="/images/leaderBoard/wave.png" style="position:abolute;margin-left:200px;">:{{waveCleared}}
+				<hr>
+			</li>
+			
 		{{/each}}
 		</ol>
 	</div>
+
+	<div id="lb_personalRanking">
+		<h1 class="category">Personal Ranking</h1>
+		<ol>
+		{{#each personalRanking}}
+			<li style="font-size:20px; width:750px;">
+				<span style="left:600px;position:absolute;">{{date}}</span>
+				<br>
+				<img src="/images/leaderBoard/score.png">:<span style="position:absolute; margin-left:30px">{{score}}</span> 
+				<img src="/images/leaderBoard/wave.png" style="position:abolute;margin-left:200px;">:{{waveCleared}}
+				<hr>
+			</li>
+		{{/each}}
+		</ol>
+	</div>
+
+
+
+	<!-- hide show different board -->
+	<script>
+		$("#lb_globalRanking").ready(function(){
+			$('#lb_globalRanking,#lb_personalRanking').hide();
+			$("#globalBtn").click(function(){
+				$('#lb_globalRanking').show();
+				$('#lb_personalRanking').hide();
+			});
+			$("#personalBtn").click(function(){
+				$('#lb_globalRanking').hide();
+				$('#lb_personalRanking').show();
+			});
+		});
+	</script>
 
 
 
