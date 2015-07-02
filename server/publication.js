@@ -12,4 +12,8 @@ Meteor.publish('userData', function(){
 
 Meteor.publish('ranking', function(){
 	return Ranking.find();
-})
+});
+
+Meteor.publish('ChatMessage', function(){
+	return ChatMessage.find();
+});

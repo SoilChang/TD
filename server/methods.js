@@ -102,10 +102,18 @@ Meteor.methods({
 
 		// pull out the worse record after comparing
 		if(Ranking.find({createdBy: Metoer.userId()}).count === 11){
-			var list = Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
+			Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
 			var lowestScore = list[9].score;
 			Ranking.remove({createeBy: Metoer.userId(), score: lowestScore});
 		} 
-	}
+	},
+
+	'pushMessage': function(message){
+		check(message, Object);
+		ChatMessage.insert(message);
+
+		//delet old message
+		ChatMessage.findAndModify({query:}) 
+	},
 	
 });

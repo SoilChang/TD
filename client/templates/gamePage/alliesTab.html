@@ -6,8 +6,55 @@
 			</div>
 		</a>
 		
+		<!-- left hand scroll with the scroll with words -->
 		<div id="scrollLeft"></div>
-		<div id="scrollPaper"></div>
+		<div id="scrollLeftOpen"></div>
+
+		<!-- right hand scroll with the scroll with words -->
 		<div id="scrollRight"></div>
+		<div id="scrollRightFold"></div>
+
+		<div id="scrollPaper" >
+			<!-- the window to display message -->
+			<div id="chatWindow">
+				{{#each loadMessage}}
+					<p><span style="color: white; font-size:20px">{{sentBy}}:</span> {{content}} </p>
+				{{/each}}
+			</div>
+
+			<!-- the place to type message -->
+			<form style="margin-top: 430px; margin-left:25px;">
+				<label for="message">Message:</label>
+				<input id="messageContent" name="message" type="text" placeholder="Your Message" style="width:630px;">
+				<input type="submit" value="Send" >
+			</form>
+			
+		</div>
+
+		
+
+		<!-- responsible for scroll animation -->
+		<script>
+			$("#scrollLeft").ready(function(){
+				$("#scrollLeftOpen").hide()
+				$("#scrollRightFold").click(function(){
+					$("#scrollRightFold").hide();
+					$("#scrollLeftOpen").show();
+					$("#scrollRight").animate({marginLeft:"50px"},1000);
+					$("#scrollPaper").animate({width:'60px'},1000);
+					
+				});
+				$("#scrollLeftOpen").click(function(){
+					$("#scrollRight").animate({marginLeft:"820px"},1000,function(){
+						$("#scrollRightFold").show();
+						$("#scrollLeftOpen").hide();
+					});
+					$("#scrollPaper").animate({width:'830px'},1000);
+					
+				});
+			});
+		</script>
+
 	</div>
 </template>
+					

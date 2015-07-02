@@ -6,7 +6,7 @@
 	margin-left:845px;
 	background-image: url("images/gamePage/closeButton.png");
 	background-size: 100% auto;
-	z-index: 11;
+	z-index: 13;
 }
 
 #scrollLeft{
@@ -16,16 +16,29 @@
 	background-image: url('/images/gamePage/scrollLeft.png');
 	background-repeat: no-repeat;
 	background-size: auto 100%;
+	z-index: 10;
+}
+#scrollLeftOpen{
+	position: absolute;
+	width: 60px;
+	height: 550px;
+	background-image: url('/images/gamePage/scrollLeftOpen.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	z-index: 11;
 }
 #scrollPaper{
 	position: absolute;
 	margin-left: 40px;
 	margin-top: 35px;
-	height: 500px;
-	width: 700px;
-	background-image: url('/images/gamePage/scrollPaper.png');
+	height: 475px;
+	width: 830px;
+	background-color:#D1A319;
 	background-repeat: no-repeat;
-	background-size: auto 100%;  
+	background-size:  100% auto; 
+	z-index: 9; 
+	overflow-x: hidden;
+	overflow-y:scroll;
 }
 
 #scrollRight{
@@ -36,4 +49,25 @@
 	background-image: url('/images/gamePage/scrollRight.png');
 	background-repeat: no-repeat;
 	background-size: auto 100%;
+	z-index: 10;
+}
+#scrollRightFold{
+	position: absolute;
+	margin-left: 820px;
+	width: 60px;
+	height: 550px;
+	background-image: url('/images/gamePage/scrollRightFold.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	z-index: 11;
+}
+
+#chatWindow{
+	position: absolute;
+	margin-left: 50px;
+	margin-top: 10px;
+	width: 700px;
+	height: 420px;
+	color: blue;
+	overflow-y:auto;
 }
