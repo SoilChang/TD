@@ -4,7 +4,10 @@ Template.kingdomTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return [{username:"Log In To See", gem: 0, hpBonus: 0,armourBonus:0,attackBonus:0}] ;
 		}else{
-			return Meteor.users.find();
+			/*the reason why i don't use Meteor.user() straight away is because in the 
+			html, i use each block. it only accepts an array. only Meteor.users.fin() returns
+			an array. */
+			return Meteor.users.find({_id:Meteor.user()._id});
 		}
 	},
 	'inventoryItem' : function(type){	
