@@ -113,7 +113,7 @@ Meteor.methods({
 		ChatMessage.insert(message);
 
 		//delet old message
-		ChatMessage.findAndModify({query:}) 
+	
 	},
 	
 });

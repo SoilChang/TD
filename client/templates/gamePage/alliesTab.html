@@ -38,14 +38,18 @@
 			$("#scrollLeft").ready(function(){
 				$("#scrollLeftOpen").hide()
 				$("#scrollRightFold").click(function(){
-					$("#scrollRightFold").hide();
-					$("#scrollLeftOpen").show();
+					$("#scrollRightFold").animate({marginLeft:"50px"},1000, function(){
+						$("#scrollRightFold").hide();
+						$("#scrollLeftOpen").show();
+					});
+					
 					$("#scrollRight").animate({marginLeft:"50px"},1000);
 					$("#scrollPaper").animate({width:'60px'},1000);
 					
 				});
 				$("#scrollLeftOpen").click(function(){
 					$("#scrollRight").animate({marginLeft:"820px"},1000,function(){
+						$("#scrollRightFold").css({'margin-left':'820px'});
 						$("#scrollRightFold").show();
 						$("#scrollLeftOpen").hide();
 					});
