@@ -1,5 +1,5 @@
 <template name="gameTab">
-	{{checker}}
+	{{extraction}}
 	<script>
 	$(function() {
 		$('.towerBtn').click(
@@ -10,8 +10,7 @@
 	})
 	</script>
 	<div id="c-game">
-	
-		{{extraction}}
+
 		<!-- Option bar on the left for Game Canvas -->
 		<div id="c-game-left_hand_menu">
 			<div id="gameStatus">
@@ -28,11 +27,11 @@
 				</div>	
 				<hr>
 				<input type="button" value="Start" id="pauseBtn">
-				<input type="button" value="Restart" id="restartBtn">
-				<input type="button" value="Save" id="saveBtn"><br> 
+				<!--<input type="button" value="Save" id="saveBtn">-->
+				<input type="button" value="Menu" id="menuBtn"><br> 
 				<input type="button" value="Check Range" id="rangeBtn"><br>
 				<input type="button" value="1x" id="ffBtn">
-				<input type="button" value="next wave" id="nextBtn">
+				<!--<input type="button" value="next wave" id="nextBtn">-->
 				<p class="gameInfo">Wave: <span id="wave"></span> </p>	
 				<p class="gameInfo">Next wave in:<span id="cdTimer" class="gameInfo"></span> s</p>
 				<hr>
