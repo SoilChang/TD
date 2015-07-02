@@ -10,6 +10,6 @@ Template.leaderBoard.events({
 
 Template.leaderBoard.helpers({
 	playerScore: function(){
-		return Meteor.users.find();
+		return Meteor.users.find({},{sort:{record:-1}});
 	}
 });

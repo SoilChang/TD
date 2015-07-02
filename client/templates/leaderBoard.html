@@ -1,13 +1,19 @@
 <template name="leaderBoard">
 <div id="leaderBoardBody">
-	<div id="lb_display">
+	<div id="lb_option">
+		<button type="button" class="btn btn-block">Global Ranking</button>
+		<button type="button" class="btn btn-block">Personal Ranking</button>
+	</div>
 
+	<div id="lb_globalRanking">
 		<ol>
 		{{#each playerScore}}
-			<li></li>
+			<li>{{record.date}}  {{username}}  {{record.wave}}</li>
 		{{/each}}
 		</ol>
 	</div>
+
+
 
 	<a href="{{ pathFor 'gamePage'}}">
 		<div id="bluejay"></div>

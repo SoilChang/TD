@@ -7,7 +7,7 @@
     background-size: 100% auto;
 }
 
-#lb_display{
+#lb_globalRanking{
 	position: absolute;
 	height: 500px;
 	width: 850px;
@@ -33,4 +33,12 @@
 	color: yellow;
 	font-family: cursive;
 	display: inline-block;
+}
+
+#lb_option{
+	position: absolute;
+	width:150px;
+	margin-top: 70px;
+	margin-left: 50px;
+	text-align: center;
 }
