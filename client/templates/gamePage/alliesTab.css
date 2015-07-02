@@ -9,6 +9,31 @@
 	z-index: 11;
 }
 
-#friendsOnline{
-	
+#scrollLeft{
+	position: absolute;
+	width: 60px;
+	height: 550px;
+	background-image: url('/images/gamePage/scrollLeft.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+}
+#scrollPaper{
+	position: absolute;
+	margin-left: 40px;
+	margin-top: 35px;
+	height: 500px;
+	width: 700px;
+	background-image: url('/images/gamePage/scrollPaper.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;  
+}
+
+#scrollRight{
+	position: absolute;
+	margin-left: 820px;
+	width: 60px;
+	height: 550px;
+	background-image: url('/images/gamePage/scrollRight.png');
+	background-repeat: no-repeat;
+	background-size: auto 100%;
 }
