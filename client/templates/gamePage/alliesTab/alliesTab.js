@@ -30,13 +30,8 @@ Template.alliesTab.events({
 		}
 
 		// insert in the nessary fields
-		var userName;
-		if(Meteor.user().username !== null){
-			userName = Meteor.user().username;
-		}else{
-			userName = Meteor.user().profile.name;
-		}
-
+		var userName =Meteor.user().username ? Meteor.user().username : Meteor.user().profile.name;
+		
 		_.extend(message, { sentBy:userName, date:new Date()});
 
 		Meteor.call('pushMessage',message);
