@@ -21,8 +21,11 @@ Template.alliesTab.events({
 			content: $(e.target).find('[name=message]').val()
 		};
 
+		// clear the field for further input
+		$(e.target).find('[name=message]').val("");
+
 		// if there is nothing in the message, we will close the function call
-		if(message.content === null){
+		if(message.content === ""){
 			return;
 		}
 

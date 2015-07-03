@@ -112,8 +112,11 @@ Meteor.methods({
 		check(message, Object);
 		ChatMessage.insert(message);
 
-		//delet old message
-	
+		//delete old message, not a clean code. but it works. can be improved.
+		var test = ChatMessage.find({},{skip:1000, limit:1, sort:{date:-1}}).fetch();
+		ChatMessage.remove({_id: test[0]._id});
+
+
 	},
 	
 });

@@ -17,15 +17,20 @@
 		<div id="scrollPaper" >
 			<!-- the window to display message -->
 			<div id="chatWindow">
+				<ul>
 				{{#each loadMessage}}
-					<p><span style="color: white; font-size:20px">{{sentBy}}:</span> {{content}} </p>
+					<li>
+						<p><span style="color: white; font-size:20px">{{sentBy}}:</span> {{content}} </p>
+						<P ><span style="color:black; font-size:10px;">{{date}}</span></P>
+					</li>
 				{{/each}}
+				</ul>
 			</div>
 
 			<!-- the place to type message -->
-			<form style="margin-top: 430px; margin-left:25px;">
+			<form id="messageContent" style="margin-top: 430px; margin-left:25px;">
 				<label for="message">Message:</label>
-				<input id="messageContent" name="message" type="text" placeholder="Your Message" style="width:630px;">
+				<input  name="message" type="text" placeholder="Your Message" style="width:630px;">
 				<input type="submit" value="Send" >
 			</form>
 			

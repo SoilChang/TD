@@ -7,6 +7,10 @@ Deps.autorun(function(){
   Meteor.subscribe('ChatMessage');
 });
 
+
+
+
+
 Template.registerHelper('updateUserStats', function(){
 	if(Meteor.user() !== null && Meteor.loggingIn() === false){
 		var currentUserId = Meteor.userId();
