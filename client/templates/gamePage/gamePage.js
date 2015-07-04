@@ -4,6 +4,13 @@ Meteor.subscribe('equipments');
 Meteor.subscribe('ranking');
 Meteor.subscribe('ChatMessage');
 
+// im not sure what the undeprecated version of this code is. onRendered doesn't work
+Template.gamePage.onRendered(function() {
+    try {
+        FB.XFBML.parse();
+    }catch(e) {}   
+});
+
 
 Template.registerHelper('updateUserStats', function(){
 	if(Meteor.user() !== null && Meteor.loggingIn() === false){

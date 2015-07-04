@@ -7,7 +7,6 @@ accounts-ui-unstyled@1.1.7
 audit-argument-checks@1.0.3
 autoupdate@1.2.1
 base64@1.0.3
-biasport:facebook-sdk@0.2.2
 binary-heap@1.0.3
 blaze@2.1.2
 blaze-tools@1.0.3
@@ -52,6 +51,7 @@ minimongo@1.0.8
 mobile-status-bar@1.0.3
 mongo@1.1.0
 mongo-livedata@1.0.8
+mrt:facebook-sdk@0.0.44
 npm-bcrypt@0.7.8_2
 oauth@1.1.4
 oauth2@1.1.3

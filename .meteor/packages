@@ -18,9 +18,6 @@ accounts-facebook
 accounts-password
 email
 audit-argument-checks
-
-
-biasport:facebook-sdk
-
+mrt:facebook-sdk
 sorenpeterson:createjs
 
