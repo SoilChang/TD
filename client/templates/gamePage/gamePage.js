@@ -1,4 +1,3 @@
-
 /*subscribe to user data */
 Deps.autorun(function(){
   Meteor.subscribe('userData');
@@ -6,6 +5,10 @@ Deps.autorun(function(){
   Meteor.subscribe('ranking');
   Meteor.subscribe('ChatMessage');
 });
+
+
+
+
 
 Template.registerHelper('updateUserStats', function(){
 	if(Meteor.user() !== null && Meteor.loggingIn() === false){

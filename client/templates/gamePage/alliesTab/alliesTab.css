@@ -64,10 +64,20 @@
 
 #chatWindow{
 	position: absolute;
-	margin-left: 50px;
+	margin-left: 20px;
 	margin-top: 10px;
-	width: 700px;
+	width: 800px;
 	height: 420px;
 	color: blue;
 	overflow-y:auto;
+	overflow-x:hidden;
+	
+}
+
+#chatConfig{
+	position: absolute;
+	margin-left:110px;
+	margin-top: 40px;
+	width: 750px;
+	height: 470px;
 }

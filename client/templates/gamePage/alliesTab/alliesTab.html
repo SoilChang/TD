@@ -1,0 +1,44 @@
+<template name="alliesTab">
+	<div id="c-Allies">
+		<!-- the following is close button -->
+		<a href="{{pathFor 'gamePage'}}">
+			<div id="c-Allies-closeButton">			
+			</div>
+		</a>
+		
+		<!-- left hand scroll with the scroll with words -->
+		<div id="scrollLeft"></div>
+		<div id="scrollLeftOpen"></div>
+
+		<!-- right hand scroll with the scroll with words -->
+		<div id="scrollRight"></div>
+		<div id="scrollRightFold"></div>
+
+		<div id="scrollPaper" >
+			<!-- the window to display message -->
+			<div id="chatWindow">
+				<ul>
+				{{#each loadMessage}}
+					<li>
+						<p><span style="color: white; font-size:20px">{{sentBy}}:</span> {{content}} </p>
+						<P ><span style="color:black; font-size:10px;">{{date}}</span></P>
+					</li>
+				{{/each}}
+				</ul>
+			</div>
+
+			<!-- the place to type message -->
+			<form id="messageContent" style="margin-top: 430px; margin-left:25px;">
+				<label for="message">Message:</label>
+				<input  name="message" type="text" placeholder="Your Message" style="width:630px;">
+				<input type="submit" value="Send" >
+			</form>		
+		</div>
+		
+
+		<div id="chatConfig">
+			<p style="color:white;">configuration</p>
+		</div>
+	</div>
+</template>
+					
