@@ -1,3 +1,7 @@
+Template.feedback.onRendered(function(){
+	$('#logo').draggable();
+});
+
 Template.feedback.onCreated(function() {
 	Session.set('commentSubmitErrors', {});
 });

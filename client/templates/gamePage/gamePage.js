@@ -1,4 +1,3 @@
-
 /*subscribe to user data */
 Deps.autorun(function(){
   Meteor.subscribe('userData');

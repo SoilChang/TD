@@ -1,3 +1,26 @@
+Template.alliesTab.onRendered(function(){
+	$("#scrollLeftOpen").hide();
+	$("#scrollRightFold").click(function(){
+		$("#scrollRightFold").animate({marginLeft:"50px"},1000, function(){
+			$("#scrollRightFold").hide();
+			$("#scrollLeftOpen").show();
+		});
+		
+		$("#scrollRight").animate({marginLeft:"50px"},1000);
+		$("#scrollPaper").animate({width:'60px'},1000);
+		
+	});
+	$("#scrollLeftOpen").click(function(){
+		$("#scrollRight").animate({marginLeft:"820px"},1000,function(){
+			$("#scrollRightFold").css({'margin-left':'820px'});
+			$("#scrollRightFold").show();
+			$("#scrollLeftOpen").hide();
+		});
+		$("#scrollPaper").animate({width:'830px'},1000);		
+	});
+});
+
+
 Template.alliesTab.events({
 	'mouseenter #c-Allies-closeButton': function(){
 		$('#c-Allies-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
@@ -6,6 +29,7 @@ Template.alliesTab.events({
 	'mouseleave #c-Allies-closeButton': function(){
 		$('#c-Allies-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
 	},
+
 
 	'submit form': function(e) {
 		e.preventDefault();
@@ -37,6 +61,8 @@ Template.alliesTab.events({
 		Meteor.call('pushMessage',message);
 	},
 })
+
+
 
 Template.alliesTab.helpers({
 	loadMessage: function(){

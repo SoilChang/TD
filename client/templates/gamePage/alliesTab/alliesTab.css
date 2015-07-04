@@ -73,3 +73,11 @@
 	overflow-x:hidden;
 	
 }
+
+#chatConfig{
+	position: absolute;
+	margin-left:110px;
+	margin-top: 40px;
+	width: 750px;
+	height: 470px;
+}
