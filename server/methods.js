@@ -93,6 +93,12 @@ Meteor.methods({
 		Meteor.users.update( {_id:currentUserId}, {$set: {savedGame: currentGame }});
 	},
 
+	//set savedGame to false
+	'gameOver': function(currentUserId) {
+		check(currentUserId, String);
+		Meteor.users.update( {_id:currentUserId}, {$set: {savedGame: false }});
+	},
+
 	// push data into ranking database
 	'pushRanking': function(record){
 		check(record, Object);

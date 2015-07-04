@@ -74,7 +74,6 @@ function gameData(type) {
             monsters = [] //monsters on map
             shots = [] //shots on map
             towers = []   //towers currently on map
-            towerNum = 0 //index of tower being built
             score = 0;
             health = maxHealth;
             cash = 40;
@@ -91,10 +90,6 @@ function gameData(type) {
             hoverT = false //image of tower selected to buy
             break;
         case 'saved' :
-            monsters = gameProgress['monster']
-            shots = gameProgress['shot']
-            towers = gameProgress['tower']
-            towerNum = gameProgress['towerNum']
             score = gameProgress['score']
             health = gameProgress['health']
             cash = gameProgress['cash']
@@ -109,9 +104,10 @@ function gameData(type) {
             towerName = false 
             hoverGrid = false //identify current grid
             hoverT = false //image of tower selected to buy
+
+
             break;
     }
-
 }
 
 /*#########################################################################
@@ -155,7 +151,7 @@ Template.gameTab.events({
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
-        createjs.Ticker.setPaused(true);
+        createjs.Ticker.off("tick", gameTicker);
         stage.removeAllChildren();
         gameState = 0;
         if (towers) {
@@ -269,6 +265,7 @@ function menu() {
         line2.getMeasuredWidth() + 38, line2.getMeasuredHeight());
     c2.hitArea = over2;
 
+    //to enable continue game
     if (gameRunning) {
         line2.color = '#ffa500'
         c2.on('mouseover',handleLine)
@@ -277,22 +274,40 @@ function menu() {
 
     }
 
+    var redArrow3 = new createjs.Bitmap(redArrowI);
+    redArrow3.y = 5;
+    var blueArrow3 = new createjs.Bitmap(blueArrowI);
+    blueArrow3.y = 5;
+    var line3 = new createjs.Text("Continue Game (Saved)",
+    "48px Florence", '#888');
+    line3.x = 40;
+    var c3 = new createjs.Container();
+    c3.mouseChildren = false;
+    c3.x = 100;
+    c3.y = 110;
+    c3.red = redArrow3
+    c3.blue = blueArrow3
+    var over3 = new createjs.Shape();
+    over3.graphics.beginFill("#000").drawRect(0, 0,
+        line3.getMeasuredWidth() + 38, line3.getMeasuredHeight());
+    c3.hitArea = over3;
+
     //to enable continue game
     /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (Meteor.user().savedGame) {
-            line2.color = "#ffa500"
-            c2.on('mouseover',handleLine)
-            c2.on('mouseout',handleLine)
-            c2.on('click',handleLine)
+        if (localStorage.towerDefense !== undefinedMeteor.user().savedGame) {
+            line3.color = "#ffa500"
+            c3.on('mouseover',handleLine)
+            c3.on('mouseout',handleLine)
+            c3.on('click',handleLine)
         }
-    } else {
     }*/
 
     var ticking = createjs.Ticker.on("tick", stage);
 
     c1.addChild(line1,blueArrow1)
     c2.addChild(line2,blueArrow2)
-    stage.addChild(c1,c2)
+    c3.addChild(line3,blueArrow3)
+    stage.addChild(c1,c2,c3)
     stage.update() 
 
     function handleLine(event) {
@@ -317,7 +332,11 @@ function menu() {
                 newGame();
             } 
             else if (event.target == c2) {
-                currentGame()
+                currentGame();
+            }
+            else if (event.target == c3) {
+                gameProgress = JSON.parse(localStorage.towerDefense)
+                continueGame();
             }
         }
     }
@@ -515,24 +534,6 @@ function continueGame() {
     // creates ticks
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
-
-
-    /*if (towers) {
-        addition(towers);    
-        for (var i=0;i<towers.length;i++) {
-            var t = towers[i].bg;
-            hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
-
-        }
-    }
-    /*if (monsters) {
-        addition(monsters);
-        stopAnimate(true);
-    }
-    if (shots) {
-        addition(shots);
-    }*/
-
     
     //gameTest
     output = stage.addChild(new createjs.Text('' + towers, "14px monospace", "#000"));
@@ -611,11 +612,28 @@ function saving() {
     gameProgress['towerNum'] = towerNum;
     gameProgress['countDown'] = countDown;
 
-    gameProgress['tower'] = towers;
-    gameProgress['monster'] = monsters;
-    gameProgress['shot'] = shots;
+    gameProgress['tower'] = [];
+
+    if (towers) {
+        for (var i=0;i<towers.length;i++) {
+            var tObj = {}
+            tObj.name = towers[i].name
+            tObj.x = towers[i].x
+            tObj.y = towers[i].y
+            tObj.level = towers[i].level
+            tObj.bg = towers[i].bg
+            gameProgress['tower'].push(tObj)
+        }
+    }
 
 
+    //gameProgress['monster'] = monsters;
+    //gameProgress['shot'] = shots;
+
+
+
+    //localStorage.towerDefense = JSON.stringify(gameProgress)
+    
     if (Meteor.user() !== null) {
         Meteor.call('saveGame', gameProgress, Meteor.userId());
     };
@@ -735,7 +753,7 @@ function buildTower(event) {
                 newTower.mouseChildren = false;
                 newTower.bg = event.target.pt;
                 newTower.name = towerName;
-                newTower.num = towerNum;
+                newTower.num = towers.length;
                 newTower.level = 1;
                 newTower.maxLevel = towerType["damage"].length;
                 newTower.range = towerType["range"][0];
@@ -767,7 +785,6 @@ function buildTower(event) {
                 newTower.addChild(newImage);
                 towers.push(newTower);
                 stage.addChild(newTower);
-                towerNum++;
                 cash -= towerType["cost"][0];
                 document.getElementById("cash").innerHTML = cash;
                 towerType = false;
@@ -1026,6 +1043,7 @@ function tick(event) {
 
 
         if (health==0) {
+            document.getElementById('health').innerHTML = 0;
             checkGG++;
             if (checkGG==1) {
                 isOver();
@@ -1553,10 +1571,11 @@ function isOver() {
             date: date
         }
 
+        Meteor.call('gameOver', Meteor.userId());
         Meteor.call('pushRanking', gameRecord);
     };
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
-        restart();
+        newGame();
     } else {
         togglePause();
     }
@@ -1574,6 +1593,57 @@ function addition(arrays) {
         stage.addChild(arrays[i]);
     };
 };
+
+function creation(type) {
+    switch (type) {
+        case 'tower':
+            var tTrack = gameProgress['tower']
+            if (tTrack) {
+                towers=[]
+                for (var i=0;i<tTrack;i++) {
+                    var t = tTrack[i]
+                    var tData = towerData[t.name]
+                    hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
+
+                    var newImage = new createjs.Bitmap(tData["image"]);
+                    var newTower = new createjs.Container();
+                    newTower.bg = t.bg
+                    newTower.name = t.name;
+                    newTower.level = t.level+1;
+                    newTower.maxLevel = tData["damage"].length;
+                    newTower.range = tData["range"][t.level];
+                    newTower.maxCd = tData["cd"][t.level];
+                    newTower.cd = 0;
+                    newTower.shot = tData["shot"];
+                    newTower.w = tData["w"];
+                    newTower.h = tData["h"];
+                    newTower.speed = tData["speed"]
+                    newTower.damage = tData["damage"][t.level];
+                    newTower.bonus = 
+                    Math.round(attBonus/100*newTower.damage);
+                    newTower.effect = tData["effect"];
+                    newTower.cost = tData["cost"][t.level+1];
+                    newTower.sell = tData["cost"][t.level];
+                    newTower.x = event.target.coord[0];
+                    newTower.y = event.target.coord[1];
+                    newTower.coord = event.target.coord
+                    newTower.on("click", handleTower); 
+                    newTower.splash = tData["splash"][t.level];
+                    if (towerName == "iceTower") {
+                        newTower.slow = tData["slow"][t.level];
+                        newTower.slowDuration = tData["slowDuration"][t.level];
+                    }
+                    //aoe of tower range
+                    newTower.aoe = new createjs.Shape();
+                    newTower.aoe.graphics.beginStroke("#000").drawCircle(16,16,newTower.range);
+                    newTower.aoe.alpha = .5;
+                    newTower.addChild(newImage);
+                    towers.push(newTower);
+                    stage.addChild(newTower);
+                }
+            }
+    }
+}
 
 //highlight grid when tower is selected
 var targetGrid = new createjs.Shape();

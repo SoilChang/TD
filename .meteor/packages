@@ -18,5 +18,9 @@ accounts-facebook
 accounts-password
 email
 audit-argument-checks
-nrafter:createjs
+
+
 biasport:facebook-sdk
+
+sorenpeterson:createjs
+
