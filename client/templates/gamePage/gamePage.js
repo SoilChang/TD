@@ -1,13 +1,8 @@
 /*subscribe to user data */
-Deps.autorun(function(){
-  Meteor.subscribe('userData');
-  Meteor.subscribe('equipments');
-  Meteor.subscribe('ranking');
-  Meteor.subscribe('ChatMessage');
-});
-
-
-
+Meteor.subscribe('userData');
+Meteor.subscribe('equipments');
+Meteor.subscribe('ranking');
+Meteor.subscribe('ChatMessage');
 
 
 Template.registerHelper('updateUserStats', function(){
