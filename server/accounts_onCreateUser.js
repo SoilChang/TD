@@ -6,7 +6,7 @@ Accounts.onCreateUser(function(options,user) {
 	user.statusMessage = null;
 	user.equipped = [];
 	user.inventory = [];
-	user.savedGame = {};
+	user.savedGame = false;
 	if (options.profile)
     	user.profile = options.profile;
  	return user;
