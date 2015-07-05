@@ -10,10 +10,17 @@ Meteor.publish('userData', function(){
 	return Meteor.users.find( {_id : this.userId} );
 });
 
+// for leader board
 Meteor.publish('ranking', function(){
 	return Ranking.find();
 });
 
+// for the chat message
 Meteor.publish('ChatMessage', function(){
 	return ChatMessage.find();
+});
+
+// for people to add friends
+Meteor.publish('allUserData', function(){
+	return Meteor.users.find({},{fields:{username:1, following:1, followers:1, profile:1}});
 });

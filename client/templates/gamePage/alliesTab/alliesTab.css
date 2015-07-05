@@ -71,6 +71,7 @@
 	color: blue;
 	overflow-y:auto;
 	overflow-x:hidden;
+	z-index: 10;
 	
 }
 
@@ -80,4 +81,54 @@
 	margin-top: 40px;
 	width: 750px;
 	height: 470px;
+	z-index: 5;
+}
+
+#followers{
+	position: absolute;
+	width: 240px;
+	height:470px;
+	margin-left: 0px;
+	background-color:rgba(204, 102, 0,0.5);
+	border:solid #CC6600 2px;
+	border-radius: 5px;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+
+#following{
+	position: absolute;
+	width: 240px;
+	height:470px;
+	margin-left: 250px;
+	background-color: rgba(255, 153, 0, 0.5);
+	border:solid #B85C00 2px;
+	border-radius: 5px;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+
+#inbox{
+	position: absolute;
+	width: 250px;
+	height:470px;
+	margin-left: 500px;
+	background-color:rgba(204, 102, 0,0.5);
+	border-radius: 5px;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+#followersBox{
+	position: absolute;
+	margin-top: 0px;
+	width: 240px;
+	height: 400px;
+}
+
+#followingBox{
+	position: absolute;
+	margin-top: 0px;
+	width: 240px;
+	height: 400px;
 }

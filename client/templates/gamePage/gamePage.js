@@ -3,6 +3,7 @@ Meteor.subscribe('userData');
 Meteor.subscribe('equipments');
 Meteor.subscribe('ranking');
 Meteor.subscribe('ChatMessage');
+Meteor.subscribe('allUserData');
 
 // im not sure what the undeprecated version of this code is. onRendered doesn't work
 Template.gamePage.onRendered(function() {

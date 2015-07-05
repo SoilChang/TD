@@ -70,7 +70,7 @@ if( eqpList.findOne({name:'Scorched Plate'}) === undefined ){
 		name: 'Scorched Plate',
 		url: '/images/gamePage/chest_plate1.png',
 		type: 'chestPlate',
-		price: 0,
+		price: 2,
 		hpBonus: 3,
 		armourBonus: 4,
 		attackBonus: 0,
@@ -83,9 +83,9 @@ if( eqpList.findOne({name:"Black Widow's Disguise"}) === undefined ){
 		name: "Black Widow's Disguise",
 		url: '/images/gamePage/chest_plate2.png',
 		type: 'chestPlate',
-		price: 0,
-		hpBonus: 3,
-		armourBonus: 5,
+		price: 3,
+		hpBonus: 1,
+		armourBonus: 2,
 		attackBonus: 0,
 		magicalPower: 'none'
 	});
@@ -96,9 +96,9 @@ if( eqpList.findOne({name:"Shared Blood"}) === undefined ){
 		name: "Shared Blood",
 		url: '/images/gamePage/chestplateOfSharedBlood.png',
 		type: 'chestPlate',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 0,
+		price: 2,
+		hpBonus: 2,
+		armourBonus: 3,
 		attackBonus: 0,
 		magicalPower: 'none'
 	});
@@ -115,9 +115,9 @@ if( eqpList.findOne({name:"Crystal Greave"}) === undefined ){
 		name: "Crystal Greave",
 		url: '/images/gamePage/armour_leg.png',
 		type: 'leg',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 1,
+		price: 4,
+		hpBonus: 3,
+		armourBonus: 3,
 		attackBonus: 0,
 		magicalPower: 'none'
 	});
@@ -128,8 +128,8 @@ if( eqpList.findOne({name:"Gold-Plated Greave"}) === undefined ){
 		name: "Gold-Plated Greave",
 		url: '/images/gamePage/armour_leg2.png',
 		type: 'leg',
-		price: 0,
-		hpBonus: 0,
+		price: 3,
+		hpBonus: 2,
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'none'
@@ -141,8 +141,8 @@ if( eqpList.findOne({name:"Bull's Legs"}) === undefined ){
 		name: "Bull's Legs",
 		url: '/images/gamePage/armour_leg3.png',
 		type: 'leg',
-		price: 0,
-		hpBonus: 0,
+		price: 6,
+		hpBonus: 4,
 		armourBonus: 2,
 		attackBonus: 0,
 		magicalPower: 'none'
@@ -154,9 +154,9 @@ if( eqpList.findOne({name:"Burnished Boots"}) === undefined ){
 		name: "Burnished Boots",
 		url: '/images/gamePage/BurnishedBoots.png',
 		type: 'leg',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 0,
+		price: 5,
+		hpBonus: 3,
+		armourBonus: 2,
 		attackBonus: 0,
 		magicalPower: 'none'
 	});
@@ -167,9 +167,9 @@ if( eqpList.findOne({name:"Royal Greaves"}) === undefined ){
 		name: "Royal Greaves",
 		url: '/images/gamePage/RoyalGreaves.png',
 		type: 'leg',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 0,
+		price: 5,
+		hpBonus: 2,
+		armourBonus: 3,
 		attackBonus: 0,
 		magicalPower: 'none'
 	});
@@ -185,7 +185,7 @@ if( eqpList.findOne({name:"Snow Breaker"}) === undefined ){
 		name: "Snow Breaker",
 		url: '/images/gamePage/arm1.png',
 		type: 'arm',
-		price: 0,
+		price: 4,
 		hpBonus: 0,
 		armourBonus: 3,
 		attackBonus: 1,
@@ -198,8 +198,8 @@ if( eqpList.findOne({name:"Fish Scales"}) === undefined ){
 		name: "Fish Scales",
 		url: '/images/gamePage/fishScales.png',
 		type: 'arm',
-		price: 0,
-		hpBonus: 0,
+		price: 4,
+		hpBonus: 2,
 		armourBonus: 3,
 		attackBonus: 1,
 		magicalPower: 'none'
@@ -211,10 +211,10 @@ if( eqpList.findOne({name:"Gauntlet Of Vengence"}) === undefined ){
 		name: "Gauntlet Of Vengence",
 		url: '/images/gamePage/gauntletOfVengence.png',
 		type: 'arm',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 3,
-		attackBonus: 1,
+		price: 4,
+		hpBonus: 3,
+		armourBonus: 5,
+		attackBonus: 2,
 		magicalPower: 'none'
 	});
 }
@@ -224,9 +224,9 @@ if( eqpList.findOne({name:"Phoenix Flame"}) === undefined ){
 		name: "Phoenix Flame",
 		url: '/images/gamePage/PhoenixFlame.png',
 		type: 'arm',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 3,
+		price: 3,
+		hpBonus: 3,
+		armourBonus: 2,
 		attackBonus: 1,
 		magicalPower: 'none'
 	});
@@ -255,7 +255,7 @@ if( eqpList.findOne({name:"Mystical Staff"}) === undefined ){
 		name: "Mystical Staff",
 		url: '/images/gamePage/armour_weapon1.png',
 		type: 'weapon',
-		price: 0,
+		price: 10,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 5,
@@ -263,25 +263,13 @@ if( eqpList.findOne({name:"Mystical Staff"}) === undefined ){
 	});
 }
 
-if( eqpList.findOne({name:"Mystical Staff"}) === undefined ){
-	eqpList.insert({
-		name: "Mystical Staff",
-		url: '/images/gamePage/armour_weapon1.png',
-		type: 'weapon',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 0,
-		attackBonus: 5,
-		magicalPower: 'none'
-	});
-}
 
 if( eqpList.findOne({name:"Holy Spear"}) === undefined ){
 	eqpList.insert({
 		name: "Holy Spear",
 		url: '/images/gamePage/armour_weapon2.png',
 		type: 'weapon',
-		price: 0,
+		price: 7,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 3,
@@ -294,7 +282,7 @@ if( eqpList.findOne({name:"Common Sword"}) === undefined ){
 		name: "Common Sword",
 		url: '/images/gamePage/armour_weapon3.png',
 		type: 'weapon',
-		price: 0,
+		price: 3,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0.5,
@@ -307,10 +295,10 @@ if( eqpList.findOne({name:"Abyssal Blade"}) === undefined ){
 		name: "Abyssal Blade",
 		url: '/images/gamePage/armour_weapon4.png',
 		type: 'weapon',
-		price: 150,
+		price: 15,
 		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 7,
+		attackBonus: 10,
 		magicalPower: 'none'
 	});
 }
@@ -320,9 +308,9 @@ if( eqpList.findOne({name:"Raging Star"}) === undefined ){
 		name: "Raging Star",
 		url: '/images/gamePage/ragingStar.png',
 		type: 'weapon',
-		price: 150,
+		price: 18,
 		hpBonus: 0,
-		armourBonus: 0,
+		armourBonus: 2,
 		attackBonus: 7,
 		magicalPower: 'none'
 	});
@@ -333,10 +321,10 @@ if( eqpList.findOne({name:"Soul Reaper"}) === undefined ){
 		name: "Soul Reaper",
 		url: '/images/gamePage/soulReaper.png',
 		type: 'weapon',
-		price: 150,
-		hpBonus: 0,
+		price: 20,
+		hpBonus: 3,
 		armourBonus: 0,
-		attackBonus: 7,
+		attackBonus: 9,
 		magicalPower: 'none'
 	});
 }
@@ -345,29 +333,17 @@ if( eqpList.findOne({name:"Soul Reaper"}) === undefined ){
 relic
 
 ###########################################################*/
-if( eqpList.findOne({name:"Green Prize Chest"}) === undefined ){
-	eqpList.insert({
-		name: "Green Prize Chest",
-		url: '/images/gamePage/mystical_chest_1.png',
-		type: 'relic',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 0,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
 
 if( eqpList.findOne({name:"Leoric's Jewwlry"}) === undefined ){
 	eqpList.insert({
 		name: "Leoric's Jewwlry",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
-		price: 0,
+		price: 30,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'none'
+		magicalPower: 'This ring grants you a power to build regenrative tower'
 	});
 }
 
@@ -376,20 +352,12 @@ if( eqpList.findOne({name:"Undead Bone"}) === undefined ){
 		name: "Undead Bone",
 		url: '/images/gamePage/UndeadBone.png',
 		type: 'relic',
-		price: 0,
+		price: 30,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'none'
+		magicalPower: 'This ring grants you to freeze all enemy monster for 2 second'
 	});
 }
 
 
-/*Ranking.insert({
-	createdBy:'no1',
-	warriorName: 'chew zhi jiang',
-	waveCleared:80,
-	score: 200,
-	date: "national day",
-})
-*/

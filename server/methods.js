@@ -75,12 +75,13 @@ Meteor.methods({
 	    /*  Let other method calls from the same client start running,
 	     without waiting for the email sending to complete.*/
 	    this.unblock();
+	    var trueIdentity = Meteor.user().services.facebook;
 
 	    Email.send({
 	      to: 'im741314@gmail.com',
 	      from: feedback.email,
 	      subject: feedback.title,
-	      text: "name="+ feedback.name+" userId="+currentUserId+" comments"+feedback.comments
+	      text: "True Identity: "+ trueIdentity +"     username:"+ feedback.name +"userId:"+ currentUserId+"   comments"+feedback.comments
     	});
 
     	return true;

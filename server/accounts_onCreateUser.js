@@ -7,6 +7,9 @@ Accounts.onCreateUser(function(options,user) {
 	user.equipped = [];
 	user.inventory = [];
 	user.savedGame = false;
+	// the next two items are for adding friends
+	user.followers =[];
+	user.following = [];
 	if (options.profile)
     	user.profile = options.profile;
  	return user;
