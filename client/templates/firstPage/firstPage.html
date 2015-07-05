@@ -1,9 +1,14 @@
 <template  name="firstPage" >
 	<div id="firstPageBody">
+
+	<!-- facebook like and share button -->
+			<div class="fb-like" data-href="castledefence.meteor.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" style="position:absolute;width:300px;margin-top:30px;"></div>
+		
 	<!-- the div for light house -->
 		<div>
 			<img src="images/firstPage/lightHouse.png" id="lighthouse">
 			<img src="images/firstPage/credit.png"  id="credit">
+			
 		</div>
 		<!-- the div for second tower -->
 		<div>
@@ -19,5 +24,7 @@
 			<a href="{{pathFor 'gamePage'}}"><img src="../images/firstPage/knight.png" id="knight"></a>
 			<img src="images/firstPage/enter.png" id="enter">
 		</div>
+
+		
 	</div>
 </template>
