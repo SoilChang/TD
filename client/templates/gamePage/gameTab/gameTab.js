@@ -20,13 +20,12 @@
                  Variables
 
 #########################################################################*/
-var attBonus, hpBonus, armorBonus, regenBonus, gameLoaded, gameState, gameRunning
+var attBonus, hpBonus, armorBonus, regenBonus, gameLoaded, gameRunning
 attBonus = 0;
 hpBonus = 0;
 armorBonus = 0;
 regenBonus = 0;
 gameLoaded = 0;
-gameState = 0;
 gameRunning = 0;
 
 //#########################################################################
@@ -153,10 +152,6 @@ Template.gameTab.events({
         $('#btmMenu').animate({top:'480'},1000);
         createjs.Ticker.off("tick", gameTicker);
         stage.removeAllChildren();
-        gameState = 0;
-        if (towers) {
-            gameRunning=1;
-        };
         menu();
     }
 
@@ -177,17 +172,11 @@ Template.gameTab.onRendered(function() {
     $('#btmMenu').css({'top':'480px'});
 	//$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
 	//$('#btmMenu').animate({top:'550px'},1000);
-    if (!gameState) {
-        if (!gameLoaded) {
-            init();
-            menu();
-        } else {
-            menu();
-        }
+    if (!gameLoaded) {
+        init();
+        menu();
     } else {
-        $('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
-        $('#btmMenu').animate({top:'550px'},1000);
-        currentGame();
+        menu();
     }
 });
 
@@ -326,7 +315,6 @@ function menu() {
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
             gameTicker = createjs.Ticker.on("tick", tick);
-            gameState=1
 
             if (event.target == c1) {
                 newGame();
@@ -497,15 +485,6 @@ function newGame() {
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
 
-    /*
-    gameTest
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    */
-
     stage.update();
 };
 
@@ -534,16 +513,7 @@ function continueGame() {
     // creates ticks
     createjs.Ticker.setPaused(true);
     createjs.Ticker.setFPS(20);
-    
-    //gameTest
-    output = stage.addChild(new createjs.Text('' + towers, "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    
 
-    stage.addChild(towers[0])
     //stage.addChild(pScreen);
     stage.update();
 
@@ -590,15 +560,6 @@ function currentGame() {
     } else {
         stage.enableMouseOver();
     }
-
-    /* 
-    gameTest
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    */
 
     stage.update();
 
@@ -1051,11 +1012,6 @@ function tick(event) {
             }
         }
     };
-    /*
-    gameTest
-    time = Math.round(createjs.Ticker.getTime(true)/100)/10
-    output.text = "Paused = "+createjs.Ticker.getPaused()+ "\n"
-    */
 
     stage.update(event); // important!!
 };
