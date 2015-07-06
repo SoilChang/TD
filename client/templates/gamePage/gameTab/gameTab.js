@@ -318,13 +318,14 @@ function menu() {
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
 
-            gameTicker = createjs.Ticker.on("tick", tick);    
+            // creates ticks
+            gameTicker = createjs.Ticker.on("tick", tick); 
+            createjs.Ticker.setPaused(true);
+            createjs.Ticker.setFPS(20);   
+
             stage.addChild(background)
             grid(); //load grid onto map
 
-            // creates ticks
-            createjs.Ticker.setPaused(true);
-            createjs.Ticker.setFPS(20);
             if (event.target == c1) {
                 newGame();
             } 
@@ -332,7 +333,8 @@ function menu() {
                 currentGame();
             }
             else if (event.target == c3) {
-                gameProgress = JSON.parse(localStorage.towerDefense)
+                gameProgress = Meteor.user().savedGame;
+                //JSON.parse(localStorage.towerDefense)
                 continueGame();
             }
         }
@@ -371,7 +373,6 @@ function imageload() {
     castleHp.src = "/images/gameImages/castleLifebar.png"
     castleHpI = new createjs.Bitmap(castleHp);
     castleHpI.y = -15
-    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     castleText = new createjs.Text(
         0 + "/" + 0 , "11px Arial", "#fff");
@@ -470,6 +471,7 @@ function newGame() {
     //update castle with equipment bonus
     health += hpBonus;
     castleText.text = health + '/' + maxHealth
+    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
     //line of creep path
@@ -491,40 +493,7 @@ function newGame() {
     stage.update();
 };
 
-function continueGame() {
-    stage.enableMouseOver(0);
-    gameData('saved');
-
-    stage.addChild(background)
-    stage.addChild(castle)
-    grid();
-
-
-    //edit UI
-    document.getElementById('pauseBtn').value = 'Play';
-    document.getElementById("armor").innerHTML = armorBonus 
-    document.getElementById("bonus").innerHTML = attBonus
-    document.getElementById("regen").innerHTML = regenBonus
-
-    document.getElementById("score").innerHTML = score; 
-    document.getElementById("cash").innerHTML = cash;
-    document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health;
-    document.getElementById("cdTimer").innerHTML = 
-    ((countDown/20)<=0) ? 0 : (countDown/20);
-
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
-
-    //stage.addChild(pScreen);
-    stage.update();
-
-};
-
-
 function currentGame() {
-
     stage.addChild(castle);
 
     document.getElementById("armor").innerHTML = armorBonus 
@@ -548,18 +517,45 @@ function currentGame() {
     if (monsters) {
         addition(monsters);
         stopAnimate(true);
-    }
+    };
     if (shots) {
         addition(shots);
-    }
-
+    };
     if (wave!=0) {
         document.getElementById('pauseBtn').value = 'Play';
         stage.addChild(pScreen);
     } else {
         stage.enableMouseOver();
-    }
+    };
 
+    stage.update();
+
+};
+
+function continueGame() {
+    stage.enableMouseOver(0);
+    gameData('saved');
+
+    stage.addChild(castle)
+
+    //edit UI
+    document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById("armor").innerHTML = armorBonus 
+    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("regen").innerHTML = regenBonus
+
+    document.getElementById("score").innerHTML = score; 
+    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("wave").innerHTML = wave; 
+    document.getElementById("health").innerHTML = health;
+    document.getElementById("cdTimer").innerHTML = 
+    ((countDown/20)<=0) ? 0 : (countDown/20);
+
+    // creates ticks
+    createjs.Ticker.setPaused(true);
+    createjs.Ticker.setFPS(20);
+
+    //stage.addChild(pScreen);
     stage.update();
 
 };
@@ -983,7 +979,7 @@ function cAnimation() {
 function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
-        createjs.Ticker.setPaused(true);
+        clearStage();
     };
 
     if (!createjs.Ticker.getPaused()) {
