@@ -117,42 +117,42 @@ function gameData(type) {
 
 #########################################################################*/
 Template.gameTab.events({
-	'mouseenter #c-game-closeButton': function(){
-		$('#c-game-closeButton').css({'margin-left':'1015px', 'width': '40px', 'height': '40px'});
-	},
-	'mouseleave #c-game-closeButton': function(){
-		$('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
-	},
+    'mouseenter #c-game-closeButton': function(){
+        $('#c-game-closeButton').css({'margin-left':'1015px', 'width': '40px', 'height': '40px'});
+    },
+    'mouseleave #c-game-closeButton': function(){
+        $('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
+    },
 
-	'click #pauseBtn': function() {
+    'click #pauseBtn': function() {
         if (checkGG==0) {
             togglePause();
         } else {
             newGame();
         }
-	},
-	'click #restartBtn': function(){
-		restart();
-	},
-	'click #rangeBtn': function(){
-		towerType=(towerType) ? false:true;
-		toggleAoe();
-	},
-	'click #nextBtn': function(){
-		nextWave();
-	},
+    },
+    'click #restartBtn': function(){
+        restart();
+    },
+    'click #rangeBtn': function(){
+        towerType=(towerType) ? false:true;
+        toggleAoe();
+    },
+    'click #nextBtn': function(){
+        nextWave();
+    },
     'click #ffBtn': function(){
         ff();
     },
-	'click #iceBtn': function(){
-		buyTower('iceTower');
-	},
-	'click #lightBtn': function(){
-		buyTower('lightTower')
-	},
-	'click #freezePower': function(){
-		power('freeze')
-	},
+    'click #iceBtn': function(){
+        buyTower('iceTower');
+    },
+    'click #lightBtn': function(){
+        buyTower('lightTower')
+    },
+    'click #freezePower': function(){
+        power('freeze')
+    },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
@@ -174,10 +174,10 @@ Template.gameTab.helpers({
 });
 
 Template.gameTab.onRendered(function() {
-	$('#c-game-left_hand_menu').css({'left':'180px', 'height':'540px'});
+    $('#c-game-left_hand_menu').css({'left':'180px', 'height':'540px'});
     $('#btmMenu').css({'top':'480px'});
-	//$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
-	//$('#btmMenu').animate({top:'550px'},1000);
+    //$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
+    //$('#btmMenu').animate({top:'550px'},1000);
     if (!gameLoaded) {
         init();
         menu();
@@ -491,13 +491,6 @@ function newGame() {
     // creates ticks
     createjs.Ticker.setPaused(true);
     
-    //gameTest
-    output = stage.addChild(new createjs.Text(shots, "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    
 
     stage.update();
 };
@@ -532,15 +525,7 @@ function continueGame() {
     // creates ticks
     createjs.Ticker.setPaused(true);
     
-    //gameTest
-    output = stage.addChild(new createjs.Text('' + towers, "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    
 
-    stage.addChild(towers[0])
     //stage.addChild(pScreen);
     stage.update();
 
@@ -587,14 +572,6 @@ function currentGame() {
         stage.enableMouseOver();
     }
 
-    /* 
-    gameTest
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
-    */
 
     stage.update();
 
@@ -1062,11 +1039,7 @@ function tick(event) {
             }
         }
     };
-    /*
-    gameTest
-    time = Math.round(createjs.Ticker.getTime(true)/100)/10
-    output.text = "Paused = "+createjs.Ticker.getPaused()+ "\n"
-    */
+
 
     stage.update(event); // important!!
 };
