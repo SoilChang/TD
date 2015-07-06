@@ -282,14 +282,14 @@ function menu() {
     c3.hitArea = over3;
 
     //to enable continue game
-    /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (localStorage.towerDefense !== undefinedMeteor.user().savedGame) {
+    if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
+        if (false) {//Meteor.user().savedGame) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
             c3.on('click',handleLine)
         }
-    }*/
+    }
 
     var ticking = createjs.Ticker.on("tick", stage);
 
@@ -704,9 +704,7 @@ function buildTower(event) {
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType) {
             if (towerType["cost"][0]<=cash) {
-                $(function() {
-                    $('.towerBtn').removeClass('selected');
-                });
+                $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
                 var newImage = new createjs.Bitmap(towerType["image"]);
@@ -764,9 +762,7 @@ function buildTower(event) {
 //handle tower info & upgrades
 function handleTower(event) {
     if (event.type=="click") {
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });
+        $('.towerBtn').removeClass('selected');
         towerType = false;
         towerName = false;
 
@@ -1399,9 +1395,7 @@ function toggleAoe() {
     if (towers.length == 0) {
         towerType = false;
         towerName = false;
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });        
+        $('.towerBtn').removeClass('selected');
     } else {
         for (var i=0;i<towers.length;i++) {
             if (towers[i]) {
@@ -1409,9 +1403,7 @@ function toggleAoe() {
                     towers[i].addChild(towers[i].aoe);
                 } else {
                     towerName = false;
-                    $(function() {
-                        $('.towerBtn').removeClass('selected');
-                    });
+                    $('.towerBtn').removeClass('selected');
                     towers[i].removeChild(towers[i].aoe);
                 }
             } else {
@@ -1860,7 +1852,7 @@ function grid() {
             hitsT[9][i][j].graphics.beginFill("#f00").drawRect(832+32*i,
                 32*j,32,32);
             hitsT[9][i][j].alpha=0.01;
-            hitsT[9][i][j].coord=[704+32*i,128+32*j];
+            hitsT[9][i][j].coord=[832+32*i,32*j];
             hitsT[9][i][j].pt=[9,i,j];
             hitsT[9][i][j].on("mouseover", buildTower);
             hitsT[9][i][j].on("mouseout", buildTower);
