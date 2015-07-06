@@ -123,7 +123,11 @@ Template.gameTab.events({
 	},
 
 	'click #pauseBtn': function() {
-		togglePause();
+        if (checkGG==0) {
+            togglePause();
+        } else {
+            newGame();
+        }
 	},
 	'click #restartBtn': function(){
 		restart();
@@ -153,6 +157,8 @@ Template.gameTab.events({
         createjs.Ticker.off("tick", gameTicker);
         stage.removeAllChildren();
         menu();
+        
+        $('.towerBtn').removeClass('selected');
     }
 
 });
@@ -282,14 +288,14 @@ function menu() {
     c3.hitArea = over3;
 
     //to enable continue game
-    /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (localStorage.towerDefense !== undefinedMeteor.user().savedGame) {
+    if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
+        if (false) {//Meteor.user().savedGame) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
             c3.on('click',handleLine)
         }
-    }*/
+    }
 
     var ticking = createjs.Ticker.on("tick", stage);
 
@@ -314,7 +320,12 @@ function menu() {
             $('#btmMenu').animate({top:'550px'},1000);
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
-            gameTicker = createjs.Ticker.on("tick", tick);
+            gameTicker = createjs.Ticker.on("tick", tick);    
+            stage.addChild(background)
+            grid(); //load grid onto map    
+            // creates ticks
+            createjs.Ticker.setPaused(true);
+            createjs.Ticker.setFPS(20);
 
             if (event.target == c1) {
                 newGame();
@@ -323,7 +334,7 @@ function menu() {
                 currentGame();
             }
             else if (event.target == c3) {
-                gameProgress = JSON.parse(localStorage.towerDefense)
+                gameProgress = Meteor.user().savedGame
                 continueGame();
             }
         }
@@ -462,9 +473,7 @@ function newGame() {
     health += hpBonus;
     castleText.text = health + '/' + maxHealth
 
-    stage.addChild(background)
     stage.addChild(castle)
-    grid(); //load grid onto map
     //line of creep path
     //path();
 
@@ -481,10 +490,6 @@ function newGame() {
     document.getElementById("health").innerHTML = health;
     document.getElementById("cdTimer").innerHTML = (countDown/20);
 
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
-
     stage.update();
 };
 
@@ -492,10 +497,7 @@ function continueGame() {
     stage.enableMouseOver(0);
     gameData('saved');
 
-    stage.addChild(background)
     stage.addChild(castle)
-    grid();
-
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Play';
@@ -510,9 +512,6 @@ function continueGame() {
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
 
     //stage.addChild(pScreen);
     stage.update();
@@ -521,12 +520,7 @@ function continueGame() {
 
 
 function currentGame() {
-    stage = new createjs.Stage("playingField");
-
-    stage.addChild(background);
     stage.addChild(castle);
-
-    grid();
 
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
@@ -703,10 +697,7 @@ function buildTower(event) {
     //buying of tower
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType) {
-            if (towerType["cost"][0]<=cash) {
-                $(function() {
-                    $('.towerBtn').removeClass('selected');
-                });
+            if (towerType["cost"][0]<=cash) {f
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
                 var newImage = new createjs.Bitmap(towerType["image"]);
@@ -764,9 +755,7 @@ function buildTower(event) {
 //handle tower info & upgrades
 function handleTower(event) {
     if (event.type=="click") {
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });
+        $('.towerBtn').removeClass('selected');
         towerType = false;
         towerName = false;
 
@@ -1399,9 +1388,7 @@ function toggleAoe() {
     if (towers.length == 0) {
         towerType = false;
         towerName = false;
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });        
+        $('.towerBtn').removeClass('selected');
     } else {
         for (var i=0;i<towers.length;i++) {
             if (towers[i]) {
@@ -1409,9 +1396,7 @@ function toggleAoe() {
                     towers[i].addChild(towers[i].aoe);
                 } else {
                     towerName = false;
-                    $(function() {
-                        $('.towerBtn').removeClass('selected');
-                    });
+                    $('.towerBtn').removeClass('selected');
                     towers[i].removeChild(towers[i].aoe);
                 }
             } else {
@@ -1477,6 +1462,9 @@ function nextWave() {
 
 //toggle pause
 function togglePause() {
+    if (!gameRunning) {
+        gameRunning=1
+    }
     var paused = createjs.Ticker.getPaused();
     createjs.Ticker.setPaused(!paused);
     if (!paused) {
@@ -1515,6 +1503,7 @@ function restart() {
 
 //game over
 function isOver() {
+    stage.mouseEnabled = false;
     if (Meteor.user() !== null) {
         var d = new Date().toString().split(' ')
         var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
@@ -1533,7 +1522,11 @@ function isOver() {
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         newGame();
     } else {
-        togglePause();
+        createjs.Ticker.setPaused(true);
+        stopAnimate(true)
+        pScreen.getChildAt(1).text = "GAME OVER"
+        stage.addChild(pScreen)
+        document.getElementById('pauseBtn').value = 'Restart';
     }
 }
 
