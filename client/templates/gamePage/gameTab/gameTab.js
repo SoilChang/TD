@@ -291,7 +291,7 @@ function menu() {
 
     //to enable continue game
     if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (false) {//Meteor.user().savedGame) {
+        if (Meteor.user().savedGame) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
@@ -538,6 +538,7 @@ function currentGame() {
 function continueGame() {
     gameData('saved');
 
+    creation('tower')
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Play';
@@ -570,23 +571,21 @@ function saving() {
     gameProgress['countDown'] = countDown;
 
     gameProgress['tower'] = [];
+    gameProgress['monster'] = [];
+    gameProgress['shot'] = [];
 
-    if (towers) {
+    if (towers!=false) {
+        console.log('weird')
         for (var i=0;i<towers.length;i++) {
             var tObj = {}
             tObj.name = towers[i].name
             tObj.x = towers[i].x
             tObj.y = towers[i].y
-            tObj.level = towers[i].level
+            tObj.level = (towers[i].level-1)
             tObj.bg = towers[i].bg
             gameProgress['tower'].push(tObj)
         }
     }
-
-
-    //gameProgress['monster'] = monsters;
-    //gameProgress['shot'] = shots;
-
 
 
     //localStorage.towerDefense = JSON.stringify(gameProgress)
@@ -1552,13 +1551,12 @@ function creation(type) {
     switch (type) {
         case 'tower':
             var tTrack = gameProgress['tower']
-            if (tTrack) {
-                towers=[]
-                for (var i=0;i<tTrack;i++) {
+            if (tTrack!=false) {
+                for (var i=0;i<tTrack.length;i++) {
                     var t = tTrack[i]
+                    var tbg = t.bg
                     var tData = towerData[t.name]
-                    hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
-
+                    hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
                     var newImage = new createjs.Bitmap(tData["image"]);
                     var newTower = new createjs.Container();
                     newTower.bg = t.bg
@@ -1578,9 +1576,9 @@ function creation(type) {
                     newTower.effect = tData["effect"];
                     newTower.cost = tData["cost"][t.level+1];
                     newTower.sell = tData["cost"][t.level];
-                    newTower.x = event.target.coord[0];
-                    newTower.y = event.target.coord[1];
-                    newTower.coord = event.target.coord
+                    newTower.x = t.x;
+                    newTower.y = t.y;
+                    newTower.coord = [t.x,t.y];
                     newTower.on("click", handleTower); 
                     newTower.splash = tData["splash"][t.level];
                     if (towerName == "iceTower") {
@@ -1593,9 +1591,11 @@ function creation(type) {
                     newTower.aoe.alpha = .5;
                     newTower.addChild(newImage);
                     towers.push(newTower);
+                    console.log('tower pushed')
                     stage.addChild(newTower);
                 }
             }
+            break;
     }
 }
 
