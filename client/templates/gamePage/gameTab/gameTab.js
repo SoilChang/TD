@@ -38,7 +38,7 @@ backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 heroI, lightTowerI, iceTowerI, //tower images
 itS, ice, ltS, light,
-healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
+healthbarI, marioI, warriorI, armoredI,//monster images
 towerData, towers, towerType, towerName, targetTower, towerNum,//tower variables
 monsterData, monsters, //monster variables
 shots, //shots variables
@@ -95,6 +95,9 @@ function gameData(type) {
             cash = gameProgress['cash']
             wave = gameProgress['wave']
             countDown = gameProgress['countDown']
+            towers = []
+            monsters = []
+            shots = []
             checkGG = 0
             ffCounter = 1
             errorCD = 0 //time for error message to stay on canvas
@@ -104,7 +107,6 @@ function gameData(type) {
             towerName = false 
             hoverGrid = false //identify current grid
             hoverT = false //image of tower selected to buy
-
 
             break;
     }
@@ -124,7 +126,11 @@ Template.gameTab.events({
 	},
 
 	'click #pauseBtn': function() {
-		togglePause();
+        if (checkGG==0) {
+            togglePause();
+        } else {
+            newGame();
+        }
 	},
 	'click #restartBtn': function(){
 		restart();
@@ -154,7 +160,7 @@ Template.gameTab.events({
         createjs.Ticker.off("tick", gameTicker);
         stage.removeAllChildren();
         gameState = 0;
-        if (towers) {
+        if (towers!=false) {
             gameRunning=1;
         };
         menu();
@@ -211,11 +217,6 @@ function init() {
 }
 
 function menu() {
-    if (gameLoaded) {
-        stage = new createjs.Stage("playingField");
-        stage.enableMouseOver();
-    }
-
     //initialized page
     var stageColor = new createjs.Shape();
     stageColor.graphics.beginFill('#424646').drawRect(0,0,896,544);
@@ -293,14 +294,14 @@ function menu() {
     c3.hitArea = over3;
 
     //to enable continue game
-    /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (localStorage.towerDefense !== undefinedMeteor.user().savedGame) {
+    if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
+        if (Meteor.user().savedGame) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
             c3.on('click',handleLine)
         }
-    }*/
+    }
 
     var ticking = createjs.Ticker.on("tick", stage);
 
@@ -325,7 +326,10 @@ function menu() {
             $('#btmMenu').animate({top:'550px'},1000);
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
-            gameTicker = createjs.Ticker.on("tick", tick);
+            gameTicker = createjs.Ticker.on("tick", tick); 
+            createjs.Ticker.setFPS(20);  
+            stage.addChild(background)
+            grid(); //load grid onto map
             gameState=1
 
             if (event.target == c1) {
@@ -335,7 +339,7 @@ function menu() {
                 currentGame();
             }
             else if (event.target == c3) {
-                gameProgress = JSON.parse(localStorage.towerDefense)
+                gameProgress = Meteor.user().savedGame
                 continueGame();
             }
         }
@@ -374,7 +378,6 @@ function imageload() {
     castleHp.src = "/images/gameImages/castleLifebar.png"
     castleHpI = new createjs.Bitmap(castleHp);
     castleHpI.y = -15
-    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     castleText = new createjs.Text(
         0 + "/" + 0 , "11px Arial", "#fff");
@@ -471,12 +474,11 @@ function newGame() {
     gameData('new');//load game data
 
     //update castle with equipment bonus
-    health += hpBonus;
+    health = 1
     castleText.text = health + '/' + maxHealth
-
-    stage.addChild(background)
+    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
     stage.addChild(castle)
-    grid(); //load grid onto map
+
     //line of creep path
     //path();
 
@@ -495,16 +497,15 @@ function newGame() {
 
     // creates ticks
     createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
-
-    /*
-    gameTest
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
+    console.log(monsters)
+    
+    //gameTest
+    output = stage.addChild(new createjs.Text(shots, "14px monospace", "#000"));
     output.lineHeight = 15;
     output.textBaseline = "top";
     output.x = 10;
     output.y = stage.canvas.height-output.lineHeight*4-10;
-    */
+    
 
     stage.update();
 };
@@ -513,9 +514,16 @@ function continueGame() {
     stage.enableMouseOver(0);
     gameData('saved');
 
+    castleHpI.sourceRect = new createjs.Rectangle(0,0,
+        health/maxHealth*64,10);
+
     stage.addChild(background)
     stage.addChild(castle)
     grid();
+
+    creation('tower')
+    creation('monster')
+    //creation('shot')
 
 
     //edit UI
@@ -569,6 +577,10 @@ function currentGame() {
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
+    // creates ticks
+    createjs.Ticker.setPaused(true);
+    createjs.Ticker.setFPS(20);
+
     if (towers) {
         addition(towers);    
         for (var i=0;i<towers.length;i++) {
@@ -609,27 +621,40 @@ function saving() {
     gameProgress['cash'] = cash;
     gameProgress['health'] = health;
     gameProgress['wave'] = wave;
-    gameProgress['towerNum'] = towerNum;
     gameProgress['countDown'] = countDown;
 
     gameProgress['tower'] = [];
+    gameProgress['monster'] = [];
+    gameProgress['shot'] = [];
 
-    if (towers) {
+    if (towers!=false) {
         for (var i=0;i<towers.length;i++) {
             var tObj = {}
             tObj.name = towers[i].name
             tObj.x = towers[i].x
             tObj.y = towers[i].y
-            tObj.level = towers[i].level
+            tObj.level = (towers[i].level-1)
             tObj.bg = towers[i].bg
             gameProgress['tower'].push(tObj)
         }
     }
 
-
-    //gameProgress['monster'] = monsters;
-    //gameProgress['shot'] = shots;
-
+    if (monsters!=false) {
+        for (var i=0;i<monsters.length;i++) {
+            if (monsters[i].dead==1) {
+                continue
+            }
+            var mObj = {}
+            mObj.name = monsters[i].name
+            mObj.x = monsters[i].x
+            mObj.y = monsters[i].y
+            mObj.pos = monsters[i].pos
+            mObj.currentHp = monsters[i].currentHp
+            mObj.freezeCd = monsters[i].freezeCd
+            mObj.slowCd = monsters[i].slowCd
+            gameProgress['monster'].push(mObj)
+        }
+    }
 
 
     //localStorage.towerDefense = JSON.stringify(gameProgress)
@@ -670,7 +695,7 @@ function power(type) {
 function addTower() {
     //light tower
     towerData["lightTower"] =
-    {"image":lightTowerI, "w":30, "h":30,//dimension of shots
+    {"image":lightTowerI, "w":30, "h":30,//dimension of tts
     "type":"Single", "splash":[false],
     "effect":false,
     "range":[96,96,112,112], "cost":[15,30,60,120], "cd":[15,15,10,5],
@@ -956,12 +981,13 @@ function cMonster(type,amt) {
     for (var i=0; i<amt; i++) {
         var mtype = monsterData[type]
         //hp appear above monster
-        healthbar = new createjs.Bitmap(healthbarI)
+        var healthbar = new createjs.Bitmap(healthbarI)
         healthbar.sourceRect = new createjs.Rectangle(0,0,mtype["w"],3);
         healthbar.y = -5
         var m1 = new createjs.Sprite(mtype["image"])
         //add properties to monster
         var newMonster = new createjs.Container()
+        newMonster.name = type
         newMonster.addChild(healthbar, m1)
         newMonster.pos = [0,0,1,0]
         newMonster.w = mtype["w"]
@@ -1348,26 +1374,26 @@ function shotsHit() {
                     shotsSplash(shots[i]);
                 } 
                 else { //single hits
-                monsters[j].currentHp-=shots[i].damage
-                monsters[j].getChildAt(0).sourceRect = 
-                new createjs.Rectangle(0,0,monsters[j]
-                    .currentHp/monsters[j].maxHp*monsters[j].w,3);
+                    monsters[j].currentHp-=shots[i].damage
+                    monsters[j].getChildAt(0).sourceRect = 
+                    new createjs.Rectangle(0,0,monsters[j]
+                        .currentHp/monsters[j].maxHp*monsters[j].w,3);
 
-                if (shots[i].effect && monsters[j].slowCd) {
-                    shotsEffect(shots[i],monsters[j]);
-                };
+                    if (shots[i].effect && monsters[j].slowCd) {
+                        shotsEffect(shots[i],monsters[j]);
+                    };
 
-                //remove monster when dead
-                if (monsters[j].currentHp<=0) {
-                    isDead(j);
-                }
+                    //remove monster when dead
+                    if (monsters[j].currentHp<=0) {
+                        isDead(j);
+                    }
 
                 }
                 break;
             }
         }
     }
-    if (shotsRemoved) {
+    if (shotsRemoved!=false) {
         shotsRemoved.sort(function(a,b){return b-a});//sort descending order
         for (var i=0;i<shotsRemoved.length;i++) {
             stage.removeChild(shots[shotsRemoved[i]])
@@ -1404,7 +1430,7 @@ function shotsSplash(shot) {
             }
         }
     }
-    if (monstersDead) {
+    if (monstersDead!=false) {
         monstersDead.sort(function(a,b){return b-a});
         for (var i=0;i<monstersDead.length;i++) {
             isDead(monstersDead[i]);
@@ -1571,13 +1597,17 @@ function isOver() {
             date: date
         }
 
-        Meteor.call('gameOver', Meteor.userId());
         Meteor.call('pushRanking', gameRecord);
-    };
+        Meteor.call('gameOver', Meteor.userId());
+    };  
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         newGame();
     } else {
-        togglePause();
+        createjs.Ticker.setPaused(true);
+        stopAnimate(true)
+        pScreen.getChildAt(1).text = "GAME OVER"
+        stage.addChild(pScreen)
+        document.getElementById('pauseBtn').value = 'Restart';
     }
 }
 
@@ -1598,13 +1628,12 @@ function creation(type) {
     switch (type) {
         case 'tower':
             var tTrack = gameProgress['tower']
-            if (tTrack) {
-                towers=[]
-                for (var i=0;i<tTrack;i++) {
+            if (tTrack!=false) {
+                for (var i=0;i<tTrack.length;i++) {
                     var t = tTrack[i]
+                    var tbg = t.bg
                     var tData = towerData[t.name]
-                    hitsT[t[0]][t[1]][t[2]].mouseEnabled = false;
-
+                    hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
                     var newImage = new createjs.Bitmap(tData["image"]);
                     var newTower = new createjs.Container();
                     newTower.bg = t.bg
@@ -1624,9 +1653,9 @@ function creation(type) {
                     newTower.effect = tData["effect"];
                     newTower.cost = tData["cost"][t.level+1];
                     newTower.sell = tData["cost"][t.level];
-                    newTower.x = event.target.coord[0];
-                    newTower.y = event.target.coord[1];
-                    newTower.coord = event.target.coord
+                    newTower.x = t.x;
+                    newTower.y = t.y;
+                    newTower.coord = [t.x,t.y];
                     newTower.on("click", handleTower); 
                     newTower.splash = tData["splash"][t.level];
                     if (towerName == "iceTower") {
@@ -1639,9 +1668,47 @@ function creation(type) {
                     newTower.aoe.alpha = .5;
                     newTower.addChild(newImage);
                     towers.push(newTower);
+                    console.log('tower pushed')
                     stage.addChild(newTower);
                 }
             }
+            break;
+
+        case 'monster':            
+            var mTrack = gameProgress['monster']
+            if (mTrack!=false) {
+                for (var i=0; i<mTrack.length; i++) {
+                    var m = mTrack[i]
+                    var mData = monsterData[m.name]
+                    //hp appear above monster
+                    var healthbar = new createjs.Bitmap(healthbarI)
+                    healthbar.sourceRect = new createjs.Rectangle(0,0,
+                        m.currentHp/mData['hp']*mData["w"],3);
+                    healthbar.y = -5
+                    var m1 = new createjs.Sprite(mData["image"])
+                    //add properties to monster
+                    var newMonster = new createjs.Container()
+                    newMonster.addChild(healthbar, m1)
+                    newMonster.pos = m.pos
+                    newMonster.w = mData["w"]
+                    newMonster.h = mData["h"] 
+                    newMonster.x = m.x
+                    newMonster.y = m.y
+                    newMonster.damage = mData["damage"]
+                    newMonster.originSpeed = mData["speed"]
+                    newMonster.speed = mData["speed"]
+                    newMonster.currentHp = mData["hp"]
+                    newMonster.maxHp = mData["hp"]
+                    newMonster.bounty = mData["bounty"]
+                    newMonster.freezeCd = m.freezeCd
+                    newMonster.slowCd = m.slowCd
+                    newMonster.dead = 0
+                    //add monster to array
+                    monsters.push(newMonster)
+                    stage.addChild(newMonster)
+                }
+            }
+            break;
     }
 }
 
@@ -1904,7 +1971,7 @@ function grid() {
             hitsT[9][i][j].graphics.beginFill("#f00").drawRect(832+32*i,
                 32*j,32,32);
             hitsT[9][i][j].alpha=0.01;
-            hitsT[9][i][j].coord=[704+32*i,128+32*j];
+            hitsT[9][i][j].coord=[832+32*i,32*j];
             hitsT[9][i][j].pt=[9,i,j];
             hitsT[9][i][j].on("mouseover", buildTower);
             hitsT[9][i][j].on("mouseout", buildTower);
