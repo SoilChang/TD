@@ -121,8 +121,7 @@ Template.gameTab.events({
 	},
 	'mouseleave #c-game-closeButton': function(){
 		$('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
-	},
-
+	},  
 	'click #pauseBtn': function() {
         if (checkGG==0) {
             togglePause();
@@ -156,6 +155,7 @@ Template.gameTab.events({
         $('#btmMenu').animate({top:'480'},1000);
         clearStage();
         menu();
+        $('.towerBtn').removeClass('selected');  
     }
 
 });
@@ -171,6 +171,11 @@ Template.gameTab.helpers({
 });
 
 Template.gameTab.onRendered(function() {
+    $('.towerBtn').click(
+        function(){
+        $('.towerBtn').removeClass('selected');
+        $(this).addClass('selected');
+    })
 	$('#c-game-left_hand_menu').css({'left':'180px', 'height':'540px'});
     $('#btmMenu').css({'top':'480px'});
 	//$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
@@ -494,7 +499,7 @@ function newGame() {
 };
 
 function currentGame() {
-    stage.addChild(castle);
+    document.getElementById('pauseBtn').value = 'Play';
 
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
@@ -521,22 +526,18 @@ function currentGame() {
     if (shots) {
         addition(shots);
     };
-    if (wave!=0) {
-        document.getElementById('pauseBtn').value = 'Play';
-        stage.addChild(pScreen);
-    } else {
-        stage.enableMouseOver();
-    };
+
+
+    stage.enableMouseOver(0);
+    stage.addChild(castle);
+    stage.addChild(pScreen);
 
     stage.update();
-
 };
 
 function continueGame() {
-    stage.enableMouseOver(0);
     gameData('saved');
 
-    stage.addChild(castle)
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Play';
@@ -551,11 +552,11 @@ function continueGame() {
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
 
-    //stage.addChild(pScreen);
+    stage.enableMouseOver(0);
+    stage.addChild(castle)
+    stage.addChild(pScreen);
+
     stage.update();
 
 };
@@ -1508,6 +1509,7 @@ function clearStage() {
 function isOver() {
     gameRunning=0
     if (Meteor.user() !== null) {
+
         var d = new Date().toString().split(' ')
         var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
         var gameRecord = {
