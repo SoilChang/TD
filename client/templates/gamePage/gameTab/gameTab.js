@@ -39,7 +39,7 @@ heroI, lightTowerI, iceTowerI, //tower images
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
 towerData, towers, towerType, towerName, targetTower, towerNum,//tower variables
-monsterData, monsters, //monster variables
+monsterData, currentMonsters, monsters, //monster variables
 shots, //shots variables
 t1, t1i, t1a, t2, t2i, t2a, hoverTower, hoverGrid, hoverT,
 checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
@@ -49,7 +49,7 @@ checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
                  Game Data
 
 #########################################################################*/
-//castleData = {"hp":20, "armor":0,"attack":0,"regen":0}
+currentMonsters = {} //monster data for new game
 gameProgress = {} //saved game
 monsterData = {} //types of monsters
 towerData = {} //types of towers
@@ -70,6 +70,7 @@ coordinates = [
 function gameData(type) {
     switch (type) {
         case 'new' :
+            currentMonsters = monsterData
             monsters = [] //monsters on map
             shots = [] //shots on map
             towers = []   //towers currently on map
@@ -123,10 +124,13 @@ Template.gameTab.events({
 	},
 
 	'click #pauseBtn': function() {
-		togglePause();
-	},
-	'click #restartBtn': function(){
-		restart();
+        if (checkGG==0) {
+            togglePause();
+        } else {
+            clearStage();
+            newGame();
+            gameRunning = 0;
+        }
 	},
 	'click #rangeBtn': function(){
 		towerType=(towerType) ? false:true;
@@ -150,8 +154,7 @@ Template.gameTab.events({
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
-        createjs.Ticker.off("tick", gameTicker);
-        stage.removeAllChildren();
+        clearStage();
         menu();
     }
 
@@ -314,8 +317,14 @@ function menu() {
             $('#btmMenu').animate({top:'550px'},1000);
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
-            gameTicker = createjs.Ticker.on("tick", tick);
 
+            gameTicker = createjs.Ticker.on("tick", tick);    
+            stage.addChild(background)
+            grid(); //load grid onto map
+
+            // creates ticks
+            createjs.Ticker.setPaused(true);
+            createjs.Ticker.setFPS(20);
             if (event.target == c1) {
                 newGame();
             } 
@@ -462,9 +471,7 @@ function newGame() {
     health += hpBonus;
     castleText.text = health + '/' + maxHealth
 
-    stage.addChild(background)
     stage.addChild(castle)
-    grid(); //load grid onto map
     //line of creep path
     //path();
 
@@ -480,10 +487,6 @@ function newGame() {
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health;
     document.getElementById("cdTimer").innerHTML = (countDown/20);
-
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
 
     stage.update();
 };
@@ -521,12 +524,8 @@ function continueGame() {
 
 
 function currentGame() {
-    stage = new createjs.Stage("playingField");
 
-    stage.addChild(background);
     stage.addChild(castle);
-
-    grid();
 
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
@@ -911,7 +910,7 @@ function addMonster() {
 //add monster to canvas
 function cMonster(type,amt) {
     for (var i=0; i<amt; i++) {
-        var mtype = monsterData[type]
+        var mtype = currentMonsters[type]
         //hp appear above monster
         healthbar = new createjs.Bitmap(healthbarI)
         healthbar.sourceRect = new createjs.Rectangle(0,0,mtype["w"],3);
@@ -1442,33 +1441,36 @@ function nextWave() {
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
         if (wave%10 == 0) {
-            monsterData["mario"]["bounty"]+=1
-            monsterData["warrior"]["bounty"]+=1
-            monsterData["armored"]["bounty"]+=1
+            currentMonsters["mario"]["bounty"]+=1
+            currentMonsters["warrior"]["bounty"]+=1
+            currentMonsters["armored"]["bounty"]+=1
         }
         if (wave&15 == 0) {
-            monsterData["mario"]["damage"]+=1
-            monsterData["warrior"]["damage"]+=1
-            monsterData["armored"]["damage"]+=1
+            currentMonsters["mario"]["damage"]+=1
+            currentMonsters["warrior"]["damage"]+=1
+            currentMonsters["armored"]["damage"]+=1
 
         }
         if (wave%5 == 0) {
             cMonster("armored",10);
-            monsterData["armored"]["hp"]*=2.8
+            currentMonsters["armored"]["hp"]*=2.8
         }
         else if (wave%3 == 0) {
             cMonster("warrior",10);
-            monsterData["warrior"]["hp"]*=2
+            currentMonsters["warrior"]["hp"]*=2
         }
         else {
             cMonster("mario",10);
-            monsterData["mario"]["hp"]*=1.3
+            currentMonsters["mario"]["hp"]*=1.3
         }
     }
 }
 
 //toggle pause
 function togglePause() {
+    if (!gameRunning) {
+        gameRunning=1
+    }
     var paused = createjs.Ticker.getPaused();
     createjs.Ticker.setPaused(!paused);
     if (!paused) {
@@ -1500,13 +1502,15 @@ function stopAnimate(condition) {
     }
 }
 
-//restart
-function restart() {
-    document.location.reload();
+//remove canvas
+function clearStage() {
+    createjs.Ticker.off("tick", gameTicker);
+    stage.removeAllChildren();
 }
 
 //game over
 function isOver() {
+    gameRunning=0
     if (Meteor.user() !== null) {
         var d = new Date().toString().split(' ')
         var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
@@ -1525,7 +1529,11 @@ function isOver() {
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         newGame();
     } else {
-        togglePause();
+        createjs.Ticker.setPaused(true);
+        stopAnimate(true)
+        pScreen.getChildAt(1).text = "GAME OVER"
+        stage.addChild(pScreen)
+        document.getElementById('pauseBtn').value = 'Restart';
     }
 }
 
