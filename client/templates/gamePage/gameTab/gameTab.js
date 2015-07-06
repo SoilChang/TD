@@ -39,7 +39,7 @@ heroI, lightTowerI, iceTowerI, //tower images
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
 towerData, towers, towerType, towerName, targetTower, towerNum,//tower variables
-monsterData, monsters, //monster variables
+monsterData, currentMonsters, monsters, //monster variables
 shots, //shots variables
 t1, t1i, t1a, t2, t2i, t2a, hoverTower, hoverGrid, hoverT,
 checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
@@ -49,7 +49,7 @@ checkGG, ffCount, ffCounter, errorCD, countDown, lastMon, pScreen
                  Game Data
 
 #########################################################################*/
-//castleData = {"hp":20, "armor":0,"attack":0,"regen":0}
+currentMonsters = {} //monster data for new game
 gameProgress = {} //saved game
 monsterData = {} //types of monsters
 towerData = {} //types of towers
@@ -70,6 +70,7 @@ coordinates = [
 function gameData(type) {
     switch (type) {
         case 'new' :
+            currentMonsters = monsterData
             monsters = [] //monsters on map
             shots = [] //shots on map
             towers = []   //towers currently on map
@@ -120,13 +121,15 @@ Template.gameTab.events({
 	},
 	'mouseleave #c-game-closeButton': function(){
 		$('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
-	},
-
+	},  
 	'click #pauseBtn': function() {
-		togglePause();
-	},
-	'click #restartBtn': function(){
-		restart();
+        if (checkGG==0) {
+            togglePause();
+        } else {
+            clearStage();
+            newGame();
+            gameRunning = 0;
+        }
 	},
 	'click #rangeBtn': function(){
 		towerType=(towerType) ? false:true;
@@ -150,9 +153,9 @@ Template.gameTab.events({
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
-        createjs.Ticker.off("tick", gameTicker);
-        stage.removeAllChildren();
+        clearStage();
         menu();
+        $('.towerBtn').removeClass('selected');  
     }
 
 });
@@ -168,6 +171,11 @@ Template.gameTab.helpers({
 });
 
 Template.gameTab.onRendered(function() {
+    $('.towerBtn').click(
+        function(){
+        $('.towerBtn').removeClass('selected');
+        $(this).addClass('selected');
+    })
 	$('#c-game-left_hand_menu').css({'left':'180px', 'height':'540px'});
     $('#btmMenu').css({'top':'480px'});
 	//$('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
@@ -282,14 +290,14 @@ function menu() {
     c3.hitArea = over3;
 
     //to enable continue game
-    /*if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (localStorage.towerDefense !== undefinedMeteor.user().savedGame) {
+    if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
+        if (false) {//Meteor.user().savedGame) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
             c3.on('click',handleLine)
         }
-    }*/
+    }
 
     var ticking = createjs.Ticker.on("tick", stage);
 
@@ -314,7 +322,14 @@ function menu() {
             $('#btmMenu').animate({top:'550px'},1000);
             createjs.Ticker.off("tick", ticking);
             stage.removeAllChildren();
-            gameTicker = createjs.Ticker.on("tick", tick);
+
+            // creates ticks
+            gameTicker = createjs.Ticker.on("tick", tick); 
+            createjs.Ticker.setPaused(true);
+            createjs.Ticker.setFPS(20);   
+
+            stage.addChild(background)
+            grid(); //load grid onto map
 
             if (event.target == c1) {
                 newGame();
@@ -323,7 +338,8 @@ function menu() {
                 currentGame();
             }
             else if (event.target == c3) {
-                gameProgress = JSON.parse(localStorage.towerDefense)
+                gameProgress = Meteor.user().savedGame;
+                //JSON.parse(localStorage.towerDefense)
                 continueGame();
             }
         }
@@ -362,7 +378,6 @@ function imageload() {
     castleHp.src = "/images/gameImages/castleLifebar.png"
     castleHpI = new createjs.Bitmap(castleHp);
     castleHpI.y = -15
-    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     castleText = new createjs.Text(
         0 + "/" + 0 , "11px Arial", "#fff");
@@ -461,10 +476,9 @@ function newGame() {
     //update castle with equipment bonus
     health += hpBonus;
     castleText.text = health + '/' + maxHealth
+    castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
-    stage.addChild(background)
     stage.addChild(castle)
-    grid(); //load grid onto map
     //line of creep path
     //path();
 
@@ -481,52 +495,11 @@ function newGame() {
     document.getElementById("health").innerHTML = health;
     document.getElementById("cdTimer").innerHTML = (countDown/20);
 
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
-
     stage.update();
 };
-
-function continueGame() {
-    stage.enableMouseOver(0);
-    gameData('saved');
-
-    stage.addChild(background)
-    stage.addChild(castle)
-    grid();
-
-
-    //edit UI
-    document.getElementById('pauseBtn').value = 'Play';
-    document.getElementById("armor").innerHTML = armorBonus 
-    document.getElementById("bonus").innerHTML = attBonus
-    document.getElementById("regen").innerHTML = regenBonus
-
-    document.getElementById("score").innerHTML = score; 
-    document.getElementById("cash").innerHTML = cash;
-    document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health;
-    document.getElementById("cdTimer").innerHTML = 
-    ((countDown/20)<=0) ? 0 : (countDown/20);
-
-    // creates ticks
-    createjs.Ticker.setPaused(true);
-    createjs.Ticker.setFPS(20);
-
-    //stage.addChild(pScreen);
-    stage.update();
-
-};
-
 
 function currentGame() {
-    stage = new createjs.Stage("playingField");
-
-    stage.addChild(background);
-    stage.addChild(castle);
-
-    grid();
+    document.getElementById('pauseBtn').value = 'Play';
 
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
@@ -549,17 +522,40 @@ function currentGame() {
     if (monsters) {
         addition(monsters);
         stopAnimate(true);
-    }
+    };
     if (shots) {
         addition(shots);
-    }
+    };
 
-    if (wave!=0) {
-        document.getElementById('pauseBtn').value = 'Play';
-        stage.addChild(pScreen);
-    } else {
-        stage.enableMouseOver();
-    }
+
+    stage.enableMouseOver(0);
+    stage.addChild(castle);
+    stage.addChild(pScreen);
+
+    stage.update();
+};
+
+function continueGame() {
+    gameData('saved');
+
+
+    //edit UI
+    document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById("armor").innerHTML = armorBonus 
+    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("regen").innerHTML = regenBonus
+
+    document.getElementById("score").innerHTML = score; 
+    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("wave").innerHTML = wave; 
+    document.getElementById("health").innerHTML = health;
+    document.getElementById("cdTimer").innerHTML = 
+    ((countDown/20)<=0) ? 0 : (countDown/20);
+
+
+    stage.enableMouseOver(0);
+    stage.addChild(castle)
+    stage.addChild(pScreen);
 
     stage.update();
 
@@ -704,9 +700,7 @@ function buildTower(event) {
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType) {
             if (towerType["cost"][0]<=cash) {
-                $(function() {
-                    $('.towerBtn').removeClass('selected');
-                });
+                $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
                 var newImage = new createjs.Bitmap(towerType["image"]);
@@ -764,9 +758,7 @@ function buildTower(event) {
 //handle tower info & upgrades
 function handleTower(event) {
     if (event.type=="click") {
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });
+        $('.towerBtn').removeClass('selected');
         towerType = false;
         towerName = false;
 
@@ -915,7 +907,7 @@ function addMonster() {
 //add monster to canvas
 function cMonster(type,amt) {
     for (var i=0; i<amt; i++) {
-        var mtype = monsterData[type]
+        var mtype = currentMonsters[type]
         //hp appear above monster
         healthbar = new createjs.Bitmap(healthbarI)
         healthbar.sourceRect = new createjs.Rectangle(0,0,mtype["w"],3);
@@ -988,7 +980,7 @@ function cAnimation() {
 function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
-        createjs.Ticker.setPaused(true);
+        clearStage();
     };
 
     if (!createjs.Ticker.getPaused()) {
@@ -1399,9 +1391,7 @@ function toggleAoe() {
     if (towers.length == 0) {
         towerType = false;
         towerName = false;
-        $(function() {
-            $('.towerBtn').removeClass('selected');
-        });        
+        $('.towerBtn').removeClass('selected');
     } else {
         for (var i=0;i<towers.length;i++) {
             if (towers[i]) {
@@ -1409,9 +1399,7 @@ function toggleAoe() {
                     towers[i].addChild(towers[i].aoe);
                 } else {
                     towerName = false;
-                    $(function() {
-                        $('.towerBtn').removeClass('selected');
-                    });
+                    $('.towerBtn').removeClass('selected');
                     towers[i].removeChild(towers[i].aoe);
                 }
             } else {
@@ -1450,33 +1438,36 @@ function nextWave() {
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
         if (wave%10 == 0) {
-            monsterData["mario"]["bounty"]+=1
-            monsterData["warrior"]["bounty"]+=1
-            monsterData["armored"]["bounty"]+=1
+            currentMonsters["mario"]["bounty"]+=1
+            currentMonsters["warrior"]["bounty"]+=1
+            currentMonsters["armored"]["bounty"]+=1
         }
         if (wave&15 == 0) {
-            monsterData["mario"]["damage"]+=1
-            monsterData["warrior"]["damage"]+=1
-            monsterData["armored"]["damage"]+=1
+            currentMonsters["mario"]["damage"]+=1
+            currentMonsters["warrior"]["damage"]+=1
+            currentMonsters["armored"]["damage"]+=1
 
         }
         if (wave%5 == 0) {
             cMonster("armored",10);
-            monsterData["armored"]["hp"]*=2.8
+            currentMonsters["armored"]["hp"]*=2.8
         }
         else if (wave%3 == 0) {
             cMonster("warrior",10);
-            monsterData["warrior"]["hp"]*=2
+            currentMonsters["warrior"]["hp"]*=2
         }
         else {
             cMonster("mario",10);
-            monsterData["mario"]["hp"]*=1.3
+            currentMonsters["mario"]["hp"]*=1.3
         }
     }
 }
 
 //toggle pause
 function togglePause() {
+    if (!gameRunning) {
+        gameRunning=1
+    }
     var paused = createjs.Ticker.getPaused();
     createjs.Ticker.setPaused(!paused);
     if (!paused) {
@@ -1508,14 +1499,17 @@ function stopAnimate(condition) {
     }
 }
 
-//restart
-function restart() {
-    document.location.reload();
+//remove canvas
+function clearStage() {
+    createjs.Ticker.off("tick", gameTicker);
+    stage.removeAllChildren();
 }
 
 //game over
 function isOver() {
+    gameRunning=0
     if (Meteor.user() !== null) {
+
         var d = new Date().toString().split(' ')
         var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
         var gameRecord = {
@@ -1533,7 +1527,11 @@ function isOver() {
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         newGame();
     } else {
-        togglePause();
+        createjs.Ticker.setPaused(true);
+        stopAnimate(true)
+        pScreen.getChildAt(1).text = "GAME OVER"
+        stage.addChild(pScreen)
+        document.getElementById('pauseBtn').value = 'Restart';
     }
 }
 
@@ -1860,7 +1858,7 @@ function grid() {
             hitsT[9][i][j].graphics.beginFill("#f00").drawRect(832+32*i,
                 32*j,32,32);
             hitsT[9][i][j].alpha=0.01;
-            hitsT[9][i][j].coord=[704+32*i,128+32*j];
+            hitsT[9][i][j].coord=[832+32*i,32*j];
             hitsT[9][i][j].pt=[9,i,j];
             hitsT[9][i][j].on("mouseover", buildTower);
             hitsT[9][i][j].on("mouseout", buildTower);
