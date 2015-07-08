@@ -338,6 +338,20 @@ function menu() {
     c3.addChild(line3,blueArrow3)
     stage.addChild(c1,c2,c3)
     stage.update() 
+    function animateGame() {
+        $('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
+        $('#btmMenu').animate({top:'550px'},1000);
+        createjs.Ticker.off("tick", ticking);
+        stage.removeAllChildren();
+
+        // creates ticks
+        gameTicker = createjs.Ticker.on("tick", tick); 
+        createjs.Ticker.setPaused(true);
+        createjs.Ticker.setFPS(20);   
+
+        stage.addChild(background)
+        grid(); //load grid onto map             
+    }
 
     function handleLine(event) {
         if (event.type == "mouseover") {
@@ -350,29 +364,23 @@ function menu() {
             event.target.addChild(event.target.blue)
         }
         if (event.type == 'click') {
-            $('#c-game-left_hand_menu').animate({left:'0px',height:'610'},1000);
-            $('#btmMenu').animate({top:'550px'},1000);
-            createjs.Ticker.off("tick", ticking);
-            stage.removeAllChildren();
-
-            // creates ticks
-            gameTicker = createjs.Ticker.on("tick", tick); 
-            createjs.Ticker.setPaused(true);
-            createjs.Ticker.setFPS(20);   
-
-            stage.addChild(background)
-            grid(); //load grid onto map
-
             if (event.target == c1) {
+                animateGame();
                 newGame();
             } 
             else if (event.target == c2) {
+                animateGame();
                 currentGame();
             }
             else if (event.target == c3) {
-                gameProgress = Meteor.user().savedGame;
-                //JSON.parse(localStorage.towerDefense)
-                continueGame();
+                if (Meteor.user() !== null) {
+                    animateGame();
+                    gameProgress = Meteor.user().savedGame;
+                    continueGame();                    
+                } else {   
+                    alert('Please sign in to load saved game')                 
+                    //JSON.parse(localStorage.towerDefense)
+                }
             }
         }
     }
@@ -569,10 +577,7 @@ function currentGame() {
 
     stage.update();
 };
-var output
-var c5 = false
 function continueGame() {
-    c5 = true
     gameData('saved');
 
     creation('tower')
@@ -598,15 +603,7 @@ function continueGame() {
     stage.addChild(castle)
     stage.addChild(pScreen);
 
-    output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
-    output.lineHeight = 15;
-    output.textBaseline = "top";
-    output.x = 250;
-    output.y = 2
-
-
     stage.update();
-
 };
 
 function saving() {
@@ -1072,13 +1069,6 @@ function tick(event) {
             }
         }
     };
-
-    if (c5==true) {
-        time = Math.round(createjs.Ticker.getTime(true)/100)/10
-        output.text = "Paused = "+createjs.Ticker.getPaused()+"\n"+
-            "Time = "+ time + "\n" 
-
-    }
 
     stage.update(event); // important!!
 };
