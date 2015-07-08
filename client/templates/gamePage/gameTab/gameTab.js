@@ -595,8 +595,8 @@ function continueGame() {
     output = stage.addChild(new createjs.Text("", "14px monospace", "#000"));
     output.lineHeight = 15;
     output.textBaseline = "top";
-    output.x = 10;
-    output.y = stage.canvas.height-output.lineHeight*4-10;
+    output.x = 250;
+    output.y = 2
 
 
     stage.update();
@@ -1070,7 +1070,7 @@ function tick(event) {
     if (c5==true) {
         time = Math.round(createjs.Ticker.getTime(true)/100)/10
         output.text = "Paused = "+createjs.Ticker.getPaused()+"\n"+
-            "Time = "+ time + "\n" + monsters[0].currentHp + '/' + monsters[0].maxHp
+            "Time = "+ time + "\n" 
 
     }
 
@@ -1202,10 +1202,8 @@ function monsterMovement() {
             }
         }
         //monster attacks castle
-        else { 
-            console.log('elseeeeeee')
+        else {
             if (!mob.dead) {
-                console.log('monster dead')
                 if ((mob.damage-armorBonus)<=0){
 
                 } else {
@@ -1407,7 +1405,6 @@ function shotsSplash(shot) {
             monsters[i].x <= (hitX+rangeX) &&
             hitY <= (monsters[i].y+monsters[i].h) &&
             monsters[i].y <= (hitY+rangeY)) {
-
             monsters[i].currentHp -= shot.damage;
             monsters[i].getChildAt(0).sourceRect = 
             new createjs.Rectangle(0,0,monsters[i]
@@ -1655,7 +1652,7 @@ function creation(type) {
                     newTower.coord = [t.x,t.y];
                     newTower.on("click", handleTower); 
                     newTower.splash = tData["splash"][t.level];
-                    if (towerName == "iceTower") {
+                    if (t.name == "iceTower") {
                         newTower.slow = tData["slow"][t.level];
                         newTower.slowDuration = tData["slowDuration"][t.level];
                     }
