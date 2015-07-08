@@ -110,20 +110,24 @@ function gameData(type) {
 
             for (var i=2;i<=wave;i++) {
                 if (i%10 == 0) {
+
                     monsterData["mario"]["bounty"]+=1
                     monsterData["warrior"]["bounty"]+=1
                     monsterData["armored"]["bounty"]+=1
                 }
-                if (i&15 == 0) {
+                if (i%5 == 0) {
                     monsterData["mario"]["damage"]+=1
                     monsterData["warrior"]["damage"]+=1
                     monsterData["armored"]["damage"]+=1
-
-                }
-                if (i%5 == 0) {
+                    if (i==5) {
+                        continue
+                    }
                     monsterData["armored"]["hp"]*=2.8
                 }
                 else if (i%3 == 0) {
+                    if (i==3) {
+                        continue
+                    }
                     monsterData["warrior"]["hp"]*=2
                 }
                 else {
@@ -153,8 +157,8 @@ Template.gameTab.events({
             togglePause();
         } else {
             clearStage();
+            setNewGame();
             newGame();
-            gameRunning = 0;
         }
 	},
 	'click #rangeBtn': function(){
@@ -165,7 +169,8 @@ Template.gameTab.events({
 		nextWave();
 	},
     'click #ffBtn': function(){
-        ff();
+        health-=1
+        //ff();
     },
 	'click #iceBtn': function(){
 		buyTower('iceTower');
@@ -514,7 +519,7 @@ function newGame() {
     gameData('new');//load game data
 
     //update castle with equipment bonus
-    health += hpBonus;
+    health=1//health += hpBonus;
     castleText.text = health + '/' + maxHealth
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
@@ -676,10 +681,6 @@ function power(type) {
         }   
     }
 }
-
-
-
-
 
 /*#########################################################################
 
@@ -1063,10 +1064,7 @@ function tick(event) {
         if (health==0) {
             document.getElementById('health').innerHTML = 0;
             checkGG++;
-            if (checkGG==1) {
-                isOver();
-                checkGG++;
-            }
+            isOver();
         }
     };
 
@@ -1507,13 +1505,10 @@ function nextWave() {
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
         }
-        if (wave&15 == 0) {
+        if (wave%5 == 0) {
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
-
-        }
-        if (wave%5 == 0) {
             cMonster("armored",10);
             monsterData["armored"]["hp"]*=2.8
         }
@@ -1565,12 +1560,6 @@ function stopAnimate(condition) {
     }
 }
 
-//remove canvas
-function clearStage() {
-    createjs.Ticker.off("tick", gameTicker);
-    stage.removeAllChildren();
-}
-
 //game over
 function isOver() {
     gameRunning=0
@@ -1591,6 +1580,8 @@ function isOver() {
         Meteor.call('pushRanking', gameRecord);
     };
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
+        clearStage();
+        setNewGame();
         newGame();
     } else {
         createjs.Ticker.setPaused(true);
@@ -1606,6 +1597,22 @@ function isOver() {
                  Behind the Game 
 
 #########################################################################*/
+//remove canvas
+function clearStage() {
+    createjs.Ticker.off("tick", gameTicker);
+    stage.removeAllChildren();
+}
+//set up new game
+function setNewGame() {
+    gameTicker = createjs.Ticker.on("tick", tick); 
+    createjs.Ticker.setPaused(true);
+    createjs.Ticker.setFPS(20);   
+
+    stage.addChild(background)
+    grid(); //load grid onto map 
+
+    pScreen.getChildAt(1).text = "GAME PAUSED"
+}
 
 //adds image back to canvas
 function addition(arrays) {
