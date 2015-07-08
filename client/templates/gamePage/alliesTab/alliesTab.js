@@ -18,6 +18,32 @@ Template.alliesTab.onRendered(function(){
 		});
 		$("#scrollPaper").animate({width:'830px'},1000);		
 	});
+
+	$("#followingPanel").click(function(){
+		$("#followingBox").show();
+		$("#followerBox").hide();
+		$("#friendBox").hide();
+	});
+	$("#followerPanel").click(function(){
+		$("#followingBox").hide();
+		$("#followerBox").show();
+		$("#friendBox").hide();
+	});
+
+
+	$("#seeFriend").hover(function(){
+		$("#seeFriend").css({"cursor":"pointer"});
+		$("#seeFriend").click(function(){
+			$("#followingBox").hide();
+			$("#followerBox").hide();
+			$("#friendBox").show();
+		});
+	},
+	function(){
+		// set nothing here
+	});
+	
+	
 });
 
 
@@ -60,6 +86,24 @@ Template.alliesTab.events({
 
 		Meteor.call('pushMessage',message);
 	},
+
+	'click #followUser':function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			alert("Log In to unfollow other users");
+			return;
+		}
+		Meteor.call("followUser",this._id);
+	},
+
+	"click #unfollowUser":function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			alert("Log In to follow other users");
+			return;
+		}
+		Meteor.call("unfollowUser",this._id);
+	},
+
+	
 })
 
 
@@ -67,5 +111,35 @@ Template.alliesTab.events({
 Template.alliesTab.helpers({
 	loadMessage: function(){
 		return ChatMessage.find({},{sort: {date:-1}, limit:20});
+	},
+
+	findAllUser:function(){
+		return Meteor.users.find({_id:{$not:Meteor.userId()}});
+	},
+
+	findFollowing:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return;
+		}else{
+			return Meteor.users.find({_id:{$in:Meteor.user().following, $nin:Meteor.user().followers}});
+		}
+	},
+
+	findFollowers:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return;
+		}else{
+			return Meteor.users.find({_id:{$in:Meteor.user().followers,$nin:Meteor.user().following}});
+		}
+	},
+
+	loadFriends:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return;
+		}else{
+			return Meteor.users.find({_id:{$in:Meteor.user().followers, $in:Meteor.user().following}});
+		}
 	}
+
+
 });

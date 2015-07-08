@@ -84,23 +84,13 @@
 	z-index: 5;
 }
 
-#followers{
-	position: absolute;
-	width: 240px;
-	height:470px;
-	margin-left: 0px;
-	background-color:rgba(204, 102, 0,0.5);
-	border:solid #CC6600 2px;
-	border-radius: 5px;
-	overflow-x:hidden;
-	overflow-y:hidden;
-}
 
-#following{
+
+#friends{
 	position: absolute;
-	width: 240px;
+	width: 300px;
 	height:470px;
-	margin-left: 250px;
+	
 	background-color: rgba(255, 153, 0, 0.5);
 	border:solid #B85C00 2px;
 	border-radius: 5px;
@@ -119,16 +109,25 @@
 	overflow-y:auto;
 }
 
-#followersBox{
+#friendBox{
 	position: absolute;
 	margin-top: 0px;
-	width: 240px;
+	width: 300px;
 	height: 400px;
 }
+
 
 #followingBox{
 	position: absolute;
 	margin-top: 0px;
-	width: 240px;
+	width: 300px;
 	height: 400px;
 }
+
+#followerBox{
+	position: absolute;
+	margin-top: 0px;
+	width: 300px;
+	height: 400px;
+}
+

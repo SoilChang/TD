@@ -38,28 +38,69 @@
 
 		<div id="chatConfig">
 			<!-- first session -->
-			<div id="followers">
-				<h3 style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Followers</h3>
+			<div id="friends">
+				<h3 id="seeFriend" style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Friends</h3>
 				<hr>
-				<div id="followersBox">
-					
+
+
+				<button id="followingPanel" style="width:145px;">Following</button>
+				<button id="followerPanel" style="width:145px;">Followers</button>
+
+				<!-- display friends -->
+				<div id="friendBox" >
+				<p>Your friends:</p>
+					<ul>
+						{{#each loadFriends}}
+							<li>
+							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}</p>
+							<input id="unfollowUser" type="submit" name="unfollowUser" value="unfollow" style="display:inline-block; width:70px;">
+						</li>
+						{{/each}}
+					</ul>
 				</div>
+
+				<!-- display following -->
+				<div id="followingBox" style="display:none;" >
+				<p>People you follow</p>
+					<ul>
+						{{#each findFollowing}}
+						<li>
+							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}</p>
+							<input id="unfollowUser" type="submit" name="unfollowUser" value="unfollow" style="display:inline-block; width:70px;">
+						</li>	
+						{{/each}}
+					</ul>
+				</div>
+
+				<!-- display followers -->
+				<div id="followerBox" style="display:none;">
+				<p>Peoplw who follow you</p>
+					<ul>
+						{{#each findFollowers}}
+						<li>
+							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}</p>
+							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:70px;">
+						</li>	
+						{{/each}}
+					</ul>
+				</div>
+
 			</div>
 
-			<!-- second session -->
-			<div id="following">
-				<h3 style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Following</h3>
-				<hr>
-				<div id="followingBox">
-					
-				</div>
-			</div>
-
-			<!-- 3rd session -->
+			<!-- 2nd session -->
 			<div id="inbox">
 				<h3 style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Control Panel</h3>
 				<hr>
-				<div></div>
+				<div style="height:200px; overflow-y:auto; overflow-x:hidden;">
+					<ul>
+						{{#each findAllUser}}
+						<li>
+							<p style="display:inline-block; width:150px; font-size:15px; color:white;">{{username}}</p>
+							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:50px;">
+						</li>	
+						{{/each}}
+					</ul>
+				</div>
 			</div>
 
 		</div>

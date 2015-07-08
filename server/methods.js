@@ -126,5 +126,19 @@ Meteor.methods({
 		}
 
 	},
+
+	"followUser":function(identity){
+		check(identity, String);
+
+		Meteor.users.update( {_id:Meteor.userId()} , {$addToSet: {following: identity} } );
+		Meteor.users.update({_id:identity}, {$addToSet:{followers:Meteor.userId()}});
+	},
+
+	"unfollowUser":function(identity){
+		check(identity, String);
+
+		Meteor.users.update( {_id:Meteor.userId()} , {$pull: {following: identity} } );
+		Meteor.users.update( {_id:identity}, {$pull: {followers:Meteor.userId() }});
+	}
 	
 });
