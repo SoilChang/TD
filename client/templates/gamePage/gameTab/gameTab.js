@@ -511,6 +511,8 @@ function newGame() {
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Start'
+    document.getElementById('ffBtn').value = '1x';
+
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
     document.getElementById("regen").innerHTML = regenBonus
@@ -526,6 +528,7 @@ function newGame() {
 
 function currentGame() {
     document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById('ffBtn').value = '1x';
 
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
@@ -571,6 +574,8 @@ function continueGame() {
 
     //edit UI
     document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById('ffBtn').value = '1x';
+    
     document.getElementById("armor").innerHTML = armorBonus 
     document.getElementById("bonus").innerHTML = attBonus
     document.getElementById("regen").innerHTML = regenBonus
