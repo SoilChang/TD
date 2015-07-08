@@ -182,6 +182,12 @@ Template.gameTab.events({
         clearStage();
         menu();
         $('.towerBtn').removeClass('selected');  
+    },
+    'click #upgradeBtn': function() {
+        upgradeTower();
+    },
+    'click #sellBtn': function() {
+        sellTower();
     }
 
 });
@@ -864,9 +870,9 @@ function updateInfo(tower) {
     "Atk Spd: " + tower.maxCd/20 + " --> " +  
     towerData[tower.name]["cd"][tower.level]/20 + "<br>" +
     effect +
-    "<input type='button' value='Upgrade' onclick='upgradeTower()'>" + 
+    "<input type='button' value='Upgrade' id='upgradeBtn'>" + 
     towerData[tower.name]["cost"][tower.level] + "<br>" +
-    "<input type='button' value='Sell' onclick='sellTower()'>" +
+    "<input type='button' value='Sell' id='sellBtn'>" +
     sellPrice
 
     : "Lvl: " + tower.level + "<br>" +
@@ -876,7 +882,7 @@ function updateInfo(tower) {
     "Atk Spd: " + tower.maxCd/20 + "<br>" +
     effect +
     "Max level" + "<br>" +
-    "<input type='button' value='Sell' onclick='sellTower()'>" +
+    "<input type='button' value='Sell' id='sellBtn'>" +
     sellPrice
 };
 
