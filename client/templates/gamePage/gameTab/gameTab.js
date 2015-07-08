@@ -954,17 +954,17 @@ function addMonster() {
     //mario
     monsterData["mario"] =
     {"image":marioI, "w": 21, "h": 40, 
-    "speed":3, "hp":10, "bounty":2, "damage":1}
+    "speed":3, "hp":10, "bounty":2, "damage":2}
 
     //warrior
     monsterData["warrior"] =
     {"image":warriorI, "w": 24, "h": 31, 
-    "speed":6, "hp":6, "bounty":2, "damage":1}
+    "speed":6, "hp":6, "bounty":2, "damage":2}
 
     //armored
     monsterData["armored"] =
     {"image":armoredI, "w": 32, "h": 35, 
-    "speed":2, "hp":20, "bounty":2, "damage":1}
+    "speed":2, "hp":20, "bounty":2, "damage":2}
 }
 
 
