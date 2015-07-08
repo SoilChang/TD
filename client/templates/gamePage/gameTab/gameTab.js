@@ -31,14 +31,15 @@ gameRunning = 0;
 //#########################################################################
 var gameTicker, stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
 gameProgress, cash, score, health, maxHealth,
-coordinates, time, castleData, origin, wave, //game stats
+coordinates, castleData, wave, //game stats
 s1, s2, s3,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
+castleHitI, castleHit, //added animations
 heroI, lightTowerI, iceTowerI, //tower images
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
-towerData, towers, towerType, towerName, targetTower, towerNum,//tower variables
+towerData, towers, towerType, towerName, targetTower,//tower variables
 monsterData, monsters, //monster variables
 shots, //shots variables
 t1, t1i, t1a, t2, t2i, t2a, hoverTower, hoverGrid, hoverT,
@@ -169,8 +170,7 @@ Template.gameTab.events({
 		nextWave();
 	},
     'click #ffBtn': function(){
-        health-=1
-        //ff();
+        ff();
     },
 	'click #iceBtn': function(){
 		buyTower('iceTower');
@@ -435,6 +435,22 @@ function imageload() {
     castle.x = 320;
     castle.y = 192;
 
+    //castle hit
+    castleHitI = new Image();
+    castleHitI.src = "/images/gameImages/castleHit.png"
+    castleHit = new createjs.Bitmap(castleHitI);
+    castleHit.x = 368;
+    castleHit.y = 208;
+    castleHit.cd = -1;
+
+    //castle block
+    castleBlockI = new Image();
+    castleBlockI.src = "/images/gameImages/castleBlock.png"
+    castleBlock = new createjs.Bitmap(castleBlockI);
+    castleBlock.x = 368;
+    castleBlock.y = 208;
+    castleBlock.cd = -1;
+
     //light tower
     lightTowerI = new Image();
     lightTowerI.src = "/images/gameImages/light_tower.png";
@@ -468,6 +484,9 @@ function imageload() {
     //hp image
     healthbarI = new Image();
     healthbarI.src = "/images/gameImages/lifebar.png";
+
+    //monster killed
+
 
     //mario
     s1 = {
@@ -519,7 +538,7 @@ function newGame() {
     gameData('new');//load game data
 
     //update castle with equipment bonus
-    health=1//health += hpBonus;
+    health += hpBonus;
     castleText.text = health + '/' + maxHealth
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
@@ -616,7 +635,6 @@ function saving() {
     gameProgress['cash'] = cash;
     gameProgress['health'] = health;
     gameProgress['wave'] = wave;
-    gameProgress['towerNum'] = towerNum;
     gameProgress['countDown'] = countDown;
 
     gameProgress['tower'] = [];
@@ -625,6 +643,10 @@ function saving() {
 
     if (towers!=false) {
         for (var i=0;i<towers.length;i++) {
+            if (towers[i]==false) {
+                gameProgress['tower'].push(false)
+                continue
+            }
             var tObj = {}
             tObj.name = towers[i].name
             tObj.x = towers[i].x
@@ -959,7 +981,7 @@ function addMonster() {
     //warrior
     monsterData["warrior"] =
     {"image":warriorI, "w": 24, "h": 31, 
-    "speed":6, "hp":6, "bounty":2, "damage":2}
+    "speed":5, "hp":6, "bounty":2, "damage":2}
 
     //armored
     monsterData["armored"] =
@@ -1058,6 +1080,7 @@ function tick(event) {
             shotsHit();//check for collison
             shotsMovement();//controls movement of shots fired
         };
+        //extraAnimate(); // adds extra animation
         monsterMovement();//controls monster movement
 
 
@@ -1199,9 +1222,12 @@ function monsterMovement() {
         else {
             if (!mob.dead) {
                 if ((mob.damage-armorBonus)<=0){
-
+                    //castleBlock.cd = 5
+                    //stage.addChild(castleBlock)
                 } else {
                     health-=(mob.damage-armorBonus);
+                    //castleHit.cd = 5
+                    //stage.addChild(castleHit)
                 }
                 document.getElementById("health").innerHTML = health;
                 castleText.text = health + "/" + maxHealth
@@ -1240,6 +1266,24 @@ function monsterEffect() {
         }
     }
 }
+
+//extra animations
+function extraAnimate() {
+    if (castleHit.cd>0) {
+        castleHit.cd--
+    } 
+    else if (castleHit.cd==0) {
+        stage.removeChild(castleHit)
+        castleHit--
+    };
+    if (castleBlock.cd>0) {
+        castleBlock.cd--
+    } 
+    else if (castleBlock.cd==0) {
+        stage.removeChild(castleBlock)
+        castleBlock--
+    };
+};
 
 //check if monster is dead
 function isDead(index) {
@@ -1628,6 +1672,10 @@ function creation(type) {
             if (tTrack!=false) {
                 for (var i=0;i<tTrack.length;i++) {
                     var t = tTrack[i]
+                    if (t==false) {
+                        towers.push(false)
+                        continue
+                    }
                     var tbg = t.bg
                     var tData = towerData[t.name]
                     hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
