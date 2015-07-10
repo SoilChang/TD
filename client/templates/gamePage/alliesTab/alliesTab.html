@@ -66,6 +66,7 @@
 						{{#each findFollowing}}
 						<li>
 							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}</p>
+							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{profile.name}}</p>
 							<input id="unfollowUser" type="submit" name="unfollowUser" value="unfollow" style="display:inline-block; width:70px;">
 						</li>	
 						{{/each}}
@@ -74,11 +75,12 @@
 
 				<!-- display followers -->
 				<div id="followerBox" style="display:none;">
-				<p>Peoplw who follow you</p>
+				<p>People who follow you</p>
 					<ul>
 						{{#each findFollowers}}
 						<li>
 							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}</p>
+							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{profile.name}}</p>
 							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:70px;">
 						</li>	
 						{{/each}}
@@ -96,6 +98,7 @@
 						{{#each findAllUser}}
 						<li>
 							<p style="display:inline-block; width:150px; font-size:15px; color:white;">{{username}}</p>
+							<p style="display:inline-block; width:150px; font-size:15px; color:white;">{{profile.name}}</p>
 							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:50px;">
 						</li>	
 						{{/each}}

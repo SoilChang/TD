@@ -108,10 +108,10 @@ Meteor.methods({
 		Ranking.insert(record);
 
 		// pull out the worse record after comparing
-		if(Ranking.find({createdBy: Metoer.userId()}).count === 11){
+		if(Ranking.find({createdBy: Meteor.userId()}).count === 11){
 			Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
 			var lowestScore = list[9].score;
-			Ranking.remove({createeBy: Metoer.userId(), score: lowestScore});
+			Ranking.remove({createeBy: Meteor.userId(), score: lowestScore});
 		} 
 	},
 

@@ -20,3 +20,5 @@ email
 audit-argument-checks
 mrt:facebook-sdk
 sorenpeterson:createjs
+sanjo:jasmine
+velocity:html-reporter
