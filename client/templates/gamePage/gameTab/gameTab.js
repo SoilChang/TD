@@ -42,6 +42,7 @@ healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
 towerData, towers, towerType, towerName, targetTower,//tower variables
 monsterData, monsters, monsterDead,//monster variables
 shots, //shots variables
+powerFreeze, //power cooldowns
 t1, t1i, t1a, t2, t2i, t2a, hoverTower, hoverGrid, hoverT,
 checkGG, ffCount, errorCD, countDown, lastMon, pScreen
 
@@ -75,6 +76,7 @@ function gameData(type) {
             monsterDead = [] //animation when monster die
             shots = [] //shots on map
             towers = []   //towers currently on map
+            powerFreeze = 0 //cooldown of power
             score = 0;
             health = maxHealth;
             cash = 40;
@@ -95,6 +97,7 @@ function gameData(type) {
             monsterDead = []
             shots = []
             towers = []
+            powerFreeze = gameProgress['powerFreeze']
             score = gameProgress['score']
             health = gameProgress['health']
             cash = gameProgress['cash']
@@ -653,6 +656,8 @@ function saving() {
     gameProgress['wave'] = wave;
     gameProgress['countDown'] = countDown;
 
+    gameProgress['powerFreeze'] = powerFreeze;
+
     gameProgress['tower'] = [];
     gameProgress['monster'] = [];
     gameProgress['shot'] = [];
@@ -711,11 +716,18 @@ function saving() {
 function power(type) {
     if (!createjs.Ticker.getPaused()) {
         if (type == "freeze") {
-            for (var i=0;i<monsters.length;i++) {
-                monsters[i].speed=0
-                monsters[i].freezeCd = 60
+            if (powerFreeze==0) {
+                powerFreeze = 600
+                $('#freezePower').removeClass('selected')
+                $('#freezePower').addClass('cooldown')
+                for (var i=0;i<monsters.length;i++) {
+                    monsters[i].speed=0
+                    monsters[i].freezeCd = 60
+                }
+                stopAnimate(true);                
+            } else {                
+                error("Freeze on cooldown")
             }
-            stopAnimate(true);
         }   
     }
 }
@@ -1094,7 +1106,9 @@ function tick(event) {
             animateDead(); //animation when monster die            
         }
 
+        powerCd(); // cooldown for powers
         monsterEffect();//controls effect on monster
+
         towerAttacks();//check for tower attack
         if (shots!=false) {
             shotsHit();//check for collison
@@ -1138,6 +1152,16 @@ function timer() {
     else if (countDown>0) {
         countDown--;
         document.getElementById("cdTimer").innerHTML = Math.round(countDown/2)/10;
+    }
+}
+
+//power cooldown
+function powerCd() {
+    if (powerFreeze>1) {
+        powerFreeze--
+    } else if (powerFreeze==1) {
+        $('#freezePower').removeClass('cooldown')
+        powerFreeze--
     }
 }
 
