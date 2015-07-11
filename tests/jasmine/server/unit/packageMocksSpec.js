@@ -7090,7 +7090,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "6b616d67df1dd237d75ef3a4b8c321814e010d9f"
+                  "value": "f54827bff94566d6be33fd714ffa5d7412282095"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7214,7 +7214,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 0
+              "value": 2
             },
             "timeout": {
               "type": "constant",
@@ -7861,7 +7861,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "7aa56d23de5dc1b416aca193cf004c48a05bd60d"
+          "value": "6a8d00f30e423719c786e2d8070a3cfbb77c0172"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
@@ -9981,7 +9981,13 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function"
+              "type": "function",
+              "members": {
+                "displayName": {
+                  "type": "constant",
+                  "value": "rename"
+                }
+              }
             },
             "realpath": {
               "type": "function",
@@ -10134,7 +10140,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ";"
+              "value": ":"
             },
             "convertToStandardPath": {
               "type": "function"
