@@ -14,6 +14,6 @@ Template.leaderBoard.helpers({
 	},
 
 	personalRanking: function(){
-		return Ranking.find({createdBy: Meteor.userId()}, {sort: {score:-1}});
+		return Ranking.find({createdBy: Meteor.userId()}, {sort: {score:-1}, limit:10});
 	}
 });

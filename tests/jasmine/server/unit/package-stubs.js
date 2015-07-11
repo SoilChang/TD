@@ -7089,7 +7089,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "f54827bff94566d6be33fd714ffa5d7412282095"
+                  "value": "f098a530ded6975f89c618084d65e856eb180836"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7213,7 +7213,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 2
+              "value": 0
             },
             "timeout": {
               "type": "constant",
@@ -7860,11 +7860,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "6a8d00f30e423719c786e2d8070a3cfbb77c0172"
+          "value": "6cd2f0e5b54f74c3456778351fa1c335e0c95db3"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "ff5db987bf7b2b025561fcb3cae742d43703b691"
+          "value": "f01e67491ef3857b2ac2a2c44999b07f422d2a9f"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
@@ -9980,13 +9980,7 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function",
-              "members": {
-                "displayName": {
-                  "type": "constant",
-                  "value": "rename"
-                }
-              }
+              "type": "function"
             },
             "realpath": {
               "type": "function",
@@ -10139,7 +10133,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ":"
+              "value": ";"
             },
             "convertToStandardPath": {
               "type": "function"

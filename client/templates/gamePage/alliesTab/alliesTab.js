@@ -114,7 +114,7 @@ Template.alliesTab.helpers({
 	},
 
 	findAllUser:function(){
-		return Meteor.users.find({_id:{$not:Meteor.userId()}});
+		return Meteor.users.find({_id:{$not:Meteor.userId()}}  );
 	},
 
 	findFollowing:function(){
@@ -137,7 +137,9 @@ Template.alliesTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
-			return Meteor.users.find({_id:{$in:Meteor.user().followers, $in:Meteor.user().following}});
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$in:user.following}}] });
+			      
 		}
 	}
 
