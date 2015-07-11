@@ -163,6 +163,7 @@ Template.gameTab.events({
             clearStage();
             setNewGame();
             newGame();
+            $('.towerBtn').removeClass('selected');  
         }
 	},
 	'click #rangeBtn': function(){
@@ -570,6 +571,8 @@ function newGame() {
 
 
     //edit UI
+    $('.ff').removeClass('selected');  
+    $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Start'
 
     document.getElementById("armor").innerHTML = armorBonus 
@@ -586,6 +589,8 @@ function newGame() {
 };
 
 function currentGame() {
+    $('.ff').removeClass('selected');  
+    $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Play';
 
     document.getElementById("armor").innerHTML = armorBonus 
@@ -628,6 +633,8 @@ function continueGame() {
     creation('monster')
 
     //edit UI
+    $('.ff').removeClass('selected');  
+    $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Play';
     
     document.getElementById("armor").innerHTML = armorBonus 
@@ -1667,8 +1674,13 @@ function isOver() {
     gameRunning=0
     if (Meteor.user() !== null) {
 
-        var d = new Date().toString().split(' ')
-        var date = d[2]+'/'+d[1]+'/'+d[3]+'('+d[4]+')'
+        var d = new Date()
+        var actualTime = d.toString().split(' ')[4];
+        var day = d.getDate();
+        var mth = d.getMonth();
+        var year = d.getYear().toString();
+        var yr = year.slice(1,3);
+        var date = day+'-'+mth+'-'+yr+' '+'('+actualTime+')'
         var gameRecord = {
             createdBy: Meteor.userId(),
             warriorName: (Meteor.user().username) ? 
@@ -1680,7 +1692,16 @@ function isOver() {
 
         Meteor.call('gameOver', Meteor.userId());
         Meteor.call('pushRanking', gameRecord);
-    };
+
+        if (confirm("Game Over!!"+"\n"+
+            "Do you want to view the leaderboard?") == true) {  
+            clearStage();
+            Router.go('/leaderBoard');
+        } else { gameOverAlert(); }
+    } else { gameOverAlert(); }
+}
+
+function gameOverAlert() {
     if (confirm("Game Over!!"+"\n"+"Do you want to restart?") == true) {
         clearStage();
         setNewGame();
@@ -1692,6 +1713,7 @@ function isOver() {
         stage.addChild(pScreen)
         document.getElementById('pauseBtn').value = 'Restart';
     }
+
 }
 
 /*#########################################################################
