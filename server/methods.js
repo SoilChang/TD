@@ -75,13 +75,13 @@ Meteor.methods({
 	    /*  Let other method calls from the same client start running,
 	     without waiting for the email sending to complete.*/
 	    this.unblock();
-	    var trueIdentity = Meteor.user().services.facebook;
+	    var trueIdentity = Meteor.user().services.facebook.name+" "+Meteor.user().services.facebook.email;
 
 	    Email.send({
 	      to: 'im741314@gmail.com',
 	      from: feedback.email,
 	      subject: feedback.title,
-	      text: "True Identity: "+ trueIdentity +"     username:"+ feedback.name +"userId:"+ currentUserId+"   comments"+feedback.comments
+	      text: "True Identity: "+ trueIdentity +"   username:"+ feedback.name +" userId:"+ currentUserId+"   Message Details:"+feedback.title+" " +feedback.comments +" email: "+feedback.email
     	});
 
     	return true;
@@ -109,8 +109,8 @@ Meteor.methods({
 
 		// pull out the worse record after comparing
 		if(Ranking.find({createdBy: Meteor.userId()}).count === 11){
-			Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
-			var lowestScore = list[9].score;
+			var list = Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
+			var lowestScore = list[10].score;
 			Ranking.remove({createeBy: Meteor.userId(), score: lowestScore});
 		} 
 	},
