@@ -7090,7 +7090,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "f098a530ded6975f89c618084d65e856eb180836"
+                  "value": "08616ec35e872040910f03455602460d31f1348b"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7861,11 +7861,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "6cd2f0e5b54f74c3456778351fa1c335e0c95db3"
+          "value": "8d4a726ada56b315428fb59a729146dc4b904d1b"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "f01e67491ef3857b2ac2a2c44999b07f422d2a9f"
+          "value": "bbb86a79ed52e6a40162789f563b97fd4a64bf40"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
@@ -9981,7 +9981,13 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function"
+              "type": "function",
+              "members": {
+                "displayName": {
+                  "type": "constant",
+                  "value": "rename"
+                }
+              }
             },
             "realpath": {
               "type": "function",
@@ -10134,7 +10140,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ";"
+              "value": ":"
             },
             "convertToStandardPath": {
               "type": "function"
