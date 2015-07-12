@@ -1631,7 +1631,7 @@ function nextWave() {
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
         }
-        if (wave%7 ==0) {
+        if (wave%1 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3.2
         }
