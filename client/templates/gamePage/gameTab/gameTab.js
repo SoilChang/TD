@@ -1141,11 +1141,6 @@ function tick(event) {
         };
         monsterMovement();//controls monster movement
 
-
-        if (health<=0 && checkGG==0) {
-            checkGG++;
-            isOver();
-        }
     };
 
     stage.update(event); // important!!
@@ -1296,11 +1291,17 @@ function monsterMovement() {
                     health-=(mob.damage-armorBonus);
                     castleHit.cd = 5
                     stage.addChild(castleHit)
+                    document.getElementById("health").innerHTML = health;
+                    castleText.text = health + "/" + maxHealth
+                    castleHpI.sourceRect = 
+                    new createjs.Rectangle(0,0,health/maxHealth*64,10);
+
+                    //check if game over
+                    if (health<=0 && checkGG==0) {
+                        checkGG++;
+                        isOver();
+                    }
                 }
-                document.getElementById("health").innerHTML = health;
-                castleText.text = health + "/" + maxHealth
-                castleHpI.sourceRect = 
-                new createjs.Rectangle(0,0,health/maxHealth*64,10);
                 mob.dead++;
                 stage.removeChild(mob);
                 monsters.splice(i,1);
@@ -1694,6 +1695,12 @@ function stopAnimate(condition) {
 //game over
 function isOver() {
     gameRunning=0
+    var minWave = []
+    for (var i=0;i<monsters.length;i++) {
+        minWave.push(monsters[i].level)
+    }
+    wave = Math.min.apply(Math, minWave)-1
+
     if (Meteor.user() !== null) {
 
         var d = new Date()
