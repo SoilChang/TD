@@ -8,3 +8,8 @@
 	background-size: 100% auto;
 	z-index: 11;
 }
+
+table {
+	background-color: #2f4f4f;
+	color: white;
+}
