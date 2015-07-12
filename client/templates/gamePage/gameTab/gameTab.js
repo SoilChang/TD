@@ -516,9 +516,9 @@ function imageload() {
         images: ["/images/gameImages/mario.png"],
         frames: {width:21, height:40, count:32},
         animations: {
-            right:[0,7],
-            up:[8,15],
-            left:[16,23],
+            right:[0,7,'right',.6],
+            up:[8,15,'up',.7],
+            left:[16,23,'left',.6],
             down:[24,31,'down',.7]
         }
     };
@@ -529,10 +529,10 @@ function imageload() {
         images: ["/images/gameImages/DarkNut.png"],
         frames: {width:24, height:31, count:16},
         animations: {
-            right:[0,3],
-            up:[4,7],
-            left:[8,11],
-            down:[12,15]
+            right:[0,3,'right',.8],
+            up:[4,7,'up',.8],
+            left:[8,11,'left',.8],
+            down:[12,15,'down',.8]
         }
     };
     warriorI = new createjs.SpriteSheet(s2);
@@ -1061,7 +1061,7 @@ function cMonster(type,amt) {
         newMonster.w = mtype["w"]
         newMonster.h = mtype["h"] 
         newMonster.x = 96 - newMonster.w/2
-        newMonster.y = - newMonster.h - (amt-i-1)*newMonster.h*1.5
+        newMonster.y = - newMonster.h - i*newMonster.h*1.5
         newMonster.damage = mtype["damage"]
         newMonster.originSpeed = mtype["speed"]
         newMonster.speed = mtype["speed"]
@@ -1074,7 +1074,7 @@ function cMonster(type,amt) {
         //add monster to array
         monsters.push(newMonster)
         stage.addChild(newMonster)
-        if (i==0) {
+        if (i==amt-1) {
             lastMon = newMonster
         }
     }
@@ -1631,7 +1631,7 @@ function nextWave() {
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
         }
-        if (wave%1 ==0) {
+        if (wave%7 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3.2
         }
