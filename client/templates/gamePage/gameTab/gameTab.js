@@ -32,13 +32,13 @@ gameRunning = 0;
 var gameTicker, stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
 gameProgress, cash, score, health, maxHealth,
 coordinates, castleData, wave, //game stats
-s1, s2, s3,//monster sprites
+s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 castleHitI, castleHit, monsterKillI, //added animations
 heroI, lightTowerI, iceTowerI, //tower images
 itS, ice, ltS, light,
-healthbarI, healthbar, marioI, warriorI, armoredI,//monster images
+healthbarI, healthbar, marioI, warriorI, armoredI, wizardI,//monster images
 towerData, towers, towerType, towerName, targetTower,//tower variables
 monsterData, monsters, monsterDead,//monster variables
 shots, //shots variables
@@ -550,6 +550,19 @@ function imageload() {
     };
     armoredI = new createjs.SpriteSheet(s3); 
 
+    //wizard unit
+    s4 = {
+        images: ["/images/gameImages/fireDemon.png"],
+        frames: {width:31.7, height:45, count:16},
+        animations: {
+            right:[0,3,'right',.4],
+            up:[4,7,'up',.4],
+            down:[8,11,'down',.4],
+            left:[12,15,'left',.4]
+        }
+    };
+    wizardI = new createjs.SpriteSheet(s4); 
+
 };
 
 /*#########################################################################
@@ -1011,17 +1024,22 @@ function addMonster() {
     //mario
     monsterData["mario"] =
     {"image":marioI, "w": 21, "h": 40, 
-    "speed":3, "hp":10, "bounty":2, "damage":2}
+    "speed":3, "hp":10, "bounty":1, "damage":2}
 
     //warrior
     monsterData["warrior"] =
     {"image":warriorI, "w": 24, "h": 31, 
-    "speed":5, "hp":6, "bounty":2, "damage":2}
+    "speed":5, "hp":6, "bounty":1, "damage":2}
 
     //armored
     monsterData["armored"] =
     {"image":armoredI, "w": 32, "h": 35, 
-    "speed":2, "hp":20, "bounty":2, "damage":2}
+    "speed":2, "hp":20, "bounty":1, "damage":2}
+
+    //armored
+    monsterData["wizard"] =
+    {"image":wizardI, "w": 31.7, "h": 45, 
+    "speed":3, "hp":20, "bounty":1, "damage":3}
 }
 
 
@@ -1124,8 +1142,7 @@ function tick(event) {
         monsterMovement();//controls monster movement
 
 
-        if (health==0) {
-            document.getElementById('health').innerHTML = 0;
+        if (health<=0 && checkGG==0) {
             checkGG++;
             isOver();
         }
@@ -1614,19 +1631,24 @@ function nextWave() {
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
         }
-        if (wave%5 == 0) {
+        if (wave%1 ==0) {
+            cMonster("wizard",5)
+            monsterData['wizard']['hp']*=3.2
+        }
+        else if (wave%5 == 0) {
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
-            cMonster("armored",10);
+            monsterData["wizard"]["damage"]+=1
+            cMonster("armored",8);
             monsterData["armored"]["hp"]*=2.8
         }
         else if (wave%3 == 0) {
-            cMonster("warrior",10);
+            cMonster("warrior",6);
             monsterData["warrior"]["hp"]*=2
         }
         else {
-            cMonster("mario",10);
+            cMonster("mario",9);
             monsterData["mario"]["hp"]*=1.3
         }        
     }
