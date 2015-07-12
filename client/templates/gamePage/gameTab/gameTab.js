@@ -552,8 +552,8 @@ function imageload() {
 
     //wizard unit
     s4 = {
-        images: ["/images/gameImages/fireDemon.png"],
-        frames: {width:31.7, height:45, count:16},
+        images: ["/images/gameImages/fireWizard.png"],
+        frames: {width:32, height:45, count:16},
         animations: {
             right:[0,3,'right',.4],
             up:[4,7,'up',.4],
@@ -1038,7 +1038,7 @@ function addMonster() {
 
     //armored
     monsterData["wizard"] =
-    {"image":wizardI, "w": 31.7, "h": 45, 
+    {"image":wizardI, "w": 32, "h": 45, 
     "speed":3, "hp":20, "bounty":1, "damage":3}
 }
 
