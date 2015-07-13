@@ -1039,7 +1039,7 @@ function addMonster() {
     //armored
     monsterData["wizard"] =
     {"image":wizardI, "w": 32, "h": 45, 
-    "speed":3, "hp":20, "bounty":1, "damage":3}
+    "speed":3, "hp":20, "bounty":2, "damage":3}
 }
 
 
@@ -1631,12 +1631,12 @@ function nextWave() {
             monsterData["mario"]["bounty"]+=1
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
-            monsterData["wizard"]["bounty"]+=1
         }
         if (wave%7 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3.2
             monsterData["wizard"]["damage"]+=2
+            monsterData["wizard"]["bounty"]+=1
         }
         else if (wave%5 == 0) {
             monsterData["mario"]["damage"]+=1
