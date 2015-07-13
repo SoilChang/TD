@@ -17,3 +17,9 @@ table {
 .info {
 	text-shadow:1px 1px 0 rgba(255,255,0,1);font-weight:normal;color:#2D8C73;letter-spacing:0pt;word-spacing:1pt;font-size:20px;text-align:left;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
 }
+
+.ruleTabTable{
+	width: 800px;
+	border-radius: 5px;
+	border:2px black groove;
+}
