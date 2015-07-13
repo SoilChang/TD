@@ -1,7 +1,13 @@
 Accounts.onCreateUser(function(options,user) {
 	user.hpBonus = 0;
+	user.allyHp = 0;
+
 	user.armourBonus = 0;
+	user.allyArmour = 0;
+
 	user.attackBonus = 0;
+	user.allyAttack = 0;
+
 	user.gem = 100;
 	user.statusMessage = null;
 	user.equipped = [];
@@ -10,6 +16,7 @@ Accounts.onCreateUser(function(options,user) {
 	// the next two items are for adding friends
 	user.followers =[];
 	user.following = [];
+	user.ally = [];
 	if (options.profile)
     	user.profile = options.profile;
  	return user;

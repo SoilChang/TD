@@ -134,11 +134,66 @@ Meteor.methods({
 		Meteor.users.update({_id:identity}, {$addToSet:{followers:Meteor.userId()}});
 	},
 
+	"unfriend":function(identity){
+		check(identity, String);
+
+		// delete the ally
+		Meteor.users.update({_id: Meteor.userId()}, {$pull:{ally: identity}});
+
+		// unfollow the user
+		Meteor.users.update({_id: Meteor.userId()}, {$pull:{following: identity}});
+		Meteor.users.update({_id: Meteor.userId()}, {$pull:{followers: identity}});
+
+		// he also unfollows you
+		Meteor.users.update({_id:identity}, {$pull: {following:Meteor.userId() }});
+		Meteor.users.update({_id:identity}, {$pull: {followers:Meteor.userId() }});
+
+	},
+
 	"unfollowUser":function(identity){
 		check(identity, String);
 
 		Meteor.users.update( {_id:Meteor.userId()} , {$pull: {following: identity} } );
 		Meteor.users.update( {_id:identity}, {$pull: {followers:Meteor.userId() }});
+	},
+
+	"joinAlly":function(identity){
+		check(identity, String);
+		// pull out the array
+		var array = Meteor.user().ally;
+
+		// check for duplication
+		// for(var i = 0; i< array.length; i++){
+		// 	if(array[i] === identity)
+		// 		return;
+		// }
+
+		// incrase bonus
+		var object = Meteor.users.find({_id:identity}).fetch();
+		var hpPlus = Math.ceil(object[0].hpBonus*0.15);
+		var armourPlus = Math.ceil(object[0].armourBonus*0.15);
+		var attackPlus = Math.ceil(object[0].attackBonus*0.15);
+		Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:hpPlus, allyArmour:armourPlus, allyAttack:attackPlus }});
+
+
+		// add to set
+		array.push(identity);
+
+		// delete the 4th one if there is any
+		if(array.length === 4){
+			
+			// remove ally bonus
+			object = Meteor.users.find({_id: array[0]});
+			hpPlus = Math.ceil(object[0].hpBonus*0.15);
+			armourPlus = Math.ceil(object[0].armourBonus*0.15);
+			attackPlus = Math.ceil(object[0].attackBonus*0.15);
+			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
+
+			array.splice(0,1);
+		}
+		
+		// update
+		Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: array}});
 	}
 	
 });
