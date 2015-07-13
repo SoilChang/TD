@@ -160,7 +160,7 @@ Meteor.methods({
 	"joinAlly":function(identity){
 		check(identity, String);
 		// pull out the array
-		var array = Meteor.user().ally;
+		var ally = Meteor.user().ally;
 
 		// check for duplication
 		// for(var i = 0; i< array.length; i++){
@@ -177,23 +177,23 @@ Meteor.methods({
 
 
 		// add to set
-		array.push(identity);
+		ally.push(identity);
 
 		// delete the 4th one if there is any
-		if(array.length === 4){
+		if(ally.length === 4){
 			
 			// remove ally bonus
-			object = Meteor.users.find({_id: array[0]});
+			object = Meteor.users.find( {_id: ally[0]} ).fetch();
 			hpPlus = Math.ceil(object[0].hpBonus*0.15);
 			armourPlus = Math.ceil(object[0].armourBonus*0.15);
 			attackPlus = Math.ceil(object[0].attackBonus*0.15);
 			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 
-			array.splice(0,1);
+			ally.splice(0,1);
 		}
 		
 		// update
-		Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: array}});
+		Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: ally}});
 	}
 	
 });

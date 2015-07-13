@@ -141,7 +141,8 @@ Template.alliesTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
-			return Meteor.users.find({_id:{$in:Meteor.user().following, $nin:Meteor.user().followers}});
+			var user = Meteor.user();
+			return Meteor.users.find({$and: [{_id:{$in:user.following}}, {_id:{$nin:user.followers}}]});
 		}
 	},
 
@@ -149,7 +150,8 @@ Template.alliesTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
-			return Meteor.users.find({_id:{$in:Meteor.user().followers,$nin:Meteor.user().following}});
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$nin:user.following}}] });
 		}
 	},
 
