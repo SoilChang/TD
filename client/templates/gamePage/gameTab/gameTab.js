@@ -208,6 +208,12 @@ Template.gameTab.events({
     },
     'click #sellBtn': function() {
         sellTower();
+    },
+    'click #loadBtn': function() {
+        load();
+    },
+    'click #stopBtn': function() {
+        createjs.Sound.stop();
     }
 
 });
@@ -1039,7 +1045,7 @@ function addMonster() {
     //armored
     monsterData["wizard"] =
     {"image":wizardI, "w": 32, "h": 45, 
-    "speed":3, "hp":20, "bounty":2, "damage":3}
+    "speed":3, "hp":25, "bounty":2, "damage":3}
 }
 
 
@@ -1480,7 +1486,7 @@ function shotsMovement() {
         shotsRemoved.sort(function(a,b){return b-a});//sort descending order
         for (var i=0;i<shotsRemoved.length;i++) {
             stage.removeChild(shots[shotsRemoved[i]])
-            shots.splice(i,1)
+            shots.splice(shotsRemoved[i],1)
         }
     }
 };
@@ -2145,4 +2151,29 @@ function grid() {
     };
 };
 
+/*#########################################################################
 
+                 Sound 
+
+#########################################################################*/
+function load() {
+    // Update the UI
+    document.getElementById("display").innerText = "Loading...";
+    document.getElementById("loadBtn").disabled = "disabled";
+
+    // Load the sound
+    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.on("fileload", handleFileLoad);
+    createjs.Sound.registerSound("/sound/burn_them_down.ogg",'mySound');
+}
+
+function handleFileLoad(event) {
+    // Update the UI
+    document.getElementById("display").innerHTML = "Loaded: " + event.src
+            + " using " + createjs.Sound.activePlugin.toString();
+    document.getElementById("stopBtn").disabled = "";
+
+    // Play the loaded sound
+    var instance = createjs.Sound.play(event.src);
+    instance.volume = .7
+}
