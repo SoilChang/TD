@@ -1039,7 +1039,7 @@ function addMonster() {
     //armored
     monsterData["wizard"] =
     {"image":wizardI, "w": 32, "h": 45, 
-    "speed":3, "hp":20, "bounty":1, "damage":3}
+    "speed":3, "hp":20, "bounty":2, "damage":3}
 }
 
 
@@ -1141,11 +1141,6 @@ function tick(event) {
         };
         monsterMovement();//controls monster movement
 
-
-        if (health<=0 && checkGG==0) {
-            checkGG++;
-            isOver();
-        }
     };
 
     stage.update(event); // important!!
@@ -1296,11 +1291,17 @@ function monsterMovement() {
                     health-=(mob.damage-armorBonus);
                     castleHit.cd = 5
                     stage.addChild(castleHit)
+                    document.getElementById("health").innerHTML = health;
+                    castleText.text = health + "/" + maxHealth
+                    castleHpI.sourceRect = 
+                    new createjs.Rectangle(0,0,health/maxHealth*64,10);
+
+                    //check if game over
+                    if (health<=0 && checkGG==0) {
+                        checkGG++;
+                        isOver();
+                    }
                 }
-                document.getElementById("health").innerHTML = health;
-                castleText.text = health + "/" + maxHealth
-                castleHpI.sourceRect = 
-                new createjs.Rectangle(0,0,health/maxHealth*64,10);
                 mob.dead++;
                 stage.removeChild(mob);
                 monsters.splice(i,1);
@@ -1631,15 +1632,16 @@ function nextWave() {
             monsterData["warrior"]["bounty"]+=1
             monsterData["armored"]["bounty"]+=1
         }
-        if (wave%1 ==0) {
+        if (wave%7 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3.2
+            monsterData["wizard"]["damage"]+=2
+            monsterData["wizard"]["bounty"]+=1
         }
         else if (wave%5 == 0) {
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
-            monsterData["wizard"]["damage"]+=1
             cMonster("armored",8);
             monsterData["armored"]["hp"]*=2.8
         }
@@ -1694,6 +1696,12 @@ function stopAnimate(condition) {
 //game over
 function isOver() {
     gameRunning=0
+    var minWave = []
+    for (var i=0;i<monsters.length;i++) {
+        minWave.push(monsters[i].level)
+    }
+    wave = Math.min.apply(Math, minWave)-1
+
     if (Meteor.user() !== null) {
 
         var d = new Date()
