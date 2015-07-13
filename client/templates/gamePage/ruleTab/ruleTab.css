@@ -10,15 +10,22 @@
 }
 
 
-#c-Rules-h1,
-#c-Tower_Type-h1{
-	text-shadow:1px 1px 0 rgba(128,255,136,1);font-weight:normal;color:#C94928;letter-spacing:0pt;word-spacing:1pt;text-align:center;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+.c-Rules-h1,
+.c-Tower_Type-h1{
+	color:#FF3300;
+	text-align: center;
+	font-family: cursive;
+
 }
-#c-Rules-h2,
-#c-Tower_Type-h2{
-	text-shadow:1px 1px 0 rgba(128,255,136,1);font-weight:normal;color:#2D8C33;letter-spacing:0pt;word-spacing:1pt;text-align:left;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+.c-Rules-h2,
+.c-Tower_Type-h2{
+	color:#99FF33;
+	font-family: cursive;
+
 }
-#c-Rules-p,
-#c-Tower_Type-p{
-	text-shadow:1px 1px 0 rgba(255,255,0,1);font-weight:normal;color:#2D8C73;letter-spacing:0pt;word-spacing:1pt;font-size:20px;text-align:left;font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;line-height:2;
+.c-Rules-p,
+.c-Tower_Type-p{
+	color:#9999FF;
+	font-size:20px;
+	font-family: cursive;
 }
