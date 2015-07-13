@@ -33,10 +33,12 @@
 
 /*live and armour div*/
 #c-kingdom-LiveArmour{
+	margin-left: 20px;
 	margin-top:70px;
 	height: 140px;	
 	font-family: cursive;
-	color: #00FF00;
+	font-weight: bold;
+	color:black;
 }
 
 /*equipment obtained*/

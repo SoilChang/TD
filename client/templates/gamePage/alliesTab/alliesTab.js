@@ -43,6 +43,10 @@ Template.alliesTab.onRendered(function(){
 		// set nothing here
 	});
 	
+
+	$('#allyName').mouseenter(function(){
+		$("#allyName").css({"cursor":"pointer"});
+	});
 	
 });
 
@@ -103,6 +107,22 @@ Template.alliesTab.events({
 		Meteor.call("unfollowUser",this._id);
 	},
 
+	"click #unfriend":function(){
+		var yes = confirm("Are you sure you want to unfollow this user? He will automatically unfollow you too");
+		if(yes){
+			Meteor.call("unfriend",this._id);
+		}
+		
+	},
+
+	"click #allyName":function(){
+		Session.set("selectedAlly", this._id);
+	},
+
+	"click #joinAlly":function(){
+		Meteor.call("joinAlly", this._id);
+	}
+
 	
 })
 
@@ -121,7 +141,8 @@ Template.alliesTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
-			return Meteor.users.find({_id:{$in:Meteor.user().following, $nin:Meteor.user().followers}});
+			var user = Meteor.user();
+			return Meteor.users.find({$and: [{_id:{$in:user.following}}, {_id:{$nin:user.followers}}]});
 		}
 	},
 
@@ -129,7 +150,8 @@ Template.alliesTab.helpers({
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
-			return Meteor.users.find({_id:{$in:Meteor.user().followers,$nin:Meteor.user().following}});
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$nin:user.following}}] });
 		}
 	},
 
@@ -141,6 +163,26 @@ Template.alliesTab.helpers({
 			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$in:user.following}}] });
 			      
 		}
+	},
+
+	join: function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return;
+		}else{
+			var array = Meteor.user().ally;
+			for(var i = 0; i< array.length; i++){
+				if( this._id === array[i])
+					return "joined";
+			}
+			return;
+			      
+		}
+	},
+
+	showAllyStats:function(){
+		var selected = Session.get("selectedAlly");
+		return Meteor.users.findOne(selected);
+		
 	}
 
 

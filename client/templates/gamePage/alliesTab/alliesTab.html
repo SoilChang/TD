@@ -52,8 +52,9 @@
 					<ul>
 						{{#each loadFriends}}
 							<li>
-							<p style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
-							<input id="unfollowUser" type="submit" name="unfollowUser" value="unfollow" style="display:inline-block; width:70px;">
+							<p id="allyName" style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
+							<input id="unfriend" type="submit" value="unfriend" style="display:inline-block; width:70px;">
+							<input id="joinAlly" type="submit" class="{{join}}" value="Join Ally" style="display:block; width:100px; margin-left:150px;">
 						</li>
 						{{/each}}
 					</ul>
@@ -91,13 +92,26 @@
 			<div id="inbox">
 				<h3 style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Control Panel</h3>
 				<hr>
-				<div style="height:200px; overflow-y:auto; overflow-x:hidden;">
-					<P>all users</P>
+
+				<div style="position: absolute; width:450px; height:120px; ">
+					<ul>
+						{{#if showAllyStats}}
+						<li style="font-size:20px">Hp Bonus: {{showAllyStats.hpBonus}}</li>
+						<li style="font-size:20px">armour Bonus: {{showAllyStats.armourBonus}}</li>
+						<li style="font-size:20px">attack Bonus: {{showAllyStats.attackBonus}}</li>
+						<P>You get 15% of the bonus if you join this ally</P>
+						{{/if}}
+					</ul>
+				</div>
+
+				<!-- all user search box -->
+				<div style="height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
+					<P>All users</P>
 					<ul>
 
 						{{#each findAllUser}}
 						<li>
-							<p style="display:inline-block; width:150px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
+							<p style="display:inline-block; width:325px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
 							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:50px;">
 						</li>	
 						{{/each}}
