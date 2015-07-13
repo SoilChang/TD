@@ -36,7 +36,7 @@ s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 castleHitI, castleHit, monsterKillI, //added animations
-heroI, lightTowerI, iceTowerI, //tower images
+heroI, lightTower1, iceTowerI, //tower images
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI, wizardI,//monster images
 towerData, towers, towerType, towerName, targetTower,//tower variables
@@ -480,8 +480,8 @@ function imageload() {
     castleBlock.cd = -1;
 
     //light tower
-    lightTowerI = new Image();
-    lightTowerI.src = "/images/gameImages/light_tower.png";
+    lightTower1 = new Image();
+    lightTower1.src = "/images/gameImages/light_tower.png";
     //light tower shots
     ltS = {
         images: ["/images/gameImages/lightShot.png"],
@@ -767,7 +767,7 @@ function power(type) {
 function addTower() {
     //light tower
     towerData["lightTower"] =
-    {"image":lightTowerI, "w":30, "h":30,//dimension of shots
+    {"image":[lightTower1], "w":30, "h":30,//dimension of shots
     "type":"Single", "splash":[false],
     "effect":false,
     "range":[96,96,112,112], "cost":[15,30,60,120], "cd":[15,15,10,5],
@@ -775,7 +775,7 @@ function addTower() {
 
     //ice tower
     towerData["iceTower"] =
-    {"image":iceTowerI, "w":30, "h":30,
+    {"image":[iceTowerI], "w":30, "h":30,
     "type":"Splash", "splash":[16,32,32,48], 
     "effect":true, "slow":[.25,.4,.5,.8], "slowDuration":[20,25,30,35],
     "range":[80,80,96,96], "cost":[20,40,80,160], "cd":[20,20,15,15],
@@ -843,7 +843,7 @@ function buildTower(event) {
                 $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
-                var newImage = new createjs.Bitmap(towerType["image"]);
+                var newImage = new createjs.Bitmap(towerType["image"][0]);
                 var newTower = new createjs.Container();
                 newTower.mouseChildren = false;
                 newTower.bg = event.target.pt;
@@ -1795,7 +1795,7 @@ function creation(type) {
                     var tbg = t.bg
                     var tData = towerData[t.name]
                     hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
-                    var newImage = new createjs.Bitmap(tData["image"]);
+                    var newImage = new createjs.Bitmap(tData["image"][t.level]);
                     var newTower = new createjs.Container();
                     newTower.bg = t.bg
                     newTower.name = t.name;
