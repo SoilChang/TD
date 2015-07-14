@@ -23,3 +23,8 @@ table {
 	border-radius: 5px;
 	border:2px black groove;
 }
+
+.describe {
+	width: 250px;
+	padding-right: 5px;
+}
