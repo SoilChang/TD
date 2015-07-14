@@ -31,16 +31,13 @@ Template.alliesTab.onRendered(function(){
 	});
 
 
-	$("#seeFriend").hover(function(){
+	$("#seeFriend").mouseenter(function(){
 		$("#seeFriend").css({"cursor":"pointer"});
 		$("#seeFriend").click(function(){
 			$("#followingBox").hide();
 			$("#followerBox").hide();
 			$("#friendBox").show();
 		});
-	},
-	function(){
-		// set nothing here
 	});
 	
 
@@ -170,12 +167,9 @@ Template.alliesTab.helpers({
 			return;
 		}else{
 			var array = Meteor.user().ally;
-			for(var i = 0; i< array.length; i++){
-				if( this._id === array[i])
-					return "joined";
-			}
-			return;
-			      
+			if(_.indexOf(array, this._id))
+				return
+			return "joined";	
 		}
 	},
 
