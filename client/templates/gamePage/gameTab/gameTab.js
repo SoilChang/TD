@@ -36,7 +36,8 @@ s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 castleHitI, castleHit, monsterKillI, //added animations
-heroI, lightTowerI, iceTowerI, //tower images
+lightTower1, lightTower2, lightTower3, lightTower4,
+iceTower1, iceTower2, iceTower3, iceTower4,//tower images
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI, wizardI,//monster images
 towerData, towers, towerType, towerName, targetTower,//tower variables
@@ -204,10 +205,17 @@ Template.gameTab.events({
         $('.ff').removeClass('selected');  
     },
     'click #upgradeBtn': function() {
+
         upgradeTower();
     },
     'click #sellBtn': function() {
         sellTower();
+    },
+    'click #loadBtn': function() {
+        load();
+    },
+    'click #stopBtn': function() {
+        createjs.Sound.stop();
     }
 
 });
@@ -473,9 +481,20 @@ function imageload() {
     castleBlock.y = 208;
     castleBlock.cd = -1;
 
-    //light tower
-    lightTowerI = new Image();
-    lightTowerI.src = "/images/gameImages/light_tower.png";
+    //light tower level 1
+    lightTower1 = new Image();
+    lightTower1.src = "/images/gameImages/light_tower.png";
+    //light tower level 2
+    lightTower2 = new Image();
+    lightTower2.src = "/images/gameImages/light_tower_2.png";
+    //light tower level 3
+    lightTower3 = new Image();
+    lightTower3.src = "/images/gameImages/light_tower_3.png";
+    //light tower level 4
+    lightTower4 = new Image();
+    lightTower4.src = "/images/gameImages/light_tower_4.png";
+
+
     //light tower shots
     ltS = {
         images: ["/images/gameImages/lightShot.png"],
@@ -488,8 +507,17 @@ function imageload() {
     light = new createjs.SpriteSheet(ltS);
 
     //ice tower
-    iceTowerI = new Image();
-    iceTowerI.src = "/images/gameImages/ice_tower.png";
+    iceTower1 = new Image();
+    iceTower1.src = "/images/gameImages/ice_tower.png";
+    //ice tower
+    iceTower2 = new Image();
+    iceTower2.src = "/images/gameImages/ice_tower_2.png";
+    //ice tower
+    iceTower3 = new Image();
+    iceTower3.src = "/images/gameImages/ice_tower_3.png";
+    //ice tower
+    iceTower4 = new Image();
+    iceTower4.src = "/images/gameImages/ice_tower_4.png";
     //ice tower shots
     itS = {
         images: ["/images/gameImages/iceShot.png"],
@@ -761,7 +789,8 @@ function power(type) {
 function addTower() {
     //light tower
     towerData["lightTower"] =
-    {"image":lightTowerI, "w":30, "h":30,//dimension of shots
+    {"image":[lightTower1,lightTower2,lightTower3,lightTower4], 
+    "w":30, "h":30,//dimension of shots
     "type":"Single", "splash":[false],
     "effect":false,
     "range":[96,96,112,112], "cost":[15,30,60,120], "cd":[15,15,10,5],
@@ -769,7 +798,8 @@ function addTower() {
 
     //ice tower
     towerData["iceTower"] =
-    {"image":iceTowerI, "w":30, "h":30,
+    {"image":[iceTower1,iceTower2,iceTower3,iceTower4], 
+    "w":30, "h":30,
     "type":"Splash", "splash":[16,32,32,48], 
     "effect":true, "slow":[.25,.4,.5,.8], "slowDuration":[20,25,30,35],
     "range":[80,80,96,96], "cost":[20,40,80,160], "cd":[20,20,15,15],
@@ -832,12 +862,12 @@ function buildTower(event) {
     }
     //buying of tower
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
-        if (towerType) {
+        if (towerType && towerType!=true) {
             if (towerType["cost"][0]<=cash) {
                 $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
-                var newImage = new createjs.Bitmap(towerType["image"]);
+                var newImage = new createjs.Bitmap(towerType["image"][0]);
                 var newTower = new createjs.Container();
                 newTower.mouseChildren = false;
                 newTower.bg = event.target.pt;
@@ -893,8 +923,12 @@ function buildTower(event) {
 function handleTower(event) {
     if (event.type=="click") {
         $('.towerBtn').removeClass('selected');
-        towerType = false;
+        towerType = true;
         towerName = false;
+
+        for (var i=0;i<towers.length;i++) {
+            towers[i].removeChild(towers[i].aoe)
+        }
 
         targetGrid.x=event.target.coord[0];
         targetGrid.y=event.target.coord[1];
@@ -909,11 +943,7 @@ function handleTower(event) {
 function updateInfo(tower) {
     var effect = ""
     var splash = ""
-    var sellPrice = Math.ceil(tower.sell*.7)
-
-    if (wave==0) {
-        sellPrice = tower.sell
-    }
+    var sellPrice = (wave==0)? tower.sell : Math.ceil(tower.sell*.7)
 
     if (tower.effect) {
         if (tower.name=="iceTower") {
@@ -965,6 +995,7 @@ function upgradeTower() {
             targetTower.slowDuration = 
             towerData[targetTower.name]["slowDuration"][targetTower.level]
         }
+
         targetTower.sell += targetTower.cost
         targetTower.damage = 
         towerData[targetTower.name]["damage"][targetTower.level];
@@ -975,11 +1006,20 @@ function upgradeTower() {
         targetTower.maxCd = 
         towerData[targetTower.name]["cd"][targetTower.level];
         targetTower.cost = 
-        towerData[targetTower.name]["cost"][targetTower.level];
+        towerData[targetTower.name]["cost"][targetTower.level+1];
+
+        targetTower.removeAllChildren()
+        //updates tower image
+        var newImage = new createjs.Bitmap(towerData[targetTower.name]["image"]
+            [targetTower.level])
+        targetTower.addChild(newImage)
+
+        //updates aoe on canvas
         targetTower.aoe = new createjs.Shape();
         targetTower.aoe.graphics.beginStroke("#f00")
         .drawCircle(16,16,
             towerData[targetTower.name]["range"][targetTower.level]);
+        targetTower.addChild(targetTower.aoe);
         //targetTower.aoe.alpha = .5;
         targetTower.level += 1;
 
@@ -994,7 +1034,7 @@ function upgradeTower() {
 function sellTower() {
     targetTower.bg.mouseEnabled = true
     if (wave!=0) {
-        cash += Math.ceil(targetTower.sell/2)
+        cash += Math.ceil(targetTower.sell*.7)
     } else {
         cash += targetTower.sell
     }
@@ -1039,7 +1079,7 @@ function addMonster() {
     //armored
     monsterData["wizard"] =
     {"image":wizardI, "w": 32, "h": 45, 
-    "speed":3, "hp":20, "bounty":2, "damage":3}
+    "speed":3, "hp":25, "bounty":2, "damage":3}
 }
 
 
@@ -1480,7 +1520,7 @@ function shotsMovement() {
         shotsRemoved.sort(function(a,b){return b-a});//sort descending order
         for (var i=0;i<shotsRemoved.length;i++) {
             stage.removeChild(shots[shotsRemoved[i]])
-            shots.splice(i,1)
+            shots.splice(shotsRemoved[i],1)
         }
     }
 };
@@ -1789,7 +1829,7 @@ function creation(type) {
                     var tbg = t.bg
                     var tData = towerData[t.name]
                     hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
-                    var newImage = new createjs.Bitmap(tData["image"]);
+                    var newImage = new createjs.Bitmap(tData["image"][t.level]);
                     var newTower = new createjs.Container();
                     newTower.bg = t.bg
                     newTower.name = t.name;
@@ -2145,4 +2185,29 @@ function grid() {
     };
 };
 
+/*#########################################################################
 
+                 Sound 
+
+#########################################################################*/
+function load() {
+    // Update the UI
+    document.getElementById("display").innerText = "Loading...";
+    document.getElementById("loadBtn").disabled = "disabled";
+
+    // Load the sound
+    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.on("fileload", handleFileLoad);
+    createjs.Sound.registerSound("/sound/burn_them_down.ogg",'mySound');
+}
+
+function handleFileLoad(event) {
+    // Update the UI
+    document.getElementById("display").innerHTML = "Loaded: " + event.src
+            + " using " + createjs.Sound.activePlugin.toString();
+    document.getElementById("stopBtn").disabled = "";
+
+    // Play the loaded sound
+    var instance = createjs.Sound.play(event.src);
+    instance.volume = .7
+}
