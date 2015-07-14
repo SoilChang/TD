@@ -19,7 +19,7 @@ Template.gamePage.onRendered(function() {
     	var prizeTime = Meteor.user().prizeTime;
 
     	// if first time user, we set a date
-    	if(prizeTime === 0){
+    	if(prizeTime === 0 || prizeTime === undefined){
     		Meteor.call("setDate");
     		console.log("set date occurs");
     	}else{
