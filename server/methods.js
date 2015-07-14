@@ -9,6 +9,21 @@ Meteor.methods({
 		Meteor.users.update({_id:userId }, {$set: {statusMessage:inputText}});
 	},
 
+	// set prizeTime to current date
+	"setDate":function(){
+		var date = new Date();
+		Meteor.users.update({_id:Meteor.userId()},{$set:{prizeTime:date}});
+	},
+
+	// give out daily prize
+	"givePrize":function(password){
+		check(password, String);
+		if(password === "adminOnly"){
+			Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:1}});
+		}
+		
+	},
+
 	// buying equipment from the shop
 	'buyEquipment': function(itemCode,currentUserId){
 		check(itemCode,String);
@@ -163,10 +178,10 @@ Meteor.methods({
 		var ally = Meteor.user().ally;
 
 		// check for duplication
-		// for(var i = 0; i< array.length; i++){
-		// 	if(array[i] === identity)
-		// 		return;
-		// }
+		for(var i = 0; i< ally.length; i++){
+			if(ally[i] === identity)
+				return;
+		}
 
 		// incrase bonus
 		var object = Meteor.users.find({_id:identity}).fetch();
