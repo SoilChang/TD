@@ -84,7 +84,7 @@ Template.gamePage.events({
 			
 			document.getElementById('audio').src = 
 			"/images/gamePage/musicOff.png"	
-
+			
 			BGsound.muted = true
 		} else {
 			soundCheck = 1

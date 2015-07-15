@@ -1471,12 +1471,14 @@ function inRange(tower,monster) {
 
 //create shot animation
 function cShots(tower,monster) {
-    if (tower.name=='iceTower') {
-        createjs.Sound.play('iceSound').volume=.3;
-    }
-    else if (tower.name=='lightTower') {        
-        createjs.Sound.play('laserSound').volume=.1;
-    }        
+    if (!muted) {
+        if (tower.name=='iceTower') {
+            createjs.Sound.play('iceSound').volume=.6;
+        }
+        else if (tower.name=='lightTower') {        
+            createjs.Sound.play('laserSound').volume=.1;
+        }    
+    }  
 
     var dx=((monster.x + monster.w/2) - tower.x);
     var dy=((monster.y + monster.h) - tower.y);
@@ -2196,12 +2198,11 @@ function grid() {
                  Sound Logic
 
 #########################################################################*/
-
+var muted = 0
 function toggleSound() {
-    var muted = !createjs.Sound.getMute();
+    muted = (muted)? 0:1
     document.getElementById('soundBtn').src = (muted)?
     "/images/gameImages/nosound.png":"/images/gameImages/sound.png"
-    createjs.Sound.muted = muted;
 }
 
 
