@@ -179,9 +179,9 @@ body{
 
 #prizeBanner{
 	position: absolute;
-	height: 100px;
+	height: 200px;
 	width: 600px;
-	margin-top: 170px;
+	margin-top: 150px;
 	margin-left: 130px;
 	z-index: 301;
 	display: none;
