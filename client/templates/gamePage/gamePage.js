@@ -79,7 +79,6 @@ Template.gamePage.helpers({
 var soundCheck = 1
 Template.gamePage.events({
 	'click #audio': function() {
-		test()
 		BGsound.toggleMute()
 
 		document.getElementById('audio').src = (soundCheck)?

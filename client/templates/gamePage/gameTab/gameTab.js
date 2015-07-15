@@ -189,7 +189,7 @@ Template.gameTab.events({
         ff(2);
     },
     'click #ff8': function(){
-        isOver()//ff(3);
+        ff(3);
     },
 	'click #iceBtn': function(){
 		buyTower('iceTower');
@@ -1161,6 +1161,7 @@ function cAnimation() {
 function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
+        console.log('fail')
         createjs.Sound.stop()
         clearStage();
     };
