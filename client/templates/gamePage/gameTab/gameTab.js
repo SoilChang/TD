@@ -20,11 +20,16 @@
                  Variables
 
 #########################################################################*/
-var attBonus, hpBonus, armorBonus, regenBonus, gameLoaded, gameRunning
+var gameLoaded, gameRunning,
+attBonus, hpBonus, armorBonus, regenBonus,
+allyHp, allyArmor, allyAttack
 attBonus = 0;
 hpBonus = 0;
 armorBonus = 0;
 regenBonus = 0;
+allyHp = 0;
+allyArmor = 0;
+allyAttack = 0;
 gameLoaded = 0;
 gameRunning = 0;
 
@@ -210,23 +215,6 @@ Template.gameTab.events({
     },
     'click #sellBtn': function() {
         sellTower();
-    },
-    'click #loadBtn': function() {
-        load();
-    },
-    'click #stopBtn': function() {
-        createjs.Sound.stop();
-    }
-
-});
-
-Template.gameTab.helpers({
-    extraction:function() {
-        if(Meteor.user() !== null && Meteor.loggingIn() !== true){
-            hpBonus = Meteor.user().hpBonus;
-            attBonus = Meteor.user().attackBonus;
-            armorBonus = Meteor.user().armourBonus;
-        }
     }
 });
 
@@ -263,6 +251,7 @@ function init() {
     stage = new createjs.Stage("playingField");
     stage.enableMouseOver();
 
+    loadSound(); //loads sound files
     imageload(); //load image into canvas
     pauseScreen(); //load pause screen in canvas
     addTower(); //creates tower data
@@ -601,6 +590,16 @@ function imageload() {
 function newGame() {
     gameData('new');//load game data
 
+    //load data from equipment
+    if(Meteor.user() !== null && Meteor.loggingIn() !== true){
+        hpBonus = Meteor.user().hpBonus;
+        attBonus = Meteor.user().attackBonus;
+        armorBonus = Meteor.user().armourBonus;
+
+        allyHp = Meteor.user().allyHp;
+        allyArmor = Meteor.user().allyArmour;
+        allyAttack = Meteor.user().allyAttack;
+    }
     //update castle with equipment bonus
     health += hpBonus;
     castleText.text = health + '/' + maxHealth
@@ -616,14 +615,14 @@ function newGame() {
     $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Start'
 
-    document.getElementById("armor").innerHTML = armorBonus 
-    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("armor").innerHTML = armorBonus+'(+'+allyArmor+')'
+    document.getElementById("bonus").innerHTML = attBonus+'(+'+allyAttack+')'
     document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health;
+    document.getElementById("health").innerHTML = health+'(+'+allyHp+')'
     document.getElementById("cdTimer").innerHTML = (countDown/20);
 
     stage.update();
@@ -1470,6 +1469,12 @@ function inRange(tower,monster) {
 
 //create shot animation
 function cShots(tower,monster) {
+    if (tower.name=='iceTower') {
+        createjs.Sound.play('iceSound').volume=.5;
+    }
+    else if (tower.name=='lightTower') {        
+        createjs.Sound.play('laserSound').volume=.3;
+    }
     var dx=((monster.x + monster.w/2) - tower.x);
     var dy=((monster.y + monster.h) - tower.y);
     var dist=Math.sqrt(Math.pow(Math.abs(dx),2) + Math.pow(Math.abs(dy),2));
@@ -2190,24 +2195,20 @@ function grid() {
                  Sound 
 
 #########################################################################*/
-function load() {
-    // Update the UI
-    document.getElementById("display").innerText = "Loading...";
-    document.getElementById("loadBtn").disabled = "disabled";
-
+function loadSound() {
     // Load the sound
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.on("fileload", handleFileLoad);
-    createjs.Sound.registerSound("/sound/burn_them_down.ogg",'mySound');
+
+    createjs.Sound.registerSound("/sound/gameBG.ogg",'backgroundSound');
+    createjs.Sound.registerSound("/sound/laugh.ogg",'gameOverSound');
+    createjs.Sound.registerSound("/sound/ice.ogg",'iceSound');
+    createjs.Sound.registerSound("/sound/laser.ogg",'laserSound');
 }
 
 function handleFileLoad(event) {
-    // Update the UI
-    document.getElementById("display").innerHTML = "Loaded: " + event.src
-            + " using " + createjs.Sound.activePlugin.toString();
-    document.getElementById("stopBtn").disabled = "";
 
     // Play the loaded sound
-    var instance = createjs.Sound.play(event.src);
-    instance.volume = .7
+    var instance = createjs.Sound.play('backgroundSound',{loop:-1});
+    instance.volume = .1
 }
