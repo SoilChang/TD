@@ -53,6 +53,12 @@ body{
 
 }
 
+#audio {
+	position:absolute;
+	top:150px;
+	right: 5px;
+}
+
 #b1,#b2,#b3,#b4,#b5,#b6{
 	margin-top: 30px;
 	width:190px;

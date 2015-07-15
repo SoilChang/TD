@@ -253,7 +253,6 @@ function init() {
     stage = new createjs.Stage("playingField");
     stage.enableMouseOver();
 
-    loadSound(); //loads sound files
     imageload(); //load image into canvas
     pauseScreen(); //load pause screen in canvas
     addTower(); //creates tower data
@@ -1730,10 +1729,8 @@ function stopAnimate(condition) {
     for (var i=0;i<monsters.length;i++) {
         for (var j=0;j<4;j++) {
             if (condition) {
-                if (monsters[i].pos[j]==2) {
-                    monsters[i].getChildAt(1).gotoAndStop();
-                    break;
-                }
+                monsters[i].getChildAt(1).gotoAndStop();
+                break;
             } else {
                 monsters[i].getChildAt(1).gotoAndPlay();
                 break;
@@ -2196,25 +2193,9 @@ function grid() {
 
 /*#########################################################################
 
-                 Sound 
+                 Sound Logic
 
 #########################################################################*/
-function loadSound() {
-    // Load the sound
-    createjs.Sound.alternateExtensions = ["mp3"];
-    createjs.Sound.on("fileload", handleFileLoad);
-
-    createjs.Sound.registerSound("/sound/gameBG.ogg",'backgroundSound');
-    createjs.Sound.registerSound("/sound/laugh.ogg",'gameOverSound');
-    createjs.Sound.registerSound("/sound/ice.ogg",'iceSound');
-    createjs.Sound.registerSound("/sound/laser.ogg",'laserSound');
-}
-
-
-function handleFileLoad(event) {
-    // Play the loaded sound
-    createjs.Sound.play('backgroundSound',{loop:-1}).volume = .1;
-}
 
 function toggleSound() {
     var muted = !createjs.Sound.getMute();

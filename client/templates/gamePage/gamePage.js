@@ -74,3 +74,25 @@ Template.gamePage.helpers({
 		}
 	},
 });
+
+
+var soundCheck = 1
+Template.gamePage.events({
+	'click #audio': function() {
+		if (soundCheck) {	
+			soundCheck = 0
+			
+			document.getElementById('audio').src = 
+			"/images/gamePage/musicOff.png"	
+
+			BGsound.muted = true
+		} else {
+			soundCheck = 1
+
+			document.getElementById('audio').src = 
+			"/images/gamePage/musicOn.png"	
+
+			BGsound.muted = false
+		}
+	}
+});
