@@ -2,7 +2,7 @@
 Template.kingdomTab.helpers({
 	'userDataLoad': function(){
 		if(Meteor.user() === null || Meteor.loggingIn() === true){
-			return [{username:"Log In To See", gem: 0, hpBonus: 0,armourBonus:0,attackBonus:0}] ;
+			return [{username:"Log In To See", gem: 0, hpBonus: 0,armourBonus:0,attackBonus:0,allyHp:0,allyArmour:0,allyAttack:0}] ;
 		}else{
 			/*the reason why i don't use Meteor.user() straight away is because in the 
 			html, i use each block. it only accepts an array. only Meteor.users.fin() returns
