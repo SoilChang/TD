@@ -189,7 +189,7 @@ Template.gameTab.events({
         ff(2);
     },
     'click #ff8': function(){
-        ff(3);
+        isOver()//ff(3);
     },
 	'click #iceBtn': function(){
 		buyTower('iceTower');
@@ -1473,7 +1473,7 @@ function inRange(tower,monster) {
 function cShots(tower,monster) {
     if (!muted) {
         if (tower.name=='iceTower') {
-            createjs.Sound.play('iceSound').volume=.6;
+            createjs.Sound.play('iceSound');
         }
         else if (tower.name=='lightTower') {        
             createjs.Sound.play('laserSound').volume=.1;
@@ -1743,6 +1743,7 @@ function stopAnimate(condition) {
 
 //game over
 function isOver() {
+    createjs.Sound.play('gameOverSound').volume=.2
     gameRunning=0
     var minWave = []
     for (var i=0;i<monsters.length;i++) {
