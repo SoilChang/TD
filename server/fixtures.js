@@ -2,6 +2,8 @@
 new equipment can be checked and automatically added to the shop*/
 
 
+
+
 /*##########################################################
 
 helmet
@@ -16,7 +18,7 @@ if( eqpList.findOne({name:'Golden Crown'}) === undefined ){
 		hpBonus: 1,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: null
+
 	});
 };
 
@@ -29,7 +31,7 @@ if( eqpList.findOne({name:"Chief's Expression"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -43,7 +45,7 @@ if( eqpList.findOne({name:"Crown Of RedMoon"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -56,7 +58,7 @@ if( eqpList.findOne({name:"Mom's Face When We Do Sth Wrong"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -74,7 +76,7 @@ if( eqpList.findOne({name:'Scorched Plate'}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 4,
 		attackBonus: 0,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -87,7 +89,7 @@ if( eqpList.findOne({name:"Black Widow's Disguise"}) === undefined ){
 		hpBonus: 1,
 		armourBonus: 2,
 		attackBonus: 0,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -100,7 +102,7 @@ if( eqpList.findOne({name:"Shared Blood"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 3,
 		attackBonus: 0,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -119,7 +121,7 @@ if( eqpList.findOne({name:"Crystal Greave"}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 3,
 		attackBonus: 0,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -132,7 +134,7 @@ if( eqpList.findOne({name:"Gold-Plated Greave"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -145,7 +147,7 @@ if( eqpList.findOne({name:"Bull's Legs"}) === undefined ){
 		hpBonus: 4,
 		armourBonus: 2,
 		attackBonus: 0,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -158,7 +160,7 @@ if( eqpList.findOne({name:"Burnished Boots"}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 2,
 		attackBonus: 0,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -171,7 +173,7 @@ if( eqpList.findOne({name:"Royal Greaves"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 3,
 		attackBonus: 0,
-		magicalPower: 'none'
+		
 	});
 }
 /*##########################################################
@@ -189,7 +191,7 @@ if( eqpList.findOne({name:"Snow Breaker"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 3,
 		attackBonus: 1,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -202,7 +204,7 @@ if( eqpList.findOne({name:"Fish Scales"}) === undefined ){
 		hpBonus: 2,
 		armourBonus: 3,
 		attackBonus: 1,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -215,7 +217,7 @@ if( eqpList.findOne({name:"Gauntlet Of Vengence"}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 5,
 		attackBonus: 2,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -228,7 +230,7 @@ if( eqpList.findOne({name:"Phoenix Flame"}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 2,
 		attackBonus: 1,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -241,7 +243,7 @@ if( eqpList.findOne({name:"Vanity Bracers"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 3,
 		attackBonus: 1,
-		magicalPower: 'none'
+		
 	});
 }
 /*##########################################################
@@ -259,7 +261,7 @@ if( eqpList.findOne({name:"Mystical Staff"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 5,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -273,7 +275,7 @@ if( eqpList.findOne({name:"Holy Spear"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 3,
-		magicalPower: 'none'
+		
 	});
 }
 
@@ -286,7 +288,7 @@ if( eqpList.findOne({name:"Common Sword"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0.5,
-		magicalPower: 'none'
+	
 	});
 }
 
@@ -299,7 +301,7 @@ if( eqpList.findOne({name:"Abyssal Blade"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 10,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -312,7 +314,7 @@ if( eqpList.findOne({name:"Raging Star"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 2,
 		attackBonus: 7,
-		magicalPower: 'none'
+
 	});
 }
 
@@ -325,7 +327,7 @@ if( eqpList.findOne({name:"Soul Reaper"}) === undefined ){
 		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 9,
-		magicalPower: 'none'
+
 	});
 }
 /*##########################################################
@@ -334,16 +336,16 @@ relic
 
 ###########################################################*/
 
-if( eqpList.findOne({name:"Leoric's Jewwlry"}) === undefined ){
+if( eqpList.findOne({name:"Leoric's Jewlry"}) === undefined ){
 	eqpList.insert({
-		name: "Leoric's Jewwlry",
+		name: "Leoric's Jewlry",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
 		price: 30,
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you a power to build regenrative tower'
+		magicalPower: 'This ring grants you the ability to build regenrative tower'
 	});
 }
 
@@ -356,7 +358,7 @@ if( eqpList.findOne({name:"Undead Bone"}) === undefined ){
 		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you to freeze all enemy monster for 2 second'
+		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 2 second'
 	});
 }
 

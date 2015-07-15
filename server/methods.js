@@ -34,6 +34,21 @@ Meteor.methods({
 		if(currentUser.gem >= item.price ){
 			Meteor.users.update( {_id:currentUserId }, {$inc: {gem: -item.price} } );
 			Meteor.users.update( {_id:currentUserId } , {$addToSet: {inventory: itemCode} } );
+
+			// if what they buy is ring, activate the ability
+			var enchantedItem = eqpList.find({type: "relic", _id: itemCode}).fetch();
+		
+			if(enchantedItem){
+				var currentUser = Meteor.userId();
+		
+				if(enchantedItem[0].name === "Leoric's Jewlry"){
+					Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
+
+				}else if (enchantedItem[0].name === "Undead Bone") {
+					Meteor.users.update({_id: currentUser},{$set:{ability_freeze: true}});
+				}
+			}
+
 			return true;
 		}else{
 			return false;
@@ -49,7 +64,20 @@ Meteor.methods({
 		var soldPricr = Math.ceil(item.price/4)
 		Meteor.users.update( {_id:currentUserId }, {$inc: {gem: soldPricr } } );
 		Meteor.users.update( {_id:currentUserId } , {$pull: {inventory: itemCode} } );
-		Meteor.users.update( {_id:currentUserId } , {$pull: {equipped: itemCode} } );	
+		Meteor.users.update( {_id:currentUserId } , {$pull: {equipped: itemCode} } );
+
+
+		//when they sell rings, remove their ability
+		var enchantedItem = eqpList.find({type: "relic", _id: itemCode}).fetch();
+		if(enchantedItem){
+			var currentUser = Meteor.userId();
+			
+			if(enchantedItem[0].name === "Leoric's Jewlry"){
+				Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
+			}else if (enchantedItem[0].name === "Undead Bone") {
+				Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
+			}
+		}
 	},
 
 	'equipping': function(itemCode,currentUserId){
@@ -65,9 +93,10 @@ Meteor.methods({
 			// we pull it out 
 			Meteor.users.update( {_id:currentUserId,  } , {$pull: {equipped: existing[0]._id} } );
 		}
-		// console.log(" adding "+ itemCode+ "to equipped list");
+
 		//  add the new equipment
 		Meteor.users.update( {_id:currentUserId } , {$addToSet: {equipped: itemCode} } );
+
 	},
 
 	// update user's hp, armour and atk bonus to database according to the eqp obtained. 

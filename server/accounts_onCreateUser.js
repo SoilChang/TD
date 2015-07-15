@@ -13,6 +13,8 @@ Accounts.onCreateUser(function(options,user) {
 	user.equipped = [];
 	user.inventory = [];
 	user.savedGame = false;
+	user.ability_regen = false;
+	user.ability_freeze = false;
 	// the next two items are for adding friends
 	user.followers =[];
 	user.following = [];
