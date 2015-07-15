@@ -210,11 +210,13 @@ Template.gameTab.events({
         $('.ff').removeClass('selected');  
     },
     'click #upgradeBtn': function() {
-
         upgradeTower();
     },
     'click #sellBtn': function() {
         sellTower();
+    },
+    'click #soundBtn': function() {
+        toggleSound();
     }
 });
 
@@ -1160,6 +1162,7 @@ function cAnimation() {
 function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
+        createjs.Sound.stop()
         clearStage();
     };
 
@@ -1470,11 +1473,12 @@ function inRange(tower,monster) {
 //create shot animation
 function cShots(tower,monster) {
     if (tower.name=='iceTower') {
-        createjs.Sound.play('iceSound').volume=.5;
+        createjs.Sound.play('iceSound').volume=.3;
     }
     else if (tower.name=='lightTower') {        
-        createjs.Sound.play('laserSound').volume=.3;
-    }
+        createjs.Sound.play('laserSound').volume=.1;
+    }        
+
     var dx=((monster.x + monster.w/2) - tower.x);
     var dy=((monster.y + monster.h) - tower.y);
     var dist=Math.sqrt(Math.pow(Math.abs(dx),2) + Math.pow(Math.abs(dy),2));
@@ -2206,9 +2210,17 @@ function loadSound() {
     createjs.Sound.registerSound("/sound/laser.ogg",'laserSound');
 }
 
-function handleFileLoad(event) {
 
+function handleFileLoad(event) {
     // Play the loaded sound
-    var instance = createjs.Sound.play('backgroundSound',{loop:-1});
-    instance.volume = .1
+    createjs.Sound.play('backgroundSound',{loop:-1}).volume = .1;
 }
+
+function toggleSound() {
+    var muted = !createjs.Sound.getMute();
+    document.getElementById('soundBtn').src = (muted)?
+    "/images/gameImages/nosound.png":"/images/gameImages/sound.png"
+    createjs.Sound.muted = muted;
+}
+
+
