@@ -221,15 +221,13 @@ Template.gameTab.events({
 	'click #freezePower': function(){
 		power('freeze')
 	},
-    'click #meteoritePower': function(){
-        
-        
+    'click #meteoritePower': function(){        
         $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
         });  
-        $("#impactShadow").animate({marginLeft:"610px", marginTop:"250px",height:"150px"},2000,function(){
+        $("#impactShadow").animate({marginLeft:"610px", marginTop:"250px",height:"150px",opacity:"0.9"},2000,function(){
            
-            $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;"});
+            $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
             $("#playingField").effect("shake");
             // functionalities here
             
