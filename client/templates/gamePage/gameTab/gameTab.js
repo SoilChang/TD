@@ -21,9 +21,10 @@
                  Variables
 
 #########################################################################*/
-var gameLoaded, gameRunning,
+var gameLoaded, gameRunning, keys,
 attBonus, hpBonus, armorBonus, regenBonus,
 allyHp, allyArmor, allyAttack
+keys = {};
 attBonus = 0;
 hpBonus = 0;
 armorBonus = 0;
@@ -64,7 +65,6 @@ gameProgress = {} //saved game
 monsterData = {} //types of monsters
 towerData = {} //types of towers
 ffCount = [20,40,80,160]
-maxHealth = 18
 coordinates = [
 [96, 0],
 [94, 480],
@@ -88,8 +88,13 @@ function gameData(type) {
             healers = [] //fountain on map
             powerFreeze = 0 //cooldown of power
             score = 0;
+            maxHealth = 18
             health = maxHealth;
-            cash = 500;
+            if (Meteor.user()!=null) {
+                if (Meteor.user().ability_meteorite) {
+                    cash =65
+                } else {cash=40}
+            } else {cash=40}
             wave = 0;
             checkGG = 0;
             errorCD = 0 //time for error message to stay on canvas
@@ -110,10 +115,17 @@ function gameData(type) {
             healers = []
             powerFreeze = gameProgress['powerFreeze']
             score = gameProgress['score']
+            maxHealth = gameProgress['maxHealth']
             health = gameProgress['health']
             cash = gameProgress['cash']
             wave = gameProgress['wave']
-            countDown = gameProgress['countDown']
+            countDown = gameProgress['countDown']            
+            hpBonus = gameProgress['hpBonus']
+            attBonus = gameProgress['attBonus']
+            armorBonus = gameProgress['armorBonus']
+            allyHp  = gameProgress['allyHp'] 
+            allyArmor = gameProgress['allyArmor'] 
+            allyAttack = gameProgress['allyAttack'] 
             checkGG = 0
             errorCD = 0 //time for error message to stay on canvas
             lastMon = false //to start countdown
@@ -208,6 +220,9 @@ Template.gameTab.events({
 	'click #freezePower': function(){
 		power('freeze')
 	},
+    'click #meteoritePower': function(){
+        power('meteorite')
+    },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
@@ -241,8 +256,8 @@ Template.gameTab.onRendered(function() {
             if (Meteor.user().ability_regen) {            
                 $(this).addClass('selected');
             } else {
-                error("Please equip the " +
-                    "Leoric's Jewellery " + "to build this tower.")
+                error("Please equip the 'Leoric" +
+                    "'s " + "Jewellery' " + "to build this tower.")
             }            
         } else {
             error("Please sign in first.'")
@@ -280,6 +295,9 @@ function init() {
     addTower(); //creates tower data
     gridData(); //adds grid data into canvas
     addMonster(); //creates monster data
+
+    //detects keyboard
+    this.document.onkeydown = keydown;
 
     gameLoaded = 1;
 }
@@ -639,8 +657,9 @@ function newGame() {
         allyAttack = Meteor.user().allyAttack;
     }
     //update castle with equipment bonus
-    health += hpBonus;
-    castleText.text = health + '/' + maxHealth
+    maxHealth += hpBonus
+    health = maxHealth
+    castleText.text = (maxHealth+allyHp) + '/' + maxHealth
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
@@ -653,14 +672,17 @@ function newGame() {
     $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Start'
 
-    document.getElementById("armor").innerHTML = armorBonus+'(+'+allyArmor+')'
-    document.getElementById("bonus").innerHTML = attBonus+'(+'+allyAttack+')'
+    document.getElementById("armor").innerHTML = armorBonus+
+    '<span class="ally">+'+allyArmor+'</span>'
+    document.getElementById("bonus").innerHTML = attBonus+
+    '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health+'(+'+allyHp+')'
+    document.getElementById("health").innerHTML = health+
+    '<span id="ally">+'+allyHp+'</span>'
     document.getElementById("cdTimer").innerHTML = (countDown/20);
 
     stage.update();
@@ -671,14 +693,17 @@ function currentGame() {
     $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Play';
 
-    document.getElementById("armor").innerHTML = armorBonus 
-    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("armor").innerHTML = armorBonus+
+    '<span class="ally">+'+allyArmor+'</span>'
+    document.getElementById("bonus").innerHTML = attBonus+
+    '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health;
+    document.getElementById("health").innerHTML = health+
+    '<span id="ally">+'+allyHp+'</span>'
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
@@ -716,14 +741,17 @@ function continueGame() {
     $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Play';
     
-    document.getElementById("armor").innerHTML = armorBonus 
-    document.getElementById("bonus").innerHTML = attBonus
+    document.getElementById("armor").innerHTML = armorBonus+
+    '<span class="ally">+'+allyArmor+'</span>'
+    document.getElementById("bonus").innerHTML = attBonus+
+    '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regenBonus
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
     document.getElementById("wave").innerHTML = wave; 
-    document.getElementById("health").innerHTML = health;
+    document.getElementById("health").innerHTML = health+
+    '<span id="ally">+'+allyHp+'</span>'
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
@@ -738,11 +766,22 @@ function continueGame() {
 function saving() {
     gameProgress['score'] = score;
     gameProgress['cash'] = cash;
+    gameProgress['maxHealth'] = maxHealth;
     gameProgress['health'] = health;
     gameProgress['wave'] = wave;
     gameProgress['countDown'] = countDown;
 
     gameProgress['powerFreeze'] = powerFreeze;
+
+    if (Meteor.user()!==null) {
+        gameProgress['hpBonus'] = hpBonus 
+        gameProgress['attBonus'] = attBonus
+        gameProgress['armorBonus'] = armorBonus
+
+        gameProgress['allyHp'] = allyHp 
+        gameProgress['allyArmor'] = allyArmor
+        gameProgress['allyAttack'] = allyAttack
+    }
 
     gameProgress['tower'] = [];
     gameProgress['healer'] = [];
@@ -816,27 +855,73 @@ function saving() {
 
 function power(type) {
     if (!createjs.Ticker.getPaused()) {
-        if (Meteor.user()!==null && type=="freeze") {
-            if (Meteor.user().ability_freeze) {
-                if (powerFreeze==0) {
-                    powerFreeze = 800
-                    $('#freezePower').removeClass('selected')
-                    $('#freezePower').addClass('cooldown')
-                    for (var i=0;i<monsters.length;i++) {
-                        monsters[i].speed=0
-                        monsters[i].freezeCd = 60
+        if (Meteor.user()!==null) {
+            if (type=="freeze") {
+                if (Meteor.user().ability_freeze) {
+                    if (powerFreeze==0) {
+                        powerFreeze = 800
+                        $('#freezePower').removeClass('selected')
+                        $('#freezePower').addClass('cooldown')
+                        for (var i=0;i<monsters.length;i++) {
+                            monsters[i].speed=0
+                            monsters[i].freezeCd = 60
+                        }
+                        stopAnimate(true);                
+                    } else {                
+                        error("Freeze on cooldown")
                     }
-                    stopAnimate(true);                
-                } else {                
-                    error("Freeze on cooldown")
+                } else {
+                error("Please equip the 'Undead Bone' to use this power.")
                 }
-            } else {
-            error("Please equip the 'Undead Bone' to use this power.")
+            } 
+            else if (type=="meteorite") {
+                if (Meteor.user().ability_meteorite) {
+                    if (powerMeteorite==0) {
+                        powerMeteorite = 1
+                        $('#meteoritePower').removeClass('selected')
+                        $('#meteoritePower').addClass('cooldown')
+                        for (var i=0;i<monsters.length;i++) {
+                            stage.removeChild(monsters[i])
+                        }
+                        monsters.splice(0,monsters.length)
+                        console.log(monsters)              
+                    } else {                
+                        error("Meteorite is used up!")
+                    }
+                } else {
+                error("Please equip the 'item' to use this power.")
+                }
+
             }
         } else {
             error("Please sign in first.")
         }
+    } else {        
+        updatePower(type);
     } 
+}
+
+function updatePower(type) {
+    var pow = "Power: "
+    var effect = "Effect: "
+    var cd = "Cooldown: "
+
+    if (type=="freeze") {
+        pow += "Freezer" + "<br>"
+        effect += "Freeze monster for 3 Sec." + "<br>"
+        cd += 800/20 + " sec" + "<br>"
+    }
+    else if (type=="meteorite") {        
+        pow += "Meteorite" + "<br>"
+        effect += "Destroys all living thing in the world." + "<br>"
+        cd += "One time usage." + "<br>"
+    }
+
+    document.getElementById("infoText").innerHTML = 
+    pow + 
+    effect + 
+    cd
+
 }
 
 /*#########################################################################
@@ -880,7 +965,7 @@ function buyTower(type) {
     towerType = towerData[type]
     towerName = type
 
-    var name
+    var name = "Name: "
     var splash = ""
     var effect = "" 
     var basic = "Heal: " + towerType["damage"][0] + "<br>" +
@@ -890,11 +975,11 @@ function buyTower(type) {
         toggleAoe();        
     }
     if (type=='iceTower'){
-        name = "Ice Tower" + "<br>"
+        name += "Ice Tower" + "<br>"
     } else if (type=='lightTower') {
-        name = "Light Tower" + "<br>"
+        name += "Light Tower" + "<br>"
     } else {
-        name = "Fountain" + "<br>"
+        name += "Fountain" + "<br>"
     }
     if (towerType["effect"]) {
         if (towerName=="iceTower") {
@@ -928,8 +1013,8 @@ function buyTower(type) {
                 towerType = false
                 towerName = false                
             } else {         
-                error("Please equip the " +
-                    "Leoric's Jewellery " + "to build this tower.")
+                error("Please equip the 'Leoric" +
+                    "'s " + "Jewellery' " + "to build this tower.")
             }          
         } else {
             towerType = false
@@ -1229,7 +1314,11 @@ function sellTower() {
     document.getElementById("infoText").innerHTML = ""
     stage.removeChild(targetGrid)
     stage.removeChild(targetTower)
-    towers[targetTower.num] = false;
+    if (targetTower.name=="fountain") {
+        healers[targetTower.num] = false
+    } else {
+        towers[targetTower.num] = false;        
+    }
 
 };
 
@@ -1340,10 +1429,11 @@ function cAnimation() {
 function tick(event) {
     errorTextcd();
     if (document.getElementById("cash")==null) {
-        console.log('fail')
         createjs.Sound.stop()
         clearStage();
-    };
+    } else {
+        keyboards()
+    }
 
     if (!createjs.Ticker.getPaused()) {
         timer();//countdown of next wave
@@ -1366,6 +1456,64 @@ function tick(event) {
 
     stage.update(event); // important!!
 };
+//controls keyboard actions
+function keydown(event) {
+    keys[event.keyCode] = true;
+}
+
+function keyboards() {
+    if (keys[27]) {//esc
+        delete keys[27]
+        document.getElementById("infoText").innerHTML=""
+        $('.towerBtn').removeClass('selected');
+        towerType = false
+        towerName = false      
+    }
+    else if (keys[82]) {//r
+        delete keys[82]
+        towerType=(towerType) ? false:true;
+        toggleAoe();
+    }
+    else if (keys[49]) {//1
+        delete keys[49]
+        $('.ff').removeClass('selected');  
+        $('#ff1').addClass('selected');  
+        ff(0)
+    }
+    else if (keys[50]) {//2
+        delete keys[50]
+        $('.ff').removeClass('selected');  
+        $('#ff2').addClass('selected');   
+        ff(1)
+    }
+    else if (keys[51]) {//3
+        delete keys[51]
+        $('.ff').removeClass('selected');  
+        $('#ff4').addClass('selected');   
+        ff(2)
+    }
+    else if (keys[52]) {//4
+        delete keys[52]
+        $('.ff').removeClass('selected');  
+        $('#ff8').addClass('selected');   
+        ff(3)
+    }
+    else if (keys[80]) {//p
+        delete keys[80]
+        if (checkGG==0) {
+            togglePause();
+        } else {
+            clearStage();
+            setNewGame();
+            newGame();
+            $('.towerBtn').removeClass('selected');  
+        }
+    }
+    else if (keys[83]) {//s
+        delete keys[83]
+        toggleSound();
+    }
+}
 
 //to show any error to player
 function errorTextcd() {
@@ -1509,11 +1657,22 @@ function monsterMovement() {
                     castleBlock.cd = 5
                     stage.addChild(castleBlock)
                 } else {
-                    health-=(mob.damage-armorBonus);
+                    if (allyHp>0) {
+                        var dmg = allyHp - (mob.damage-armorBonus)
+                        if (dmg>=0) {
+                            allyHp -= (mob.damage-armorBonus)
+                        } else {
+                            allyHp = 0
+                            health += dmg
+                        }
+                    } else {
+                        health -= (mob.damage-armorBonus)
+                    }
                     castleHit.cd = 5
                     stage.addChild(castleHit)
-                    document.getElementById("health").innerHTML = health;
-                    castleText.text = health + "/" + maxHealth
+                    document.getElementById("health").innerHTML = 
+                    health+'<span id="ally">+'+allyHp+'</span>'
+                    castleText.text = (health+allyHp) + "/" + maxHealth
                     castleHpI.sourceRect = 
                     new createjs.Rectangle(0,0,health/maxHealth*64,10);
 
@@ -1853,6 +2012,7 @@ function nextWave() {
         if (Meteor.user() !== null) {
             saving();
         }
+        fountainHeal() //heal the castle
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
@@ -1883,6 +2043,26 @@ function nextWave() {
             cMonster("mario",9);
             monsterData["mario"]["hp"]*=1.3
         }        
+    }
+}
+
+//fountain heal
+function fountainHeal() {
+    for (var i=0;i<healers.length;i++) {
+        if (healers[i]) {
+            if (healers[i].cd>=1) {
+                healers[i].cd--
+            } else {
+                if (health<maxHealth) {
+                    healers[i].cd = healers[i].maxCd
+                    if ((health+healers[i].damage)>=maxHealth) {
+                        health=maxHealth
+                    } else {
+                        health += healers[i].damage                        
+                    }
+                }
+            }
+        }
     }
 }
 

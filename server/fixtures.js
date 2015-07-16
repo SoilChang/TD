@@ -297,7 +297,7 @@ for(var i=0; i<len; i++){
 	}else{
 		// if found
 		eqpList.update({_id: object._id},{$set:{
-			name: allItemData[i].name;
+			name: allItemData[i].name,
 			price: allItemData[i].price,
 			hpBonus: allItemData[i].hpBonus,
 			armourBonus: allItemData[i].armourBonus,

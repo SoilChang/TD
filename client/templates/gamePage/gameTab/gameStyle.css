@@ -68,6 +68,13 @@
 	background: red;
 }
 
+.ally {
+	color: red;
+}
+#ally {
+	color: green;
+}
+
 hr{
 	display: block;
     margin-top: 0.5px;
