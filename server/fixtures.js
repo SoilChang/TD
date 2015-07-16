@@ -265,7 +265,7 @@ var allItemData = [
 
 	###########################################################*/
 	{
-		name: "Leoric's Jewlry",
+		name: "Leoric's jewellery",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
 		price: 30,
@@ -297,6 +297,7 @@ for(var i=0; i<len; i++){
 	}else{
 		// if found
 		eqpList.update({_id: object._id},{$set:{
+			name: allItemData[i].name;
 			price: allItemData[i].price,
 			hpBonus: allItemData[i].hpBonus,
 			armourBonus: allItemData[i].armourBonus,
