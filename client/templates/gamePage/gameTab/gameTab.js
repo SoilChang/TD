@@ -42,7 +42,6 @@ coordinates, castleData, wave, //game stats
 s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
-gateI,gate,
 castleHitI, castleHit, monsterKillI, //added animations
 lightTower1, lightTower2, lightTower3, lightTower4,//tower images
 iceTower1, iceTower2, iceTower3, iceTower4,
@@ -481,13 +480,6 @@ function imageload() {
     backgroundI.src = "/images/gameImages/3dStage.png"
     //load background
     background = new createjs.Bitmap(backgroundI);
-    //gate
-    gateI = new Image();
-    gateI.src = "/images/gameImages/zakumGate.png"
-    //load background
-    gate = new createjs.Bitmap(gateI);
-    gate.x = 64
-    gate.y = -6
 
     //castle image
     castleIm = new Image();
@@ -678,7 +670,6 @@ function newGame() {
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
-    stage.addChild(gate)
     //line of creep path
     //path();
 
@@ -741,7 +732,6 @@ function currentGame() {
 
     stage.enableMouseOver(0);
     stage.addChild(castle);
-    stage.addChild(gate)
     stage.addChild(pScreen);
 
     stage.update();
@@ -775,7 +765,6 @@ function continueGame() {
 
     stage.enableMouseOver(0);
     stage.addChild(castle)
-    stage.addChild(gate)
     stage.addChild(pScreen);
 
     stage.update();
@@ -1804,7 +1793,7 @@ function towerAttacks() {
                     continue;
                 };
                 for (var j=0;j<monsters.length;j++) {
-                    if (inRange(towers[i],monsters[j]) && monsters[j].y>=35) {
+                    if (inRange(towers[i],monsters[j]) && monsters[j].y>=0) {
                         cShots(towers[i],monsters[j])
                         towers[i].cd = towers[i].maxCd;
                         break;
@@ -2064,8 +2053,7 @@ function nextWave() {
         else {
             cMonster("mario",9);
             monsterData["mario"]["hp"]*=1.3
-        }
-        stage.addChild(gate)        
+        }       
     }
 }
 
