@@ -76,14 +76,11 @@ Template.gamePage.helpers({
 });
 
 
-var soundCheck = 1
 Template.gamePage.events({
 	'click #audio': function() {
 		BGsound.toggleMute()
 
-		document.getElementById('audio').src = (soundCheck)?
+		document.getElementById('audio').src = (BGsound.isMuted())?
 		"/images/gamePage/musicOff.png"	: "/images/gamePage/musicOn.png"	
-
-		soundCheck = (soundCheck)? 0:1
 	}
 });

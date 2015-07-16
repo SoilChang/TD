@@ -265,14 +265,14 @@ var allItemData = [
 
 	###########################################################*/
 	{
-		name: "Leoric's Jewlry",
+		name: "Leoric's Jewellery",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
 		price: 30,
 		hpBonus: 5,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you the ability to build regenrative tower'
+		magicalPower: 'This ring grants you the ability to build regenerative tower'
 	},
 	{
 		name: "Undead Bone",
@@ -282,7 +282,7 @@ var allItemData = [
 		hpBonus: 5,
 		armourBonus: 1,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 2 second'
+		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
 	}
 ];
 

@@ -14,6 +14,7 @@
 -Game Events
 -Game Buttons
 -Behind the Game
+-Sound Logic
 
 ###########################################################################
 
@@ -41,11 +42,13 @@ s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 castleHitI, castleHit, monsterKillI, //added animations
-lightTower1, lightTower2, lightTower3, lightTower4,
-iceTower1, iceTower2, iceTower3, iceTower4,//tower images
+lightTower1, lightTower2, lightTower3, lightTower4,//tower images
+iceTower1, iceTower2, iceTower3, iceTower4,
+fountain1, fountain2, fountain3, fountain4,
 itS, ice, ltS, light,
 healthbarI, healthbar, marioI, warriorI, armoredI, wizardI,//monster images
 towerData, towers, towerType, towerName, targetTower,//tower variables
+healers,
 monsterData, monsters, monsterDead,//monster variables
 shots, //shots variables
 powerFreeze, //power cooldowns
@@ -61,7 +64,7 @@ gameProgress = {} //saved game
 monsterData = {} //types of monsters
 towerData = {} //types of towers
 ffCount = [20,40,80,160]
-maxHealth = 20
+maxHealth = 18
 coordinates = [
 [96, 0],
 [94, 480],
@@ -82,10 +85,11 @@ function gameData(type) {
             monsterDead = [] //animation when monster die
             shots = [] //shots on map
             towers = []   //towers currently on map
+            healers = [] //fountain on map
             powerFreeze = 0 //cooldown of power
             score = 0;
             health = maxHealth;
-            cash = 40;
+            cash = 500;
             wave = 0;
             checkGG = 0;
             errorCD = 0 //time for error message to stay on canvas
@@ -103,6 +107,7 @@ function gameData(type) {
             monsterDead = []
             shots = []
             towers = []
+            healers = []
             powerFreeze = gameProgress['powerFreeze']
             score = gameProgress['score']
             health = gameProgress['health']
@@ -197,6 +202,9 @@ Template.gameTab.events({
 	'click #lightBtn': function(){
 		buyTower('lightTower')
 	},
+    'click #fountainBtn': function(){
+        buyTower('fountain')
+    },
 	'click #freezePower': function(){
 		power('freeze')
 	},
@@ -225,6 +233,20 @@ Template.gameTab.onRendered(function() {
         function(){
         $('.towerBtn').removeClass('selected');
         $(this).addClass('selected');
+    });
+    $('#fountainBtn').click(
+        function(){
+        $('.towerBtn').removeClass('selected');
+        if (Meteor.user()!==null) {
+            if (Meteor.user().ability_regen) {            
+                $(this).addClass('selected');
+            } else {
+                error("Please equip the " +
+                    "Leoric's Jewellery " + "to build this tower.")
+            }            
+        } else {
+            error("Please sign in first.'")
+        }  
     });
     $('.ff').click(
         function(){
@@ -484,7 +506,6 @@ function imageload() {
     lightTower4 = new Image();
     lightTower4.src = "/images/gameImages/light_tower_4.png";
 
-
     //light tower shots
     ltS = {
         images: ["/images/gameImages/lightShot.png"],
@@ -496,16 +517,17 @@ function imageload() {
     };
     light = new createjs.SpriteSheet(ltS);
 
-    //ice tower
+
+    //ice tower level 1
     iceTower1 = new Image();
     iceTower1.src = "/images/gameImages/ice_tower.png";
-    //ice tower
+    //ice tower level 2
     iceTower2 = new Image();
     iceTower2.src = "/images/gameImages/ice_tower_2.png";
-    //ice tower
+    //ice tower level 3
     iceTower3 = new Image();
     iceTower3.src = "/images/gameImages/ice_tower_3.png";
-    //ice tower
+    //ice tower level 4
     iceTower4 = new Image();
     iceTower4.src = "/images/gameImages/ice_tower_4.png";
     //ice tower shots
@@ -520,6 +542,21 @@ function imageload() {
         }
     };
     ice = new createjs.SpriteSheet(itS);
+
+
+    //fountain level 1
+    fountain1 = new Image();
+    fountain1.src = "/images/gameImages/regenTower_1.png";
+    //fountain level 2
+    fountain2 = new Image();
+    fountain2.src = "/images/gameImages/regenTower_2.png";
+    //fountain level 3
+    fountain3 = new Image();
+    fountain3.src = "/images/gameImages/regenTower_3.png";
+    //fountain level 4
+    fountain4 = new Image();
+    fountain4.src = "/images/gameImages/regenTower_4.png";
+
 
     //hp image
     healthbarI = new Image();
@@ -671,6 +708,7 @@ function continueGame() {
     gameData('saved');
 
     creation('tower')
+    creation('fountain')
     creation('monster')
 
     //edit UI
@@ -707,6 +745,7 @@ function saving() {
     gameProgress['powerFreeze'] = powerFreeze;
 
     gameProgress['tower'] = [];
+    gameProgress['healer'] = [];
     gameProgress['monster'] = [];
     gameProgress['shot'] = [];
 
@@ -725,7 +764,21 @@ function saving() {
             gameProgress['tower'].push(tObj)
         }
     }
-
+    if (healers!=false) {
+        for (var i=0;i<healers.length;i++) {
+            if (healers[i]==false) {
+                gameProgress['healer'].push(false)
+                continue
+            }
+            var hObj = {}
+            hObj.name = healers[i].name
+            hObj.x = healers[i].x
+            hObj.y = healers[i].y
+            hObj.level = (healers[i].level-1)
+            hObj.bg = healers[i].bg
+            gameProgress['healer'].push(hObj)
+        }
+    }
     if (monsters!=false) {
         for (var i=0;i<monsters.length;i++) {
             if (monsters[i].dead==1) {
@@ -763,21 +816,27 @@ function saving() {
 
 function power(type) {
     if (!createjs.Ticker.getPaused()) {
-        if (type == "freeze") {
-            if (powerFreeze==0) {
-                powerFreeze = 600
-                $('#freezePower').removeClass('selected')
-                $('#freezePower').addClass('cooldown')
-                for (var i=0;i<monsters.length;i++) {
-                    monsters[i].speed=0
-                    monsters[i].freezeCd = 60
+        if (Meteor.user()!==null && type=="freeze") {
+            if (Meteor.user().ability_freeze) {
+                if (powerFreeze==0) {
+                    powerFreeze = 800
+                    $('#freezePower').removeClass('selected')
+                    $('#freezePower').addClass('cooldown')
+                    for (var i=0;i<monsters.length;i++) {
+                        monsters[i].speed=0
+                        monsters[i].freezeCd = 60
+                    }
+                    stopAnimate(true);                
+                } else {                
+                    error("Freeze on cooldown")
                 }
-                stopAnimate(true);                
-            } else {                
-                error("Freeze on cooldown")
+            } else {
+            error("Please equip the 'Undead Bone' to use this power.")
             }
-        }   
-    }
+        } else {
+            error("Please sign in first.")
+        }
+    } 
 }
 
 /*#########################################################################
@@ -794,51 +853,90 @@ function addTower() {
     "type":"Single", "splash":[false],
     "effect":false,
     "range":[96,96,112,112], "cost":[15,30,60,120], "cd":[15,15,10,5],
-     "damage":[10,20,40,80], "shot":light, "speed":10}
+     "damage":[10,20,40,80], "shot":light, "speed":10//speed of shot
+    }
 
     //ice tower
     towerData["iceTower"] =
     {"image":[iceTower1,iceTower2,iceTower3,iceTower4], 
-    "w":30, "h":30,
+    "w":30, "h":30,//dimension of shots
     "type":"Splash", "splash":[16,32,32,48], 
     "effect":true, "slow":[.25,.4,.5,.8], "slowDuration":[20,25,30,35],
     "range":[80,80,96,96], "cost":[20,40,80,160], "cd":[20,20,15,15],
     "damage":[5,10,20,40], "shot":ice, "speed":10}
+
+    //fountain
+    towerData["fountain"] =
+    {"image":[fountain1,fountain2,fountain3,fountain4],
+    "type":"Heal", "splash":[false],
+    "effect":false,
+    "cost":[100,150,200,250], "cd":[2,1,1,1],
+    "damage":[1,1,2,4]}
 }
 
 
 //buying tower
 function buyTower(type) {
-    var splash = ""
-    var effect = ""
-
-    towerType = towerData[type];
+    towerType = towerData[type]
     towerName = type
+
+    var name
+    var splash = ""
+    var effect = "" 
+    var basic = "Heal: " + towerType["damage"][0] + "<br>" +
+        "Range: Global" + "<br>"
 
     if (towers.length != 0) {
         toggleAoe();        
     }
-
+    if (type=='iceTower'){
+        name = "Ice Tower" + "<br>"
+    } else if (type=='lightTower') {
+        name = "Light Tower" + "<br>"
+    } else {
+        name = "Fountain" + "<br>"
+    }
     if (towerType["effect"]) {
         if (towerName=="iceTower") {
             effect = "Slow: " +  
             (towerType["slow"][0]*100) + "%" + "<br>"
         }
     }
-
     if (towerType["splash"][0]) {    
         splash = "Splash: " +
         towerType["splash"][0]/32 + "<br>" 
     };
+    if (type!='fountain') {
+        basic = 
+        "Dmg: " + towerType["damage"][0] + "<br>" +
+        "Range: " + towerType["range"][0]/32 + "<br>" +
+        "Atk Spd: " + towerType["cd"][0]/20 + "<br>" +
+        splash +
+        effect 
+    }
+
     stage.removeChild(targetGrid);
     document.getElementById("infoText").innerHTML = 
+    name + 
     "Dmg Type: " + towerType["type"] + "<br>" +
-    "Dmg: " + towerType["damage"][0] + "<br>" +
-    splash +
-    "Range: " + towerType["range"][0]/32 + "<br>" +
-    "Atk Spd: " + towerType["cd"][0]/20 + "<br>" +
-    effect +
+    basic +
     "Cost: " + towerType["cost"][0] + "<br>"
+
+    if (type=='fountain') {
+        if (Meteor.user()!==null) { 
+            if (Meteor.user().ability_regen){
+                towerType = false
+                towerName = false                
+            } else {         
+                error("Please equip the " +
+                    "Leoric's Jewellery " + "to build this tower.")
+            }          
+        } else {
+            towerType = false
+            towerName = false       
+            error("Please sign in first.")
+        }
+    }
 };
 
 //building tower onto canvas
@@ -863,7 +961,7 @@ function buildTower(event) {
     //buying of tower
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType && towerType!=true) {
-            if (towerType["cost"][0]<=cash) {
+            if (towerName!='fountain' && towerType["cost"][0]<=cash) {
                 $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
@@ -909,6 +1007,40 @@ function buildTower(event) {
                 towerType = false;
                 towerName = false;
                 toggleAoe();
+            } 
+            else if (towerType["cost"][0]<=cash) {
+                $('.towerBtn').removeClass('selected');                
+                stage.removeChild(hoverT);
+                event.target.mouseEnabled = false;
+                var newImage = new createjs.Bitmap(towerType["image"][0]);
+                var newTower = new createjs.Container();
+                newTower.mouseChildren = false;
+                newTower.bg = event.target.pt;
+                newTower.name = towerName;
+                newTower.num = healers.length;
+                newTower.level = 1;
+                newTower.maxLevel = towerType["damage"].length;
+                newTower.maxCd = towerType["cd"][0];
+                newTower.cd = 0;
+                newTower.damage = towerType["damage"][0];
+                newTower.effect = towerType["effect"];
+                newTower.cost = towerType["cost"][1];
+                newTower.sell = towerType["cost"][0];
+                newTower.x = event.target.coord[0];
+                newTower.y = event.target.coord[1];
+                newTower.coord = event.target.coord
+                newTower.on("click", handleTower); 
+                newTower.splash = towerType["splash"][0];
+
+                newTower.addChild(newImage);
+                healers.push(newTower);
+                stage.addChild(newTower);
+                cash -= towerType["cost"][0];
+                document.getElementById("cash").innerHTML = cash;
+                towerType = false;
+                towerName = false;
+                toggleAoe();
+
             } else {
                 error("Insufficient cash")
             }
@@ -927,7 +1059,9 @@ function handleTower(event) {
         towerName = false;
 
         for (var i=0;i<towers.length;i++) {
-            towers[i].removeChild(towers[i].aoe)
+            if (towers[i]) {
+                towers[i].removeChild(towers[i].aoe)                
+            }
         }
 
         targetGrid.x=event.target.coord[0];
@@ -935,7 +1069,9 @@ function handleTower(event) {
         stage.addChild(targetGrid);
         targetTower = event.target
         updateInfo(targetTower);
-        event.target.addChild(event.target.aoe);
+        if (event.target.name!='fountain') {            
+            event.target.addChild(event.target.aoe);
+        }
     }
 };
 
@@ -943,6 +1079,7 @@ function handleTower(event) {
 function updateInfo(tower) {
     var effect = ""
     var splash = ""
+    var basic = ""
     var sellPrice = (wave==0)? tower.sell : Math.ceil(tower.sell*.7)
 
     if (tower.effect) {
@@ -951,42 +1088,61 @@ function updateInfo(tower) {
             (towerData[tower.name]["slow"][tower.level]*100) + "%" + "<br>"
         }
     }
-
     if (tower.splash) {    
         splash = "Splash: " + tower.splash/32 + " --> " +  
         towerData[tower.name]["splash"][tower.level]/32 + "<br>" 
     };
-    //tower info
-    document.getElementById("infoText").innerHTML = 
-    (targetTower.level < targetTower.maxLevel)?
-    "Lvl: " + tower.level +" --> " + (tower.level+1) + "<br>" +
-    "Dmg: " + tower.damage + "(+"+ tower.bonus + ")" +" --> " + 
-    towerData[tower.name]["damage"][tower.level] + "<br>" +
-    "Range: " + tower.range/32 + " --> " +  
-    towerData[tower.name]["range"][tower.level]/32 + "<br>" +
-    splash +
-    "Atk Spd: " + tower.maxCd/20 + " --> " +  
-    towerData[tower.name]["cd"][tower.level]/20 + "<br>" +
-    effect +
-    "<input type='button' value='Upgrade' id='upgradeBtn'>" + 
-    towerData[tower.name]["cost"][tower.level] + "<br>" +
-    "<input type='button' value='Sell' id='sellBtn'>" +
-    sellPrice
 
-    : "Lvl: " + tower.level + "<br>" +
-    "Dmg: " + tower.damage + "(+" + tower.bonus + ")" + "<br>" +
-    "Range: " + tower.range/32 +  "<br>" + 
-    splash +
-    "Atk Spd: " + tower.maxCd/20 + "<br>" +
-    effect +
-    "Max level" + "<br>" +
-    "<input type='button' value='Sell' id='sellBtn'>" +
-    sellPrice
+    //tower info
+    if (targetTower.level<targetTower.maxLevel) {
+        if (tower.name=='fountain') {            
+            basic = 
+            "Heal: " + tower.damage +" --> " + 
+            towerData[tower.name]["damage"][tower.level] + "<br>" +
+            "Range: Global" + "<br>"
+        } else {
+            basic = 
+            "Dmg: " + tower.damage + "(+"+ tower.bonus + ")" +" --> " + 
+            towerData[tower.name]["damage"][tower.level] + "<br>" +
+            "Range: " + tower.range/32 + " --> " +  
+            towerData[tower.name]["range"][tower.level]/32 + "<br>" +
+            "Atk Spd: " + tower.maxCd/20 + " --> " +  
+            towerData[tower.name]["cd"][tower.level]/20 + "<br>" 
+        }
+        document.getElementById("infoText").innerHTML = 
+        "Lvl: " + tower.level +" --> " + (tower.level+1) + "<br>" +
+        basic +
+        splash +
+        effect +
+        "<input type='button' value='Upgrade' id='upgradeBtn'>" + 
+        towerData[tower.name]["cost"][tower.level] + "<br>" +
+        "<input type='button' value='Sell' id='sellBtn'>" +
+        sellPrice
+    } else {
+        if (tower.name=='fountain') {            
+            basic = 
+            "Heal: " + tower.damage + "<br>" +
+            "Range: Global" + "<br>"
+        } else {
+            basic = 
+            "Dmg: " + tower.damage + "(+" + tower.bonus + ")" + "<br>" +
+            "Range: " + tower.range/32 +  "<br>" + 
+            "Atk Spd: " + tower.maxCd/20 + "<br>"
+        }
+        document.getElementById("infoText").innerHTML = 
+        "Lvl: " + tower.level + "<br>" +
+        basic +
+        splash +
+        effect +
+        "Max level" + "<br>" +
+        "<input type='button' value='Sell' id='sellBtn'>" +
+        sellPrice
+    }
 };
 
 //upgrading of tower
 function upgradeTower() {
-    if (targetTower.cost<=cash) {
+    if (targetTower.name!='fountain' && targetTower.cost<=cash) {
         cash-=targetTower.cost
         document.getElementById("cash").innerHTML = cash
         if (targetTower.name == 'iceTower') {
@@ -1025,6 +1181,29 @@ function upgradeTower() {
 
 
         updateInfo(targetTower);
+    } 
+    else if (targetTower.cost<=cash) {
+        cash-=targetTower.cost
+        document.getElementById("cash").innerHTML = cash
+
+        targetTower.sell += targetTower.cost
+        targetTower.damage = 
+        towerData[targetTower.name]["damage"][targetTower.level];
+        targetTower.maxCd = 
+        towerData[targetTower.name]["cd"][targetTower.level];
+        targetTower.cost = 
+        towerData[targetTower.name]["cost"][targetTower.level+1];
+
+        targetTower.removeAllChildren()
+        //updates tower image
+        var newImage = new createjs.Bitmap(towerData[targetTower.name]["image"]
+            [targetTower.level])
+        targetTower.addChild(newImage)
+
+        targetTower.level += 1;
+
+        updateInfo(targetTower);
+
     } else {
         error("Insufficient Cash!");
     }
@@ -1787,6 +1966,7 @@ function gameOverAlert() {
         setNewGame();
         newGame();
     } else {
+        stage.removeChild(stage)
         createjs.Ticker.setPaused(true);
         stopAnimate(true)
         pScreen.getChildAt(1).text = "GAME OVER"
@@ -1841,8 +2021,11 @@ function creation(type) {
                     hitsT[tbg[0]][tbg[1]][tbg[2]].mouseEnabled = false;
                     var newImage = new createjs.Bitmap(tData["image"][t.level]);
                     var newTower = new createjs.Container();
+                    newTower.mouseChildren = false;
+
                     newTower.bg = t.bg
                     newTower.name = t.name;
+                    newTower.num = towers.length;
                     newTower.level = t.level+1;
                     newTower.maxLevel = tData["damage"].length;
                     newTower.range = tData["range"][t.level];
@@ -1877,7 +2060,45 @@ function creation(type) {
                 }
             }
             break;
+        case 'fountain':
+            var hTrack = gameProgress['healer']
+            if (hTrack!=false) {
+                for (var i=0;i<hTrack.length;i++) {
+                    var h = hTrack[i]
+                    if (h==false) {
+                        towers.push(false)
+                        continue
+                    }
+                    var hbg = h.bg
+                    var hData = towerData[h.name]
+                    hitsT[hbg[0]][hbg[1]][hbg[2]].mouseEnabled = false;
+                    var newImage = new createjs.Bitmap(hData["image"][h.level]);
+                    var newTower = new createjs.Container();
+                    newTower.mouseChildren = false;
+                    newTower.bg = h.bg
+                    newTower.name = h.name;
+                    newTower.num = healers.length;
+                    newTower.level = h.level+1;
+                    newTower.maxLevel = hData["damage"].length;
+                    newTower.maxCd = hData["cd"][h.level];
+                    newTower.cd = 0;
+                    newTower.damage = hData["damage"][h.level];
+                    newTower.effect = hData["effect"];
+                    newTower.cost = hData["cost"][h.level+1];
+                    newTower.sell = hData["cost"][h.level];
+                    newTower.x = h.x;
+                    newTower.y = h.y;
+                    newTower.coord = [h.x,h.y];
+                    newTower.on("click", handleTower); 
+                    newTower.splash = hData["splash"][h.level];
 
+                    newTower.addChild(newImage);
+                    healers.push(newTower);
+                    stage.addChild(newTower);
+                }
+            }
+            break;
+        
         case 'monster':            
             var mTrack = gameProgress['monster']
             if (mTrack!=false) {
@@ -1948,7 +2169,9 @@ function gridData() {
     t2 = new createjs.Container();
     t2.addChild(t2i,t2a);
 
-    hoverTower = {"lightTower": t1, "iceTower":t2}
+    t3 = new createjs.Bitmap("/images/gameImages/regenTower_1.png");
+
+    hoverTower = {"lightTower": t1, "iceTower":t2, "fountain":t3}
 
 };
 
