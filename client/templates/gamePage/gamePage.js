@@ -85,5 +85,11 @@ Template.gamePage.events({
 		"/images/gamePage/musicOff.png"	: "/images/gamePage/musicOn.png"	
 
 		soundCheck = (soundCheck)? 0:1
-	}
+	},
+
+	// "click #b1":function(){
+	// 	console.log("sound played");
+		
+	// 	clickOn.play().setVolume(100);
+	// }
 });

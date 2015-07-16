@@ -1,3 +1,4 @@
+
 // render the user data into the template
 Template.kingdomTab.helpers({
 	'userDataLoad': function(){
