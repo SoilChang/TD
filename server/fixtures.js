@@ -297,7 +297,6 @@ for(var i=0; i<len; i++){
 	}else{
 		// if found
 		eqpList.update({_id: object._id},{$set:{
-			name: allItemData[i].name;
 			price: allItemData[i].price,
 			hpBonus: allItemData[i].hpBonus,
 			armourBonus: allItemData[i].armourBonus,
@@ -306,7 +305,8 @@ for(var i=0; i<len; i++){
 	}
 }
 
-
+// to fix error
+eqpList.remove({name:"Leoric's Jewlry"});
 
 
 
