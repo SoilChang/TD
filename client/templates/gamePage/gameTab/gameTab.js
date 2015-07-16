@@ -226,7 +226,7 @@ Template.gameTab.events({
         $("#meteor").show(function(){
                     $("#meteor").animate({marginLeft:"500px",marginTop:"150px"},2000,function(){
                         $("#meteor").hide();
-                        $("#meteor").css({"margin-top":"-200px", "margin-left":"-150px;"});
+                        $("#meteor").css({"margin-top":"-200px", "margin-left":"-150px"});
                     });
                     
         });
