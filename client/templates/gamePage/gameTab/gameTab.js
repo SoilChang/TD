@@ -93,7 +93,7 @@ function gameData(type) {
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_meteorite) {
                     cash =65
-                } else {cash=500}
+                } else {cash=40}
             } else {cash=40}
             wave = 0;
             checkGG = 0;
