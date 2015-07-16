@@ -22,13 +22,13 @@
 
 #########################################################################*/
 var gameLoaded, gameRunning, keys,
-attBonus, hpBonus, armorBonus, regenBonus,
+attBonus, hpBonus, armorBonus, regen,
 allyHp, allyArmor, allyAttack
 keys = {};
 attBonus = 0;
 hpBonus = 0;
 armorBonus = 0;
-regenBonus = 0;
+regen = 0;
 allyHp = 0;
 allyArmor = 0;
 allyAttack = 0;
@@ -42,6 +42,7 @@ coordinates, castleData, wave, //game stats
 s1, s2, s3, s4,//monster sprites
 backgroundI, background, castleIm, castleI, castle, //canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
+gateI,gate,
 castleHitI, castleHit, monsterKillI, //added animations
 lightTower1, lightTower2, lightTower3, lightTower4,//tower images
 iceTower1, iceTower2, iceTower3, iceTower4,
@@ -93,7 +94,7 @@ function gameData(type) {
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_meteorite) {
                     cash =65
-                } else {cash=40}
+                } else {cash=500}
             } else {cash=40}
             wave = 0;
             checkGG = 0;
@@ -255,13 +256,8 @@ Template.gameTab.onRendered(function() {
         if (Meteor.user()!==null) {
             if (Meteor.user().ability_regen) {            
                 $(this).addClass('selected');
-            } else {
-                error("Please equip the 'Leoric" +
-                    "'s " + "Jewellery' " + "to build this tower.")
-            }            
-        } else {
-            error("Please sign in first.'")
-        }  
+            }
+        }
     });
     $('.ff').click(
         function(){
@@ -473,6 +469,13 @@ function imageload() {
     backgroundI.src = "/images/gameImages/3dStage.png"
     //load background
     background = new createjs.Bitmap(backgroundI);
+    //gate
+    gateI = new Image();
+    gateI.src = "/images/gameImages/zakumGate.png"
+    //load background
+    gate = new createjs.Bitmap(gateI);
+    gate.x = 64
+    gate.y = -6
 
     //castle image
     castleIm = new Image();
@@ -663,6 +666,7 @@ function newGame() {
     castleHpI.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
+    stage.addChild(gate)
     //line of creep path
     //path();
 
@@ -676,7 +680,7 @@ function newGame() {
     '<span class="ally">+'+allyArmor+'</span>'
     document.getElementById("bonus").innerHTML = attBonus+
     '<span class="ally">+'+allyAttack+'</span>'
-    document.getElementById("regen").innerHTML = regenBonus
+    document.getElementById("regen").innerHTML = regen
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
@@ -697,7 +701,7 @@ function currentGame() {
     '<span class="ally">+'+allyArmor+'</span>'
     document.getElementById("bonus").innerHTML = attBonus+
     '<span class="ally">+'+allyAttack+'</span>'
-    document.getElementById("regen").innerHTML = regenBonus
+    document.getElementById("regen").innerHTML = regen
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
@@ -725,6 +729,7 @@ function currentGame() {
 
     stage.enableMouseOver(0);
     stage.addChild(castle);
+    stage.addChild(gate)
     stage.addChild(pScreen);
 
     stage.update();
@@ -745,7 +750,7 @@ function continueGame() {
     '<span class="ally">+'+allyArmor+'</span>'
     document.getElementById("bonus").innerHTML = attBonus+
     '<span class="ally">+'+allyAttack+'</span>'
-    document.getElementById("regen").innerHTML = regenBonus
+    document.getElementById("regen").innerHTML = regen
 
     document.getElementById("score").innerHTML = score; 
     document.getElementById("cash").innerHTML = cash;
@@ -758,6 +763,7 @@ function continueGame() {
 
     stage.enableMouseOver(0);
     stage.addChild(castle)
+    stage.addChild(gate)
     stage.addChild(pScreen);
 
     stage.update();
@@ -1009,13 +1015,12 @@ function buyTower(type) {
 
     if (type=='fountain') {
         if (Meteor.user()!==null) { 
-            if (Meteor.user().ability_regen){
+            if (!Meteor.user().ability_regen){
                 towerType = false
-                towerName = false                
-            } else {         
+                towerName = false     
                 error("Please equip the 'Leoric" +
-                    "'s " + "Jewellery' " + "to build this tower.")
-            }          
+                    "'s " + "Jewellery' " + "to build this tower.")           
+            }        
         } else {
             towerType = false
             towerName = false       
@@ -1122,6 +1127,8 @@ function buildTower(event) {
                 stage.addChild(newTower);
                 cash -= towerType["cost"][0];
                 document.getElementById("cash").innerHTML = cash;
+                regen+=newTower.damage
+                document.getElementById("regen").innerHTML = regen;
                 towerType = false;
                 towerName = false;
                 toggleAoe();
@@ -1271,6 +1278,8 @@ function upgradeTower() {
         cash-=targetTower.cost
         document.getElementById("cash").innerHTML = cash
 
+        regen -= targetTower.damage
+        targetTower.removeAllChildren()
         targetTower.sell += targetTower.cost
         targetTower.damage = 
         towerData[targetTower.name]["damage"][targetTower.level];
@@ -1279,7 +1288,6 @@ function upgradeTower() {
         targetTower.cost = 
         towerData[targetTower.name]["cost"][targetTower.level+1];
 
-        targetTower.removeAllChildren()
         //updates tower image
         var newImage = new createjs.Bitmap(towerData[targetTower.name]["image"]
             [targetTower.level])
@@ -1287,6 +1295,8 @@ function upgradeTower() {
 
         targetTower.level += 1;
 
+        regen += targetTower.damage
+        document.getElementById("regen").innerHTML = regen
         updateInfo(targetTower);
 
     } else {
@@ -1782,7 +1792,7 @@ function towerAttacks() {
                     continue;
                 };
                 for (var j=0;j<monsters.length;j++) {
-                    if (inRange(towers[i],monsters[j]) && monsters[j].y>=0) {
+                    if (inRange(towers[i],monsters[j]) && monsters[j].y>=35) {
                         cShots(towers[i],monsters[j])
                         towers[i].cd = towers[i].maxCd;
                         break;
@@ -1975,7 +1985,7 @@ function shotsEffect(shot,monster) {
 //error text
 function error(txt) {
     document.getElementById("errorText").innerHTML = txt;
-    errorCD = 30;
+    errorCD = 50;
 }
 
 //toggle aoe
@@ -2042,7 +2052,8 @@ function nextWave() {
         else {
             cMonster("mario",9);
             monsterData["mario"]["hp"]*=1.3
-        }        
+        }
+        stage.addChild(gate)        
     }
 }
 
