@@ -193,6 +193,7 @@ Template.gameTab.events({
 	'click #rangeBtn': function(){
 		towerType=(towerType) ? false:true;
 		toggleAoe();
+
 	},
 	'click #nextBtn': function(){
 		nextWave();
@@ -223,6 +224,17 @@ Template.gameTab.events({
 	},
     'click #meteoritePower': function(){
         power('meteorite')
+        $("#meteor").show(function(){
+                    $("#meteor").animate({marginLeft:"500px",marginTop:"150px"},2000,function(){
+                        $("#meteor").hide();
+                        $("#meteor").css({"margin-top":"-200px", "margin-left":"-150px;"});
+                    });
+                    
+        });
+        $("#impactShadow").fadeIn(2000,function(){
+            $("#playingField").effect( "shake" );
+            $("#impactShadow").hide();
+        });
     },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);

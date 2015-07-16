@@ -144,3 +144,20 @@
 	margin-top: 2px;
 	z-index: 5;
 }
+
+#meteor{
+	position: absolute;
+	z-index: 1px;
+	margin-top: -200px;
+	margin-left: -150px;
+	display: none;
+	z-index: 2;
+}
+
+#impactShadow{
+	position: absolute;
+	z-index: 1px;
+	margin-left: 600px;
+	margin-top: 250px;
+	display: none;
+}
