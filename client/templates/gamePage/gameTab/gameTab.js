@@ -877,7 +877,7 @@ function power(type) {
                         error("Freeze on cooldown")
                     }
                 } else {
-                error("Please equip the 'Undead Bone' to use this power.")
+                error("Please buy the 'Undead Bone' to use this power.")
                 }
             } 
             else if (type=="meteorite") {
@@ -895,7 +895,7 @@ function power(type) {
                         error("Meteorite is used up!")
                     }
                 } else {
-                error("Please equip the 'item' to use this power.")
+                error("Please buy the 'item' to use this power.")
                 }
 
             }
@@ -1018,7 +1018,7 @@ function buyTower(type) {
             if (!Meteor.user().ability_regen){
                 towerType = false
                 towerName = false     
-                error("Please equip the 'Leoric" +
+                error("Please buy the 'Leoric" +
                     "'s " + "Jewellery' " + "to build this tower.")           
             }        
         } else {
