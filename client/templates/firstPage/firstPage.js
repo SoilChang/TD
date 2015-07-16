@@ -85,6 +85,7 @@ Template.firstPage.onRendered(function(){
 	});
 
 
+
 	// facebook sdk stuff
 	 try {
         FB.XFBML.parse();
