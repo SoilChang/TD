@@ -222,18 +222,22 @@ Template.gameTab.events({
 		power('freeze')
 	},
     'click #meteoritePower': function(){
-        power('meteorite')
-        $("#meteor").show(function(){
-                    $("#meteor").animate({marginLeft:"500px",marginTop:"150px"},2000,function(){
-                        $("#meteor").hide();
-                        $("#meteor").css({"margin-top":"-200px", "margin-left":"-150px"});
-                    });
-                    
+        
+        
+        $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
+            $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
+        });  
+        $("#impactShadow").animate({marginLeft:"610px", marginTop:"250px",height:"150px"},2000,function(){
+           
+            $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;"});
+            $("#playingField").effect("shake");
+            // functionalities here
+            
         });
-        $("#impactShadow").fadeIn(2000,function(){
-            $("#playingField").effect( "shake" );
-            $("#impactShadow").hide();
-        });
+         
+        power('meteorite');
+    
+
     },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);

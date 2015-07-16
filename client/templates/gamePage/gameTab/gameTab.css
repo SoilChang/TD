@@ -148,16 +148,16 @@
 #meteor{
 	position: absolute;
 	z-index: 1px;
-	margin-top: -200px;
-	margin-left: -150px;
-	display: none;
+	margin-top: -250px;
+	margin-left: -200px;
 	z-index: 2;
 }
 
 #impactShadow{
 	position: absolute;
 	z-index: 1px;
-	margin-left: 600px;
-	margin-top: 250px;
-	display: none;
+	height: 10px;
+	margin-left: -100px;
+	margin-top: 300px;
+	
 }
