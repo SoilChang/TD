@@ -41,7 +41,7 @@ Meteor.methods({
 			if(enchantedItem){
 				var currentUser = Meteor.userId();
 		
-				if(enchantedItem[0].name === "Leoric's Jewlry"){
+				if(enchantedItem[0].name === "Leoric's Jewellery"){
 					Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
 
 				}else if (enchantedItem[0].name === "Undead Bone") {
@@ -72,7 +72,7 @@ Meteor.methods({
 		if(enchantedItem){
 			var currentUser = Meteor.userId();
 			
-			if(enchantedItem[0].name === "Leoric's Jewlry"){
+			if(enchantedItem[0].name === "Leoric's Jewellery"){
 				Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
 			}else if (enchantedItem[0].name === "Undead Bone") {
 				Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});

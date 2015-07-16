@@ -8,7 +8,11 @@
 	background-size: 100% auto;
 	z-index: 11;
 }
-
+ol>li {
+	font-size: 30px;
+	color:#FF3300;
+	font-family: cursive;
+}
 
 .c-Rules-h1,
 .c-Tower_Type-h1{
