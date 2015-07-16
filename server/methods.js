@@ -45,7 +45,11 @@ Meteor.methods({
 					Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
 
 				}else if (enchantedItem[0].name === "Undead Bone") {
+					Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: true}});
+				}else if(enchantedItem[0].name === "diamond Eye") {
 					Meteor.users.update({_id: currentUser},{$set:{ability_freeze: true}});
+				}else if(enchantedItem[0].name === "Ring Of Darkness"){
+					Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: true}});
 				}
 			}
 
@@ -76,6 +80,10 @@ Meteor.methods({
 				Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
 			}else if (enchantedItem[0].name === "Undead Bone") {
 				Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
+			}else if(enchantedItem[0].name === "diamond Eye") {
+				Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
+			}else if(enchantedItem[0].name === "Ring Of Darkness"){
+				Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: false}});
 			}
 		}
 	},

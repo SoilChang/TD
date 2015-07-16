@@ -265,6 +265,16 @@ var allItemData = [
 
 	###########################################################*/
 	{
+		name: "diamond Eye",
+		url: '/images/gamePage/diamondEye.png',
+		type: 'relic',
+		price: 20,
+		hpBonus: 2,
+		armourBonus: 0,
+		attackBonus: 0,
+		magicalPower: 'The owner of this ring get extra starting gold'
+	},
+	{
 		name: "Leoric's Jewellery",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
@@ -283,7 +293,19 @@ var allItemData = [
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
-	}
+	},
+	{
+		name: "Ring Of Darkness",
+		url: '/images/gamePage/ringOfDarkness.png',
+		type: 'relic',
+		price: 60,
+		hpBonus: 10,
+		armourBonus: 1,
+		attackBonus: 0,
+		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite(can only activate once in a game)'
+	},
+	
+
 ];
 
 var len = allItemData.length;
@@ -301,6 +323,7 @@ for(var i=0; i<len; i++){
 			hpBonus: allItemData[i].hpBonus,
 			armourBonus: allItemData[i].armourBonus,
 			attackBonus: allItemData[i].attackBonus,
+			magicalPower:allItemData[i].magicalPower
 		}});
 	}
 }
