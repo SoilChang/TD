@@ -49,7 +49,12 @@ Meteor.methods({
 					Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: true}});
 				}else if(enchantedItem[0].name === "Ring Of Darkness"){
 					Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: true}});
+				}else if(enchantedItem[0].name === "Sand Wall"){
+					Meteor.users.update({_id: currentUser},{$set:{ability_block: true}});
+				}else if(enchantedItem[0].name === "Dragon's Blood"){
+					Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: true}});
 				}
+
 			}
 
 			return true;
@@ -83,6 +88,10 @@ Meteor.methods({
 				Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: false}});
 			}else if(enchantedItem[0].name === "Ring Of Darkness"){
 				Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: false}});
+			}else if(enchantedItem[0].name === "Sand Wall"){
+				Meteor.users.update({_id: currentUser},{$set:{ability_block: false}});
+			}else if(enchantedItem[0].name === "Dragon's Blood"){
+				Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: false}});
 			}
 		}
 	},

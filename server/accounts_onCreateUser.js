@@ -17,6 +17,8 @@ Accounts.onCreateUser(function(options,user) {
 	user.ability_freeze = false;
 	user.ability_extraGold = false;
 	user.ability_meteorite = false;
+	user.ability_block = false;
+	user.ability_doubleDamage = false;
 	// the next two items are for adding friends
 	user.followers =[];
 	user.following = [];

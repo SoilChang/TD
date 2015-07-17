@@ -285,6 +285,16 @@ var allItemData = [
 		magicalPower: 'This ring grants you the ability to build regenerative tower'
 	},
 	{
+		name: "Sand Wall",
+		url: '/images/gamePage/sandWall.png',
+		type: 'relic',
+		price: 10,
+		hpBonus: 3,
+		armourBonus: 1,
+		attackBonus: 0,
+		magicalPower: 'Block all damages for 5 instances'
+	},
+	{
 		name: "Undead Bone",
 		url: '/images/gamePage/UndeadBone.png',
 		type: 'relic',
@@ -293,6 +303,16 @@ var allItemData = [
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
+	},
+	{
+		name: "Dragon's Blood",
+		url: '/images/gamePage/dragonsBlood.png',
+		type: 'relic',
+		price: 10,
+		hpBonus: 3,
+		armourBonus: 1,
+		attackBonus: 0,
+		magicalPower: "Double tower damage for 10 seconds"
 	},
 	{
 		name: "Ring Of Darkness",
