@@ -65,16 +65,6 @@ Template.registerHelper('updateUserStats', function(){
 	}
 });
 
-Template.gamePage.helpers({
-	'loadProfilePicture': function(){
-		if(Meteor.user() === null || Meteor.loggingIn() === true){
-			return; 
-		}else{
-			return Meteor.user().profilePicture;
-		}
-	},
-});
-
 
 Template.gamePage.events({
 	'click #audio': function() {

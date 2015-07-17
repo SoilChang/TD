@@ -41,20 +41,26 @@ Meteor.methods({
 			if(enchantedItem){
 				var currentUser = Meteor.userId();
 		
-				if(enchantedItem[0].name === "Leoric's Jewellery"){
-					Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
-				}else if (enchantedItem[0].name === "Undead Bone") {
-					Meteor.users.update({_id: currentUser},{$set:{ability_freeze: true}});
-				}else if(enchantedItem[0].name === "diamond Eye") {
-					Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: true}});
-				}else if(enchantedItem[0].name === "Ring Of Darkness"){
-					Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: true}});
-				}else if(enchantedItem[0].name === "Sand Wall"){
-					Meteor.users.update({_id: currentUser},{$set:{ability_block: true}});
-				}else if(enchantedItem[0].name === "Dragon's Blood"){
-					Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: true}});
+				switch(enchantedItem[0].name){
+					case "Leoric's Jewellery":
+						Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
+						break;
+					case "Undead Bone":
+						Meteor.users.update({_id: currentUser},{$set:{ability_freeze: true}});
+						break;
+					case "diamond Eye":
+						Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: true}});
+						break;
+					case "Ring Of Darkness":
+						Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: true}});
+						break;
+					case "Sand Wall":
+						Meteor.users.update({_id: currentUser},{$set:{ability_block: true}});
+						break;
+					case "Dragon's Blood":
+						Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: true}});
+						break;
 				}
-
 			}
 
 			return true;
@@ -79,19 +85,25 @@ Meteor.methods({
 		var enchantedItem = eqpList.find({type: "relic", _id: itemCode}).fetch();
 		if(enchantedItem){
 			var currentUser = Meteor.userId();
-			
-			if(enchantedItem[0].name === "Leoric's Jewellery"){
-				Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
-			}else if (enchantedItem[0].name === "Undead Bone") {
-				Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
-			}else if(enchantedItem[0].name === "diamond Eye") {
-				Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: false}});
-			}else if(enchantedItem[0].name === "Ring Of Darkness"){
-				Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: false}});
-			}else if(enchantedItem[0].name === "Sand Wall"){
-				Meteor.users.update({_id: currentUser},{$set:{ability_block: false}});
-			}else if(enchantedItem[0].name === "Dragon's Blood"){
-				Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: false}});
+			switch(enchantedItem[0].name){
+				case "Leoric's Jewellery":
+					Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
+					break;
+				case "Undead Bone":
+					Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
+					break;
+				case "diamond Eye":
+					Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: false}});
+					break;
+				case "Ring Of Darkness":
+					Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: false}});
+					break;
+				case "Sand Wall":
+					Meteor.users.update({_id: currentUser},{$set:{ability_block: false}});
+					break;
+				case "Dragon's Blood":
+					Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: false}});
+					break;
 			}
 		}
 	},
