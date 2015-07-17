@@ -1499,6 +1499,9 @@ function keyboards() {
         delete keys[27]
         document.getElementById("infoText").innerHTML=""
         $('.towerBtn').removeClass('selected');
+        stage.removeChild()
+        stage.removeChild(hoverT)
+        hoverGrid = false
         towerType = false
         towerName = false      
     }
