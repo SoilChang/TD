@@ -163,6 +163,15 @@
 	
 }
 
+#explosion{
+	position: absolute;
+	z-index: 1px;
+	height: 0px;
+	margin-left: 670px;
+	margin-top: 320px;
+	opacity: 1.0;
+}
+
 #redCircle{
 	position: absolute;
 	z-index: 1px;

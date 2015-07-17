@@ -17,4 +17,4 @@ else {buzz.defaults.formats = ['ogg']}
 
 BGsound = new buzz.sound("/sound/gameBG");
 
-BGsound.play().loop().setVolume(20)
+// BGsound.play().loop().setVolume(20)

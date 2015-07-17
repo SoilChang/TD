@@ -74,3 +74,6 @@ Template.gamePage.events({
 		"/images/gamePage/musicOff.png"	: "/images/gamePage/musicOn.png"
 	}
 });
+
+
+
