@@ -5,7 +5,7 @@ Template.firstPage.onRendered(function(){
 
 	// animation for the second tower
 	$("#secTower").css({"margin-top":"-100px"});
-	$("#secTower").animate({marginTop:"169px"},2000, function(){
+	$("#secTower").animate({marginTop:"169px"},1500, function(){
 		var shineSecTower = Meteor.setInterval(function(){
 			$("#shineSecTower").fadeIn(2000, function(){
 				$("#shineSecTower").fadeOut(1900);
@@ -30,7 +30,7 @@ Template.firstPage.onRendered(function(){
 
 	// animation for the lighthouse
 	$("#lighthouse").css({"margin-top":"-200px"});
-	$("#lighthouse").animate({marginTop:"10px"},2000, function(){
+	$("#lighthouse").animate({marginTop:"10px"},1500, function(){
 
 		// continuous animation
 		var shineSecTower = Meteor.setInterval(function(){
@@ -57,7 +57,7 @@ Template.firstPage.onRendered(function(){
 
 	// animation for the knight
 	$("#knight").css({"margin-left":"450px","margin-top":"450px", "height":"0px"});
-	$("#knight").animate({marginTop:"415px", marginLeft:"475px", height:"100px"},2000, function(){
+	$("#knight").animate({marginTop:"415px", marginLeft:"475px", height:"100px"},1500, function(){
 		
 		// continuous animation
 		var shineKnight = Meteor.setInterval(function(){

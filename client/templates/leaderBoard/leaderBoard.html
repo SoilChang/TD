@@ -38,24 +38,8 @@
 		</ol>
 	</div>
 
-
-
-	<!-- hide show different board -->
-	<script>
-		$("#lb_globalRanking").ready(function(){
-			$('#lb_globalRanking,#lb_personalRanking').hide();
-			$("#globalBtn").click(function(){
-				$('#lb_globalRanking').show();
-				$('#lb_personalRanking').hide();
-			});
-			$("#personalBtn").click(function(){
-				$('#lb_globalRanking').hide();
-				$('#lb_personalRanking').show();
-			});
-		});
-	</script>
-
-
+	<img id="shineBird" src="/images/leaderBoard/shineBird.png">
+	<img id="back" src="/images/leaderBoard/back.png">
 
 	<a href="{{ pathFor 'gamePage'}}">
 		<div id="bluejay"></div>

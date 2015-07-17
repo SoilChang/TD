@@ -30,6 +30,10 @@
 	border-radius: 5px;
 	border: double #0000FF;
 }
+.towerBtn:hover{
+	height: 55px;
+	margin-top: 3px;
+}
 
 .powerBtn {
 	display: inline-block;
@@ -41,6 +45,11 @@
 	height: 50px;
 	border-radius: 5px;
 	border: double #0000FF;
+}
+
+.powerBtn:hover{
+	height: 55px;
+	margin-top: 3px;
 }
 
 .tower {

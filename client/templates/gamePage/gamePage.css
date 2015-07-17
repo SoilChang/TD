@@ -63,7 +63,9 @@ body{
 	margin-top: 30px;
 	width:190px;
 	margin-left:0px;
+
 }
+
 /* this part is for the positioning of each button*/
 #b1{
 	position:absolute;
@@ -109,6 +111,10 @@ body{
 	width:190px;
 }
 
+.menuButton:hover{
+	width:200px;
+}
+
 /* This part below is for styling of the button*/
 .btn{
 	background-color:#7d5d3b;
@@ -125,6 +131,7 @@ body{
 .btn:hover {
 	background-color:#CC6600;
 	border: 3px solid #CC6600;
+
 }
 .btn:active {
 	position:relative;
