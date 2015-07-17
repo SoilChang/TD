@@ -16,7 +16,5 @@ if (!buzz.isOGGSupported()) {
 else {buzz.defaults.formats = ['ogg']}
 
 BGsound = new buzz.sound("/sound/gameBG");
-// clickOn = new buzz.sound("/sound/humm.mp3");
-
 
 // BGsound.play().loop().setVolume(20)

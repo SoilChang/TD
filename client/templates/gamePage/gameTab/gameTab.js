@@ -236,10 +236,19 @@ Template.gameTab.events({
         $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
            
             $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
-            $("#playingField").effect("shake");
-            // functionalities here
+            $("#playingField").effect("shake",function(){
+                $("#redCircle").show(function(){
+                    $("#redCircle").animate({height:"2000px",marginLeft:"-330px",marginTop:"-680px",opacity:"0.1"},1000,function(){
+                        $("#redCircle").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
+                        // functionalities here
+                    
+                        // ____________________
+                    });
+                });
+                
+                
+            });
             
-            // ____________________
         });
          
         power('meteorite');

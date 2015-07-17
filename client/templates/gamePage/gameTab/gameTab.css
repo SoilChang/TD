@@ -163,6 +163,16 @@
 	
 }
 
+#redCircle{
+	position: absolute;
+	z-index: 1px;
+	height: 0px;
+	margin-top: 320px;
+	margin-left: 670px;
+	opacity:1.0;
+
+}
+
 #freezeField{
 	position: absolute;
 	display: none;

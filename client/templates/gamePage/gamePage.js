@@ -83,10 +83,4 @@ Template.gamePage.events({
 		document.getElementById('audio').src = (BGsound.isMuted())?
 		"/images/gamePage/musicOff.png"	: "/images/gamePage/musicOn.png"
 	}
-
-	// "click #b1":function(){
-	// 	console.log("sound played");
-		
-	// 	clickOn.play().setVolume(100);
-	// }
 });
