@@ -268,8 +268,8 @@ var allItemData = [
 		name: "diamond Eye",
 		url: '/images/gamePage/diamondEye.png',
 		type: 'relic',
-		price: 20,
-		hpBonus: 2,
+		price: 5,
+		hpBonus: 0,
 		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'The owner of this ring get extra starting gold'
@@ -278,8 +278,8 @@ var allItemData = [
 		name: "Leoric's Jewellery",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
-		price: 30,
-		hpBonus: 5,
+		price: 10,
+		hpBonus: 3,
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to build regenerative tower'
@@ -288,8 +288,8 @@ var allItemData = [
 		name: "Undead Bone",
 		url: '/images/gamePage/UndeadBone.png',
 		type: 'relic',
-		price: 30,
-		hpBonus: 5,
+		price: 10,
+		hpBonus: 3,
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
@@ -298,8 +298,8 @@ var allItemData = [
 		name: "Ring Of Darkness",
 		url: '/images/gamePage/ringOfDarkness.png',
 		type: 'relic',
-		price: 60,
-		hpBonus: 10,
+		price: 15,
+		hpBonus: 5,
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite(can only activate once in a game)'

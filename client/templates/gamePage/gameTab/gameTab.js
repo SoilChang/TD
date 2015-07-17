@@ -219,18 +219,27 @@ Template.gameTab.events({
         buyTower('fountain')
     },
 	'click #freezePower': function(){
-		power('freeze')
+	
+        // functionalities here
+        power('freeze')
+        // ____________________
+
+        $("#freezeField").fadeIn(100,function(){
+            $("#freezeField").fadeOut(2900);
+
+        });
 	},
     'click #meteoritePower': function(){        
         $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
         });  
-        $("#impactShadow").animate({marginLeft:"610px", marginTop:"250px",height:"150px",opacity:"0.9"},2000,function(){
+        $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
            
             $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
             $("#playingField").effect("shake");
             // functionalities here
             
+            // ____________________
         });
          
         power('meteorite');

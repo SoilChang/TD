@@ -162,3 +162,9 @@
 	opacity: 0.1;
 	
 }
+
+#freezeField{
+	position: absolute;
+	display: none;
+	z-index: 1;
+}
