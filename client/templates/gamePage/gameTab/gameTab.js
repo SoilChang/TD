@@ -105,6 +105,10 @@ function gameData(type) {
             towerName = false 
             hoverGrid = false //identify current grid
             hoverT = false //image of tower selected to buy
+
+            $('#meteoritePower').addClass('cooldown')
+            $('#invinciblePower').addClass('cooldown')
+            $('#ddPower').addClass('cooldown')
             break;
         case 'saved' :
             addMonster()
@@ -254,8 +258,15 @@ Template.gameTab.events({
         });
          
         power('meteorite');
+        error("Coming Soon");
     
 
+    },
+    'click #invinciblePower': function(){
+        error("Coming Soon");
+    },
+    'click #ddPower': function(){
+        error("Coming Soon");
     },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
@@ -274,6 +285,9 @@ Template.gameTab.events({
     },
     'click #soundBtn': function() {
         toggleSound();
+    },
+    'click #gemBtn': function(){
+        Meteor.call('addGem');
     }
 });
 
