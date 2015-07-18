@@ -268,14 +268,25 @@ Template.gameTab.events({
     },
     'click #invinciblePower': function(){
         if (true){
-            //animation
+            $("#angel").show();
+            $("#angel").animate({"margin-top":"180px"},500,function(){
+                $("#wings").show();
+                $("#wings").animate({"width":"400px","margin-left":"240"},500,function(){
+                    $("#angel").animate({"margin-top":"-300px"},500);
+                    $("#wings").animate({"margin-top":"-300px"},500,function(){
+                        $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
+                    });
+                });
+            });
         }
 
         error("Coming Soon");
     },
     'click #ddPower': function(){
         if (true){
-            //animation
+            $("#doubleDamage").show(function(){
+                $("#doubleDamage").hide("puff");
+            });
         }
         error("Coming Soon");
     },
