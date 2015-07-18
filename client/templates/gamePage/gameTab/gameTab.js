@@ -921,7 +921,7 @@ function power(type) {
             var named ="<span class='item'>" + names + "</span>"
             var itemd ="<span class='item'>" + item + "</span>"
 
-            if (!Meteor.user().ability_freeze){
+            if (!Meteor.user().ability_freeze && type=="freeze"){
                 error("Please buy the "+ itemd + " to use the "+named+"." )                  
             }        
 
