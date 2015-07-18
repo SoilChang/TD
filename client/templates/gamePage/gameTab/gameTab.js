@@ -227,35 +227,39 @@ Template.gameTab.events({
         // functionalities here
         power('freeze')
         // ____________________
-
-        $("#freezeField").fadeIn(100,function(){
-            $("#freezeField").fadeOut(2900);
-
-        });
+        if (true){
+            $("#freezeField").fadeIn(100,function(){
+                $("#freezeField").fadeOut(2900);
+            });
+        }
 	},
-    'click #meteoritePower': function(){        
-        $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
-            $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
-        });  
-        $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-           
-            $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
-            $("#playingField").effect("shake",function(){
-                $("#redCircle").show(function(){
-                    $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000);
-                    $("#redCircle").animate({height:"2000px",marginLeft:"-330px",marginTop:"-680px",opacity:"0.1"},1000,function(){
-                        $("#redCircle").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
-                        $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
-                        // functionalities here
-                    
-                        // ____________________
+    'click #meteoritePower': function(){  
+        if (true){
+            $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
+                $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
+            });  
+            $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
+               
+                $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
+                $("#playingField").effect("shake",function(){
+                    $("#redCircle").show(function(){
+                        $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000);
+                        $("#redCircle").animate({height:"2000px",marginLeft:"-330px",marginTop:"-680px",opacity:"0.1"},1000,function(){
+                            $("#redCircle").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
+                            $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
+                            // functionalities here
+                        
+                            // ____________________
+                        });
                     });
+                    
+                    
                 });
                 
-                
             });
+
+        }      
             
-        });
          
         power('meteorite');
         error("Coming Soon");
@@ -263,9 +267,16 @@ Template.gameTab.events({
 
     },
     'click #invinciblePower': function(){
+        if (true){
+            //animation
+        }
+
         error("Coming Soon");
     },
     'click #ddPower': function(){
+        if (true){
+            //animation
+        }
         error("Coming Soon");
     },
     'click #menuBtn': function(){
