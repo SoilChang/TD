@@ -16,9 +16,9 @@ Meteor.methods({
 	},
 
 	// give out daily prize
-	"givePrize":function(password,amount){
-		check(password, String);
-		check(amount,Number);
+	"givePrize":function(amount){
+
+		check(amount, Number);
 		Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:amount}});
 
 		
