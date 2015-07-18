@@ -234,7 +234,7 @@ Template.gameTab.events({
         power('freeze')
 	},
     'click #meteoritePower': function(){  
-        if (false){
+        if (true){
             $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
                 $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
             });  
