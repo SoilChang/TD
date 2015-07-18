@@ -266,9 +266,6 @@ Meteor.methods({
 		
 		// update
 		Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: ally}});
-	},
-	"addGem":function(){
-		Meteor.users.update({_id:Meteor.userId()}, {$inc:{gem:100}} )
 	}
 	
 });

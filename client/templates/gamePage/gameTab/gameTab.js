@@ -304,9 +304,6 @@ Template.gameTab.events({
     },
     'click #soundBtn': function() {
         toggleSound();
-    },
-    'click #gemBtn': function(){
-        Meteor.call('addGem');
     }
 });
 
