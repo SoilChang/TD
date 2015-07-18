@@ -20,6 +20,6 @@ BGsound = new buzz.sound("/sound/gameBG");
 // meteorite sound
 explosionSound = new buzz.sound("/sound/explosion");
 artillerySound = new buzz.sound("/sound/artillery");
-CometSound = new buzz.sound("/sound/Comet.mp3");
+CometSound = new buzz.sound("/sound/Comet");
 
 // BGsound.play().loop().setVolume(20);
