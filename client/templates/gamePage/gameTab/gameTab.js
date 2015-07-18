@@ -220,21 +220,18 @@ Template.gameTab.events({
 		buyTower('lightTower')
 	},
     'click #fountainBtn': function(){
+        if (Meteor.user()!==null) {
+            if (!Meteor.user().ability_regen) {            
+                $(this).removeClass('selected');
+            }
+        }
         buyTower('fountain')
     },
 	'click #freezePower': function(){
-	
-        // functionalities here
         power('freeze')
-        // ____________________
-        if (true){
-            $("#freezeField").fadeIn(100,function(){
-                $("#freezeField").fadeOut(2900);
-            });
-        }
 	},
     'click #meteoritePower': function(){  
-        if (true){
+        if (false){
             $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
                 $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
             });  
@@ -262,7 +259,6 @@ Template.gameTab.events({
             
          
         power('meteorite');
-        error("Coming Soon");
     
 
     },
@@ -280,7 +276,7 @@ Template.gameTab.events({
             });
         }
 
-        error("Coming Soon");
+        power('invincibility')
     },
     'click #ddPower': function(){
         if (true){
@@ -288,7 +284,8 @@ Template.gameTab.events({
                 $("#doubleDamage").hide("puff");
             });
         }
-        error("Coming Soon");
+
+        power('dd')
     },
     'click #menuBtn': function(){
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
@@ -318,15 +315,6 @@ Template.gameTab.onRendered(function() {
         function(){
         $('.towerBtn').removeClass('selected');
         $(this).addClass('selected');
-    });
-    $('#fountainBtn').click(
-        function(){
-        $('.towerBtn').removeClass('selected');
-        if (Meteor.user()!==null) {
-            if (Meteor.user().ability_regen) {            
-                $(this).addClass('selected');
-            }
-        }
     });
     $('.ff').click(
         function(){
@@ -919,12 +907,45 @@ function saving() {
 #########################################################################*/
 
 function power(type) {
-    if (!createjs.Ticker.getPaused()) {
+    $('.towerBtn').removeClass('selected')
+    updatePower(type);
+    if (createjs.Ticker.getPaused()) {
+        if (Meteor.user()!==null){
+            var names = ""
+            var item = ""
+            if (type=="freeze"){
+                names = 'Freezer'
+                item = "'Undead Bone'"
+            }
+
+            var named ="<span class='item'>" + names + "</span>"
+            var itemd ="<span class='item'>" + item + "</span>"
+
+            if (!Meteor.user().ability_freeze){
+                error("Please buy the "+ itemd + " to use the "+named+"." )                  
+            }        
+
+
+        } else{
+            var names =""
+            if (type=="freeze"){
+                names='Freezer'
+            }
+
+            var named ="<span class='item'>" + names + "</span>"
+
+            if (type=="freeze"){
+                error("Please sign in to use the "+named+"." )                  
+            }          
+        }
+    }
+    else {
         if (Meteor.user()!==null) {
             if (type=="freeze") {
                 if (Meteor.user().ability_freeze) {
                     if (powerFreeze==0) {
                         powerFreeze = 800
+                        powerEffect(type)
                         $('#freezePower').removeClass('selected')
                         $('#freezePower').addClass('cooldown')
                         for (var i=0;i<monsters.length;i++) {
@@ -936,7 +957,8 @@ function power(type) {
                         error("Freeze on cooldown")
                     }
                 } else {
-                error("Please buy the 'Undead Bone' to use this power.")
+                error("Please buy the <span class='item'>'Undead Bone'</span>" +
+                 "to use the <span class='item'>Freezer</span>.")
                 }
             } 
             else if (type=="meteorite") {
@@ -961,15 +983,22 @@ function power(type) {
         } else {
             error("Please sign in first.")
         }
-    } else {        
-        updatePower(type);
-    } 
+    }
+}
+
+function powerEffect(type){
+    if (type=='freeze'){
+        $("#freezeField").fadeIn(100,function(){
+            $("#freezeField").fadeOut(2900);
+        });
+    }
 }
 
 function updatePower(type) {
     var pow = "Power: "
     var effect = "Effect: "
     var cd = "Cooldown: "
+    var errors = ""
 
     if (type=="freeze") {
         pow += "Freezer" + "<br>"
@@ -980,12 +1009,28 @@ function updatePower(type) {
         pow += "Meteorite" + "<br>"
         effect += "Destroys all living thing in the world." + "<br>"
         cd += "One time usage." + "<br>"
+        errors += "Coming Soon..."
     }
+    else if (type=="invincibility"){   
+        pow += "Invincibility" + "<br>"
+        effect += "No damage to castle for 5 hits." + "<br>"
+        cd += "One time usage." + "<br>"
+        errors += "Coming Soon..."
+    }
+    else if (type=="dd"){
+        pow += "Double Damage" + "<br>"
+        effect += "Monsters get twice the damage from towers for 10 seconds." + "<br>"
+        cd += "One time usage." + "<br>"
+        errors += "Coming Soon..."
+    }
+
+    var errorEdit="<span class='errorText'>" + errors + "</span>"
 
     document.getElementById("infoText").innerHTML = 
     pow + 
     effect + 
-    cd
+    cd +
+    errorEdit
 
 }
 
@@ -1077,13 +1122,14 @@ function buyTower(type) {
             if (!Meteor.user().ability_regen){
                 towerType = false
                 towerName = false     
-                error("Please buy the 'Leoric" +
-                    "'s " + "Jewellery' " + "to build this tower.")           
+                error("Please buy the <span class='item'>'Leoric" +
+                    "'s " + "Jewellery'</span> " + 
+                    "to build the <span class='item'>fountain</span>.")           
             }        
         } else {
             towerType = false
             towerName = false       
-            error("Please sign in first.")
+            error("Please sign in to build the <span class='item'>Fountain</span>.")
         }
     }
 };

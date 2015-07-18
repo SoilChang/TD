@@ -69,8 +69,18 @@
 	padding-left: 5px;
 }
 
+.errorText {
+	color: red;
+	margin: 0;
+	padding-left: 5px;
+}
+
 .selected {
 	background: yellow;
+}
+
+.item{
+	color:yellow;
 }
 
 .cooldown {
