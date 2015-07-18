@@ -10,7 +10,7 @@ function loadSound() {
 };
 
 
-if (!buzz.isOGGSupported()) {
+if (buzz.isMP3Supported()) {
     buzz.defaults.formats = ['mp3']
 }
 else {buzz.defaults.formats = ['ogg']}
@@ -21,5 +21,9 @@ BGsound = new buzz.sound("/sound/gameBG");
 explosionSound = new buzz.sound("/sound/explosion");
 artillerySound = new buzz.sound("/sound/artillery");
 CometSound = new buzz.sound("/sound/Comet");
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 // BGsound.play().loop().setVolume(20);
