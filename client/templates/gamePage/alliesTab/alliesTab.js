@@ -143,12 +143,30 @@ Template.alliesTab.helpers({
 		}
 	},
 
+	countFollowing:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and: [{_id:{$in:user.following}}, {_id:{$nin:user.followers}}]}).count();
+		}
+	},
+
 	findFollowers:function(){
 		if(Meteor.user() === null || Meteor.loggingIn === true){
 			return;
 		}else{
 			var user = Meteor.user();
 			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$nin:user.following}}] });
+		}
+	},
+
+	countFollowers:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$nin:user.following}}] }).count();
 		}
 	},
 
@@ -159,6 +177,15 @@ Template.alliesTab.helpers({
 			var user = Meteor.user();
 			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$in:user.following}}] });
 			      
+		}
+	},
+
+	countFriend:function(){
+		if(Meteor.user() === null || Meteor.loggingIn === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$in:user.following}}] }).count();	      
 		}
 	},
 
