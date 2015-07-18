@@ -235,7 +235,7 @@ Template.gameTab.events({
 	},
     'click #meteoritePower': function(){  
         if (true){
-            CometSound.play();
+            CometSound.play().setVolume(30);
             $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
                 $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
             });  
@@ -267,6 +267,7 @@ Template.gameTab.events({
     'click #invinciblePower': function(){
         if (true){
             $("#angel").show();
+            musicBoxSound.play();
             $("#angel").animate({"margin-top":"180px"},500,function(){
                 $("#wings").show();
                 $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
@@ -282,6 +283,7 @@ Template.gameTab.events({
     },
     'click #ddPower': function(){
         if (true){
+            slideInSound.play().setVolume(100).setSpeed(2);
             $("#doubleDamage").show(function(){
                 $("#doubleDamage").hide("puff");
             });
