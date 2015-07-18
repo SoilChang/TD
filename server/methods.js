@@ -16,11 +16,11 @@ Meteor.methods({
 	},
 
 	// give out daily prize
-	"givePrize":function(password){
+	"givePrize":function(password,amount){
 		check(password, String);
-		if(password === "adminOnly"){
-			Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:1}});
-		}
+		check(amount,Number);
+		Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:amount}});
+
 		
 	},
 

@@ -271,7 +271,7 @@ Template.gameTab.events({
             $("#angel").show();
             $("#angel").animate({"margin-top":"180px"},500,function(){
                 $("#wings").show();
-                $("#wings").animate({"width":"400px","margin-left":"240"},500,function(){
+                $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
                     $("#angel").animate({"margin-top":"-300px"},500);
                     $("#wings").animate({"margin-top":"-300px"},500,function(){
                         $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})

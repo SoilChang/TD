@@ -36,7 +36,7 @@ Template.gamePage.onRendered(function() {
 					$("#prizeBanner").animate({width:"600px", marginLeft:"130px"},500);
 
 					/*this method call is a major security loophole. since anyone can call this function in the console and add gems. However, this isn't the only problem. since they can also change their computer date manually to get gems as well.*/
-					Meteor.call("givePrize", "adminOnly");
+					Meteor.call("givePrize", 1);
 					$("#treasureChest").fadeOut(2000);
 					$("#prizeBanner").fadeOut(3000);
 					Meteor.call("setDate");
