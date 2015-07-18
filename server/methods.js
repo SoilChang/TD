@@ -33,12 +33,11 @@ Meteor.methods({
 			Meteor.users.update( {_id:currentUserId } , {$addToSet: {inventory: itemCode} } );
 
 			// if what they buy is ring, activate the ability
-			var enchantedItem = eqpList.find({type: "relic", _id: itemCode}).fetch();
+			var enchantedItem = eqpList.findOne({type: "relic", _id: itemCode});
 		
 			if(enchantedItem){
 				var currentUser = Meteor.userId();
-		
-				switch(enchantedItem[0].name){
+				switch(enchantedItem.name){
 					case "Leoric's Jewellery":
 						Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
 						break;
@@ -62,6 +61,7 @@ Meteor.methods({
 
 			return true;
 		}else{
+	
 			return false;
 		}
 	},
@@ -79,10 +79,10 @@ Meteor.methods({
 
 
 		//when they sell rings, remove their ability
-		var enchantedItem = eqpList.find({type: "relic", _id: itemCode}).fetch();
+		var enchantedItem = eqpList.findOne({type: "relic", _id: itemCode});
 		if(enchantedItem){
 			var currentUser = Meteor.userId();
-			switch(enchantedItem[0].name){
+			switch(enchantedItem.name){
 				case "Leoric's Jewellery":
 					Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
 					break;
@@ -217,6 +217,24 @@ Meteor.methods({
 		Meteor.users.update({_id:identity}, {$pull: {following:Meteor.userId() }});
 		Meteor.users.update({_id:identity}, {$pull: {followers:Meteor.userId() }});
 
+		// pull out ally stats
+		var ally = Meteor.user().ally;
+		var idx = _.indexOf(ally, identity);
+		if(idx){
+			var object = Meteor.users.findOne({_id:identity});
+				// minus stats
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
+			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
+			ally.splice(idx,1);
+
+			Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: ally}});
+		}
+		
+			
+
+
 	},
 
 	"unfollowUser":function(identity){
@@ -238,10 +256,10 @@ Meteor.methods({
 		}
 
 		// incrase bonus
-		var object = Meteor.users.find({_id:identity}).fetch();
-		var hpPlus = Math.ceil(object[0].hpBonus*0.15);
-		var armourPlus = Math.ceil(object[0].armourBonus*0.15);
-		var attackPlus = Math.ceil(object[0].attackBonus*0.15);
+		var object = Meteor.users.findOne({_id:identity});
+		var hpPlus = Math.ceil(object.hpBonus*0.15);
+		var armourPlus = Math.ceil(object.armourBonus*0.15);
+		var attackPlus = Math.ceil(object.attackBonus*0.15);
 		Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:hpPlus, allyArmour:armourPlus, allyAttack:attackPlus }});
 
 
@@ -252,10 +270,10 @@ Meteor.methods({
 		if(ally.length === 4){
 			
 			// remove ally bonus
-			object = Meteor.users.find( {_id: ally[0]} ).fetch();
-			hpPlus = Math.ceil(object[0].hpBonus*0.15);
-			armourPlus = Math.ceil(object[0].armourBonus*0.15);
-			attackPlus = Math.ceil(object[0].attackBonus*0.15);
+			object = Meteor.users.findOne( {_id: ally[0]} );
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
 			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 
 			ally.splice(0,1);

@@ -235,13 +235,16 @@ Template.gameTab.events({
 	},
     'click #meteoritePower': function(){  
         if (true){
+            CometSound.play();
             $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
                 $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
             });  
             $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-               
+                
+                artillerySound.play().setVolume(30);
                 $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
                 $("#playingField").effect("shake",function(){
+                    explosionSound.play().setVolume(30);
                     $("#redCircle").show(function(){
                         $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000);
                         $("#redCircle").animate({height:"2000px",marginLeft:"-330px",marginTop:"-680px",opacity:"0.1"},1000,function(){

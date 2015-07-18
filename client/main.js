@@ -17,4 +17,9 @@ else {buzz.defaults.formats = ['ogg']}
 
 BGsound = new buzz.sound("/sound/gameBG");
 
-// BGsound.play().loop().setVolume(20)
+// meteorite sound
+explosionSound = new buzz.sound("/sound/explosion");
+artillerySound = new buzz.sound("/sound/artillery");
+CometSound = new buzz.sound("/sound/Comet.mp3");
+
+// BGsound.play().loop().setVolume(20);

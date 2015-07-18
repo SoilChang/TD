@@ -269,8 +269,8 @@ var allItemData = [
 		url: '/images/gamePage/diamondEye.png',
 		type: 'relic',
 		price: 5,
-		hpBonus: 0,
-		armourBonus: 0,
+		hpBonus: 3,
+		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'The owner of this ring get extra starting gold'
 	},
@@ -319,7 +319,7 @@ var allItemData = [
 		url: '/images/gamePage/ringOfDarkness.png',
 		type: 'relic',
 		price: 15,
-		hpBonus: 5,
+		hpBonus: 3,
 		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.(under development)'
