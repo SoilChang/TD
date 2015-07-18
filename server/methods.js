@@ -17,11 +17,8 @@ Meteor.methods({
 
 	// give out daily prize
 	"givePrize":function(amount){
-
 		check(amount, Number);
 		Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:amount}});
-
-		
 	},
 
 	// buying equipment from the shop
