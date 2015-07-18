@@ -183,7 +183,7 @@ Template.gameTab.events({
 	'mouseleave #c-game-closeButton': function(){
 		$('#c-game-closeButton').css({'margin-left':'1020px', 'width': '30px', 'height': '30px'});
 	},  
-    'click': function(){
+    'click button': function(){
         document.getElementById('errorText').innerHTML = ""
     },
 	'click #pauseBtn': function() {
