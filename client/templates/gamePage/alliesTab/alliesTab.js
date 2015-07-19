@@ -41,23 +41,17 @@ Template.alliesTab.onRendered(function(){
 	});
 	
 
-	$('#allyName').mouseenter(function(){
-		$("#allyName").css({"cursor":"pointer"});
+	// close button
+	$("#c-Allies-closeButton").hover(function(){
+		$('#c-Allies-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
+	},function(){
+		$('#c-Allies-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
 	});
 	
 });
 
 
 Template.alliesTab.events({
-	'mouseenter #c-Allies-closeButton': function(){
-		$('#c-Allies-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
-	},
-
-	'mouseleave #c-Allies-closeButton': function(){
-		$('#c-Allies-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
-	},
-
-
 	'submit form': function(e) {
 		e.preventDefault();
 
@@ -194,7 +188,6 @@ Template.alliesTab.helpers({
 			return;
 		}else{
 			var array = Meteor.user().ally;
-			console.log(array);
 			if(_.indexOf(array, this._id) >= 0){
 				return "joined"; 
 			}else{
@@ -209,6 +202,14 @@ Template.alliesTab.helpers({
 		var selected = Session.get("selectedAlly");
 		return Meteor.users.findOne(selected);
 		
+	},
+
+	seeYourAlly:function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return;
+		}else{
+			return Meteor.users.find({_id:{$in:Meteor.user().ally}});
+		}
 	}
 
 

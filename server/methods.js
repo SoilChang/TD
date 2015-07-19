@@ -125,11 +125,11 @@ Meteor.methods({
 	},
 
 	// update user's hp, armour and atk bonus to database according to the eqp obtained. 
-	'updateUserstat': function(hpPlus,armourPlus,atkPlus,currentUserId){
+	'updateUserstat': function(hpPlus,armourPlus,atkPlus){
 		check(hpPlus, Number);
 		check(armourPlus, Number);
 		check(atkPlus, Number);
-		check(currentUserId, String);
+		var currentUserId = Meteor.userId();
 		Meteor.users.update( {_id:currentUserId}, {$set: {hpBonus: hpPlus, armourBonus:armourPlus, attackBonus:atkPlus }});
 	},
 	'sendEmail': function (feedback) {
@@ -207,15 +207,16 @@ Meteor.methods({
 		check(identity, String);
 
 		// delete the ally
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{ally: identity}});
+		var currentUserId =  Meteor.userId();
+		Meteor.users.update({_id:currentUserId}, {$pull:{ally: identity}});
 
 		// unfollow the user
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{following: identity}});
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{followers: identity}});
+		Meteor.users.update({_id: currentUserId}, {$pull:{following: identity}});
+		Meteor.users.update({_id: currentUserId}, {$pull:{followers: identity}});
 
 		// he also unfollows you
-		Meteor.users.update({_id:identity}, {$pull: {following:Meteor.userId() }});
-		Meteor.users.update({_id:identity}, {$pull: {followers:Meteor.userId() }});
+		Meteor.users.update({_id:identity}, {$pull: {following:currentUserId }});
+		Meteor.users.update({_id:identity}, {$pull: {followers:currentUserId }});
 
 		// pull out ally stats
 		var ally = Meteor.user().ally;
@@ -231,7 +232,21 @@ Meteor.methods({
 
 			Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: ally}});
 		}
-		
+
+		// pull out your stats from the other person
+		ally = Meteor.users.findOne({_id:identity}).ally;
+		idx = _.indexOf(ally, currentUserId);
+		if(idx){
+			var object = Meteor.users.findOne({_id:currentUserId});
+				// minus stats
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
+			Meteor.users.update({_id:identity}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
+			ally.splice(idx,1);
+
+			Meteor.users.update({_id:identity}, {$set:{ally: ally}});
+		}
 			
 
 

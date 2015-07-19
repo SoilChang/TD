@@ -59,10 +59,10 @@
 
 				<!-- display friends -->
 				<div id="friendBox" >
-				<p>Your friends :</p>
+					<p>Your friends :</p>
 					<ul>
 						{{#each loadFriends}}
-							<li>
+						<li>
 							<p id="allyName" style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
 							<input id="unfriend" type="submit" value="unfriend" style="display:inline-block; width:70px;">
 							<input id="joinAlly" type="submit" class="{{join}}" value="Join Ally" style="display:block; width:100px; margin-left:150px;">
@@ -114,10 +114,20 @@
 						<P>You get 15% of the bonus if you join this ally</P>
 						{{/if}}
 					</ul>
+
+			
+				</div>
+
+
+				<!-- your allies -->
+				<div style="position:absolute; height:100px; width:450px; margin-top:190px; overflow-y:hidden; overflow-x:hidden; border:2px black solid">
+					{{#each seeYourAlly}}
+						<p>{{username}}{{ profile.name }}</p>
+					{{/each}}
 				</div>
 
 				<!-- all user search box -->
-				<div style="height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
+				<div style="position:absolute; height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
 					<P>All users</P>
 					<ul>
 

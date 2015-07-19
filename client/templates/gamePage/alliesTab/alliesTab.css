@@ -149,3 +149,7 @@
 .threeButton:active{
 	color: red;
 }
+
+#allyName:hover{
+	cursor:pointer;
+}
