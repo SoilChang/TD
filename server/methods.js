@@ -250,10 +250,9 @@ Meteor.methods({
 		var ally = Meteor.user().ally;
 
 		// check for duplication
-		for(var i = 0; i< ally.length; i++){
-			if(ally[i] === identity)
-				return;
-		}
+		if( _.indexOf(ally, identity) >= 0)
+			return;
+	
 
 		// incrase bonus
 		var object = Meteor.users.findOne({_id:identity});

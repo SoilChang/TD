@@ -12,7 +12,7 @@
 		{{#each globalRanking}}
 			<li style="font-size:20px; width:750px;">
 				<span style="font-size:20px; color:#FFFFCC;">{{warriorName}}:</span>
-				<span style="left:600px;position:absolute;">{{date}}</span>
+				<span style="left:600px;position:absolute;">{{howLongAgo date}}</span>
 				<br>
 				<img src="/images/leaderBoard/score.png">:<span style="position:absolute; margin-left:30px">{{score}}</span> 
 				<img src="/images/leaderBoard/wave.png" style="position:abolute;margin-left:200px;">:{{waveCleared}}
@@ -28,7 +28,7 @@
 		<ol>
 		{{#each personalRanking}}
 			<li style="font-size:20px; width:750px;">
-				<span style="left:600px;position:absolute;">{{date}}</span>
+				<span style="left:600px;position:absolute;">{{howLongAgo date}}</span>
 				<br>
 				<img src="/images/leaderBoard/score.png">:<span style="position:absolute; margin-left:30px">{{score}}</span> 
 				<img src="/images/leaderBoard/wave.png" style="position:abolute;margin-left:200px;">:{{waveCleared}}

@@ -21,5 +21,6 @@ audit-argument-checks
 mrt:facebook-sdk
 sorenpeterson:createjs
 brentjanderson:buzz
+momentjs:moment
 sanjo:jasmine
 velocity:html-reporter
