@@ -40,7 +40,7 @@ var gameTicker, stage, hitsT, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hi
 gameProgress, cash, score, health, maxHealth,
 coordinates, castleData, wave, //game stats
 s1, s2, s3, s4,//monster sprites
-backgroundI, background, castleIm, castleI, castle, //canvas images & variable
+backgroundI, background, castleIm, castleI, castle, castleInvincible, castleInvincibleI,//canvas images & variable
 castleLifebar,castleHp, castleHpI, castleText,
 castleHitI, castleHit, monsterKillI, //added animations
 lightTower1, lightTower2, lightTower3, lightTower4,//tower images
@@ -52,7 +52,7 @@ towerData, towers, towerType, towerName, targetTower,//tower variables
 healers,
 monsterData, monsters, monsterDead,//monster variables
 shots, //shots variables
-powerFreeze, //power cooldowns
+powerFreeze, powerMeteorite, powerDD,//power cooldowns
 t1, t1i, t1a, t2, t2i, t2a, hoverTower, hoverGrid, hoverT,
 checkGG, ffCount, errorCD, countDown, lastMon, pScreen
 
@@ -87,14 +87,19 @@ function gameData(type) {
             towers = []   //towers currently on map
             healers = [] //fountain on map
             powerFreeze = 0 //cooldown of power
+            powerMeteorite = 0 
+            //resets meteorite image
+            redCircle.scaleX = .01;
+            redCircle.scaleY = .01;
+            redCircle.x = 673;
+            redCircle.y = 314;
+            //resets invincibility power
+            castleInvincible.cd = -1
+            castleInvincible.blocks = 5
+            powerDD=-1
             score = 0;
             maxHealth = 18
             health = maxHealth;
-            if (Meteor.user()!=null) {
-                if (Meteor.user().ability_meteorite) {
-                    cash =65
-                } else {cash=40}
-            } else {cash=40}
             wave = 0;
             checkGG = 0;
             errorCD = 0 //time for error message to stay on canvas
@@ -106,9 +111,26 @@ function gameData(type) {
             hoverGrid = false //identify current grid
             hoverT = false //image of tower selected to buy
 
-            $('#meteoritePower').addClass('cooldown')
-            $('#invinciblePower').addClass('cooldown')
-            $('#ddPower').addClass('cooldown')
+            $('.powerBtn').addClass('cooldown') 
+            if (Meteor.user()!=null) {
+                if (Meteor.user().ability_extraGold) {
+                    cash =65
+                } else {cash=40}
+
+                if (Meteor.user().ability_freeze) {
+                    $('#freezePower').removeClass('cooldown')
+                }
+                if (Meteor.user().ability_meteorite) {
+                    $('#meteoritePower').removeClass('cooldown')
+                }
+                if (Meteor.user().ability_block) {
+                    $('#invinciblePower').removeClass('cooldown')
+                }
+                if (Meteor.user().ability_doubleDamage) {
+                    $('#ddPower').removeClass('cooldown')
+                }
+            } else {cash=40}
+
             break;
         case 'saved' :
             addMonster()
@@ -234,59 +256,12 @@ Template.gameTab.events({
         power('freeze')
 	},
     'click #meteoritePower': function(){  
-        if (true){
-            CometSound.play();
-            $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
-                $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
-            });  
-            $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-                
-                artillerySound.play().setVolume(30);
-                $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
-                $("#playingField").effect("shake",function(){
-                    explosionSound.play().setVolume(30);
-                    $("#redCircle").show(function(){
-                        $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000);
-                        $("#redCircle").animate({height:"2000px",marginLeft:"-330px",marginTop:"-680px",opacity:"0.1"},1000,function(){
-                            $("#redCircle").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
-                            $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
-                            // functionalities here
-                        
-                            // ____________________
-                        });
-                    });           
-                });              
-            });
-        }      
-            
-         
-        power('meteorite');
-    
-
+        power('meteorite');   
     },
     'click #invinciblePower': function(){
-        if (true){
-            $("#angel").show();
-            $("#angel").animate({"margin-top":"180px"},500,function(){
-                $("#wings").show();
-                $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
-                    $("#angel").animate({"margin-top":"-300px"},500);
-                    $("#wings").animate({"margin-top":"-300px"},500,function(){
-                        $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
-                    });
-                });
-            });
-        }
-
         power('invincibility')
     },
     'click #ddPower': function(){
-        if (true){
-            $("#doubleDamage").show(function(){
-                $("#doubleDamage").hide("puff");
-            });
-        }
-
         power('dd')
     },
     'click #menuBtn': function(){
@@ -534,11 +509,11 @@ function imageload() {
     castleHp = new Image();
     castleHp.src = "/images/gameImages/castleLifebar.png"
     castleHpI = new createjs.Bitmap(castleHp);
-    castleHpI.y = -15
+    castleHpI.y = 65
 
     castleText = new createjs.Text(
         0 + "/" + 0 , "11px Arial", "#fff");
-    castleText.y = -16
+    castleText.y = 64
     castleText.x = 33
     castleText.textAlign = "center"
     
@@ -546,6 +521,15 @@ function imageload() {
     castle.addChild(castleHpI, castleI, castleText);
     castle.x = 320;
     castle.y = 192;
+
+    //castle invincible
+    castleInvincibleI = new Image();
+    castleInvincibleI.src = "/images/gameImages/invinCastle.png"
+    castleInvincible = new createjs.Bitmap(castleInvincibleI);
+    castleInvincible.x = 305;
+    castleInvincible.y = 170;
+    castleInvincible.cd = -1;
+    castleInvincible.blocks = 5;
 
     //castle hit
     castleHitI = new Image();
@@ -688,6 +672,14 @@ function imageload() {
     };
     wizardI = new createjs.SpriteSheet(s4); 
 
+    //power animations
+    redCircleI = new Image();
+    redCircleI.src = "/images/gameImages/redCircle.png"
+    redCircle = new createjs.Bitmap(redCircleI);
+    redCircle.scaleX = .01;
+    redCircle.scaleY = .01;
+    redCircle.x = 673;
+    redCircle.y = 314;
 };
 
 /*#########################################################################
@@ -908,44 +900,54 @@ function saving() {
 function power(type) {
     $('.towerBtn').removeClass('selected')
     updatePower(type);
+
+    //if game is paused
     if (createjs.Ticker.getPaused()) {
+        var names = ""
+        var item = ""
+
+        if (type=="freeze"){
+            names = 'Freezer'
+            item = "'Undead Bone'"
+        }
+        else if(type=="meteorite"){
+            names = 'Meteorite'
+            item = "'Ring of Darkness'"
+        }
+        else if(type=="invincibility"){
+            names = 'Invincibility'
+            item = "'Sand Wall'"
+        }
+        else if(type=="dd"){
+            names = 'Double Damage'
+            item = "'Dragon's Blood'"
+        }
+
+
+        var named ="<span class='item'>" + names + "</span>"
+        var itemd ="<span class='item'>" + item + "</span>"
+        //if user is logged in
         if (Meteor.user()!==null){
-            var names = ""
-            var item = ""
-            if (type=="freeze"){
-                names = 'Freezer'
-                item = "'Undead Bone'"
-            }
-
-            var named ="<span class='item'>" + names + "</span>"
-            var itemd ="<span class='item'>" + item + "</span>"
-
-            if (!Meteor.user().ability_freeze && type=="freeze"){
+            if (type=='freeze' && !Meteor.user().ability_freeze ||
+                type=='meteorite' && !Meteor.user().ability_meteorite ||
+                type=='invincibility' && !Meteor.user().ability_block ||
+                type=='dd' && !Meteor.user().ability_doubleDamage){
                 error("Please buy the "+ itemd + " to use the "+named+"." )                  
-            }        
-
-
-        } else{
-            var names =""
-            if (type=="freeze"){
-                names='Freezer'
             }
-
-            var named ="<span class='item'>" + names + "</span>"
-
-            if (type=="freeze"){
-                error("Please sign in to use the "+named+"." )                  
-            }          
+        } else{
+            error("Please sign in to use the "+named+".")          
         }
     }
-    else {
+    else {//game running
+        //user logged in
         if (Meteor.user()!==null) {
+            //check for type of power
             if (type=="freeze") {
                 if (Meteor.user().ability_freeze) {
                     if (powerFreeze==0) {
                         powerFreeze = 800
                         powerEffect(type)
-                        $('#freezePower').removeClass('selected')
+                        //$('#freezePower').removeClass('selected')
                         $('#freezePower').addClass('cooldown')
                         for (var i=0;i<monsters.length;i++) {
                             monsters[i].speed=0
@@ -963,21 +965,42 @@ function power(type) {
             else if (type=="meteorite") {
                 if (Meteor.user().ability_meteorite) {
                     if (powerMeteorite==0) {
-                        powerMeteorite = 1
-                        $('#meteoritePower').removeClass('selected')
-                        $('#meteoritePower').addClass('cooldown')
-                        for (var i=0;i<monsters.length;i++) {
-                            stage.removeChild(monsters[i])
-                        }
-                        monsters.splice(0,monsters.length)
-                        console.log(monsters)              
+                        powerEffect(type)
+                        $('#meteoritePower').addClass('cooldown')            
                     } else {                
                         error("Meteorite is used up!")
                     }
                 } else {
-                error("Please buy the 'item' to use this power.")
+                error("Please buy the <span class='item'>'Ring of Darkness'</span>"+
+                 "to use the <span class='item'>Meteorite</span>.")
                 }
 
+            }
+            else if (type=="invincibility"){
+                if (Meteor.user().ability_block) {
+                    if (castleInvincible.cd==-1) {
+                        powerEffect(type)
+                        $('#invinciblePower').addClass('cooldown')            
+                    } else {                
+                        error("Invincibility on cooldown!")
+                    }
+                } else {
+                error("Please buy the <span class='item'>'Sand Wall'</span>"+
+                 "to use <span class='item'>Invincibility</span>.")
+                }
+            }
+            else if (type=="dd"){
+                if (Meteor.user().ability_doubleDamage) {
+                    if (powerDD==-1) {
+                        powerEffect(type)
+                        $('#ddPower').addClass('cooldown')            
+                    } else {                
+                        error("Double Damage on cooldown!")
+                    }
+                } else {
+                error("Please buy the <span class='item'>'Dragon's Blood'</span>"+
+                 "to use <span class='item'>Double Damage</span>.")
+                }
             }
         } else {
             error("Please sign in first.")
@@ -990,6 +1013,114 @@ function powerEffect(type){
         $("#freezeField").fadeIn(100,function(){
             $("#freezeField").fadeOut(2900);
         });
+    }
+    else if (type=='meteorite'){
+        CometSound.play();
+        $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
+            $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
+        });  
+        $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
+            
+            artillerySound.play().setVolume(30);
+            $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
+            $("#playingField").effect("shake",function(){
+                explosionSound.play().setVolume(30);
+                $("#redCircle").show(function(){
+                    powerMeteorite = 1
+                    stage.addChild(redCircle);
+                    $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
+                        $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
+
+                    });
+                });           
+            });              
+        });
+    }
+    else if (type=='invincibility'){
+        $("#angel").show();
+        $("#angel").animate({"margin-top":"180px"},500,function(){
+            $("#wings").show();
+            $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
+                $("#angel").animate({"margin-top":"-300px"},500);
+                stage.addChild(castleInvincible);
+                castleInvincible.cd=600;
+                $("#wings").animate({"margin-top":"-300px"},500,function(){
+                    $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
+                });
+            });
+        });
+    }
+    else if (type=='dd'){
+        $("#doubleDamage").show(function(){
+            $("#doubleDamage").hide("puff");
+            powerDD = 600;
+        });
+    }
+};
+
+function meteoriteScale(){
+    var kills=[]
+    if (redCircle.scaleX<.8){
+        redCircle.scaleX += .06
+        redCircle.scaleY += .06
+        redCircle.x -= (.06*481)/2
+        redCircle.y -= (.06*481)/2
+    }
+
+    else if (redCircle.scaleX<1.4){
+        redCircle.scaleX += .12
+        redCircle.scaleY += .12
+        redCircle.x -= (.12*481)/2
+        redCircle.y -= (.12*481)/2
+    }
+    else if (redCircle.scaleX<1.9){
+        redCircle.scaleX += .18
+        redCircle.scaleY += .18
+        redCircle.x -= (.18*481)/2
+        redCircle.y -= (.18*481)/2
+    }  
+    else if (redCircle.scaleX<3.5){
+        redCircle.scaleX += .3
+        redCircle.scaleY += .3
+        redCircle.x -= (.3*481)/2
+        redCircle.y -= (.3*481)/2
+    } else{
+        stage.removeChild(redCircle)
+        powerMeteorite++
+    }
+
+    for (var i=0;i<monsters.length;i++){
+        if (redCircle.x <= (monsters[i].x+monsters[i].w) &&
+            monsters[i].x <= (redCircle.x+redCircle.scaleX*481) &&
+            redCircle.y <= (monsters[i].y+monsters[i].h) &&
+            monsters[i].y <= (redCircle.y+redCircle.scaleY*481)){
+
+            kills.push(i)
+        }
+    }
+    if (kills){
+        kills.sort(function(a,b){return b-a});
+        for (var i=0;i<kills.length;i++) {
+            isDead(kills[i]);
+        }
+    } 
+}
+
+function invinPower(){
+    if (castleInvincible.cd>1){
+        castleInvincible.cd--
+    }else{
+        castleInvincible.cd--
+        castleInvincible.blocks=0
+        stage.removeChild(castleInvincible)
+    }
+}
+
+function ddPower(){
+    if (powerDD>1){
+        powerDD--
+    } else{
+        powerDD--
     }
 }
 
@@ -1008,19 +1139,16 @@ function updatePower(type) {
         pow += "Meteorite" + "<br>"
         effect += "Destroys all living thing in the world." + "<br>"
         cd += "One time usage." + "<br>"
-        errors += "Coming Soon..."
     }
     else if (type=="invincibility"){   
         pow += "Invincibility" + "<br>"
         effect += "No damage to castle for 5 hits." + "<br>"
         cd += "One time usage." + "<br>"
-        errors += "Coming Soon..."
     }
     else if (type=="dd"){
         pow += "Double Damage" + "<br>"
         effect += "Monsters get twice the damage from towers for 10 seconds." + "<br>"
         cd += "One time usage." + "<br>"
-        errors += "Coming Soon..."
     }
 
     var errorEdit="<span class='errorText'>" + errors + "</span>"
@@ -1500,7 +1628,11 @@ function cMonster(type,amt) {
             lastMon = newMonster
         }
     }
-    stage.addChild(castle)
+    if (castleInvincible.cd>=1){
+        stage.addChild(castleInvincible)
+    } else {
+        stage.addChild(castle)        
+    }
 }
 
 //check animation direction
@@ -1564,6 +1696,15 @@ function tick(event) {
             shotsHit();//check for collison
             shotsMovement();//controls movement of shots fired
         };
+        if (powerMeteorite==1){
+            meteoriteScale()
+        }
+        if (castleInvincible.cd>0){
+            invinPower()
+        }
+        if (powerDD>0){
+            ddPower()
+        }
         monsterMovement();//controls monster movement
 
     };
@@ -1769,8 +1910,20 @@ function monsterMovement() {
         //monster attacks castle
         else {
             if (!mob.dead) {
-                if ((mob.damage-armorBonus)<=0){
-                    console.log(castleBlock)
+                if (castleInvincible.cd>=1){
+                    if (castleInvincible.blocks>0){
+                        castleBlock.cd = 5
+                        stage.addChild(castleBlock)
+                        castleInvincible.blocks--
+                        if (castleInvincible.blocks==0){
+                            stage.removeChild(castleInvincible)
+                        }                                            
+                    } else{
+                        castleInvincible.cd=0
+                        stage.removeChild(castleInvincible)
+                    }
+                }
+                else if ((mob.damage-armorBonus)<=0){
                     castleBlock.cd = 5
                     stage.addChild(castleBlock)
                 } else {
@@ -2006,20 +2159,23 @@ function shotsHit() {
                     shotsSplash(shots[i]);
                 } 
                 else { //single hits
-                monsters[j].currentHp-=shots[i].damage
-                monsters[j].getChildAt(0).sourceRect = 
-                new createjs.Rectangle(0,0,monsters[j]
-                    .currentHp/monsters[j].maxHp*monsters[j].w,3);
+                    var tDmg
+                    if (powerDD>0){
+                        tDmg = shots[i].damage*2
+                    } else{tDmg=shots[i].damage}
+                    monsters[j].currentHp-=tDmg
+                    monsters[j].getChildAt(0).sourceRect = 
+                    new createjs.Rectangle(0,0,monsters[j]
+                        .currentHp/monsters[j].maxHp*monsters[j].w,3);
 
-                if (shots[i].effect && monsters[j].slowCd) {
-                    shotsEffect(shots[i],monsters[j]);
-                };
+                    if (shots[i].effect && monsters[j].slowCd) {
+                        shotsEffect(shots[i],monsters[j]);
+                    };
 
-                //remove monster when dead
-                if (monsters[j].currentHp<=0) {
-                    isDead(j);
-                }
-
+                    //remove monster when dead
+                    if (monsters[j].currentHp<=0) {
+                        isDead(j);
+                    }
                 }
                 break;
             }
@@ -2046,7 +2202,11 @@ function shotsSplash(shot) {
             monsters[i].x <= (hitX+rangeX) &&
             hitY <= (monsters[i].y+monsters[i].h) &&
             monsters[i].y <= (hitY+rangeY)) {
-            monsters[i].currentHp -= shot.damage;
+            var tDmg
+            if (powerDD>0){
+                tDmg = shot.damage*2
+            }else{tDmg=shot.damage}
+            monsters[i].currentHp -= tDmg;
             monsters[i].getChildAt(0).sourceRect = 
             new createjs.Rectangle(0,0,monsters[i]
                 .currentHp/monsters[i].maxHp*monsters[i].w,3);
@@ -2726,5 +2886,6 @@ function toggleSound() {
     document.getElementById('soundBtn').src = (muted)?
     "/images/gameImages/nosound.png":"/images/gameImages/sound.png"
 }
+
 
 
