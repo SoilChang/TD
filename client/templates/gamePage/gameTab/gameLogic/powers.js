@@ -3,7 +3,6 @@
                  Power Effects
 
 #########################################################################*/
-
 power = function(type) {
     $('.towerBtn').removeClass('selected')
     updatePower(type);
