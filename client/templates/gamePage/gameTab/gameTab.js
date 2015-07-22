@@ -223,6 +223,7 @@ Template.gameTab.events({
             togglePause();
         } else {
             clearStage();
+            clearIcon();
             setNewGame();
             newGame();
             $('.towerBtn').removeClass('selected');  
@@ -273,6 +274,7 @@ Template.gameTab.events({
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
         clearStage();
+        clearIcon();
         menu();
         document.getElementById("infoText").innerHTML = ""
         $('.towerBtn').removeClass('selected');  
@@ -790,6 +792,7 @@ continueGame = function() {
     creation('fountain')
     creation('monster')
 
+    gameRunning = 1
     //edit UI
     $('.ff').removeClass('selected');  
     $('#ff1').addClass('selected');
@@ -1232,6 +1235,13 @@ gameOverAlert = function() {
 clearStage = function() {
     createjs.Ticker.off("tick", gameTicker);
     stage.removeAllChildren();
+}
+
+clearIcon = function(){
+    document.getElementById("freezeIcon").innerHTML = ""
+    document.getElementById("meteoriteIcon").innerHTML = ""
+    document.getElementById("invincibleIcon").innerHTML = ""
+    document.getElementById("ddIcon").innerHTML = ""
 }
 //set up new game
 setNewGame = function() {

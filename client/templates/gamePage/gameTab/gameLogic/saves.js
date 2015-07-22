@@ -17,6 +17,7 @@ saving = function() {
     gameProgress['invinCd'] = castleInvincible.cd;
     gameProgress['invinBlock'] = castleInvincible.blocks;
     gameProgress['powerDD'] = powerDD;
+    gameProgress['powerCD'] = powerCD;
 
     if (Meteor.user()!==null) {
         gameProgress['hpBonus'] = hpBonus 
