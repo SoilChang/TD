@@ -229,7 +229,7 @@ monsterMovement = function() {
         //monster attacks castle
         else {
             if (!mob.dead) {
-                if (castleInvincible.cd>=1){
+                if (castleInvincible.active>=1){
                     if (castleInvincible.blocks>0){
                         castleBlock.cd = 5
                         stage.addChild(castleBlock)
@@ -238,7 +238,7 @@ monsterMovement = function() {
                             stage.removeChild(castleInvincible)
                         }                                            
                     } else{
-                        castleInvincible.cd=0
+                        castleInvincible.active=0
                         stage.removeChild(castleInvincible)
                     }
                 }

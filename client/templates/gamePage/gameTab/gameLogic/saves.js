@@ -13,6 +13,7 @@ saving = function() {
 
     gameProgress['powerFreeze'] = powerFreeze;
     gameProgress['powerMeteorite'] = powerMeteorite;
+    gameProgress['meteoriteOver'] = meteoriteOver;
     gameProgress['invinCd'] = castleInvincible.cd;
     gameProgress['invinBlock'] = castleInvincible.blocks;
     gameProgress['powerDD'] = powerDD;

@@ -72,15 +72,17 @@ gameData = function(type) {
             healers = [] //fountain on map
             powerFreeze = 0 //cooldown of power
             powerMeteorite = 0 
+            meteoriteOver = 0
             //resets meteorite image
             redCircle.scaleX = .01;
             redCircle.scaleY = .01;
             redCircle.x = 673;
             redCircle.y = 314;
             //resets invincibility power
-            castleInvincible.cd = -1
+            castleInvincible.cd = 0
             castleInvincible.blocks = 5
-            powerDD=-1
+            powerDD=0
+            powerCD=0
             score = 0;
             maxHealth = 18
             health = maxHealth;
@@ -94,6 +96,9 @@ gameData = function(type) {
             towerName = false 
             hoverGrid = false //identify current grid
             hoverT = false //image of tower selected to buy
+            document.getElementById("infoText").innerHTML = 
+            "Before the game starts, you can click the tower/power buttons to see"+
+            " the info and animations."
 
             $('.powerBtn').addClass('cooldown') 
             if (Meteor.user()!=null) {
@@ -125,9 +130,11 @@ gameData = function(type) {
             healers = []
             powerFreeze = gameProgress['powerFreeze']
             powerMeteorite = gameProgress['powerMeteorite']
+            meteoriteOver = gameProgress['meteoriteOver']
             castleInvincible.cd = gameProgress['invinCd']
             castleInvincible.blocks = gameProgress['invinBlock']
             powerDD = gameProgress['powerDD']
+            powerCD = gameProgress['powerCD']
             score = gameProgress['score']
             maxHealth = gameProgress['maxHealth']
             health = gameProgress['health']
@@ -843,13 +850,16 @@ tick = function(event) {
             shotsHit();//check for collison
             shotsMovement();//controls movement of shots fired
         };
-        if (powerMeteorite==1){
-            meteoriteScale()
+        if (powerMeteorite>0){
+            meteoritePower()
+            if (meteoriteOver==1){
+                meteoriteScale()
+            }
         }
         if (castleInvincible.cd>0){
             invinPower()
         }
-        if (powerDD>0){
+        if (powerCD>0){
             ddPower()
         }
         monsterMovement();//controls monster movement

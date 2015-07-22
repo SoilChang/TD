@@ -35,7 +35,11 @@ cShots = function(tower,monster) {
     newShot.w = tower.w
     newShot.h = tower.h
     newShot.speed = tower.speed
-    newShot.damage = tower.damage + tower.bonus
+    var tDmg
+    if (powerDD>0){
+        tDmg = (tower.damage + tower.bonus)*2
+    } else{tDmg=tower.damage + tower.bonus}
+    newShot.damage = tDmg
     newShot.splash = tower.splash
     newShot.effect = tower.effect
     //special properties
@@ -89,11 +93,7 @@ shotsHit = function() {
                     shotsSplash(shots[i]);
                 } 
                 else { //single hits
-                    var tDmg
-                    if (powerDD>0){
-                        tDmg = shots[i].damage*2
-                    } else{tDmg=shots[i].damage}
-                    monsters[j].currentHp-=tDmg
+                    monsters[j].currentHp-=shots[i].damage
                     monsters[j].getChildAt(0).sourceRect = 
                     new createjs.Rectangle(0,0,monsters[j]
                         .currentHp/monsters[j].maxHp*monsters[j].w,3);
