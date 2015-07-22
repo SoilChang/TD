@@ -1,363 +1,355 @@
 /*This document is to insert all the equipment into the shop. With this formate
 new equipment can be checked and automatically added to the shop*/
-
-
-/*##########################################################
-
-helmet
-
-###########################################################*/
-if( eqpList.findOne({name:'Golden Crown'}) === undefined ){
-	eqpList.insert({
+var allItemData = [
+	{
+		/*##########################################################
+		helmet
+		###########################################################*/
 		name: 'Golden Crown',
 		url: '/images/gamePage/goldenCrown.png',
 		type: 'helmet',
-		price: 10,
-		hpBonus: 1,
+		price: 2,
+		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 0,
-		magicalPower: null
-	});
-};
-
-if( eqpList.findOne({name:"Chief's Expression"}) === undefined ){
-	eqpList.insert({
+		attackBonus: 20,
+	},
+	{
 		name: "Chief's Expression",
 		url: '/images/gamePage/chielfsExpression.png',
 		type: 'helmet',
 		price: 4,
-		hpBonus: 2,
-		armourBonus: 1,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
+		hpBonus: 0,
+		armourBonus: 0,
+		attackBonus: 20,
 
-
-if( eqpList.findOne({name:"Crown Of RedMoon"}) === undefined ){
-	eqpList.insert({
+	},
+	{
 		name: "Crown Of RedMoon",
 		url: '/images/gamePage/CrownOfRedMoon.png',
 		type: 'helmet',
-		price: 4,
-		hpBonus: 2,
+		price: 6,
+		hpBonus: 6,
 		armourBonus: 1,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
+		attackBonus: 40,
 
-if( eqpList.findOne({name:"Mom's Face When We Do Sth Wrong"}) === undefined ){
-	eqpList.insert({
+	},
+	{
 		name: "Mom's Face When We Do Sth Wrong",
 		url: '/images/gamePage/momFaceWhenWeDoSthWrong.png',
 		type: 'helmet',
-		price: 4,
-		hpBonus: 2,
+		price: 8,
+		hpBonus: 4,
 		armourBonus: 1,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
+		attackBonus: 40,
 
-/*##########################################################
+	},
+	/*##########################################################
 
-chestPlate
+	chestPlate
 
-###########################################################*/
-if( eqpList.findOne({name:'Scorched Plate'}) === undefined ){
-	eqpList.insert({
+	###########################################################*/
+	{
 		name: 'Scorched Plate',
 		url: '/images/gamePage/chest_plate1.png',
 		type: 'chestPlate',
-		price: 2,
-		hpBonus: 3,
-		armourBonus: 4,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
+		price: 5,
+		hpBonus: 5,
+		armourBonus: 1,
+		attackBonus: 40,
 
-if( eqpList.findOne({name:"Black Widow's Disguise"}) === undefined ){
-	eqpList.insert({
-		name: "Black Widow's Disguise",
-		url: '/images/gamePage/chest_plate2.png',
-		type: 'chestPlate',
-		price: 3,
-		hpBonus: 1,
-		armourBonus: 2,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Shared Blood"}) === undefined ){
-	eqpList.insert({
+	},
+	
+	{
 		name: "Shared Blood",
 		url: '/images/gamePage/chestplateOfSharedBlood.png',
 		type: 'chestPlate',
-		price: 2,
-		hpBonus: 2,
-		armourBonus: 3,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-
-/*##########################################################
-
-leg
-
-###########################################################*/
-
-if( eqpList.findOne({name:"Crystal Greave"}) === undefined ){
-	eqpList.insert({
-		name: "Crystal Greave",
-		url: '/images/gamePage/armour_leg.png',
-		type: 'leg',
-		price: 4,
-		hpBonus: 3,
-		armourBonus: 3,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Gold-Plated Greave"}) === undefined ){
-	eqpList.insert({
-		name: "Gold-Plated Greave",
-		url: '/images/gamePage/armour_leg2.png',
-		type: 'leg',
-		price: 3,
-		hpBonus: 2,
+		price: 8,
+		hpBonus: 8,
 		armourBonus: 1,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
+		attackBonus: 40,
+	
+	},
+	{
+		name: "Black Widow's Disguise",
+		url: '/images/gamePage/chest_plate2.png',
+		type: 'chestPlate',
+		price: 12,
+		hpBonus: 2,
+		armourBonus: 2,
+		attackBonus: 80,
+	
+	},
+	/*##########################################################
 
-if( eqpList.findOne({name:"Bull's Legs"}) === undefined ){
-	eqpList.insert({
+	leg
+
+	###########################################################*/
+	{
 		name: "Bull's Legs",
 		url: '/images/gamePage/armour_leg3.png',
 		type: 'leg',
-		price: 6,
-		hpBonus: 4,
-		armourBonus: 2,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Burnished Boots"}) === undefined ){
-	eqpList.insert({
+		price: 2,
+		hpBonus: 1,
+		armourBonus: 0,
+		attackBonus: 40,
+	
+	},
+	{
+		name: "Crystal Greave",
+		url: '/images/gamePage/armour_leg.png',
+		type: 'leg',
+		price: 3,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 40,
+	
+	},
+	{
+		name: "Gold-Plated Greave",
+		url: '/images/gamePage/armour_leg2.png',
+		type: 'leg',
+		price: 7,
+		hpBonus: 8,
+		armourBonus: 1,
+		attackBonus: 60,
+	
+	},
+	
+	{
 		name: "Burnished Boots",
 		url: '/images/gamePage/BurnishedBoots.png',
 		type: 'leg',
-		price: 5,
-		hpBonus: 3,
-		armourBonus: 2,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Royal Greaves"}) === undefined ){
-	eqpList.insert({
+		price: 12,
+		hpBonus: 12,
+		armourBonus: 1,
+		attackBonus: 60,
+		
+	},
+	{
 		name: "Royal Greaves",
 		url: '/images/gamePage/RoyalGreaves.png',
 		type: 'leg',
-		price: 5,
-		hpBonus: 2,
-		armourBonus: 3,
-		attackBonus: 0,
-		magicalPower: 'none'
-	});
-}
-/*##########################################################
-
-arm
-
-###########################################################*/
-
-if( eqpList.findOne({name:"Snow Breaker"}) === undefined ){
-	eqpList.insert({
-		name: "Snow Breaker",
-		url: '/images/gamePage/arm1.png',
-		type: 'arm',
-		price: 4,
-		hpBonus: 0,
-		armourBonus: 3,
-		attackBonus: 1,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Fish Scales"}) === undefined ){
-	eqpList.insert({
-		name: "Fish Scales",
-		url: '/images/gamePage/fishScales.png',
-		type: 'arm',
-		price: 4,
-		hpBonus: 2,
-		armourBonus: 3,
-		attackBonus: 1,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Gauntlet Of Vengence"}) === undefined ){
-	eqpList.insert({
-		name: "Gauntlet Of Vengence",
-		url: '/images/gamePage/gauntletOfVengence.png',
-		type: 'arm',
-		price: 4,
-		hpBonus: 3,
-		armourBonus: 5,
-		attackBonus: 2,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Phoenix Flame"}) === undefined ){
-	eqpList.insert({
-		name: "Phoenix Flame",
-		url: '/images/gamePage/PhoenixFlame.png',
-		type: 'arm',
-		price: 3,
-		hpBonus: 3,
+		price: 18,
+		hpBonus: 13,
 		armourBonus: 2,
-		attackBonus: 1,
-		magicalPower: 'none'
-	});
-}
+		attackBonus: 80,
+		
+	},
+	/*##########################################################
 
-if( eqpList.findOne({name:"Vanity Bracers"}) === undefined ){
-	eqpList.insert({
+	arm
+
+	###########################################################*/
+	{
 		name: "Vanity Bracers",
 		url: '/images/gamePage/vanityBracers.png',
 		type: 'arm',
-		price: 0,
-		hpBonus: 0,
-		armourBonus: 3,
-		attackBonus: 1,
-		magicalPower: 'none'
-	});
-}
-/*##########################################################
+		price: 3,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 80,
+		
+	},
+	{
+		name: "Fish Scales",
+		url: '/images/gamePage/fishScales.png',
+		type: 'arm',
+		price: 8,
+		hpBonus: 6,
+		armourBonus: 0,
+		attackBonus: 120,
+		
+	},
+	{
+		name: "Gauntlet Of Vengence",
+		url: '/images/gamePage/gauntletOfVengence.png',
+		type: 'arm',
+		price: 12,
+		hpBonus: 7,
+		armourBonus: 1,
+		attackBonus: 100,
+		
+	},
 
-weapon
+	{
+		name: "Phoenix Flame",
+		url: '/images/gamePage/PhoenixFlame.png',
+		type: 'arm',
+		price: 20,
+		hpBonus: 10,
+		armourBonus: 1,
+		attackBonus: 160,
+		
+	},
+	
+	{
+		name: "Snow Breaker",
+		url: '/images/gamePage/arm1.png',
+		type: 'arm',
+		price: 30,
+		hpBonus: 10,
+		armourBonus: 2,
+		attackBonus: 240,
+		
+	},
+	/*##########################################################
 
-###########################################################*/
+	weapon
 
-if( eqpList.findOne({name:"Mystical Staff"}) === undefined ){
-	eqpList.insert({
-		name: "Mystical Staff",
-		url: '/images/gamePage/armour_weapon1.png',
+	###########################################################*/
+	{
+		name: "Common Sword",
+		url: '/images/gamePage/armour_weapon3.png',
 		type: 'weapon',
 		price: 10,
 		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 5,
-		magicalPower: 'none'
-	});
-}
-
-
-if( eqpList.findOne({name:"Holy Spear"}) === undefined ){
-	eqpList.insert({
+		attackBonus: 120,
+	
+	},
+	{
+		name: "Mystical Staff",
+		url: '/images/gamePage/armour_weapon1.png',
+		type: 'weapon',
+		price: 20,
+		hpBonus: 0,
+		armourBonus: 0,
+		attackBonus: 200,
+		
+	},
+	{
 		name: "Holy Spear",
 		url: '/images/gamePage/armour_weapon2.png',
 		type: 'weapon',
-		price: 7,
-		hpBonus: 0,
+		price: 30,
+		hpBonus: 10,
 		armourBonus: 0,
-		attackBonus: 3,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Common Sword"}) === undefined ){
-	eqpList.insert({
-		name: "Common Sword",
-		url: '/images/gamePage/armour_weapon3.png',
-		type: 'weapon',
-		price: 3,
-		hpBonus: 0,
-		armourBonus: 0,
-		attackBonus: 0.5,
-		magicalPower: 'none'
-	});
-}
-
-if( eqpList.findOne({name:"Abyssal Blade"}) === undefined ){
-	eqpList.insert({
+		attackBonus: 320,
+		
+	},
+	
+	{
 		name: "Abyssal Blade",
 		url: '/images/gamePage/armour_weapon4.png',
 		type: 'weapon',
-		price: 15,
-		hpBonus: 0,
+		price: 50,
+		hpBonus: 15,
 		armourBonus: 0,
-		attackBonus: 10,
-		magicalPower: 'none'
-	});
-}
+		attackBonus: 440,
 
-if( eqpList.findOne({name:"Raging Star"}) === undefined ){
-	eqpList.insert({
-		name: "Raging Star",
-		url: '/images/gamePage/ragingStar.png',
-		type: 'weapon',
-		price: 18,
-		hpBonus: 0,
-		armourBonus: 2,
-		attackBonus: 7,
-		magicalPower: 'none'
-	});
-}
+	},
 
-if( eqpList.findOne({name:"Soul Reaper"}) === undefined ){
-	eqpList.insert({
+	{
 		name: "Soul Reaper",
 		url: '/images/gamePage/soulReaper.png',
 		type: 'weapon',
-		price: 20,
+		price: 70,
+		hpBonus: 15,
+		armourBonus: 1,
+		attackBonus: 600,
+
+	},
+	{
+		name: "Raging Star",
+		url: '/images/gamePage/ragingStar.png',
+		type: 'weapon',
+		price: 100,
+		hpBonus: 15,
+		armourBonus: 1,
+		attackBonus: 800,
+
+	},
+	/*##########################################################
+
+	relic
+
+	###########################################################*/
+	{
+		name: "diamond Eye",
+		url: '/images/gamePage/diamondEye.png',
+		type: 'relic',
+		price: 5,
 		hpBonus: 3,
 		armourBonus: 0,
-		attackBonus: 9,
-		magicalPower: 'none'
-	});
-}
-/*##########################################################
-
-relic
-
-###########################################################*/
-
-if( eqpList.findOne({name:"Leoric's Jewwlry"}) === undefined ){
-	eqpList.insert({
-		name: "Leoric's Jewwlry",
+		attackBonus: 0,
+		magicalPower: 'The owner of this ring get extra starting gold'
+	},
+	{
+		name: "Leoric's Jewellery",
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
-		price: 30,
-		hpBonus: 0,
+		price: 10,
+		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you a power to build regenrative tower'
-	});
-}
-
-if( eqpList.findOne({name:"Undead Bone"}) === undefined ){
-	eqpList.insert({
+		magicalPower: 'This ring grants you the ability to build regenerative tower'
+	},
+	{
+		name: "Sand Wall",
+		url: '/images/gamePage/sandWall.png',
+		type: 'relic',
+		price: 10,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 0,
+		magicalPower: 'Block all damages for 5 instances(under development)'
+	},
+	{
 		name: "Undead Bone",
 		url: '/images/gamePage/UndeadBone.png',
 		type: 'relic',
-		price: 30,
-		hpBonus: 0,
+		price: 10,
+		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you to freeze all enemy monster for 2 second'
-	});
+		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
+	},
+	{
+		name: "Dragon's Blood",
+		url: '/images/gamePage/dragonsBlood.png',
+		type: 'relic',
+		price: 10,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 0,
+		magicalPower: "Double tower damage for 10 seconds(under development)"
+	},
+	{
+		name: "Ring Of Darkness",
+		url: '/images/gamePage/ringOfDarkness.png',
+		type: 'relic',
+		price: 15,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 0,
+		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.(under development)'
+	},
+	
+
+];
+
+var len = allItemData.length;
+// loop through each item in the fixtures
+for(var i=0; i<len; i++){
+	var object = eqpList.findOne({name: allItemData[i].name });
+
+	if(!object){
+		// if cannot find anything
+		eqpList.insert(allItemData[i]);
+	}else{
+		// if found
+		eqpList.update({_id: object._id},{$set:{
+			price: allItemData[i].price,
+			hpBonus: allItemData[i].hpBonus,
+			armourBonus: allItemData[i].armourBonus,
+			attackBonus: allItemData[i].attackBonus,
+			magicalPower:allItemData[i].magicalPower
+		}});
+	}
 }
+
+// to fix error
+eqpList.remove({name:"Leoric's Jewlry"});
+eqpList.remove({name:"diamondEye"});
 
 

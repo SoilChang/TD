@@ -1,5 +1,6 @@
 <template  name="firstPage" >
 	<div id="firstPageBody">
+			
 
 	<!-- facebook like and share button -->
 			<div class="fb-like" data-href="castledefence.meteor.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" style="position:absolute;width:300px;margin-top:30px;"></div>
@@ -8,13 +9,14 @@
 		<div>
 			<img src="images/firstPage/lightHouse.png" id="lighthouse">
 			<img src="images/firstPage/credit.png"  id="credit" style="width:300px;height:150px;">
-			
+			<img id="shineLighthouse" src="images/firstPage/shineLighthouse.png">
 		</div>
 		<!-- the div for second tower -->
 		<div>
 			<a href="{{pathFor 'albumPage'}}">
 				<img src="images/firstPage/2ndTower.png" id="secTower">
 			</a>
+			<img id="shineSecTower" src="images/firstPage/shineSecTower.png">
 			<img src="images/firstPage/photoBook.png" id="photoBook">
 			<!-- the following helper is to hide and show photo book -->
 			
@@ -22,6 +24,7 @@
 		<!-- the div for the knight -->
 		<div>
 			<a href="{{pathFor 'gamePage'}}"><img src="../images/firstPage/knight.png" id="knight"></a>
+			<img id="shineknight" src="../images/firstPage/shineKnight.png">
 			<img src="images/firstPage/enter.png" id="enter">
 		</div>
 

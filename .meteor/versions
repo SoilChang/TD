@@ -12,6 +12,7 @@ binary-heap@1.0.3
 blaze@2.1.2
 blaze-tools@1.0.3
 boilerplate-generator@1.0.3
+brentjanderson:buzz@1.1.9
 callback-hook@1.0.3
 check@1.0.5
 coffeescript@1.0.6
@@ -50,6 +51,7 @@ meteorhacks:collection-utils@1.2.0
 minifiers@1.1.5
 minimongo@1.0.8
 mobile-status-bar@1.0.3
+momentjs:moment@2.10.3
 mongo@1.1.0
 mongo-livedata@1.0.8
 mrt:facebook-sdk@0.0.44

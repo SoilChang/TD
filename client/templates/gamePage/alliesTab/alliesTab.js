@@ -41,28 +41,22 @@ Template.alliesTab.onRendered(function(){
 	});
 	
 
-	$('#allyName').mouseenter(function(){
-		$("#allyName").css({"cursor":"pointer"});
+	// close button
+	$("#c-Allies-closeButton").hover(function(){
+		$('#c-Allies-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
+	},function(){
+		$('#c-Allies-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
 	});
 	
 });
 
 
 Template.alliesTab.events({
-	'mouseenter #c-Allies-closeButton': function(){
-		$('#c-Allies-closeButton').css({'margin-left': '840px', 'width': '40px', 'height': '40px'});
-	},
-
-	'mouseleave #c-Allies-closeButton': function(){
-		$('#c-Allies-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
-	},
-
-
 	'submit form': function(e) {
 		e.preventDefault();
 
 		// if the user ain't logged in,he ain't allowed to post message
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			alert("Log In to Chat");
 			return;
 		}
@@ -89,7 +83,7 @@ Template.alliesTab.events({
 	},
 
 	'click #followUser':function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			alert("Log In to unfollow other users");
 			return;
 		}
@@ -97,7 +91,7 @@ Template.alliesTab.events({
 	},
 
 	"click #unfollowUser":function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			alert("Log In to follow other users");
 			return;
 		}
@@ -135,7 +129,7 @@ Template.alliesTab.helpers({
 	},
 
 	findFollowing:function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return;
 		}else{
 			var user = Meteor.user();
@@ -143,8 +137,17 @@ Template.alliesTab.helpers({
 		}
 	},
 
+	countFollowing:function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and: [{_id:{$in:user.following}}, {_id:{$nin:user.followers}}]}).count();
+		}
+	},
+
 	findFollowers:function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return;
 		}else{
 			var user = Meteor.user();
@@ -152,8 +155,17 @@ Template.alliesTab.helpers({
 		}
 	},
 
+	countFollowers:function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$nin:user.following}}] }).count();
+		}
+	},
+
 	loadFriends:function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return;
 		}else{
 			var user = Meteor.user();
@@ -162,21 +174,42 @@ Template.alliesTab.helpers({
 		}
 	},
 
+	countFriend:function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return 0;
+		}else{
+			var user = Meteor.user();
+			return Meteor.users.find({$and:[{_id:{$in:user.followers}}, {_id:{$in:user.following}}] }).count();	      
+		}
+	},
+
 	join: function(){
-		if(Meteor.user() === null || Meteor.loggingIn === true){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
 			return;
 		}else{
 			var array = Meteor.user().ally;
-			if(_.indexOf(array, this._id))
-				return
-			return "joined";	
+			if(_.indexOf(array, this._id) >= 0){
+				return "joined"; 
+			}else{
+				return "";
+			}
+			
 		}
+
 	},
 
 	showAllyStats:function(){
 		var selected = Session.get("selectedAlly");
 		return Meteor.users.findOne(selected);
 		
+	},
+
+	seeYourAlly:function(){
+		if(Meteor.user() === null || Meteor.loggingIn() === true){
+			return;
+		}else{
+			return Meteor.users.find({_id:{$in:Meteor.user().ally}});
+		}
 	}
 
 

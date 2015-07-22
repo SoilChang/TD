@@ -11,11 +11,21 @@ img{
 	cursor:pointer;
 }
 
+
+
 #lighthouse{
 	position:absolute;
 	margin-left:705px;
 	margin-top:10px;
 	height:220px;
+	z-index: 10;
+
+}
+#shineLighthouse{
+	position:absolute;
+	margin-left:705px;
+	margin-top:20px;
+	display: none;
 }
 
 #credit{
@@ -31,7 +41,15 @@ img{
 	margin-left:452px;
 	margin-top:169px;
 	height:100px;
+	z-index: 10;
 }
+#shineSecTower{
+	position:absolute;
+	margin-left:420px;
+	margin-top:141px;
+	display: none;
+}
+
 
 #photoBook{
 	position:absolute;
@@ -45,6 +63,14 @@ img{
 	margin-left:475px;
 	margin-top:415px;
 	height:100px;
+	z-index: 10;
+}
+
+#shineknight{
+	position: absolute;
+	margin-left: 437px;
+	margin-top: 387px;
+	display: none;
 }
 
 #enter{

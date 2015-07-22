@@ -144,3 +144,75 @@
 	margin-top: 2px;
 	z-index: 5;
 }
+
+#meteor{
+	z-index: 1px;
+	position: absolute;
+	margin-top: -250px;
+	margin-left: -200px;
+	z-index: 7;
+}
+
+#impactShadow{
+	z-index: 6px;
+	position: absolute;
+	height: 10px;
+	margin-left: -100px;
+	margin-top: 300px;
+	opacity: 0.1;
+	
+}
+
+#explosion{	
+	z-index: 6px;
+	position: absolute;
+	height: 0px;
+	margin-left: 670px;
+	margin-top: 320px;
+	opacity: 1.0;
+}
+
+#redCircle{
+	z-index: 6px;
+	position: absolute;
+	height: 0px;
+	margin-top: 320px;
+	margin-left: 670px;
+	opacity:1.0;
+
+}
+
+#freezeField{
+	position: absolute;
+	display: none;
+	z-index: 6;
+}
+
+#angel{
+	z-index: 11;
+	position: absolute;
+	height: 200px;
+	margin-left: 320px;
+	margin-top: -300px;
+	display: none;	
+}
+
+#wings{
+	z-index: 10;
+	position: absolute;
+	height: 300px;
+	margin-left: 440px;
+	margin-top: 130px;
+	width: 0px;
+	display: none;
+}
+
+#doubleDamage{
+	z-index: 11px;
+	position: absolute;
+	height: 200px;
+	margin-left: 360px;
+	margin-top: 180px;
+	display: none;
+
+}

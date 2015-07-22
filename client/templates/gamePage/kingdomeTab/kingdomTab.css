@@ -80,7 +80,7 @@
 	z-index: 11;
 }
 #containerEachItem{
-	height: 230px;
+	height: 250px;
 }
 
 .inventory_button{
@@ -90,7 +90,7 @@
 	height: 30px;
 	width: 100px;
 	position:relative;
-	margin-top: 20px;
+	margin-top:40px;
 }
 
 .greenTick{

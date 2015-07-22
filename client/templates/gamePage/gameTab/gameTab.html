@@ -19,7 +19,8 @@
 				<hr>
 				<input type="button" value="Start" id="pauseBtn">
 				<!--<input type="button" value="Save" id="saveBtn">-->
-				<input type="button" value="Menu" id="menuBtn"><br> 
+				<input type="button" value="Menu" id="menuBtn">
+				<img src="/images/gameImages/sound.png" id="soundBtn"><br> 
 				<input type="button" value="Check Range" id="rangeBtn"><br>
 				<span class="gameInfo"> Game Speed </span><br>
 				<input type="button" value="1x" id="ff1" class='ff'>
@@ -42,14 +43,27 @@
 			<div id="towerMenu">		
 				<button class="towerBtn" id="iceBtn">
 					<img src="/images/gameImages/ice_tower.png" class="tower">
-					<p class="towerName">Ice Tower</p>
+					<p>Ice Tower</p>
 				</button>
 				<button class="towerBtn" id="lightBtn">
 					<img src="/images/gameImages/light_tower.png" class="tower">
-					<p class="towerName">Light Tower</p>
+					<p>Light Tower</p>
+				</button>	
+				<button class="towerBtn" id="fountainBtn">
+					<img src="/images/gameImages/regenTower_1.png" class="tower">
+					<p>Fountain</p>
 				</button>	
 				<button class="powerBtn" id="freezePower">
-					<p class="towerName">Freeze Monster</p>
+					<p>Freeze Monster</p>
+				</button>	
+				<button class="powerBtn" id="meteoritePower">
+					<p>Meteorite</p>
+				</button>	
+				<button class="powerBtn" id="invinciblePower">
+					<p>Invincibility</p>
+				</button>	
+				<button class="powerBtn" id="ddPower">
+					<p>Double Damage</p>
 				</button>	
 			</div>
 		</div>
@@ -57,9 +71,26 @@
 
 		<!-- Game Canvas -->
 		<div id="c-game-game_canvas" >
+
+			<!-- animation objects -->
+			<img id="freezeField" src="/images/gameImages/freezeField.png">
+
+			<img id="meteor" src="/images/gameImages/meteor.png">
+			<img id="explosion" src="/images/gameImages/explosion.png">
+			<img id="impactShadow" src="/images/gameImages/impactShadow.png">
+			<img id="redCircle" src="/images/gameImages/redCircle.png">
+
+			<img id="angel" src="/images/gameImages/angel.png">
+			<img id="wings" src="/images/gameImages/wings.png">
+
+
+			<img id="doubleDamage" src="/images/gameImages/doubleDamage.png">
+
+			<!-- game canvas -->
 			<div id="game">
 				<canvas id="playingField" width="896" height="544"></canvas>
 			</div>
+			
 		</div>
 
 

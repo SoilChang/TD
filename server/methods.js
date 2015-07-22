@@ -16,12 +16,9 @@ Meteor.methods({
 	},
 
 	// give out daily prize
-	"givePrize":function(password){
-		check(password, String);
-		if(password === "adminOnly"){
-			Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:1}});
-		}
-		
+	"givePrize":function(amount){
+		check(amount, Number);
+		Meteor.users.update({_id:Meteor.userId()},{$inc:{gem:amount}});
 	},
 
 	// buying equipment from the shop
@@ -34,8 +31,37 @@ Meteor.methods({
 		if(currentUser.gem >= item.price ){
 			Meteor.users.update( {_id:currentUserId }, {$inc: {gem: -item.price} } );
 			Meteor.users.update( {_id:currentUserId } , {$addToSet: {inventory: itemCode} } );
+
+			// if what they buy is ring, activate the ability
+			var enchantedItem = eqpList.findOne({type: "relic", _id: itemCode});
+		
+			if(enchantedItem){
+				var currentUser = Meteor.userId();
+				switch(enchantedItem.name){
+					case "Leoric's Jewellery":
+						Meteor.users.update({_id: currentUser},{$set:{ability_regen: true}});
+						break;
+					case "Undead Bone":
+						Meteor.users.update({_id: currentUser},{$set:{ability_freeze: true}});
+						break;
+					case "diamond Eye":
+						Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: true}});
+						break;
+					case "Ring Of Darkness":
+						Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: true}});
+						break;
+					case "Sand Wall":
+						Meteor.users.update({_id: currentUser},{$set:{ability_block: true}});
+						break;
+					case "Dragon's Blood":
+						Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: true}});
+						break;
+				}
+			}
+
 			return true;
 		}else{
+	
 			return false;
 		}
 	},
@@ -49,7 +75,34 @@ Meteor.methods({
 		var soldPricr = Math.ceil(item.price/4)
 		Meteor.users.update( {_id:currentUserId }, {$inc: {gem: soldPricr } } );
 		Meteor.users.update( {_id:currentUserId } , {$pull: {inventory: itemCode} } );
-		Meteor.users.update( {_id:currentUserId } , {$pull: {equipped: itemCode} } );	
+		Meteor.users.update( {_id:currentUserId } , {$pull: {equipped: itemCode} } );
+
+
+		//when they sell rings, remove their ability
+		var enchantedItem = eqpList.findOne({type: "relic", _id: itemCode});
+		if(enchantedItem){
+			var currentUser = Meteor.userId();
+			switch(enchantedItem.name){
+				case "Leoric's Jewellery":
+					Meteor.users.update({_id: currentUser},{$set:{ability_regen: false}});
+					break;
+				case "Undead Bone":
+					Meteor.users.update({_id: currentUser},{$set:{ability_freeze: false}});
+					break;
+				case "diamond Eye":
+					Meteor.users.update({_id: currentUser},{$set:{ability_extraGold: false}});
+					break;
+				case "Ring Of Darkness":
+					Meteor.users.update({_id: currentUser},{$set:{ability_meteorite: false}});
+					break;
+				case "Sand Wall":
+					Meteor.users.update({_id: currentUser},{$set:{ability_block: false}});
+					break;
+				case "Dragon's Blood":
+					Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: false}});
+					break;
+			}
+		}
 	},
 
 	'equipping': function(itemCode,currentUserId){
@@ -65,17 +118,18 @@ Meteor.methods({
 			// we pull it out 
 			Meteor.users.update( {_id:currentUserId,  } , {$pull: {equipped: existing[0]._id} } );
 		}
-		// console.log(" adding "+ itemCode+ "to equipped list");
+
 		//  add the new equipment
 		Meteor.users.update( {_id:currentUserId } , {$addToSet: {equipped: itemCode} } );
+
 	},
 
 	// update user's hp, armour and atk bonus to database according to the eqp obtained. 
-	'updateUserstat': function(hpPlus,armourPlus,atkPlus,currentUserId){
+	'updateUserstat': function(hpPlus,armourPlus,atkPlus){
 		check(hpPlus, Number);
 		check(armourPlus, Number);
 		check(atkPlus, Number);
-		check(currentUserId, String);
+		var currentUserId = Meteor.userId();
 		Meteor.users.update( {_id:currentUserId}, {$set: {hpBonus: hpPlus, armourBonus:armourPlus, attackBonus:atkPlus }});
 	},
 	'sendEmail': function (feedback) {
@@ -153,15 +207,48 @@ Meteor.methods({
 		check(identity, String);
 
 		// delete the ally
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{ally: identity}});
+		var currentUserId =  Meteor.userId();
+		Meteor.users.update({_id:currentUserId}, {$pull:{ally: identity}});
 
 		// unfollow the user
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{following: identity}});
-		Meteor.users.update({_id: Meteor.userId()}, {$pull:{followers: identity}});
+		Meteor.users.update({_id: currentUserId}, {$pull:{following: identity}});
+		Meteor.users.update({_id: currentUserId}, {$pull:{followers: identity}});
 
 		// he also unfollows you
-		Meteor.users.update({_id:identity}, {$pull: {following:Meteor.userId() }});
-		Meteor.users.update({_id:identity}, {$pull: {followers:Meteor.userId() }});
+		Meteor.users.update({_id:identity}, {$pull: {following:currentUserId }});
+		Meteor.users.update({_id:identity}, {$pull: {followers:currentUserId }});
+
+		// pull out ally stats
+		var ally = Meteor.user().ally;
+		var idx = _.indexOf(ally, identity);
+		if(idx){
+			var object = Meteor.users.findOne({_id:identity});
+				// minus stats
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
+			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
+			ally.splice(idx,1);
+
+			Meteor.users.update({_id:Meteor.userId()}, {$set:{ally: ally}});
+		}
+
+		// pull out your stats from the other person
+		ally = Meteor.users.findOne({_id:identity}).ally;
+		idx = _.indexOf(ally, currentUserId);
+		if(idx){
+			var object = Meteor.users.findOne({_id:currentUserId});
+				// minus stats
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
+			Meteor.users.update({_id:identity}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
+			ally.splice(idx,1);
+
+			Meteor.users.update({_id:identity}, {$set:{ally: ally}});
+		}
+			
+
 
 	},
 
@@ -178,16 +265,15 @@ Meteor.methods({
 		var ally = Meteor.user().ally;
 
 		// check for duplication
-		for(var i = 0; i< ally.length; i++){
-			if(ally[i] === identity)
-				return;
-		}
+		if( _.indexOf(ally, identity) >= 0)
+			return;
+	
 
 		// incrase bonus
-		var object = Meteor.users.find({_id:identity}).fetch();
-		var hpPlus = Math.ceil(object[0].hpBonus*0.15);
-		var armourPlus = Math.ceil(object[0].armourBonus*0.15);
-		var attackPlus = Math.ceil(object[0].attackBonus*0.15);
+		var object = Meteor.users.findOne({_id:identity});
+		var hpPlus = Math.ceil(object.hpBonus*0.15);
+		var armourPlus = Math.ceil(object.armourBonus*0.15);
+		var attackPlus = Math.ceil(object.attackBonus*0.15);
 		Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:hpPlus, allyArmour:armourPlus, allyAttack:attackPlus }});
 
 
@@ -198,10 +284,10 @@ Meteor.methods({
 		if(ally.length === 4){
 			
 			// remove ally bonus
-			object = Meteor.users.find( {_id: ally[0]} ).fetch();
-			hpPlus = Math.ceil(object[0].hpBonus*0.15);
-			armourPlus = Math.ceil(object[0].armourBonus*0.15);
-			attackPlus = Math.ceil(object[0].attackBonus*0.15);
+			object = Meteor.users.findOne( {_id: ally[0]} );
+			hpPlus = Math.ceil(object.hpBonus*0.15);
+			armourPlus = Math.ceil(object.armourBonus*0.15);
+			attackPlus = Math.ceil(object.attackBonus*0.15);
 			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 
 			ally.splice(0,1);

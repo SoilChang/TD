@@ -136,3 +136,20 @@
 .joined{
 	background-color:green;
 }
+
+.threeButton{
+	font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
+	font-weight:bold;
+	
+}
+.threeButton:hover{
+	color:green;
+}
+
+.threeButton:active{
+	color: red;
+}
+
+#allyName:hover{
+	cursor:pointer;
+}

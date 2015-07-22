@@ -30,6 +30,10 @@
 	border-radius: 5px;
 	border: double #0000FF;
 }
+.towerBtn:hover{
+	height: 55px;
+	margin-top: 3px;
+}
 
 .powerBtn {
 	display: inline-block;
@@ -43,13 +47,14 @@
 	border: double #0000FF;
 }
 
+.powerBtn:hover{
+	height: 55px;
+	margin-top: 3px;
+}
+
 .tower {
 	height: 25px;
 	width: 25px;
-}
-
-.towerName {
-	margin: 0;
 }
 
 #infoText {
@@ -64,12 +69,29 @@
 	padding-left: 5px;
 }
 
+.errorText {
+	color: red;
+	margin: 0;
+	padding-left: 5px;
+}
+
 .selected {
 	background: yellow;
 }
 
+.item{
+	color:yellow;
+}
+
 .cooldown {
 	background: red;
+}
+
+.ally {
+	color: red;
+}
+#ally {
+	color: green;
 }
 
 hr{

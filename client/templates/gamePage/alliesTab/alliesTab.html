@@ -21,7 +21,7 @@
 				{{#each loadMessage}}
 					<li>
 						<p><span style="color: white; font-size:20px">{{sentBy}}:</span> {{content}} </p>
-						<P ><span style="color:black; font-size:10px;">{{date}}</span></P>
+						<P ><span style="color:black; font-size:10px;">{{howLongAgo date}}</span></P>
 					</li>
 				{{/each}}
 				</ul>
@@ -39,19 +39,30 @@
 		<div id="chatConfig">
 			<!-- first session -->
 			<div id="friends">
-				<h3 id="seeFriend" style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Friends</h3>
+				<h3 id="seeFriend" style="text-align:center;">
+					<span class="threeButton">Friends</span>
+					<span class="badge badge-inverse">{{countFriend}}</span>
+				</h3>
 				<hr>
 
+				<!-- following button -->
+				<button id="followingPanel" style="width:145px;">
+					<span class="threeButton" >Following</span>
+					<span class="badge badge-inverse">{{countFollowing}}</span>
+				</button>
 
-				<button id="followingPanel" style="width:145px;">Following</button>
-				<button id="followerPanel" style="width:145px;">Followers</button>
+				<!-- follower button -->
+				<button id="followerPanel" style="width:145px;">
+					<span class="threeButton" >Followers</span>
+					<span class="badge badge-inverse">{{countFollowers}}</span>
+				</button>
 
 				<!-- display friends -->
 				<div id="friendBox" >
-				<p>Your friends:</p>
+					<p>Your friends :</p>
 					<ul>
 						{{#each loadFriends}}
-							<li>
+						<li>
 							<p id="allyName" style="display:inline-block; width:175px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
 							<input id="unfriend" type="submit" value="unfriend" style="display:inline-block; width:70px;">
 							<input id="joinAlly" type="submit" class="{{join}}" value="Join Ally" style="display:block; width:100px; margin-left:150px;">
@@ -103,10 +114,20 @@
 						<P>You get 15% of the bonus if you join this ally</P>
 						{{/if}}
 					</ul>
+
+			
+				</div>
+
+
+				<!-- your allies -->
+				<div style="position:absolute; height:100px; width:450px; margin-top:190px; overflow-y:hidden; overflow-x:hidden; border:2px black solid">
+					{{#each seeYourAlly}}
+						<p>{{username}}{{ profile.name }}</p>
+					{{/each}}
 				</div>
 
 				<!-- all user search box -->
-				<div style="height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
+				<div style="position:absolute; height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
 					<P>All users</P>
 					<ul>
 
