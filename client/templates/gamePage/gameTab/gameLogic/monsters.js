@@ -62,7 +62,7 @@ cMonster = function(type,amt) {
             lastMon = newMonster
         }
     }
-    if (castleInvincible.cd>=1){
+    if (castleInvincible.active>=1){
         stage.addChild(castleInvincible)
     } else {
         stage.addChild(castle)        
@@ -236,10 +236,12 @@ monsterMovement = function() {
                         castleInvincible.blocks--
                         if (castleInvincible.blocks==0){
                             stage.removeChild(castleInvincible)
+                            updateIcon('invincibility','remove')
                         }                                            
                     } else{
                         castleInvincible.active=0
                         stage.removeChild(castleInvincible)
+                        updateIcon('invincibility','remove')
                     }
                 }
                 else if ((mob.damage-armorBonus)<=0){

@@ -23,18 +23,66 @@ power = function(type) {
         if (type=="freeze"){
             names = 'Freezer'
             item = "'Undead Bone'"
+            if (gameRunning==0){
+                $('#freezePower').addClass('selected')
+                $("#freezeField").fadeIn(100,function(){
+                    $("#freezeField").fadeOut(2900,function(){            
+                    });
+                });
+            }
         }
         else if(type=="meteorite"){
             names = 'Meteorite'
             item = "'Ring of Darkness'"
+            if (gameRunning==0){
+                $('#meteoritePower').addClass('selected') 
+                CometSound.play().setVolume(30);
+                $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
+                    $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
+                });  
+                $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
+                    artillerySound.play().setVolume(30);
+                    $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
+                    $("#playingField").effect("shake",function(){
+                        explosionSound.play().setVolume(30);
+                        $("#redCircle").show(function(){
+                            $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
+                                $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
+
+                            });
+                        });           
+                    });              
+                });               
+            }
         }
         else if(type=="invincibility"){
             names = 'Invincibility'
             item = "'Sand Wall'"
+            if (gameRunning==0){                
+                $('#invinciblePower').addClass('selected')
+                $("#angel").show();
+                musicBoxSound.play();
+                $("#angel").animate({"margin-top":"180px"},500,function(){
+                    $("#wings").show();
+                    $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
+                        $("#angel").animate({"margin-top":"-300px"},500);
+                        $("#wings").animate({"margin-top":"-300px"},500,function(){
+                            $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
+                        });
+                    });
+                });
+            }
         }
         else if(type=="dd"){
             names = 'Double Damage'
             item = "'Dragon's Blood'"
+            if (gameRunning==0){                
+                $('#ddPower').addClass('selected')
+                slideInSound.play().setVolume(100).setSpeed(2);
+                $("#doubleDamage").show(function(){
+                    $("#doubleDamage").hide("puff");
+                });
+            }
         }
 
 
@@ -125,11 +173,15 @@ power = function(type) {
 //animations
 powerEffect = function(type){
     if (type=='freeze'){
+        updateIcon(type,'add')
         $("#freezeField").fadeIn(100,function(){
-            $("#freezeField").fadeOut(2900);
+            $("#freezeField").fadeOut(2900,function(){
+                updateIcon(type,'remove')                
+            });
         });
     }
     else if (type=='meteorite'){
+        updateIcon(type,'add')
         CometSound.play().setVolume(30);
         $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
@@ -153,6 +205,7 @@ powerEffect = function(type){
         });
     }
     else if (type=='invincibility'){
+        updateIcon(type,'add');
         $("#angel").show();
         musicBoxSound.play();
         $("#angel").animate({"margin-top":"180px"},500,function(){
@@ -169,6 +222,7 @@ powerEffect = function(type){
         });
     }
     else if (type=='dd'){
+        updateIcon(type,'add')
         slideInSound.play().setVolume(100).setSpeed(2);
         $("#doubleDamage").show(function(){
             $("#doubleDamage").hide("puff");
@@ -205,6 +259,7 @@ meteoriteScale = function(){
         redCircle.x -= (.3*481)/2
         redCircle.y -= (.3*481)/2
     } else{
+        updateIcon('meteorite', 'remove')
         stage.removeChild(redCircle)
         meteoriteOver++
     }
@@ -251,6 +306,7 @@ invinPower = function(){
             castleInvincible.active--
             castleInvincible.blocks=0
             stage.removeChild(castleInvincible)
+            updateIcon('invincibility','remove')
         }
     }else{
         castleInvincible.cd--
@@ -267,6 +323,7 @@ ddPower = function(){
         }
         else if (powerDD>0){
             powerDD--
+            updateIcon('dd','remove')
 
         }
     } else{
@@ -314,3 +371,43 @@ updatePower = function(type) {
     delay
 
 }
+
+updateIcon = function(type,edit){
+    if (type=="freeze"){
+        if (edit=="add"){
+            document.getElementById("freezeIcon").innerHTML = 
+            "<img src='/images/gameImages/freezeIcon.png'><br>"
+        }
+        else{
+            document.getElementById("freezeIcon").innerHTML = ""
+        }
+    }
+    else if (type=="meteorite"){
+        if (edit=="add"){
+            document.getElementById("meteoriteIcon").innerHTML = 
+            "<img src='/images/gameImages/meteoriteIcon.png'><br>"
+        }
+        else{
+            document.getElementById("meteoriteIcon").innerHTML = ""
+        }
+    }
+    else if (type=="invincibility"){
+        if (edit=="add"){
+            document.getElementById("invincibleIcon").innerHTML = 
+            "<img src='/images/gameImages/shieldIcon.png'><br>"
+        }
+        else{
+            document.getElementById("invincibleIcon").innerHTML = ""
+        }
+    }
+    else if (type=="dd"){
+        if (edit=="add"){
+            document.getElementById("ddIcon").innerHTML = 
+            "<img src='/images/gameImages/ddIcon.png'><br>"
+        }
+        else{
+            document.getElementById("ddIcon").innerHTML = ""
+        }
+    }
+}
+

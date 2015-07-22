@@ -228,11 +228,6 @@ Template.gameTab.events({
             $('.towerBtn').removeClass('selected');  
         }
 	},
-	'click #rangeBtn': function(){
-		towerType=(towerType) ? false:true;
-		toggleAoe();
-
-	},
 	'click #nextBtn': function(){
 		nextWave();
 	},
@@ -298,7 +293,12 @@ Template.gameTab.onRendered(function() {
     $('.towerBtn').click(
         function(){
         $('.towerBtn').removeClass('selected');
+        $('.powerBtn').removeClass('selected');        
         $(this).addClass('selected');
+    });
+    $('.powerBtn').click(
+        function(){
+        $('.powerBtn').removeClass('selected');
     });
     $('.ff').click(
         function(){
@@ -1144,6 +1144,7 @@ fountainHeal = function() {
 togglePause = function() {
     if (!gameRunning) {
         gameRunning=1
+        $(".powerBtn").removeClass('selected')
     }
     var paused = createjs.Ticker.getPaused();
     createjs.Ticker.setPaused(!paused);
