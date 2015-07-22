@@ -5,7 +5,14 @@
 #########################################################################*/
 
 power = function(type) {
-    $('.towerBtn').removeClass('selected')
+    $('.towerBtn').removeClass('selected');
+    stage.removeChild(targetGrid);
+    stage.removeChild(hoverT)
+    hoverGrid = false
+    towerType = false
+    towerName = false      
+    toggleAoe();
+    
     updatePower(type);
 
     //if game is paused
@@ -75,7 +82,7 @@ power = function(type) {
                         powerEffect(type)
                         $('#meteoritePower').addClass('cooldown')            
                     } else {                
-                        error("Meteorite is used up!")
+                        error("Meteorite on cooldown!")
                     }
                 } else {
                 error("Please buy the <span class='item'>'Ring of Darkness'</span>"+
@@ -85,7 +92,7 @@ power = function(type) {
             }
             else if (type=="invincibility"){
                 if (Meteor.user().ability_block) {
-                    if (castleInvincible.cd==-1) {
+                    if (castleInvincible.cd==0) {
                         powerEffect(type)
                         $('#invinciblePower').addClass('cooldown')            
                     } else {                
@@ -98,7 +105,7 @@ power = function(type) {
             }
             else if (type=="dd"){
                 if (Meteor.user().ability_doubleDamage) {
-                    if (powerDD==-1) {
+                    if (powerCD==0) {
                         powerEffect(type)
                         $('#ddPower').addClass('cooldown')            
                     } else {                
@@ -115,6 +122,7 @@ power = function(type) {
     }
 }
 
+//animations
 powerEffect = function(type){
     if (type=='freeze'){
         $("#freezeField").fadeIn(100,function(){
@@ -133,7 +141,8 @@ powerEffect = function(type){
             $("#playingField").effect("shake",function(){
                 explosionSound.play().setVolume(30);
                 $("#redCircle").show(function(){
-                    powerMeteorite = 1
+                    powerMeteorite = 3600
+                    meteoriteOver = 1
                     stage.addChild(redCircle);
                     $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
                         $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
@@ -151,7 +160,8 @@ powerEffect = function(type){
             $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
                 $("#angel").animate({"margin-top":"-300px"},500);
                 stage.addChild(castleInvincible);
-                castleInvincible.cd=600;
+                castleInvincible.cd=2000;
+                castleInvincible.active=600;
                 $("#wings").animate({"margin-top":"-300px"},500,function(){
                     $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
                 });
@@ -163,6 +173,7 @@ powerEffect = function(type){
         $("#doubleDamage").show(function(){
             $("#doubleDamage").hide("puff");
             powerDD = 200;
+            powerCD = 800;
         });
     }
 };
@@ -195,7 +206,7 @@ meteoriteScale = function(){
         redCircle.y -= (.3*481)/2
     } else{
         stage.removeChild(redCircle)
-        powerMeteorite++
+        meteoriteOver++
     }
 
     for (var i=0;i<monsters.length;i++){
@@ -216,21 +227,51 @@ meteoriteScale = function(){
     } 
 }
 
+meteoritePower = function(){
+    if (powerMeteorite>1){
+        powerMeteorite--
+    } else{
+        powerMeteorite--
+        meteoriteOver=0
+        redCircle.scaleX = .01;
+        redCircle.scaleY = .01;
+        redCircle.x = 673;
+        redCircle.y = 314;
+        $('#meteoritePower').removeClass('cooldown') 
+    }
+}
+
 invinPower = function(){
     if (castleInvincible.cd>1){
         castleInvincible.cd--
+        if (castleInvincible.active>1){
+            castleInvincible.active--
+        }
+        else if(castleInvincible.active>0){
+            castleInvincible.active--
+            castleInvincible.blocks=0
+            stage.removeChild(castleInvincible)
+        }
     }else{
         castleInvincible.cd--
-        castleInvincible.blocks=0
-        stage.removeChild(castleInvincible)
+        castleInvincible.blocks=5
+        $('#invinciblePower').removeClass('cooldown')         
     }
 }
 
 ddPower = function(){
-    if (powerDD>1){
-        powerDD--
+    if (powerCD>1){
+        powerCD--
+        if (powerDD>1){
+            powerDD--
+        }
+        else if (powerDD>0){
+            powerDD--
+
+        }
     } else{
-        powerDD--
+        powerCD--
+        $('#ddPower').removeClass('cooldown')            
     }
 }
 
@@ -244,24 +285,24 @@ updatePower = function(type) {
     if (type=="freeze") {
         pow += "Freezer" + "<br>"
         effect += "Freeze monster for 3 Sec." + "<br>"
-        cd += 800/20 + " sec" + "<br>"
+        cd += 40 + " Sec" + "<br>"
     }
     else if (type=="meteorite") {        
         pow += "Meteorite" + "<br>"
         effect += "Destroys all living thing in the world." + "<br>"
-        cd += "One time usage." + "<br>"
+        cd += 180 + " Sec" + "<br>"
         delay = "Delays: 2 Sec"
     }
     else if (type=="invincibility"){   
         pow += "Invincibility" + "<br>"
-        effect += "No damage to castle for 5 hits." + "<br>"
-        cd += "One time usage." + "<br>"
+        effect += "No damage to castle for 5 hits for 30 Sec." + "<br>"
+        cd += 100 + " Sec" + "<br>"
         delay += "Delays: 1.5 Sec"
     }
     else if (type=="dd"){
         pow += "Double Damage" + "<br>"
         effect += "Monsters get twice the damage from towers for 10 seconds." + "<br>"
-        cd += "One time usage." + "<br>"
+        cd += 40 + " Sec" + "<br>"
     }
 
     var errorEdit="<span class='errorText'>" + errors + "</span>"
