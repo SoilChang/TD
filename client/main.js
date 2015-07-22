@@ -22,4 +22,13 @@ explosionSound = new buzz.sound("/sound/explosion");
 artillerySound = new buzz.sound("/sound/artillery");
 CometSound = new buzz.sound("/sound/Comet");
 
+// invisibility
+musicBoxSound = new buzz.sound("/sound/Music_Box");
+
+// double damage
+slideInSound = new buzz.sound("/sound/slideIn");
+
+
 // BGsound.play().loop().setVolume(20);
+
+

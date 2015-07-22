@@ -255,7 +255,7 @@ Template.gameTab.events({
 	'click #freezePower': function(){
         power('freeze')
 	},
-    'click #meteoritePower': function(){  
+    'click #meteoritePower': function(){ 
         power('meteorite');   
     },
     'click #invinciblePower': function(){
@@ -2393,21 +2393,13 @@ function isOver() {
     wave = Math.min.apply(Math, minWave)-1
 
     if (Meteor.user() !== null) {
-
-        var d = new Date()
-        var actualTime = d.toString().split(' ')[4];
-        var day = d.getDate();
-        var mth = d.getMonth();
-        var year = d.getYear().toString();
-        var yr = year.slice(1,3);
-        var date = day+'-'+mth+'-'+yr+' '+'('+actualTime+')'
         var gameRecord = {
             createdBy: Meteor.userId(),
             warriorName: (Meteor.user().username) ? 
                 Meteor.user().username : Meteor.user().profile.name ,
             waveCleared: wave,
             score: score,
-            date: date
+            date: new Date()
         }
 
         Meteor.call('gameOver', Meteor.userId());

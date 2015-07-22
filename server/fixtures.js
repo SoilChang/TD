@@ -9,9 +9,9 @@ var allItemData = [
 		url: '/images/gamePage/goldenCrown.png',
 		type: 'helmet',
 		price: 2,
-		hpBonus: 1,
+		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 20,
 	},
 	{
 		name: "Chief's Expression",
@@ -19,8 +19,8 @@ var allItemData = [
 		type: 'helmet',
 		price: 4,
 		hpBonus: 0,
-		armourBonus: 1,
-		attackBonus: 0,
+		armourBonus: 0,
+		attackBonus: 20,
 
 	},
 	{
@@ -30,7 +30,7 @@ var allItemData = [
 		price: 6,
 		hpBonus: 6,
 		armourBonus: 1,
-		attackBonus: 0,
+		attackBonus: 40,
 
 	},
 	{
@@ -39,8 +39,8 @@ var allItemData = [
 		type: 'helmet',
 		price: 8,
 		hpBonus: 4,
-		armourBonus: 2,
-		attackBonus: 0,
+		armourBonus: 1,
+		attackBonus: 40,
 
 	},
 	/*##########################################################
@@ -54,8 +54,8 @@ var allItemData = [
 		type: 'chestPlate',
 		price: 5,
 		hpBonus: 5,
-		armourBonus: 2,
-		attackBonus: 0,
+		armourBonus: 1,
+		attackBonus: 40,
 
 	},
 	
@@ -64,9 +64,9 @@ var allItemData = [
 		url: '/images/gamePage/chestplateOfSharedBlood.png',
 		type: 'chestPlate',
 		price: 8,
-		hpBonus: 5,
-		armourBonus: 3,
-		attackBonus: 0,
+		hpBonus: 8,
+		armourBonus: 1,
+		attackBonus: 40,
 	
 	},
 	{
@@ -75,8 +75,8 @@ var allItemData = [
 		type: 'chestPlate',
 		price: 12,
 		hpBonus: 2,
-		armourBonus: 5,
-		attackBonus: 0,
+		armourBonus: 2,
+		attackBonus: 80,
 	
 	},
 	/*##########################################################
@@ -91,7 +91,7 @@ var allItemData = [
 		price: 2,
 		hpBonus: 1,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 40,
 	
 	},
 	{
@@ -101,7 +101,7 @@ var allItemData = [
 		price: 3,
 		hpBonus: 3,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 40,
 	
 	},
 	{
@@ -110,8 +110,8 @@ var allItemData = [
 		type: 'leg',
 		price: 7,
 		hpBonus: 8,
-		armourBonus: 2,
-		attackBonus: 0,
+		armourBonus: 1,
+		attackBonus: 60,
 	
 	},
 	
@@ -120,9 +120,9 @@ var allItemData = [
 		url: '/images/gamePage/BurnishedBoots.png',
 		type: 'leg',
 		price: 12,
-		hpBonus: 8,
-		armourBonus: 4,
-		attackBonus: 0,
+		hpBonus: 12,
+		armourBonus: 1,
+		attackBonus: 60,
 		
 	},
 	{
@@ -130,9 +130,9 @@ var allItemData = [
 		url: '/images/gamePage/RoyalGreaves.png',
 		type: 'leg',
 		price: 18,
-		hpBonus: 8,
-		armourBonus: 7,
-		attackBonus: 0,
+		hpBonus: 13,
+		armourBonus: 2,
+		attackBonus: 80,
 		
 	},
 	/*##########################################################
@@ -146,8 +146,8 @@ var allItemData = [
 		type: 'arm',
 		price: 3,
 		hpBonus: 3,
-		armourBonus: 2,
-		attackBonus: 20,
+		armourBonus: 0,
+		attackBonus: 80,
 		
 	},
 	{
@@ -156,8 +156,8 @@ var allItemData = [
 		type: 'arm',
 		price: 8,
 		hpBonus: 6,
-		armourBonus: 2,
-		attackBonus: 30,
+		armourBonus: 0,
+		attackBonus: 120,
 		
 	},
 	{
@@ -166,8 +166,8 @@ var allItemData = [
 		type: 'arm',
 		price: 12,
 		hpBonus: 7,
-		armourBonus: 4,
-		attackBonus: 25,
+		armourBonus: 1,
+		attackBonus: 100,
 		
 	},
 
@@ -176,9 +176,9 @@ var allItemData = [
 		url: '/images/gamePage/PhoenixFlame.png',
 		type: 'arm',
 		price: 20,
-		hpBonus: 8,
-		armourBonus: 6,
-		attackBonus: 40,
+		hpBonus: 10,
+		armourBonus: 1,
+		attackBonus: 160,
 		
 	},
 	
@@ -188,8 +188,8 @@ var allItemData = [
 		type: 'arm',
 		price: 30,
 		hpBonus: 10,
-		armourBonus: 8,
-		attackBonus: 60,
+		armourBonus: 2,
+		attackBonus: 240,
 		
 	},
 	/*##########################################################
@@ -204,7 +204,7 @@ var allItemData = [
 		price: 10,
 		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 30,
+		attackBonus: 120,
 	
 	},
 	{
@@ -214,7 +214,7 @@ var allItemData = [
 		price: 20,
 		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 50,
+		attackBonus: 200,
 		
 	},
 	{
@@ -224,7 +224,7 @@ var allItemData = [
 		price: 30,
 		hpBonus: 10,
 		armourBonus: 0,
-		attackBonus: 60,
+		attackBonus: 320,
 		
 	},
 	
@@ -235,7 +235,7 @@ var allItemData = [
 		price: 50,
 		hpBonus: 15,
 		armourBonus: 0,
-		attackBonus: 80,
+		attackBonus: 440,
 
 	},
 
@@ -246,7 +246,7 @@ var allItemData = [
 		price: 70,
 		hpBonus: 15,
 		armourBonus: 1,
-		attackBonus: 100,
+		attackBonus: 600,
 
 	},
 	{
@@ -255,8 +255,8 @@ var allItemData = [
 		type: 'weapon',
 		price: 100,
 		hpBonus: 15,
-		armourBonus: 5,
-		attackBonus: 130,
+		armourBonus: 1,
+		attackBonus: 800,
 
 	},
 	/*##########################################################
@@ -270,7 +270,7 @@ var allItemData = [
 		type: 'relic',
 		price: 5,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'The owner of this ring get extra starting gold'
 	},
@@ -280,7 +280,7 @@ var allItemData = [
 		type: 'relic',
 		price: 10,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to build regenerative tower'
 	},
@@ -290,7 +290,7 @@ var allItemData = [
 		type: 'relic',
 		price: 10,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'Block all damages for 5 instances(under development)'
 	},
@@ -300,7 +300,7 @@ var allItemData = [
 		type: 'relic',
 		price: 10,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to freeze all enemy monster for 3 second'
 	},
@@ -310,7 +310,7 @@ var allItemData = [
 		type: 'relic',
 		price: 10,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: "Double tower damage for 10 seconds(under development)"
 	},
@@ -320,7 +320,7 @@ var allItemData = [
 		type: 'relic',
 		price: 15,
 		hpBonus: 3,
-		armourBonus: 1,
+		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.(under development)'
 	},
