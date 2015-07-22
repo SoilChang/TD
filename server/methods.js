@@ -150,7 +150,7 @@ Meteor.methods({
 	      to: 'im741314@gmail.com',
 	      from: feedback.email,
 	      subject: feedback.title,
-	      text: "True Identity: "+ trueIdentity +"   username:"+ feedback.name +" userId:"+ currentUserId+"   Message Details:"+feedback.title+" " +feedback.comments +" email: "+feedback.email
+	      text: "True Identity: "+ trueIdentity +"   username:"+ feedback.name +" userId:"+ currentUserId+"   Message Details: "+ feedback.comments +" email: "+feedback.email
     	});
 
     	return true;
@@ -179,8 +179,8 @@ Meteor.methods({
 		// pull out the worse record after comparing
 		if(Ranking.find({createdBy: Meteor.userId()}).count === 11){
 			var list = Ranking.find({createdBy: Meteor.userId()}, {sort:{score:-1}}).fetch();
-			var lowestScore = list[10].score;
-			Ranking.remove({createeBy: Meteor.userId(), score: lowestScore});
+			var lowestScore = list[10]._id;
+			Ranking.remove({createeBy: Meteor.userId(), _id: lowestScore});
 		} 
 	},
 
