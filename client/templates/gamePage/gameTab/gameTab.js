@@ -79,6 +79,7 @@ gameData = function(type) {
             redCircle.x = 673;
             redCircle.y = 314;
             //resets invincibility power
+            castleInvincible.active = 0
             castleInvincible.cd = 0
             castleInvincible.blocks = 5
             powerDD=0
@@ -132,6 +133,7 @@ gameData = function(type) {
             powerMeteorite = gameProgress['powerMeteorite']
             meteoriteOver = gameProgress['meteoriteOver']
             castleInvincible.cd = gameProgress['invinCd']
+            castleInvincible.active = gameProgress['invinActive']
             castleInvincible.blocks = gameProgress['invinBlock']
             powerDD = gameProgress['powerDD']
             powerCD = gameProgress['powerCD']
@@ -189,10 +191,10 @@ gameData = function(type) {
             if (Meteor.user().ability_meteorite && powerMeteorite==0) {
                 $('#meteoritePower').removeClass('cooldown')
             }
-            if (Meteor.user().ability_block && castleInvincible.cd==-1) {
+            if (Meteor.user().ability_block && castleInvincible.cd==0) {
                 $('#invinciblePower').removeClass('cooldown')
             }
-            if (Meteor.user().ability_doubleDamage && powerDD==-1) {
+            if (Meteor.user().ability_doubleDamage && powerDD==0) {
                 $('#ddPower').removeClass('cooldown')
             }
             
@@ -278,6 +280,7 @@ Template.gameTab.events({
         menu();
         document.getElementById("infoText").innerHTML = ""
         $('.towerBtn').removeClass('selected');  
+        $('.powerBtn').removeClass('selected');  
         $('.ff').removeClass('selected');  
     },
     'click #upgradeBtn': function() {
@@ -540,7 +543,7 @@ imageload = function() {
     castleInvincible = new createjs.Bitmap(castleInvincibleI);
     castleInvincible.x = 305;
     castleInvincible.y = 170;
-    castleInvincible.cd = -1;
+    castleInvincible.cd = 0;
     castleInvincible.blocks = 5;
 
     //castle hit
@@ -702,6 +705,7 @@ imageload = function() {
 newGame = function() {
     gameData('new');//load game data
 
+    gameRunning = 0
     //load data from equipment
     if(Meteor.user() !== null && Meteor.loggingIn() !== true){
         hpBonus = Meteor.user().hpBonus;

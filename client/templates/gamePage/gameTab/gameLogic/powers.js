@@ -36,15 +36,21 @@ power = function(type) {
             item = "'Ring of Darkness'"
             if (gameRunning==0){
                 $('#meteoritePower').addClass('selected') 
-                CometSound.play().setVolume(30);
+                if (!muted) {      
+                    CometSound.play().setVolume(15);
+                } 
                 $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
                     $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
                 });  
                 $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-                    artillerySound.play().setVolume(30);
+                    if (!muted) {      
+                        artillerySound.play().setVolume(10);
+                    } 
                     $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
                     $("#playingField").effect("shake",function(){
-                        explosionSound.play().setVolume(30);
+                        if (!muted) {      
+                            explosionSound.play().setVolume(10);
+                        } 
                         $("#redCircle").show(function(){
                             $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
                                 $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
@@ -61,7 +67,9 @@ power = function(type) {
             if (gameRunning==0){                
                 $('#invinciblePower').addClass('selected')
                 $("#angel").show();
-                musicBoxSound.play();
+                if (!muted) {      
+                    musicBoxSound.play().setVolume(6);
+                } 
                 $("#angel").animate({"margin-top":"180px"},500,function(){
                     $("#wings").show();
                     $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
@@ -78,7 +86,9 @@ power = function(type) {
             item = "'Dragon's Blood'"
             if (gameRunning==0){                
                 $('#ddPower').addClass('selected')
-                slideInSound.play().setVolume(100).setSpeed(2);
+                if (!muted) {      
+                    slideInSound.play().setSpeed(2).setVolume(35);
+                } 
                 $("#doubleDamage").show(function(){
                     $("#doubleDamage").hide("puff");
                 });
@@ -182,16 +192,21 @@ powerEffect = function(type){
     }
     else if (type=='meteorite'){
         updateIcon(type,'add')
-        CometSound.play().setVolume(30);
+        if (!muted) {      
+            CometSound.play().setVolume(15);
+        }
         $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
         });  
         $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-            
-            artillerySound.play().setVolume(30);
+            if (!muted) {      
+                artillerySound.play().setVolume(10);
+            }
             $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
             $("#playingField").effect("shake",function(){
-                explosionSound.play().setVolume(30);
+                if (!muted) {      
+                    explosionSound.play().setVolume(10);
+                }
                 $("#redCircle").show(function(){
                     powerMeteorite = 3600
                     meteoriteOver = 1
@@ -207,7 +222,9 @@ powerEffect = function(type){
     else if (type=='invincibility'){
         updateIcon(type,'add');
         $("#angel").show();
-        musicBoxSound.play();
+        if (!muted) {      
+            musicBoxSound.play().setVolume(6);
+        }
         $("#angel").animate({"margin-top":"180px"},500,function(){
             $("#wings").show();
             $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
@@ -223,7 +240,9 @@ powerEffect = function(type){
     }
     else if (type=='dd'){
         updateIcon(type,'add')
-        slideInSound.play().setVolume(100).setSpeed(2);
+        if (!muted) {      
+            slideInSound.play().setVolume(35).setSpeed(2);
+        }
         $("#doubleDamage").show(function(){
             $("#doubleDamage").hide("puff");
             powerDD = 200;

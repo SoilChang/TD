@@ -15,6 +15,7 @@ saving = function() {
     gameProgress['powerMeteorite'] = powerMeteorite;
     gameProgress['meteoriteOver'] = meteoriteOver;
     gameProgress['invinCd'] = castleInvincible.cd;
+    gameProgress['invinActie'] = castleInvincible.active;
     gameProgress['invinBlock'] = castleInvincible.blocks;
     gameProgress['powerDD'] = powerDD;
     gameProgress['powerCD'] = powerCD;
