@@ -1053,7 +1053,7 @@ function powerEffect(type){
     else if (type=='dd'){
         $("#doubleDamage").show(function(){
             $("#doubleDamage").hide("puff");
-            powerDD = 600;
+            powerDD = 200;
         });
     }
 };
@@ -1090,7 +1090,8 @@ function meteoriteScale(){
     }
 
     for (var i=0;i<monsters.length;i++){
-        if (redCircle.x <= (monsters[i].x+monsters[i].w) &&
+        if (monsters[i].y>0 &&
+            redCircle.x <= (monsters[i].x+monsters[i].w) &&
             monsters[i].x <= (redCircle.x+redCircle.scaleX*481) &&
             redCircle.y <= (monsters[i].y+monsters[i].h) &&
             monsters[i].y <= (redCircle.y+redCircle.scaleY*481)){
@@ -1128,6 +1129,7 @@ function updatePower(type) {
     var pow = "Power: "
     var effect = "Effect: "
     var cd = "Cooldown: "
+    var delay = ""
     var errors = ""
 
     if (type=="freeze") {
@@ -1139,11 +1141,13 @@ function updatePower(type) {
         pow += "Meteorite" + "<br>"
         effect += "Destroys all living thing in the world." + "<br>"
         cd += "One time usage." + "<br>"
+        delay = "Delays: 2 Sec"
     }
     else if (type=="invincibility"){   
         pow += "Invincibility" + "<br>"
         effect += "No damage to castle for 5 hits." + "<br>"
         cd += "One time usage." + "<br>"
+        delay += "Delays: 1.5 Sec"
     }
     else if (type=="dd"){
         pow += "Double Damage" + "<br>"
@@ -1157,7 +1161,7 @@ function updatePower(type) {
     pow + 
     effect + 
     cd +
-    errorEdit
+    delay
 
 }
 
