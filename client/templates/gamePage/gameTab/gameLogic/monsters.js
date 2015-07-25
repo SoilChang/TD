@@ -52,8 +52,8 @@ cMonster = function(type,amt) {
         newMonster.currentHp = mtype["hp"]
         newMonster.maxHp = mtype["hp"]
         newMonster.bounty = mtype["bounty"]
-        newMonster.freezeCd = (powerFreeze>0 && monsters.length!=0)? 
-            monsters[0].freezeCd:0
+        newMonster.freezeCd = (powerFreeze>740 && monsters.length!=0)? 
+            powerFreeze-740:0
         newMonster.slowCd = 0
         newMonster.dead = 0
         //add monster to array
@@ -68,7 +68,7 @@ cMonster = function(type,amt) {
     } else {
         stage.addChild(castle)        
     }
-    if (powerFreeze>0){
+    if (powerFreeze>740){
         stopAnimate(true)
     }
 }
@@ -116,12 +116,8 @@ monsterEffect = function() {
         //control freeze
         if (mob.freezeCd>1) {
             mob.freezeCd--;
-            document.getElementById("freezeCd").innerHTML = 
-            "<div style='padding-top: 6px;padding-bottom:6px'>" + 
-            Math.round(monsters[0].freezeCd/2)/10 + "</div>"
         } 
-        else if (mob.freezeCd == 1) {
-            updateIcon('freeze','remove')    
+        else if (mob.freezeCd == 1) {  
             mob.speed = mob.originSpeed
             mob.freezeCd--
             stopAnimate(false);

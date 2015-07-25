@@ -305,6 +305,14 @@ powerCd = function() {
     //cooldown for freeze
     if (powerFreeze>0){
         if (powerFreeze>1) {
+            if (powerFreeze>741){
+                document.getElementById("freezeCd").innerHTML = 
+                "<div style='padding-top: 6px;padding-bottom:6px'>" + 
+                Math.round((powerFreeze-740)/2)/10 + "</div>"                
+            }
+            else if (powerFreeze==741){
+                updateIcon('freeze','remove')              
+            }
             powerFreeze--
         } else if (powerFreeze==1) {
             $('#freezePower').removeClass('cooldown')
