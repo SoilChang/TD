@@ -186,7 +186,6 @@ powerEffect = function(type){
         updateIcon(type,'add')
         $("#freezeField").fadeIn(2000/speed,function(){
             $("#freezeField").fadeOut(58000/speed,function(){
-                updateIcon(type,'remove')                
             });
         });
     }
@@ -336,7 +335,8 @@ powerCd = function() {
             castleInvincible.cd--
             if (castleInvincible.active>1){
                 document.getElementById('invincibleCd').innerHTML = 
-                Math.round(castleInvincible.active/2)/10
+                "<div style='padding-top: 6px;padding-bottom:6px'>" + 
+                Math.round(castleInvincible.active/2)/10 + "</div>"
                 castleInvincible.active--
             }
             else if(castleInvincible.active>0){
@@ -358,7 +358,8 @@ powerCd = function() {
             powerCD--
             if (powerDD>1){
                 document.getElementById('ddCd').innerHTML = 
-                Math.round(powerDD/2)/10
+                "<div style='padding-top: 6px;padding-bottom:6px'>" + 
+                Math.round(powerDD/2)/10 + "</div>"
                 powerDD--
             }
             else if (powerDD>0){

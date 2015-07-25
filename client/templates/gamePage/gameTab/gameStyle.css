@@ -29,12 +29,19 @@
 	top: 0px;
 }
 
+#cd{
+	position: absolute;
+	top: 0px;	
+	left: 105px;
+	text-align: left;
+}
+
 #invincibleBlock{
 	color: white;
 	font-size: 15px;
 	position: absolute;
-	top:4px;
-	right:11px;
+	top: 5px;
+	left: 12px;
 }
 
 .towerBtn {

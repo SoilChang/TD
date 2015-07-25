@@ -112,12 +112,12 @@ monsterEffect = function() {
         //control freeze
         if (mob.freezeCd>1) {
             mob.freezeCd--;
-            if (powerFreeze>2){
-                document.getElementById("freezeCd").innerHTML = 
-                Math.round(monsters[0].freezeCd/2)/10
-            }
+            document.getElementById("freezeCd").innerHTML = 
+            "<div style='padding-top: 6px;padding-bottom:6px'>" + 
+            Math.round(monsters[0].freezeCd/2)/10 + "</div>"
         } 
         else if (mob.freezeCd == 1) {
+            updateIcon('freeze','remove')    
             mob.speed = mob.originSpeed
             mob.freezeCd--
             stopAnimate(false);
