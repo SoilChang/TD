@@ -67,11 +67,19 @@ Template.registerHelper('updateUserStats', function(){
 
 
 Template.gamePage.events({
-	'click #audio': function() {
+	'click #audio': function(){
 		BGsound.toggleMute()
 
 		document.getElementById('audio').src = (BGsound.isMuted())?
 		"/images/gamePage/musicOff.png"	: "/images/gamePage/musicOn.png"
+	},
+	'click #login': function(){
+		if (onGame){
+			onGame = 0
+			if (gameRunning){
+				togglePause();				
+			}
+		}
 	}
 });
 

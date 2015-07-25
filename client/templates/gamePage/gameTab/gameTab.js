@@ -45,6 +45,7 @@ ffCount, errorCD, pScreen;
                  Game Data
 
 #########################################################################*/
+onGame = 0
 gameProgress = {}; //saved game
 monsterData = {}; //types of monsters
 towerData = {}; //types of towers
@@ -458,6 +459,7 @@ menu = function() {
 
         stage.addChild(background)
         grid(); //load grid onto map    
+        onGame = 1 //controls keyboard functions
 
         $('#ff1').addClass('selected');            
     }
@@ -845,6 +847,7 @@ tick = function(event) {
     if (document.getElementById("cash")==null) {
         createjs.Sound.stop()
         clearStage();
+        onGame = 0
     } else {
         keyboards()
     }
@@ -871,68 +874,7 @@ tick = function(event) {
 
     stage.update(event); // important!!
 };
-//controls keyboard actions
-keydown = function(event) {
-    keys[event.keyCode] = true;
-}
 
-keyboards = function() {
-    if (keys[27]) {//esc
-        delete keys[27]
-        document.getElementById("infoText").innerHTML=""
-        $('.towerBtn').removeClass('selected');
-        stage.removeChild(targetGrid);
-        stage.removeChild(hoverT)
-        hoverGrid = false
-        towerType = false
-        towerName = false      
-        toggleAoe();
-    }
-    else if (keys[82]) {//r
-        delete keys[82]
-        towerType=(towerType) ? false:true;
-        toggleAoe();
-    }
-    else if (keys[49]) {//1
-        delete keys[49]
-        $('.ff').removeClass('selected');  
-        $('#ff1').addClass('selected');  
-        ff(0)
-    }
-    else if (keys[50]) {//2
-        delete keys[50]
-        $('.ff').removeClass('selected');  
-        $('#ff2').addClass('selected');   
-        ff(1)
-    }
-    else if (keys[51]) {//3
-        delete keys[51]
-        $('.ff').removeClass('selected');  
-        $('#ff4').addClass('selected');   
-        ff(2)
-    }
-    else if (keys[52]) {//4
-        delete keys[52]
-        $('.ff').removeClass('selected');  
-        $('#ff8').addClass('selected');   
-        ff(3)
-    }
-    else if (keys[80]) {//p
-        delete keys[80]
-        if (checkGG==0) {
-            togglePause();
-        } else {
-            clearStage();
-            setNewGame();
-            newGame();
-            $('.towerBtn').removeClass('selected');  
-        }
-    }
-    else if (keys[83]) {//s
-        delete keys[83]
-        toggleSound();
-    }
-}
 
 //to show any error to player
 errorTextcd = function() {
@@ -1138,12 +1080,16 @@ togglePause = function() {
         gameRunning=1
         $(".powerBtn").removeClass('selected')
     }
+
     var paused = createjs.Ticker.getPaused();
     createjs.Ticker.setPaused(!paused);
     if (!paused) {
         stage.addChild(pScreen);
         stage.enableMouseOver(0);
-    } else {
+    } else {    
+        if (!onGame){
+            onGame = 1
+        }
         stage.removeChild(pScreen);
         stage.enableMouseOver();
     }

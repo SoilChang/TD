@@ -408,7 +408,7 @@ updatePower = function(type) {
         effect += "Explodes and deal damage to surrounding area"
         cd += "no cooldown" +"<br>"
         delay = "Delays: 3 Sec" + "<br>"
-        errors = "Coming Soon"  
+        errors = "Coming Soon ..."  
     }
 
     var errorEdit="<span class='errorText'>" + errors + "</span>"
