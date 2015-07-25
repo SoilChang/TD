@@ -292,7 +292,7 @@ var allItemData = [
 		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'Block all damages for 5 instances(under development)'
+		magicalPower: 'Block all damages for 5 instances.'
 	},
 	{
 		name: "Undead Bone",
@@ -312,7 +312,7 @@ var allItemData = [
 		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: "Double tower damage for 10 seconds(under development)"
+		magicalPower: "Double tower damage for 10 seconds."
 	},
 	{
 		name: "Ring Of Darkness",
@@ -322,7 +322,7 @@ var allItemData = [
 		hpBonus: 3,
 		armourBonus: 0,
 		attackBonus: 0,
-		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.(under development)'
+		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.'
 	},
 	
 
