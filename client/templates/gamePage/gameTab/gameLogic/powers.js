@@ -403,6 +403,12 @@ updatePower = function(type) {
         effect += "Monsters get twice the damage from towers for 10 seconds." + "<br>"
         cd += 40 + " Sec" + "<br>"
     }
+    else if (type=='bomb'){
+        pow += "Bomb" + "<br>"
+        effect += "Explodes and deal damage to surrounding area"
+        cd += "no cooldown" +"<br>"
+        delay += "Delays: 3 Sec"
+    }
 
     var errorEdit="<span class='errorText'>" + errors + "</span>"
 

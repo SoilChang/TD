@@ -38,17 +38,17 @@ itS, ltS,
 monsterDead,//monster variables
 redCircleI, //meteorite animation
 t1, t1i, t1a, t2, t2i, t2a,
-ffCount, errorCD, pScreen
+ffCount, errorCD, pScreen;
 
 /*#########################################################################
 
                  Game Data
 
 #########################################################################*/
-gameProgress = {} //saved game
-monsterData = {} //types of monsters
-towerData = {} //types of towers
-ffCount = [20,40,80,160]
+gameProgress = {}; //saved game
+monsterData = {}; //types of monsters
+towerData = {}; //types of towers
+ffCount = [20,40,80,160];
 coordinates = [
 [96, 0],
 [94, 480],
@@ -64,147 +64,145 @@ coordinates = [
 gameData = function(type) {
     switch (type) {
         case 'new' :
-            speed = 20 //speed of game
-            addMonster()
-            monsters = [] //monsters on map
-            monsterDead = [] //animation when monster die
-            shots = [] //shots on map
-            towers = []   //towers currently on map
-            healers = [] //fountain on map
-            powerFreeze = 0 //cooldown of power
-            powerMeteorite = 0 
-            meteoriteOver = 0
+            speed = 20; //speed of game
+            addMonster();
+            monsters = []; //monsters on map
+            monsterDead = []; //animation when monster die
+            shots = []; //shots on map
+            towers = [];   //towers currently on map
+            healers = []; //fountain on map
+            powerFreeze = 0; //cooldown of power
+            powerMeteorite = 0; 
+            meteoriteOver = 0;
             //resets meteorite image
             redCircle.scaleX = .01;
             redCircle.scaleY = .01;
             redCircle.x = 673;
             redCircle.y = 314;
             //resets invincibility power
-            castleInvincible.active = 0
-            castleInvincible.cd = 0
-            castleInvincible.blocks = 5
-            powerDD=0
-            powerCD=0
+            castleInvincible.active = 0;
+            castleInvincible.cd = 0;
+            castleInvincible.blocks = 5;
+            powerDD=0;
+            powerCD=0;
             score = 0;
-            maxHealth = 18
+            maxHealth = 18;
             health = maxHealth;
             wave = 0;
             checkGG = 0;
-            errorCD = 0 //time for error message to stay on canvas
-            countDown = 0 //countdown to next wave
-            lastMon = false //to start countdown
-            targetTower = false //selected tower on map
-            towerType = false //selected tower to buy
-            towerName = false 
-            hoverGrid = false //identify current grid
-            hoverT = false //image of tower selected to buy
+            errorCD = 0; //time for error message to stay on canvas
+            countDown = 0; //countdown to next wave
+            lastMon = false; //to start countdown
+            targetTower = false; //selected tower on map
+            towerType = false; //selected tower to buy
+            towerName = false; 
+            hoverGrid = false; //identify current grid
+            hoverT = false; //image of tower selected to buy
             document.getElementById("infoText").innerHTML = 
             "Before the game starts, you can click the tower/power buttons to see"+
-            " the info and animations."
+            " the info and animations.";
 
-            $('.powerBtn').addClass('cooldown') 
+            $('.powerBtn').addClass('cooldown') ;
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =65
-                } else {cash=40}
+                    cash =65;
+                } else {cash=40;};
 
                 if (Meteor.user().ability_freeze) {
-                    $('#freezePower').removeClass('cooldown')
-                }
+                    $('#freezePower').removeClass('cooldown');
+                };
                 if (Meteor.user().ability_meteorite) {
-                    $('#meteoritePower').removeClass('cooldown')
-                }
+                    $('#meteoritePower').removeClass('cooldown');
+                };
                 if (Meteor.user().ability_block) {
-                    $('#invinciblePower').removeClass('cooldown')
-                }
+                    $('#invinciblePower').removeClass('cooldown');
+                };
                 if (Meteor.user().ability_doubleDamage) {
-                    $('#ddPower').removeClass('cooldown')
-                }
-            } else {cash=40}
+                    $('#ddPower').removeClass('cooldown');
+                };
+            } else {cash=40;};
 
             break;
         case 'saved' :
-            addMonster()
-            monsters = [] 
-            monsterDead = []
-            shots = []
-            towers = []
-            healers = []
-            powerFreeze = gameProgress['powerFreeze']
-            powerMeteorite = gameProgress['powerMeteorite']
-            meteoriteOver = gameProgress['meteoriteOver']
-            castleInvincible.cd = gameProgress['invinCd']
-            castleInvincible.active = gameProgress['invinActive']
-            castleInvincible.blocks = gameProgress['invinBlock']
-            powerDD = gameProgress['powerDD']
-            powerCD = gameProgress['powerCD']
-            score = gameProgress['score']
-            maxHealth = gameProgress['maxHealth']
-            health = gameProgress['health']
-            cash = gameProgress['cash']
-            wave = gameProgress['wave']
-            countDown = gameProgress['countDown']            
-            hpBonus = gameProgress['hpBonus']
-            attBonus = gameProgress['attBonus']
-            armorBonus = gameProgress['armorBonus']
-            allyHp  = gameProgress['allyHp'] 
-            allyArmor = gameProgress['allyArmor'] 
-            allyAttack = gameProgress['allyAttack'] 
-            checkGG = 0
-            errorCD = 0 //time for error message to stay on canvas
-            lastMon = false //to start countdown
-            targetTower = false //selected tower on map
-            towerType = false //selected tower to buy
-            towerName = false 
-            hoverGrid = false //identify current grid
-            hoverT = false //image of tower selected to buy
+            addMonster();
+            monsters = []; 
+            monsterDead = [];
+            shots = [];
+            towers = [];
+            healers = [];
+            powerFreeze = gameProgress['powerFreeze'];
+            powerMeteorite = gameProgress['powerMeteorite'];
+            meteoriteOver = gameProgress['meteoriteOver'];
+            castleInvincible.cd = gameProgress['invinCd'];
+            castleInvincible.active = gameProgress['invinActive'];
+            castleInvincible.blocks = gameProgress['invinBlock'];
+            powerDD = gameProgress['powerDD'];
+            powerCD = gameProgress['powerCD'];
+            score = gameProgress['score'];
+            maxHealth = gameProgress['maxHealth'];
+            health = gameProgress['health'];
+            cash = gameProgress['cash'];
+            wave = gameProgress['wave'];
+            countDown = gameProgress['countDown'];
+            hpBonus = gameProgress['hpBonus'];
+            attBonus = gameProgress['attBonus'];
+            armorBonus = gameProgress['armorBonus'];
+            allyHp  = gameProgress['allyHp'];
+            allyArmor = gameProgress['allyArmor'];
+            allyAttack = gameProgress['allyAttack']; 
+            checkGG = 0;
+            errorCD = 0; //time for error message to stay on canvas
+            lastMon = false; //to start countdown
+            targetTower = false; //selected tower on map
+            towerType = false; //selected tower to buy
+            towerName = false; 
+            hoverGrid = false; //identify current grid
+            hoverT = false; //image of tower selected to buy
 
             for (var i=2;i<=wave;i++) {
                 if (i%10 == 0) {
 
-                    monsterData["mario"]["bounty"]+=1
-                    monsterData["warrior"]["bounty"]+=1
-                    monsterData["armored"]["bounty"]+=1
-                }
+                    monsterData["mario"]["bounty"]+=1;
+                    monsterData["warrior"]["bounty"]+=1;
+                    monsterData["armored"]["bounty"]+=1;
+                };
                 if (i%5 == 0) {
-                    monsterData["mario"]["damage"]+=1
-                    monsterData["warrior"]["damage"]+=1
-                    monsterData["armored"]["damage"]+=1
+                    monsterData["mario"]["damage"]+=1;
+                    monsterData["warrior"]["damage"]+=1;
+                    monsterData["armored"]["damage"]+=1;
                     if (i==5) {
-                        continue
-                    }
-                    monsterData["armored"]["hp"]*=2.8
+                        continue;
+                    };
+                    monsterData["armored"]["hp"]*=2.8;
                 }
                 else if (i%3 == 0) {
                     if (i==3) {
-                        continue
-                    }
-                    monsterData["warrior"]["hp"]*=2
+                        continue;
+                    };
+                    monsterData["warrior"]["hp"]*=2;
                 }
                 else {
-                    monsterData["mario"]["hp"]*=1.3
-                }
-            $('.powerBtn').addClass('cooldown')
+                    monsterData["mario"]["hp"]*=1.3;
+                };
+            };
+            $('.powerBtn').addClass('cooldown');
 
             if (Meteor.user().ability_freeze && powerFreeze==0) {
-                $('#freezePower').removeClass('cooldown')
-            }
+                $('#freezePower').removeClass('cooldown');
+            };
             if (Meteor.user().ability_meteorite && powerMeteorite==0) {
-                $('#meteoritePower').removeClass('cooldown')
-            }
+                $('#meteoritePower').removeClass('cooldown');
+            };
             if (Meteor.user().ability_block && castleInvincible.cd==0) {
-                $('#invinciblePower').removeClass('cooldown')
-            }
+                $('#invinciblePower').removeClass('cooldown');
+            };
             if (Meteor.user().ability_doubleDamage && powerDD==0) {
-                $('#ddPower').removeClass('cooldown')
-            }
-            
-
+                $('#ddPower').removeClass('cooldown');
             };
 
             break;
-    }
-}
+    };
+};
 
 /*#########################################################################
 
@@ -260,6 +258,9 @@ Template.gameTab.events({
             }
         }
         buyTower('fountain')
+    },
+    'click #bombPower': function(){
+        power('bomb')
     },
 	'click #freezePower': function(){
         power('freeze')
@@ -1230,7 +1231,7 @@ clearIcon = function(){
     document.getElementById("meteoriteIcon").innerHTML = ""
     document.getElementById("invincibleIcon").innerHTML = ""
     document.getElementById("ddIcon").innerHTML = ""
-    
+
     document.getElementById('freezeCd').innerHTML = ''
     document.getElementById('invincibleCd').innerHTML = ''
     document.getElementById('invincibleBlock').innerHTML = ''
