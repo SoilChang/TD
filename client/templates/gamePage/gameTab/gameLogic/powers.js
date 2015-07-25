@@ -89,7 +89,7 @@ power = function(type) {
                 if (!muted) {      
                     slideInSound.play().setSpeed(2).setVolume(35);
                 } 
-                $("#doubleDamage").show(function(){
+                $("#doubleDamage").show(300,function(){
                     $("#doubleDamage").hide("puff");
                 });
             }
@@ -184,8 +184,8 @@ power = function(type) {
 powerEffect = function(type){
     if (type=='freeze'){
         updateIcon(type,'add')
-        $("#freezeField").fadeIn(100,function(){
-            $("#freezeField").fadeOut(2900,function(){
+        $("#freezeField").fadeIn(2000/speed,function(){
+            $("#freezeField").fadeOut(58000/speed,function(){
                 updateIcon(type,'remove')                
             });
         });
@@ -195,10 +195,10 @@ powerEffect = function(type){
         if (!muted) {      
             CometSound.play().setVolume(15);
         }
-        $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
+        $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},40000/speed,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
         });  
-        $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
+        $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},40000/speed,function(){
             if (!muted) {      
                 artillerySound.play().setVolume(10);
             }
@@ -211,7 +211,7 @@ powerEffect = function(type){
                     powerMeteorite = 3600
                     meteoriteOver = 1
                     stage.addChild(redCircle);
-                    $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
+                    $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},20000/speed,function(){
                         $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
 
                     });
@@ -225,14 +225,14 @@ powerEffect = function(type){
         if (!muted) {      
             musicBoxSound.play().setVolume(6);
         }
-        $("#angel").animate({"margin-top":"180px"},500,function(){
+        $("#angel").animate({"margin-top":"180px"},1000/speed,function(){
             $("#wings").show();
-            $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
-                $("#angel").animate({"margin-top":"-300px"},500);
+            $("#wings").animate({"width":"400px","margin-left":"240"},20000/speed,function(){
+                $("#angel").animate({"margin-top":"-300px"},10000/speed);
                 stage.addChild(castleInvincible);
                 castleInvincible.cd=2000;
                 castleInvincible.active=600;
-                $("#wings").animate({"margin-top":"-300px"},500,function(){
+                $("#wings").animate({"margin-top":"-300px"},10000/speed,function(){
                     $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
                 });
             });
@@ -243,7 +243,7 @@ powerEffect = function(type){
         if (!muted) {      
             slideInSound.play().setVolume(35).setSpeed(2);
         }
-        $("#doubleDamage").show(function(){
+        $("#doubleDamage").show(6000/speed,function(){
             $("#doubleDamage").hide("puff");
             powerDD = 200;
             powerCD = 800;

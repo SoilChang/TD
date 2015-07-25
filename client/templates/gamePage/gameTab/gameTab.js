@@ -64,6 +64,7 @@ coordinates = [
 gameData = function(type) {
     switch (type) {
         case 'new' :
+            speed = 20 //speed of game
             addMonster()
             monsters = [] //monsters on map
             monsterDead = [] //animation when monster die
@@ -1085,6 +1086,7 @@ toggleAoe = function() {
 // fast forward
 ff = function(ffSpeed) {
     createjs.Ticker.setFPS(ffCount[ffSpeed]);
+    speed = ffCount[ffSpeed];
 }
 
 //next wave
