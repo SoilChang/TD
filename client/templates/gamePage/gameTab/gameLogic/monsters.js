@@ -48,11 +48,11 @@ cMonster = function(type,amt) {
         newMonster.y = - newMonster.h - i*newMonster.h*1.5
         newMonster.damage = mtype["damage"]
         newMonster.originSpeed = mtype["speed"]
-        newMonster.speed = mtype["speed"]
+        newMonster.speed = (powerFreeze>0)? 0:mtype["speed"]
         newMonster.currentHp = mtype["hp"]
         newMonster.maxHp = mtype["hp"]
         newMonster.bounty = mtype["bounty"]
-        newMonster.freezeCd = 0
+        newMonster.freezeCd = (powerFreeze>0)? monsters[0].freezeCd:0
         newMonster.slowCd = 0
         newMonster.dead = 0
         //add monster to array
@@ -66,6 +66,9 @@ cMonster = function(type,amt) {
         stage.addChild(castleInvincible)
     } else {
         stage.addChild(castle)        
+    }
+    if (powerFreeze>0){
+        stopAnimate(true)
     }
 }
 

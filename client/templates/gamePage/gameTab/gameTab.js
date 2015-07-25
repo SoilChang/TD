@@ -1150,7 +1150,9 @@ togglePause = function() {
     document.getElementById("pauseBtn").value = !paused ? "play" : "pause";
 
     //stop animation when paused
-    stopAnimate(!paused)
+    if (powerFreeze==0){
+        stopAnimate(!paused)
+    } else{stopAnimate(true)}
 
 };
 

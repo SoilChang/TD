@@ -390,13 +390,13 @@ updatePower = function(type) {
         pow += "Meteorite" + "<br>"
         effect += "Destroys all living thing in the world." + "<br>"
         cd += 180 + " Sec" + "<br>"
-        delay = "Delays: 2 Sec"
+        delay = "Delays: 2 Sec" + "<br>"
     }
     else if (type=="invincibility"){   
         pow += "Invincibility" + "<br>"
         effect += "No damage to castle for 5 hits for 30 Sec." + "<br>"
         cd += 100 + " Sec" + "<br>"
-        delay += "Delays: 1.5 Sec"
+        delay = "Delays: 1.5 Sec" + "<br>"
     }
     else if (type=="dd"){
         pow += "Double Damage" + "<br>"
@@ -407,7 +407,8 @@ updatePower = function(type) {
         pow += "Bomb" + "<br>"
         effect += "Explodes and deal damage to surrounding area"
         cd += "no cooldown" +"<br>"
-        delay += "Delays: 3 Sec"
+        delay = "Delays: 3 Sec" + "<br>"
+        errors = "Coming Soon"  
     }
 
     var errorEdit="<span class='errorText'>" + errors + "</span>"
@@ -416,7 +417,8 @@ updatePower = function(type) {
     pow + 
     effect + 
     cd +
-    delay
+    delay +
+    errorEdit
 
 }
 
