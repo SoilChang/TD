@@ -118,13 +118,13 @@ power = function(type) {
                 if (Meteor.user().ability_freeze) {
                     if (powerFreeze==0) {
                         powerFreeze = 800
-                        powerEffect(type)
                         //$('#freezePower').removeClass('selected')
                         $('#freezePower').addClass('cooldown')
                         for (var i=0;i<monsters.length;i++) {
                             monsters[i].speed=0
                             monsters[i].freezeCd = 60
                         }
+                        powerEffect(type)
                         stopAnimate(true);                
                     } else {                
                         error("Freeze on cooldown")
@@ -301,53 +301,75 @@ meteoriteScale = function(){
     } 
 }
 
-meteoritePower = function(){
-    if (powerMeteorite>1){
-        powerMeteorite--
-    } else{
-        powerMeteorite--
-        meteoriteOver=0
-        redCircle.scaleX = .01;
-        redCircle.scaleY = .01;
-        redCircle.x = 673;
-        redCircle.y = 314;
-        $('#meteoritePower').removeClass('cooldown') 
+//powers cooldown
+powerCd = function() {
+    //cooldown for freeze
+    if (powerFreeze>0){
+        if (powerFreeze>1) {
+            powerFreeze--
+        } else if (powerFreeze==1) {
+            $('#freezePower').removeClass('cooldown')
+            powerFreeze--
+        }        
     }
-}
 
-invinPower = function(){
-    if (castleInvincible.cd>1){
-        castleInvincible.cd--
-        if (castleInvincible.active>1){
-            castleInvincible.active--
+    //cooldown for meteorite
+    if (powerMeteorite>0){
+        if (powerMeteorite>1){
+            powerMeteorite--
+            if (meteoriteOver==1){
+                meteoriteScale()
+            }
+        } else{
+            powerMeteorite--
+            meteoriteOver=0
+            redCircle.scaleX = .01;
+            redCircle.scaleY = .01;
+            redCircle.x = 673;
+            redCircle.y = 314;
+            $('#meteoritePower').removeClass('cooldown') 
         }
-        else if(castleInvincible.active>0){
-            castleInvincible.active--
-            castleInvincible.blocks=0
-            stage.removeChild(castleInvincible)
-            updateIcon('invincibility','remove')
-        }
-    }else{
-        castleInvincible.cd--
-        castleInvincible.blocks=5
-        $('#invinciblePower').removeClass('cooldown')         
     }
-}
+    //cooldown for invincible
+    if (castleInvincible.cd>0){
+        if (castleInvincible.cd>1){
+            castleInvincible.cd--
+            if (castleInvincible.active>1){
+                document.getElementById('invincibleCd').innerHTML = 
+                Math.round(castleInvincible.active/2)/10
+                castleInvincible.active--
+            }
+            else if(castleInvincible.active>0){
+                castleInvincible.active--
+                castleInvincible.blocks=0
+                stage.removeChild(castleInvincible)
+                updateIcon('invincibility','remove')
+            }
+        }else{
+            castleInvincible.cd--
+            castleInvincible.blocks=5
+            $('#invinciblePower').removeClass('cooldown')         
+        }        
+    }
 
-ddPower = function(){
-    if (powerCD>1){
-        powerCD--
-        if (powerDD>1){
-            powerDD--
-        }
-        else if (powerDD>0){
-            powerDD--
-            updateIcon('dd','remove')
+    //cooldown for dd
+    if (powerCD>0){
+        if (powerCD>1){
+            powerCD--
+            if (powerDD>1){
+                document.getElementById('ddCd').innerHTML = 
+                Math.round(powerDD/2)/10
+                powerDD--
+            }
+            else if (powerDD>0){
+                powerDD--
+                updateIcon('dd','remove')
 
+            }
+        } else{
+            powerCD--
+            $('#ddPower').removeClass('cooldown')            
         }
-    } else{
-        powerCD--
-        $('#ddPower').removeClass('cooldown')            
     }
 }
 
@@ -398,6 +420,7 @@ updateIcon = function(type,edit){
             "<img src='/images/gameImages/freezeIcon.png'><br>"
         }
         else{
+            document.getElementById("freezeCd").innerHTML = ""
             document.getElementById("freezeIcon").innerHTML = ""
         }
     }
@@ -414,9 +437,12 @@ updateIcon = function(type,edit){
         if (edit=="add"){
             document.getElementById("invincibleIcon").innerHTML = 
             "<img src='/images/gameImages/shieldIcon.png'><br>"
+            document.getElementById("invincibleBlock").innerHTML = 5
         }
         else{
+            document.getElementById("invincibleCd").innerHTML = ""
             document.getElementById("invincibleIcon").innerHTML = ""
+            document.getElementById("invincibleBlock").innerHTML = ""
         }
     }
     else if (type=="dd"){
@@ -425,6 +451,7 @@ updateIcon = function(type,edit){
             "<img src='/images/gameImages/ddIcon.png'><br>"
         }
         else{
+            document.getElementById("ddCd").innerHTML = ""
             document.getElementById("ddIcon").innerHTML = ""
         }
     }

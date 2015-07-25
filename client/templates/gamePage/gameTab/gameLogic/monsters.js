@@ -110,20 +110,24 @@ monsterEffect = function() {
         var mob = monsters[i]
 
         //control freeze
-        if (mob.freezeCd>=1) {
+        if (mob.freezeCd>1) {
             mob.freezeCd--;
+            if (powerFreeze>2){
+                document.getElementById("freezeCd").innerHTML = 
+                Math.round(monsters[0].freezeCd/2)/10
+            }
         } 
-        else if (mob.freezeCd == 0) {
+        else if (mob.freezeCd == 1) {
             mob.speed = mob.originSpeed
             mob.freezeCd--
             stopAnimate(false);
         }
 
         //control slow
-        if (mob.slowCd>=1) {
+        if (mob.slowCd>1) {
             mob.slowCd--;
         } 
-        else if (mob.slowCd == 0) {
+        else if (mob.slowCd == 1) {
             mob.speed = mob.originSpeed
             mob.slowCd--
         }
@@ -234,7 +238,10 @@ monsterMovement = function() {
                         castleBlock.cd = 5
                         stage.addChild(castleBlock)
                         castleInvincible.blocks--
+                        document.getElementById("invincibleBlock").innerHTML = 
+                        castleInvincible.blocks
                         if (castleInvincible.blocks==0){
+                            castleInvincible.active=0
                             stage.removeChild(castleInvincible)
                             updateIcon('invincibility','remove')
                         }                                            

@@ -29,6 +29,14 @@
 	top: 0px;
 }
 
+#invincibleBlock{
+	color: white;
+	font-size: 15px;
+	position: absolute;
+	top:4px;
+	right:11px;
+}
+
 .towerBtn {
 	display: inline-block;
 	font-size: 12px;

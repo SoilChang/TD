@@ -733,6 +733,11 @@ newGame = function() {
     $('#ff1').addClass('selected');
     document.getElementById('pauseBtn').value = 'Start'
 
+    document.getElementById('freezeCd').innerHTML = ''
+    document.getElementById('invincibleCd').innerHTML = ''
+    document.getElementById('invincibleBlock').innerHTML = ''
+    document.getElementById('ddCd').innerHTML = ''
+
     document.getElementById("armor").innerHTML = armorBonus+
     '<span class="ally">+'+allyArmor+'</span>'
     document.getElementById("bonus").innerHTML = attBonus+
@@ -858,18 +863,7 @@ tick = function(event) {
             shotsHit();//check for collison
             shotsMovement();//controls movement of shots fired
         };
-        if (powerMeteorite>0){
-            meteoritePower()
-            if (meteoriteOver==1){
-                meteoriteScale()
-            }
-        }
-        if (castleInvincible.cd>0){
-            invinPower()
-        }
-        if (powerCD>0){
-            ddPower()
-        }
+
         monsterMovement();//controls monster movement
 
     };
@@ -966,18 +960,6 @@ timer = function() {
         document.getElementById("cdTimer").innerHTML = Math.round(countDown/2)/10;
     }
 }
-
-//power cooldown
-function powerCd() {
-    if (powerFreeze>1) {
-        powerFreeze--
-    } else if (powerFreeze==1) {
-        $('#freezePower').removeClass('cooldown')
-        powerFreeze--
-    }
-}
-
-
 
 //extra animations
 extraAnimate = function() {
@@ -1248,6 +1230,11 @@ clearIcon = function(){
     document.getElementById("meteoriteIcon").innerHTML = ""
     document.getElementById("invincibleIcon").innerHTML = ""
     document.getElementById("ddIcon").innerHTML = ""
+    
+    document.getElementById('freezeCd').innerHTML = ''
+    document.getElementById('invincibleCd').innerHTML = ''
+    document.getElementById('invincibleBlock').innerHTML = ''
+    document.getElementById('ddCd').innerHTML = ''
 }
 //set up new game
 setNewGame = function() {
