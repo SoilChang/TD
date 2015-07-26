@@ -202,7 +202,7 @@ for(var i=0; i<len; i++){
 		MonsterTower.insert(allItemData[i]);
 	}else{
 		// if found
-		MonsterTower.update({_id: object._id},{$set:{
+	/*	MonsterTower.update({_id: object._id},{$set:{
 			image: allItemData[i].image,
 			speed: allItemData[i].speed,
 			hp: allItemData[i].hp,
@@ -218,6 +218,6 @@ for(var i=0; i<len; i++){
 			slow: allItemData[i].slow,
 			duration: allItemData[i].duration,
 			splash: allItemData[i].splash
-		}});
+		}});*/
 	}
 }
