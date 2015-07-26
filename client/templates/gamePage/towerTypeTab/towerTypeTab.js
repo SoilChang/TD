@@ -26,14 +26,17 @@ Template.towerTypeTab.helpers({
 	},
 
 	convertRange:function(range){
+		// convert to one decimal place
 		return Math.floor(range*10/32)/10;
 	},
 
 	convertDuration:function(duration){
+		// convert to one decimal place
 		return Math.floor(duration*10/20)/10;
 	},
 
 	convertSlow:function(slow){
+		// convert to % 
 		return slow*100;
 	}
 });
