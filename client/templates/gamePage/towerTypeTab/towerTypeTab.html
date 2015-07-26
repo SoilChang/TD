@@ -20,18 +20,18 @@
 					  	<th>Image</th>
 					    <th>Level</th>
 					    <th>Cost</th> 
-					    <th>Range</th>
+					    <th>Range(boxes)</th>
 					    <th>Damage</th>
-					    <th>Reload</th>
+					    <th>Reload(sec)</th>
 					  </tr>
 					  {{#each loadPlasma}}
 					  <tr>
 					  	<td><img src="{{image}}" style="height:30px"></td>
 					    <td>{{level}}</td>
 					    <td>{{cost}}</td> 
-					    <td>{{range}}</td>
+					    <td>{{convertRange range}}</td>
 					    <td>{{damage}}</td>
-					    <td>{{cd}}</td>
+					    <td>{{convertDuration cd}}</td>
 					  </tr>
 					  {{/each}}
 					</table>
@@ -50,9 +50,9 @@
 					    <th>Range</th>
 					    <th>Damage</th>
 					    <th>Slow</th>
-					    <th>Shot explosion area</th>
+					    <th>Splash(boxes)</th>
 					    <th>Duration(sec)</th>
-					    <th>Reload</th>
+					    <th>Reload(sec)</th>
 					  </tr>
 
 					  {{#each loadGlyph}}
@@ -60,12 +60,12 @@
 					  	<td><img src="{{image}}" style="height:30px"></td>
 					    <td>{{level}}</td>
 					    <td>{{cost}}</td> 
-					    <td>{{range}}</td>
+					    <td>{{convertRange range}}</td>
 					    <td>{{damage}}</td>
-					    <td>{{slow}}</td>
-					    <td>{{splash}}</td>
-					    <td>{{duration}}</td>
-					    <td>{{cd}}</td>
+					    <td>{{convertSlow slow}}%</td>
+					    <td>{{convertRange splash}}</td>
+					    <td>{{convertDuration duration}}</td>
+					    <td>{{convertDuration cd}}</td>
 					  </tr>
 					  {{/each}}
 					</table>

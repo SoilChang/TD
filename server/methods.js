@@ -56,6 +56,9 @@ Meteor.methods({
 					case "Dragon's Blood":
 						Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: true}});
 						break;
+					case "Death Of Horror":
+						Meteor.users.update({_id: currentUser},{$set:{ability_bomb: true}});
+						break;	
 				}
 			}
 
@@ -100,6 +103,9 @@ Meteor.methods({
 					break;
 				case "Dragon's Blood":
 					Meteor.users.update({_id: currentUser},{$set:{ability_doubleDamage: false}});
+					break;
+				case "Death Of Horror":
+					Meteor.users.update({_id: currentUser},{$set:{ability_bomb: false}});
 					break;
 			}
 		}

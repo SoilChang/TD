@@ -315,6 +315,16 @@ var allItemData = [
 		magicalPower: "Double tower damage for 10 seconds."
 	},
 	{
+		name: "Death Of Horror",
+		url: '/images/gamePage/deathOfHorror.png',
+		type: 'relic',
+		price: 10,
+		hpBonus: 3,
+		armourBonus: 0,
+		attackBonus: 0,
+		magicalPower: "The wearer of this ring can bomb his enemy with horror"
+	},
+	{
 		name: "Ring Of Darkness",
 		url: '/images/gamePage/ringOfDarkness.png',
 		type: 'relic',
