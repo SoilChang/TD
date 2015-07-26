@@ -24,3 +24,7 @@ Meteor.publish('ChatMessage', function(){
 Meteor.publish('allUserData', function(){
 	return Meteor.users.find({},{fields:{username:1, following:1, followers:1, profile:1, attackBonus:1, hpBonus:1, armourBonus:1, statusMessage:1}});
 });
+
+Meteor.publish("monstertower", function(){
+	return MonsterTower.find();
+});

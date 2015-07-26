@@ -7,32 +7,49 @@
 //create tower data
 addTower = function() {
     //light tower
-    towerData["lightTower"] =
-    {"image":[lightTower1,lightTower2,lightTower3,lightTower4], 
-    "w":30, "h":30,//dimension of shots
-    "type":"Single", "splash":[false],
-    "effect":false,
-    "range":[96,112,128,160], "cost":[15,30,65,135], "cd":[15,10,5,3],
-     "damage":[10,20,35,60], "shot":light, "speed":14//speed of shot
+    towerData["lightTower"] ={
+        "image":[lightTower1,lightTower2,lightTower3,lightTower4], 
+        "w":30,
+        "h":30,//dimension of shots
+        "type":"Single", 
+        "splash":[false],
+        "effect":false,
+        "range":[96,112,128,160], 
+        "cost":[15,30,65,135], 
+        "cd":[15,10,5,3],
+        "damage":[10,20,35,60], 
+        "shot":light, 
+        "speed":14//speed of shot
     }
 
     //ice tower
-    towerData["iceTower"] =
-    {"image":[iceTower1,iceTower2,iceTower3,iceTower4], 
-    "w":30, "h":30,//dimension of shots
-    "type":"Splash", "splash":[16,32,48,64], 
-    "effect":true, "slow":[.3,.5,.7,.9], "slowDuration":[20,40,60,80],
-    "range":[80,80,96,112], "cost":[20,40,80,150], "cd":[20,20,15,15],
-    "damage":[5,10,30,50], "shot":ice, "speed":10}
+    towerData["iceTower"] ={
+        "image":[iceTower1,iceTower2,iceTower3,iceTower4], 
+        "w":30,
+        "h":30,//dimension of shots
+        "type":"Splash", 
+        "splash":[16,32,48,64], 
+        "effect":true, 
+        "slow":[.3,.5,.7,.9], 
+        "slowDuration":[20,40,60,80],
+        "range":[80,80,96,112], 
+        "cost":[20,40,80,150], 
+        "cd":[20,20,15,15],
+        "damage":[5,10,30,50], 
+        "shot":ice, 
+        "speed":10
+    }
 
     //fountain
-    towerData["fountain"] =
-    {"image":[fountain1,fountain2,fountain3,fountain4],
-    "type":"Heal", "splash":[false],
-    "effect":false,
-    "cost":[100,150,200,250], "cd":[2,1,1,1],
-    "damage":[1,1,2,4]}
-}
+    towerData["fountain"] ={
+        "image":[fountain1,fountain2,fountain3,fountain4],
+        "type":"Heal", 
+        "splash":[false],
+        "effect":false,
+        "cost":[100,150,200,250], 
+        "cd":[2,1,1,1],
+        "damage":[1,1,2,4]}
+    }
 
 
 //buying tower

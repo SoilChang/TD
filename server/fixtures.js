@@ -348,8 +348,6 @@ for(var i=0; i<len; i++){
 	}
 }
 
-// to fix error
-eqpList.remove({name:"Leoric's Jewlry"});
-eqpList.remove({name:"diamondEye"});
+
 
 

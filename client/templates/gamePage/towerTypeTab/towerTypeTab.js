@@ -8,3 +8,7 @@ Template.towerTypeTab.events({
 	}
 })
 
+Template.towerTypeTab.helpers({
+	
+});
+
