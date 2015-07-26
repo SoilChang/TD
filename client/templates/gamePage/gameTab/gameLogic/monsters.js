@@ -12,8 +12,8 @@ addMonster = function() {
         "image":marioI, 
         "w": 21, 
         "h": 40, 
-        "speed":mob[0].speed,
-        "hp":mob[0].hp, 
+        "speed": mob[0].speed,
+        "hp":    mob[0].hp, 
         "bounty":mob[0].bounty, 
         "damage":mob[0].damage
     };
@@ -23,8 +23,8 @@ addMonster = function() {
         "image":warriorI, 
         "w": 24, 
         "h": 31, 
-        "speed":mob[1].hp, 
-        "hp":mob[1].hp, 
+        "speed": mob[1].hp, 
+        "hp":    mob[1].hp, 
         "bounty":mob[1].bounty, 
         "damage":mob[1].damage
     };
@@ -34,8 +34,8 @@ addMonster = function() {
         "image":armoredI, 
         "w": 32, 
         "h": 35, 
-        "speed":mob[2].speed, 
-        "hp":mob[2].hp, 
+        "speed": mob[2].speed, 
+        "hp":    mob[2].hp, 
         "bounty":mob[2].bounty, 
         "damage":mob[2].damage
     };
@@ -45,8 +45,8 @@ addMonster = function() {
         "image":wizardI, 
         "w": 32, 
         "h": 45, 
-        "speed":mob[3].speed, 
-        "hp":mob[3].hp, 
+        "speed": mob[3].speed, 
+        "hp":    mob[3].hp, 
         "bounty":mob[3].bounty, 
         "damage":mob[3].damage
     };
