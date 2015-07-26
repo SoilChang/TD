@@ -67,7 +67,6 @@ var allItemData	= [
 		cost: 40,
 		range: 80,
 		damage: 10,
-		slowDisplay: "40% (1.5s)",
 		slow: 0.5,
 		duration:40,
 		cd: 20,
