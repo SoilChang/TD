@@ -7,6 +7,7 @@
 //create tower data
 addTower = function() {
     //light tower
+    var plasma = MonsterTower.find({type:"plasma"},{sort:{level:1}}).fetch();
     towerData["lightTower"] ={
         "image":[lightTower1,lightTower2,lightTower3,lightTower4], 
         "w":30,
@@ -14,42 +15,45 @@ addTower = function() {
         "type":"Single", 
         "splash":[false],
         "effect":false,
-        "range":[96,112,128,160], 
-        "cost":[15,30,65,135], 
-        "cd":[15,10,5,3],
-        "damage":[10,20,35,60], 
+        "range":[plasma[0].range,plasma[1].range,plasma[2].range,plasma[3].range], 
+        "cost":[plasma[0].cost,plasma[1].cost,plasma[2].cost,plasma[3].cost], 
+        "cd":[plasma[0].cd,plasma[1].cd,plasma[2].cd,plasma[3].cd],
+        "damage":[plasma[0].damage,plasma[1].damage,plasma[2].damage,plasma[3].damage], 
         "shot":light, 
         "speed":14//speed of shot
-    }
+    };
 
+    var glyph = MonsterTower.find({type:"glyph"},{sort:{level:1}}).fetch();
     //ice tower
     towerData["iceTower"] ={
         "image":[iceTower1,iceTower2,iceTower3,iceTower4], 
         "w":30,
         "h":30,//dimension of shots
         "type":"Splash", 
-        "splash":[16,32,48,64], 
+        "splash":[glyph[0].splash,glyph[1].splash,glyph[2].splash,glyph[3].splash], 
         "effect":true, 
-        "slow":[.3,.5,.7,.9], 
-        "slowDuration":[20,40,60,80],
-        "range":[80,80,96,112], 
-        "cost":[20,40,80,150], 
-        "cd":[20,20,15,15],
-        "damage":[5,10,30,50], 
+        "slow":[glyph[0].slow,glyph[1].slow,glyph[2].slow,glyph[3].slow], 
+        "slowDuration":[glyph[0].duration,glyph[1].duration,glyph[2].duration,glyph[3].duration],
+        "range":[glyph[0].range,glyph[1].range,glyph[2].range,glyph[3].range], 
+        "cost":[glyph[0].cost,glyph[1].cost,glyph[2].cost,glyph[3].cost], 
+        "cd":[glyph[0].cd,glyph[1].cd,glyph[2].cd,glyph[3].cd],
+        "damage":[glyph[0].damage,glyph[1].damage,glyph[2].damage,glyph[3].damage], 
         "shot":ice, 
         "speed":10
-    }
+    };
 
+    var ft = MonsterTower.find({type:"fountain"},{sort:{level:1}}).fetch();
     //fountain
     towerData["fountain"] ={
         "image":[fountain1,fountain2,fountain3,fountain4],
         "type":"Heal", 
         "splash":[false],
         "effect":false,
-        "cost":[100,150,200,250], 
-        "cd":[2,1,1,1],
-        "damage":[1,1,2,4]}
-    }
+        "cost":[ft[0].cost, ft[1].cost, ft[2].cost, ft[3].cost], 
+        "cd":[ft[0].cd, ft[1].cd, ft[2].cd, ft[3].cd],
+        "damage":[ft[0].damage, ft[1].damage, ft[2].damage, ft[3].damage]
+    };
+}
 
 
 //buying tower

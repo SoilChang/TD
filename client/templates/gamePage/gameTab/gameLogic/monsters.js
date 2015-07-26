@@ -5,25 +5,51 @@
 #########################################################################*/
 //creates monster data
 addMonster = function() {
+
+    var mob = MonsterTower.find({type:"monster"}, {sort:{sequence:1}}).fetch();
     //mario
-    monsterData["mario"] =
-    {"image":marioI, "w": 21, "h": 40, 
-    "speed":4.5, "hp":10, "bounty":1, "damage":2}
+    monsterData["mario"] ={
+        "image":marioI, 
+        "w": 21, 
+        "h": 40, 
+        "speed":mob[0].speed,
+        "hp":mob[0].hp, 
+        "bounty":mob[0].bounty, 
+        "damage":mob[0].damage
+    };
 
     //warrior
-    monsterData["warrior"] =
-    {"image":warriorI, "w": 24, "h": 31, 
-    "speed":7, "hp":6, "bounty":1, "damage":2}
+    monsterData["warrior"] ={
+        "image":warriorI, 
+        "w": 24, 
+        "h": 31, 
+        "speed":mob[1].hp, 
+        "hp":mob[1].hp, 
+        "bounty":mob[1].bounty, 
+        "damage":mob[1].damage
+    };
 
     //armored
-    monsterData["armored"] =
-    {"image":armoredI, "w": 32, "h": 35, 
-    "speed":2.5, "hp":30, "bounty":1, "damage":2}
+    monsterData["armored"] ={
+        "image":armoredI, 
+        "w": 32, 
+        "h": 35, 
+        "speed":mob[2].speed, 
+        "hp":mob[2].hp, 
+        "bounty":mob[2].bounty, 
+        "damage":mob[2].damage
+    };
 
     //armored
-    monsterData["wizard"] =
-    {"image":wizardI, "w": 32, "h": 45, 
-    "speed":4, "hp":30, "bounty":2, "damage":3}
+    monsterData["wizard"] ={
+        "image":wizardI, 
+        "w": 32, 
+        "h": 45, 
+        "speed":mob[3].speed, 
+        "hp":mob[3].hp, 
+        "bounty":mob[3].bounty, 
+        "damage":mob[3].damage
+    };
 }
 
 

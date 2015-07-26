@@ -20,47 +20,26 @@
 					  	<th>Image</th>
 					    <th>Level</th>
 					    <th>Cost</th> 
-					    <th>DPS</th>
 					    <th>Range</th>
 					    <th>Damage</th>
+					    <th>Reload</th>
 					  </tr>
+					  {{#each loadPlasma}}
 					  <tr>
-					  	<td><img src="/images/gameImages/light_tower.png" style="height:30px"></td>
-					    <td>1</td>
-					    <td>15</td> 
-					    <td>13.3</td>
-					    <td>3</td>
-					    <td>10</td>
+					  	<td><img src="{{image}}" style="height:30px"></td>
+					    <td>{{level}}</td>
+					    <td>{{cost}}</td> 
+					    <td>{{range}}</td>
+					    <td>{{damage}}</td>
+					    <td>{{cd}}</td>
 					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/light_tower_2.png" style="height:30px"></td>
-					    <td>2</td>
-					    <td>30</td> 
-					    <td>26.6</td>
-					    <td>3</td>
-					    <td>20</td>
-					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/light_tower_3.png" style="height:30px"></td>
-					    <td>3</td>
-					    <td>60</td> 
-					    <td>80</td>
-					    <td>3.5</td>
-					    <td>40</td>
-					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/light_tower_4.png" style="height:30px"></td>
-					    <td>4</td>
-					    <td>120</td> 
-					    <td>320</td>
-					    <td>3.5</td>
-					    <td>80</td>
-					  </tr>
+					  {{/each}}
 					</table>
 				</div>
 
 				<!-- table for icy glyph tower -->
 				<div>
+
 					<h2 class="c-Tower_Type-h2">2. Icy Glyph</h2>
 					<div class='info'>Slows enemies with low damage. Splash attack.</div>
 					<table class="ruleTabTable">
@@ -68,47 +47,27 @@
 					  	<th>Image</th>
 					    <th>Level</th>
 					    <th>Cost</th> 
-					    <th>DPS</th>
 					    <th>Range</th>
 					    <th>Damage</th>
-					    <th>Slow (Duration)</th>
+					    <th>Slow</th>
+					    <th>Shot explosion area</th>
+					    <th>Duration(sec)</th>
+					    <th>Reload</th>
 					  </tr>
+
+					  {{#each loadGlyph}}
 					  <tr>
-					  	<td><img src="/images/gameImages/ice_tower.png" style="height:30px"></td>
-					    <td>1</td>
-					    <td>20</td> 
-					    <td>5</td>
-					    <td>2.5</td>
-					    <td>5</td>
-					    <td>25% (1.0s)</td>
+					  	<td><img src="{{image}}" style="height:30px"></td>
+					    <td>{{level}}</td>
+					    <td>{{cost}}</td> 
+					    <td>{{range}}</td>
+					    <td>{{damage}}</td>
+					    <td>{{slow}}</td>
+					    <td>{{splash}}</td>
+					    <td>{{duration}}</td>
+					    <td>{{cd}}</td>
 					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/ice_tower_2.png" style="height:30px"></td>
-					    <td>2</td>
-					    <td>40</td> 
-					    <td>10</td>
-					    <td>2.5</td>
-					    <td>10</td>
-					    <td>40% (1.5s)</td>
-					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/ice_tower_3.png" style="height:30px"></td>
-					    <td>3</td>
-					    <td>80</td> 
-					    <td>26.7</td>
-					    <td>3</td>
-					    <td>20</td>
-					    <td>50% (2.0s)</td>
-					  </tr>
-					  <tr>
-					  	<td><img src="/images/gameImages/ice_tower_4.png" style="height:30px"></td>
-					    <td>4</td>
-					    <td>160</td> 
-					    <td>53.3</td>
-					    <td>3</td>
-					    <td>40</td>
-					    <td>80% (2.5s)</td>
-					  </tr>
+					  {{/each}}
 					</table>
 				</div>
 
@@ -124,38 +83,16 @@
 							<th>Heal Amount</th>
 							<th>Frequency</th>
 						</tr>
-						<!-- level one -->
+						{{#each loadFountain}}
 						<tr>
-							<th><img src="/images/gameImages/regenTower_1.png"></th>
-							<th>1</th>  <!-- level-->
-							<th>100</th> <!-- cost-->
-							<th>1</th> <!-- Heal Amount-->
-							<th>every two waves</th> <!-- Frequency-->
+							<th><img src="{{image}}"></th>
+							<th>{{level}}</th>  <!-- level-->
+							<th>{{cost}}</th> <!-- cost-->
+							<th>{{damage}}</th> <!-- Heal Amount-->
+							<th>Every {{cd}} wave</th> <!-- Frequency-->
 						</tr>
-						<!-- level two -->
-						<tr>
-							<th><img src="/images/gameImages/regenTower_2.png"></th>
-							<th>2</th>  <!-- level-->
-							<th>150</th> <!-- cost-->
-							<th>1</th> <!-- Heal Amount-->
-							<th>every wave</th> <!-- Frequency-->
-						</tr>
-						<!-- level three -->
-						<tr>
-							<th><img src="/images/gameImages/regenTower_3.png"></th>
-							<th>3</th>  <!-- level-->
-							<th>200</th> <!-- cost-->
-							<th>2</th> <!-- Heal Amount-->
-							<th>every wave</th> <!-- Frequency-->
-						</tr>
-						<!-- level four -->
-						<tr>
-							<th><img src="/images/gameImages/regenTower_4.png"></th>
-							<th>4</th>  <!-- level-->
-							<th>250</th> <!-- cost-->
-							<th>4</th> <!-- Heal Amount-->
-							<th>every wave</th> <!-- Frequency-->
-						</tr>
+						{{/each}}
+						
 					</table>
 				</div>
 				<!-- stats for the monsters -->
@@ -172,49 +109,17 @@
 						<th>speed</th>
 						<th>bounty</th>
 					</tr>
-					<!-- Armos -->
+					{{#each loadMonster}}
 					<tr>
-						<td><img src="/images/gameImages/ArmosSingle.png"></td>
-						<td>Armos</td>
-						<td class="describe">A monster with high hp but slow speed.</td><!-- description -->
-						<td>2</td> <!-- damage -->
-						<td>20</td><!-- hp -->
-						<td>2</td><!-- speed -->
-						<td>1</td><!-- bounty -->
+						<td><img src="{{image}}"></td>
+						<td>{{name}}</td>
+						<td class="describe">{{description}}</td><!-- description -->
+						<td>{{damage}}</td> <!-- damage -->
+						<td>{{hp}}</td><!-- hp -->
+						<td>{{speed}}</td><!-- speed -->
+						<td>{{bounty}}</td><!-- bounty -->
 					</tr>
-
-					<!-- DarkNut -->
-					<tr>
-						<td><img src="/images/gameImages/DarkNutSingle.png"></td>
-						<td>Speedy</td>
-						<td class="describe">As its name suggest the monster has a high speed but has low hp.</td><!-- description -->
-						<td>2</td> <!-- damage -->
-						<td>6</td><!-- hp -->
-						<td>5</td><!-- speed -->
-						<td>1</td><!-- bounty -->
-					</tr>						
-						
-					<!-- mario -->
-					<tr>
-						<td><img src="/images/gameImages/marioSingle.png"></td>
-						<td>Mario</td>
-						<td class="describe">An average monster.</td><!-- description -->
-						<td>2</td> <!-- damage -->
-						<td>10</td><!-- hp -->
-						<td>3</td><!-- speed -->
-						<td>1</td><!-- bounty -->
-					</tr>
-
-					<!-- fireWizard -->
-					<tr>
-						<td><img src="/images/gameImages/fireWizardSingle.png"></td>
-						<td>fireWizard</td>
-						<td class="describe">With his magic powers, he can deal more damage to your castle than an average monster.</td><!-- description -->
-						<td>3</td> <!-- damage -->
-						<td>25</td><!-- hp -->
-						<td>3</td><!-- speed -->
-						<td>2</td><!-- bounty -->
-					</tr>
+					{{/each}}
 						
 					</table>
 				</div>

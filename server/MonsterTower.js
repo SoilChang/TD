@@ -48,8 +48,7 @@ var allItemData	= [
 		###############################################*/
 	{
 		name: "glyph1",
-		/*-------------display---------------*/
-		image: '/images/gameImages/ice_tower.png.png',
+		image: '/images/gameImages/ice_tower.png',
 		type: 'glyph',
 		level: 1,
 		cost: 20,
@@ -58,7 +57,8 @@ var allItemData	= [
 		damage: 5,
 		slow: 0.3,
 		duration:20,
-		cd:20
+		cd:20,
+		splash:16
 	},
 	{
 		name: "glyph2",
@@ -72,7 +72,8 @@ var allItemData	= [
 		slowDisplay: "40% (1.5s)",
 		slow: 0.5,
 		duration:40,
-		cd: 20
+		cd: 20,
+		splash:32
 	},
 	{
 		name: "glyph3",
@@ -85,7 +86,8 @@ var allItemData	= [
 		damage: 30,
 		slow: 0.7,
 		duration:60,
-		cd: 15
+		cd: 15,
+		splash:48
 	},
 	{
 		name: "glyph4",
@@ -98,7 +100,8 @@ var allItemData	= [
 		damage: 50,
 		slow:0.9,
 		duration:80,
-		cd: 15
+		cd: 15,
+		splash:64
 	},
 
 
@@ -148,6 +151,7 @@ var allItemData	= [
 	{
 		name: "Mario",
 		image: '/images/gameImages/marioSingle.png',
+		sequence:1,
 		type: 'monster',
 		speed: 4.5,
 		hp: 10,
@@ -158,6 +162,7 @@ var allItemData	= [
 	{
 		name: "Speedy",
 		image: '/images/gameImages/DarkNutSingle.png',
+		sequence:2,
 		type: 'monster',
 		speed: 7,
 		hp: 6,
@@ -168,6 +173,7 @@ var allItemData	= [
 	{
 		name: "Armos",
 		image: '/images/gameImages/ArmosSingle.png',
+		sequence:3,
 		type: 'monster',
 		speed: 2.5,
 		hp: 30,
@@ -178,6 +184,7 @@ var allItemData	= [
 	{
 		name: "FireWizard",
 		image: '/images/gameImages/fireWizardSingle.png',
+		sequence:4,
 		type: 'monster',
 		speed: 4,
 		hp: 30,
@@ -207,6 +214,7 @@ for(var i=0; i<len; i++){
 			bounty: allItemData[i].bounty,
 			damage:allItemData[i].damage,
 			description:allItemData[i].description,
+			sequence: allItemData[i].sequence,
 
 			level: allItemData[i].level,
 			cost: allItemData[i].cost,
@@ -214,6 +222,7 @@ for(var i=0; i<len; i++){
 			cd: allItemData[i].cd,
 			slow: allItemData[i].slow,
 			duration: allItemData[i].duration,
+			splash: allItemData[i].splash
 		}});
 	}
 }
