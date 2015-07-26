@@ -103,22 +103,26 @@ gameData = function(type) {
             "Before the game starts, you can click the tower/power buttons to see"+
             " the info and animations.";
 
-            $('.powerBtn').addClass('cooldown') ;
+            $('.powerBtn').addClass('cooldown');
+            $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
                     cash =65;
                 } else {cash=40;};
 
-                if (Meteor.user().ability_freeze) {
+                if (Meteor.user().ability_regen){
+                    $('#fountainBtn').removeClass('cooldown');
+                }
+                if (Meteor.user().ability_freeze){
                     $('#freezePower').removeClass('cooldown');
                 };
-                if (Meteor.user().ability_meteorite) {
+                if (Meteor.user().ability_meteorite){
                     $('#meteoritePower').removeClass('cooldown');
                 };
-                if (Meteor.user().ability_block) {
+                if (Meteor.user().ability_block){
                     $('#invinciblePower').removeClass('cooldown');
                 };
-                if (Meteor.user().ability_doubleDamage) {
+                if (Meteor.user().ability_doubleDamage){
                     $('#ddPower').removeClass('cooldown');
                 };
             } else {cash=40;};
@@ -253,11 +257,6 @@ Template.gameTab.events({
 		buyTower('lightTower')
 	},
     'click #fountainBtn': function(){
-        if (Meteor.user()!==null) {
-            if (!Meteor.user().ability_regen) {            
-                $(this).removeClass('selected');
-            }
-        }
         buyTower('fountain')
     },
     'click #bombPower': function(){
@@ -645,7 +644,7 @@ imageload = function() {
         frames: {width:21, height:40, count:32},
         animations: {
             right:[0,7,'right',.6],
-            up:[8,15,'up',.7],
+            up:[8,15,'up',.6],
             left:[16,23,'left',.6],
             down:[24,31,'down',.7]
         }
@@ -1032,7 +1031,7 @@ nextWave = function() {
         }
         if (wave%7 ==0) {
             cMonster("wizard",5)
-            monsterData['wizard']['hp']*=3.2
+            monsterData['wizard']['hp']*=3
             monsterData["wizard"]["damage"]+=2
             monsterData["wizard"]["bounty"]+=1
         }
@@ -1041,7 +1040,7 @@ nextWave = function() {
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
             cMonster("armored",8);
-            monsterData["armored"]["hp"]*=2.8
+            monsterData["armored"]["hp"]*=2.4
         }
         else if (wave%3 == 0) {
             cMonster("warrior",6);
@@ -1049,7 +1048,7 @@ nextWave = function() {
         }
         else {
             cMonster("mario",9);
-            monsterData["mario"]["hp"]*=1.3
+            monsterData["mario"]["hp"]*=1.4
         }       
     }
 }

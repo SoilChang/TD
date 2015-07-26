@@ -12,18 +12,18 @@ addTower = function() {
     "w":30, "h":30,//dimension of shots
     "type":"Single", "splash":[false],
     "effect":false,
-    "range":[96,96,112,112], "cost":[15,30,60,120], "cd":[15,15,10,5],
-     "damage":[10,20,40,80], "shot":light, "speed":10//speed of shot
+    "range":[96,112,128,160], "cost":[15,30,65,135], "cd":[15,10,5,3],
+     "damage":[10,20,35,60], "shot":light, "speed":14//speed of shot
     }
 
     //ice tower
     towerData["iceTower"] =
     {"image":[iceTower1,iceTower2,iceTower3,iceTower4], 
     "w":30, "h":30,//dimension of shots
-    "type":"Splash", "splash":[16,32,32,48], 
-    "effect":true, "slow":[.25,.4,.5,.8], "slowDuration":[20,25,30,35],
-    "range":[80,80,96,96], "cost":[20,40,80,160], "cd":[20,20,15,15],
-    "damage":[5,10,20,40], "shot":ice, "speed":10}
+    "type":"Splash", "splash":[16,32,48,64], 
+    "effect":true, "slow":[.3,.5,.7,.9], "slowDuration":[20,40,60,80],
+    "range":[80,80,96,112], "cost":[20,40,80,150], "cd":[20,20,15,15],
+    "damage":[5,10,30,50], "shot":ice, "speed":10}
 
     //fountain
     towerData["fountain"] =
@@ -70,7 +70,7 @@ buyTower = function(type) {
         basic = 
         "Dmg: " + towerType["damage"][0] + "<br>" +
         "Range: " + towerType["range"][0]/32 + "<br>" +
-        "Atk Spd: " + towerType["cd"][0]/20 + "<br>" +
+        "Atk Rate: " + towerType["cd"][0]/20 + "<br>" +
         splash +
         effect 
     }
@@ -244,17 +244,6 @@ updateInfo = function(tower) {
     var basic = ""
     var sellPrice = (wave==0)? tower.sell : Math.ceil(tower.sell*.7)
 
-    if (tower.effect) {
-        if (tower.name=="iceTower") {
-            effect = "Slow: " + (tower.slow*100) + "%" + " --> " +  
-            (towerData[tower.name]["slow"][tower.level]*100) + "%" + "<br>"
-        }
-    }
-    if (tower.splash) {    
-        splash = "Splash: " + tower.splash/32 + " --> " +  
-        towerData[tower.name]["splash"][tower.level]/32 + "<br>" 
-    };
-
     //tower info
     if (targetTower.level<targetTower.maxLevel) {
         if (tower.name=='fountain') {            
@@ -268,9 +257,19 @@ updateInfo = function(tower) {
             towerData[tower.name]["damage"][tower.level] + "<br>" +
             "Range: " + tower.range/32 + " --> " +  
             towerData[tower.name]["range"][tower.level]/32 + "<br>" +
-            "Atk Spd: " + tower.maxCd/20 + " --> " +  
+            "Atk Rate: " + tower.maxCd/20 + " --> " +  
             towerData[tower.name]["cd"][tower.level]/20 + "<br>" 
         }
+        if (tower.effect) {
+            if (tower.name=="iceTower") {
+                effect = "Slow: " + (tower.slow*100) + "%" + " --> " +  
+                (towerData[tower.name]["slow"][tower.level]*100) + "%" + "<br>"
+            }
+        }
+        if (tower.splash) {
+            splash = "Splash: " + tower.splash/32 + " --> " +  
+            towerData[tower.name]["splash"][tower.level]/32 + "<br>" 
+        };
         document.getElementById("infoText").innerHTML = 
         "Lvl: " + tower.level +" --> " + (tower.level+1) + "<br>" +
         basic +
@@ -289,8 +288,16 @@ updateInfo = function(tower) {
             basic = 
             "Dmg: " + tower.damage + "(+" + tower.bonus + ")" + "<br>" +
             "Range: " + tower.range/32 +  "<br>" + 
-            "Atk Spd: " + tower.maxCd/20 + "<br>"
+            "Atk Rate: " + tower.maxCd/20 + "<br>"
         }
+        if (tower.effect) {
+            if (tower.name=="iceTower") {
+                effect = "Slow: " + (tower.slow*100) + "%" + "<br>"
+            }
+        }
+        if (tower.splash) {
+            splash = "Splash: " + tower.splash/32 + "<br>" 
+        };
         document.getElementById("infoText").innerHTML = 
         "Lvl: " + tower.level + "<br>" +
         basic +
@@ -313,7 +320,10 @@ upgradeTower = function() {
             targetTower.slowDuration = 
             towerData[targetTower.name]["slowDuration"][targetTower.level]
         }
-
+        if (targetTower.splash){
+            targetTower.splash = 
+            towerData[targetTower.name]["splash"][targetTower.level]; 
+        };
         targetTower.sell += targetTower.cost
         targetTower.damage = 
         towerData[targetTower.name]["damage"][targetTower.level];

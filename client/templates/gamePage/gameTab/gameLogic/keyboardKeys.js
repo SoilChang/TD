@@ -20,39 +20,48 @@ keyboards = function() {
     }
     else if (keys[82]){//r
         delete keys[82]
-        power('bomb')        
+        $('.powerBtn').removeClass('selected')
+        power('bomb')
     }
     else if (keys[70]){//f
         delete keys[70]
+        $('.powerBtn').removeClass('selected')
         power('dd')
     }
     else if (keys[87]){//w
         delete keys[87]
+        $('.towerBtn').removeClass('selected')
+        $('.powerBtn').removeClass('selected')
+        $('#lightBtn').addClass('selected')
         buyTower('lightTower')
     }
     else if (keys[81]){//q
         delete keys[81]
+        $('.towerBtn').removeClass('selected')
+        $('.powerBtn').removeClass('selected')
+        $('#iceBtn').addClass('selected')
         buyTower('iceTower');
     }
     else if (keys[65]){//a
         delete keys[65]
+        $('.powerBtn').removeClass('selected')
         power('freeze')
     }
     else if (keys[83]){//s
         delete keys[83]
+        $('.powerBtn').removeClass('selected')
         power('meteorite');
     }
     else if (keys[68]){//d
         delete keys[68]
+        $('.powerBtn').removeClass('selected')
         power('invincibility')
     }
     else if (keys[69]){//e
         delete keys[69]
-        if (Meteor.user()!==null) {
-            if (!Meteor.user().ability_regen) {            
-                $(this).removeClass('selected');
-            }
-        }
+        $('.towerBtn').removeClass('selected')
+        $('.powerBtn').removeClass('selected')
+        $('#fountainBtn').addClass('selected')
         buyTower('fountain')
     }
     else if (keys[49]) {//1
@@ -79,7 +88,7 @@ keyboards = function() {
         $('#ff8').addClass('selected');   
         ff(3)
     }
-    else if (keys[192]) {//`
+    else if (keys[192]) {// `
         delete keys[192]
         if (checkGG==0) {
             togglePause();
@@ -92,7 +101,7 @@ keyboards = function() {
     }
     else if (keys[77]) {//m
         delete keys[77]
-        
+
         $('#c-game-left_hand_menu').animate({left:'180', height:'540'},1000);
         $('#btmMenu').animate({top:'480'},1000);
         clearStage();

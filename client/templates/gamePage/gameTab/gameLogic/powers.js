@@ -413,7 +413,7 @@ updatePower = function(type) {
     }
     else if (type=='bomb'){
         pow += "Bomb" + "<br>"
-        effect += "Explodes and deal damage to surrounding area"
+        effect += "Explodes and deal damage to surrounding area" + "<br>"
         cd += "no cooldown" +"<br>"
         delay = "Delays: 3 Sec" + "<br>"
         errors = "Coming Soon ..."  
