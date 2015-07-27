@@ -27,6 +27,7 @@ allyArmor = 0;
 allyAttack = 0;
 gameLoaded = 0;
 gameRunning = 0;
+onGame = 0;
 
 //#########################################################################
 var gameTicker, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
@@ -45,7 +46,6 @@ ffCount, errorCD, pScreen;
                  Game Data
 
 #########################################################################*/
-onGame = 0
 gameProgress = {}; //saved game
 monsterData = {}; //types of monsters
 towerData = {}; //types of towers
@@ -67,6 +67,7 @@ gameData = function(type) {
         case 'new' :
             speed = 20; //speed of game
             addMonster();
+            dmgCount = [];
             monsters = []; //monsters on map
             monsterDead = []; //animation when monster die
             shots = []; //shots on map
@@ -107,7 +108,7 @@ gameData = function(type) {
             $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =1000;
+                    cash =65;
                 } else {cash=40;};
 
                 if (Meteor.user().ability_regen){
@@ -1024,21 +1025,33 @@ nextWave = function() {
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
 
+        if (wave%15 == 0){
+            monsterData["wizard"]["damage"]+=2            
+            monsterData["mario"]["damage"]+=1
+            monsterData["warrior"]["damage"]+=1
+            monsterData["armored"]["damage"]+=1
+        }
         if (wave%10 == 0) {
-            monsterData["mario"]["bounty"]+=1
-            monsterData["warrior"]["bounty"]+=1
-            monsterData["armored"]["bounty"]+=1
+            if (wave<=30){
+                monsterData["mario"]["bounty"]+=1
+                monsterData["warrior"]["bounty"]+=1
+                monsterData["armored"]["bounty"]+=1                
+            }else{                
+                monsterData["mario"]["bounty"]+=2
+                monsterData["warrior"]["bounty"]+=2
+                monsterData["armored"]["bounty"]+=2  
+            }
         }
         if (wave%7 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3
-            monsterData["wizard"]["damage"]+=2
-            monsterData["wizard"]["bounty"]+=1
+            if (wave<=30){
+                monsterData["wizard"]["bounty"]+=1
+            }else{
+                monsterData["wizard"]["bounty"]+=2                
+            }
         }
         else if (wave%5 == 0) {
-            monsterData["mario"]["damage"]+=1
-            monsterData["warrior"]["damage"]+=1
-            monsterData["armored"]["damage"]+=1
             cMonster("armored",8);
             monsterData["armored"]["hp"]*=2.4
         }

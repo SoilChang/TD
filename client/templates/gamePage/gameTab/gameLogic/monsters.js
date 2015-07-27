@@ -259,6 +259,18 @@ monsterMovement = function() {
         //monster attacks castle
         else {
             if (!mob.dead) {
+                if (!(mob.level in dmgCount)){
+                    dmgCount.push(mob.level)
+                    if (mob.level%7==0){
+                        monsterData["wizard"]["damage"]+=1                       
+                    }
+                    else{
+                        monsterData["wizard"]["damage"]+=1 
+                        monsterData["mario"]["damage"]+=1
+                        monsterData["warrior"]["damage"]+=1
+                        monsterData["armored"]["damage"]+=1
+                    }
+                }
                 if (castleInvincible.active>=1){
                     if (castleInvincible.blocks>0){
                         castleBlock.cd = 5

@@ -39,7 +39,7 @@ var allItemData	= [
 		level: 4,
 		cost: 135,
 		range: 160,
-		damage: 60,	
+		damage: 65,	
 		cd:3
 	},
 
@@ -57,7 +57,7 @@ var allItemData	= [
 		slow: 0.3,
 		duration:20,
 		cd:20,
-		splash:16
+		splash:32
 	},
 	{
 		name: "glyph2",
@@ -69,8 +69,8 @@ var allItemData	= [
 		damage: 10,
 		slow: 0.5,
 		duration:40,
-		cd: 20,
-		splash:32
+		cd: 18,
+		splash:48
 	},
 	{
 		name: "glyph3",
@@ -80,10 +80,10 @@ var allItemData	= [
 		cost: 80,
 		range: 96,
 		damage: 30,
-		slow: 0.7,
+		slow: 0.6,
 		duration:60,
-		cd: 15,
-		splash:48
+		cd: 16,
+		splash:64
 	},
 	{
 		name: "glyph4",
@@ -93,9 +93,9 @@ var allItemData	= [
 		cost: 150,
 		range: 112,
 		damage: 50,
-		slow:0.9,
+		slow:0.8,
 		duration:80,
-		cd: 15,
+		cd: 14,
 		splash:64
 	},
 

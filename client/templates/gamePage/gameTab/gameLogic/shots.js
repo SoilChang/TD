@@ -15,13 +15,13 @@ cShots = function(tower,monster) {
     }  
 
     var dx=((monster.x + monster.w/2) - tower.x);
-    var dy=((monster.y + monster.h) - tower.y);
+    var dy=((monster.y + monster.h/2) - tower.y);
     var dist=Math.sqrt(Math.pow(Math.abs(dx),2) + Math.pow(Math.abs(dy),2));
     var newShot = new createjs.Sprite(tower.shot,'fire')
     //calculations for travelling
-    newShot.x = tower.x
-    newShot.y = tower.y - tower.h/2
-    newShot.d = dist //destination
+    newShot.x = tower.x + 4
+    newShot.y = tower.y
+    newShot.d = dist + 10//destination
     var degree = Math.asin(dy/dist)
     if (dx>0) {
         newShot.dX = tower.speed*Math.cos(degree)
