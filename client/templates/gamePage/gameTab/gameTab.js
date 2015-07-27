@@ -108,7 +108,7 @@ gameData = function(type) {
             $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =100000;
+                    cash =65;
                 } else {cash=40;};
 
                 if (Meteor.user().ability_regen){
