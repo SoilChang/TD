@@ -101,13 +101,13 @@ gameData = function(type) {
             hoverT = false; //image of tower selected to buy
             document.getElementById("infoText").innerHTML = 
             "Before the game starts, you can click the tower/power buttons to see"+
-            " the info and animations.";
+            " the info and animations.<br><br> For keyboard SHORTCUTS, view under Guides tab no.5.";
 
             $('.powerBtn').addClass('cooldown');
             $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =65;
+                    cash =1000;
                 } else {cash=40;};
 
                 if (Meteor.user().ability_regen){
@@ -1050,26 +1050,6 @@ nextWave = function() {
             cMonster("mario",9);
             monsterData["mario"]["hp"]*=1.4
         }       
-    }
-}
-
-//fountain heal
-fountainHeal = function() {
-    for (var i=0;i<healers.length;i++) {
-        if (healers[i]) {
-            if (healers[i].cd>=1) {
-                healers[i].cd--
-            } else {
-                if (health<maxHealth) {
-                    healers[i].cd = healers[i].maxCd
-                    if ((health+healers[i].damage)>=maxHealth) {
-                        health=maxHealth
-                    } else {
-                        health += healers[i].damage                        
-                    }
-                }
-            }
-        }
     }
 }
 

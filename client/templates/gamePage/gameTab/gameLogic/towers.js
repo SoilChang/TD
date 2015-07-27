@@ -462,3 +462,28 @@ towerAttacks = function() {
         }
     }
 }
+
+//fountain heal
+fountainHeal = function() {
+    for (var i=0;i<healers.length;i++) {
+        if (healers[i]) {
+            if (healers[i].cd>=1) {
+                healers[i].cd--
+            } else {
+                if (health<maxHealth) {
+                    healers[i].cd = healers[i].maxCd-1
+                    if ((health+healers[i].damage)>=maxHealth) {
+                        health=maxHealth
+                    } else {
+                        health += healers[i].damage                        
+                    }
+                    document.getElementById("health").innerHTML = health+
+                    '<span id="ally">+'+allyHp+'</span>'
+                    castleText.text = (health+allyHp) + "/" + maxHealth
+                    castleHp.sourceRect = 
+                    new createjs.Rectangle(0,0,health/maxHealth*64,10);
+                }
+            }
+        }
+    }
+}
