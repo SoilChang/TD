@@ -108,7 +108,7 @@ gameData = function(type) {
             $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =65;
+                    cash =100000;
                 } else {cash=40;};
 
                 if (Meteor.user().ability_regen){
@@ -1036,32 +1036,52 @@ nextWave = function() {
                 monsterData["mario"]["bounty"]+=1
                 monsterData["warrior"]["bounty"]+=1
                 monsterData["armored"]["bounty"]+=1                
-            }else{                
+            }
+            else if(wave<=60){                
                 monsterData["mario"]["bounty"]+=2
                 monsterData["warrior"]["bounty"]+=2
                 monsterData["armored"]["bounty"]+=2  
+            }else{
+                monsterData["mario"]["bounty"]+=3
+                monsterData["warrior"]["bounty"]+=3
+                monsterData["armored"]["bounty"]+=3                
             }
         }
         if (wave%7 ==0) {
             cMonster("wizard",5)
             monsterData['wizard']['hp']*=3
-            if (wave<=30){
+            if (wave<=21){
                 monsterData["wizard"]["bounty"]+=1
-            }else{
+            }
+            else if(wave<=42){
                 monsterData["wizard"]["bounty"]+=2                
+            }else{
+                monsterData["wizard"]["bounty"]+=3  
             }
         }
         else if (wave%5 == 0) {
             cMonster("armored",8);
-            monsterData["armored"]["hp"]*=2.4
+            if (wave<=42){
+                monsterData["armored"]["hp"]*=2.4                
+            }else{
+                monsterData["armored"]["hp"]*=2
+            }
         }
         else if (wave%3 == 0) {
             cMonster("warrior",6);
-            monsterData["warrior"]["hp"]*=2
+            if (wave<=42){
+                monsterData["warrior"]["hp"]*=2                
+            }else{                
+                monsterData["warrior"]["hp"]*=1.5
+            }
         }
         else {
             cMonster("mario",9);
-            monsterData["mario"]["hp"]*=1.4
+            if (wave<=42){
+                monsterData["mario"]["hp"]*=1.4                
+            }else{                
+                monsterData["mario"]["hp"]*=1.2
+            }
         }       
     }
 }
