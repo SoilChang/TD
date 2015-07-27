@@ -87,7 +87,7 @@ gameData = function(type) {
             castleInvincible.blocks = 5;
             powerDD=0;
             powerCD=0;
-            score = 0;
+            scorez = 0;
             maxHealth = 18;
             health = maxHealth;
             wave = 0;
@@ -108,8 +108,8 @@ gameData = function(type) {
             $('#fountainBtn').addClass('cooldown');
             if (Meteor.user()!=null) {
                 if (Meteor.user().ability_extraGold) {
-                    cash =65;
-                } else {cash=40;};
+                    cashy =65;
+                } else {cashy=40;};
 
                 if (Meteor.user().ability_regen){
                     $('#fountainBtn').removeClass('cooldown');
@@ -126,7 +126,7 @@ gameData = function(type) {
                 if (Meteor.user().ability_doubleDamage){
                     $('#ddPower').removeClass('cooldown');
                 };
-            } else {cash=40;};
+            } else {cashy=40;};
 
             break;
         case 'saved' :
@@ -144,10 +144,10 @@ gameData = function(type) {
             castleInvincible.blocks = gameProgress['invinBlock'];
             powerDD = gameProgress['powerDD'];
             powerCD = gameProgress['powerCD'];
-            score = gameProgress['score'];
+            scorez = gameProgress['score'];
             maxHealth = gameProgress['maxHealth'];
             health = gameProgress['health'];
-            cash = gameProgress['cash'];
+            cashy = gameProgress['cash'];
             wave = gameProgress['wave'];
             countDown = gameProgress['countDown'];
             hpBonus = gameProgress['hpBonus'];
@@ -747,8 +747,8 @@ newGame = function() {
     '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regen
 
-    document.getElementById("score").innerHTML = score; 
-    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("score").innerHTML = scorez; 
+    document.getElementById("cash").innerHTML = cashy;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health+
     '<span id="ally">+'+allyHp+'</span>'
@@ -768,8 +768,8 @@ currentGame = function() {
     '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regen
 
-    document.getElementById("score").innerHTML = score; 
-    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("score").innerHTML = scorez; 
+    document.getElementById("cash").innerHTML = cashy;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health+
     '<span id="ally">+'+allyHp+'</span>'
@@ -817,8 +817,8 @@ continueGame = function() {
     '<span class="ally">+'+allyAttack+'</span>'
     document.getElementById("regen").innerHTML = regen
 
-    document.getElementById("score").innerHTML = score; 
-    document.getElementById("cash").innerHTML = cash;
+    document.getElementById("score").innerHTML = scorez; 
+    document.getElementById("cash").innerHTML = cashy;
     document.getElementById("wave").innerHTML = wave; 
     document.getElementById("health").innerHTML = health+
     '<span id="ally">+'+allyHp+'</span>'
@@ -932,11 +932,11 @@ isDead = function(index) {
     monsterDead.push(monsterKill)
 
     stage.removeChild(monsters[index]);
-    cash+=monsters[index].bounty;
-    score+=monsters[index].bounty;
+    cashy+=monsters[index].bounty;
+    scorez+=monsters[index].bounty;
     monsters.splice(index,1);
-    document.getElementById("cash").innerHTML= cash;
-    document.getElementById("score").innerHTML= score;
+    document.getElementById("cash").innerHTML= cashy;
+    document.getElementById("score").innerHTML= scorez;
 
 
 }
@@ -1144,7 +1144,7 @@ isOver = function() {
             warriorName: (Meteor.user().username) ? 
                 Meteor.user().username : Meteor.user().profile.name ,
             waveCleared: wave,
-            score: score,
+            score: scorez,
             date: new Date()
         }
 

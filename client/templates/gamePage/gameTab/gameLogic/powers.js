@@ -185,7 +185,7 @@ powerEffect = function(type){
     if (type=='freeze'){
         updateIcon(type,'add')
         $("#freezeField").fadeIn(2000/speed,function(){
-            $("#freezeField").fadeOut(58000/speed,function(){
+            $("#freezeField").fadeOut(18000/speed,function(){
             });
         });
     }
@@ -305,12 +305,12 @@ powerCd = function() {
     //cooldown for freeze
     if (powerFreeze>0){
         if (powerFreeze>1) {
-            if (powerFreeze>741){
+            if (powerFreeze>681){
                 document.getElementById("freezeCd").innerHTML = 
                 "<div style='padding-top: 6px;padding-bottom:6px'>" + 
-                Math.round((powerFreeze-740)/2)/10 + "</div>"                
+                Math.round((powerFreeze-680)/2)/10 + "</div>" 
             }
-            else if (powerFreeze==741){
+            else if (powerFreeze==681){
                 updateIcon('freeze','remove')              
             }
             powerFreeze--

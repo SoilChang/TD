@@ -4,8 +4,8 @@
 
 #########################################################################*/
 saving = function() {
-    gameProgress['score'] = score;
-    gameProgress['cash'] = cash;
+    gameProgress['score'] = scorez;
+    gameProgress['cash'] = cashy;
     gameProgress['maxHealth'] = maxHealth;
     gameProgress['health'] = health;
     gameProgress['wave'] = wave;

@@ -142,7 +142,7 @@ buildTower = function(event) {
     //buying of tower
     if (event.type == "click" && (!createjs.Ticker.getPaused() || wave==0)) {
         if (towerType && towerType!=true) {
-            if (towerName!='fountain' && towerType["cost"][0]<=cash) {
+            if (towerName!='fountain' && towerType["cost"][0]<=cashy) {
                 $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
@@ -183,13 +183,13 @@ buildTower = function(event) {
                 newTower.addChild(newImage);
                 towers.push(newTower);
                 stage.addChild(newTower);
-                cash -= towerType["cost"][0];
-                document.getElementById("cash").innerHTML = cash;
+                cashy -= towerType["cost"][0];
+                document.getElementById("cash").innerHTML = cashy;
                 towerType = false;
                 towerName = false;
                 toggleAoe();
             } 
-            else if (towerType["cost"][0]<=cash) {
+            else if (towerType["cost"][0]<=cashy) {
                 $('.towerBtn').removeClass('selected');                
                 stage.removeChild(hoverT);
                 event.target.mouseEnabled = false;
@@ -216,8 +216,8 @@ buildTower = function(event) {
                 newTower.addChild(newImage);
                 healers.push(newTower);
                 stage.addChild(newTower);
-                cash -= towerType["cost"][0];
-                document.getElementById("cash").innerHTML = cash;
+                cashy -= towerType["cost"][0];
+                document.getElementById("cash").innerHTML = cashy;
                 regen+=newTower.damage
                 document.getElementById("regen").innerHTML = regen;
                 towerType = false;
@@ -332,9 +332,9 @@ updateInfo = function(tower) {
 
 //upgrading of tower
 upgradeTower = function() {
-    if (targetTower.name!='fountain' && targetTower.cost<=cash) {
-        cash-=targetTower.cost
-        document.getElementById("cash").innerHTML = cash
+    if (targetTower.name!='fountain' && targetTower.cost<=cashy) {
+        cashy-=targetTower.cost
+        document.getElementById("cash").innerHTML = cashy
         if (targetTower.name == 'iceTower') {
             targetTower.slow = 
             towerData[targetTower.name]["slow"][targetTower.level]
@@ -375,9 +375,9 @@ upgradeTower = function() {
 
         updateInfo(targetTower);
     } 
-    else if (targetTower.cost<=cash) {
-        cash-=targetTower.cost
-        document.getElementById("cash").innerHTML = cash
+    else if (targetTower.cost<=cashy) {
+        cashy-=targetTower.cost
+        document.getElementById("cash").innerHTML = cashy
 
         regen -= targetTower.damage
         targetTower.removeAllChildren()
@@ -411,19 +411,19 @@ sellTower = function() {
     hitsT[g[0]][g[1]][g[2]].mouseEnabled = true
 
     if (wave!=0) {
-        cash += Math.ceil(targetTower.sell*.7)
+        cashy += Math.ceil(targetTower.sell*.7)
     } else {
-        cash += targetTower.sell
+        cashy += targetTower.sell
     }
     var finalScore
-    finalScore = score - towerData[targetTower.name]["cost"][0]
+    finalScore = scorez - towerData[targetTower.name]["cost"][0]
     if (finalScore<0) {
-        score = 0
+        scorez = 0
     } else {
-        score = finalScore
+        scorez = finalScore
     }
-    document.getElementById("cash").innerHTML = cash
-    document.getElementById("score").innerHTML = score
+    document.getElementById("cash").innerHTML = cashy
+    document.getElementById("score").innerHTML = scorez
     document.getElementById("infoText").innerHTML = ""
     stage.removeChild(targetGrid)
     stage.removeChild(targetTower)
