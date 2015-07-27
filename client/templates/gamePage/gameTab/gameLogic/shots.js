@@ -164,9 +164,11 @@ shotsEffect = function(shot,monster) {
     if (shot.name=="iceTower") {
         if (monster.slowCd<=0 || (monster.originSpeed*(1-shot.slow))<monster.speed) {
             if (monster.speed*(1-shot.slow)<=.8) {
+                monster.slowSpeed = .8
                 monster.speed = .8
             } else {
-                monster.speed *= (1-shot.slow)
+                monster.slowSpeed *= (1-shot.slow) 
+                monster.speed = monster.slowSpeed
             }
         } 
     }

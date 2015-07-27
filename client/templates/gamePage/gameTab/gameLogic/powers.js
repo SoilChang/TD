@@ -122,7 +122,7 @@ power = function(type) {
                         $('#freezePower').addClass('cooldown')
                         for (var i=0;i<monsters.length;i++) {
                             monsters[i].speed=0
-                            monsters[i].freezeCd = 60
+                            monsters[i].freezeCd = 120
                         }
                         powerEffect(type)
                         stopAnimate(true);                
@@ -390,7 +390,7 @@ updatePower = function(type) {
     var errors = ""
 
     if (type=="freeze") {
-        pow += "Freezer" + "<br>"
+        pow += "Freezing Field" + "<br>"
         effect += "Freeze monster for 3 Sec." + "<br>"
         cd += 40 + " Sec" + "<br>"
     }

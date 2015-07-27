@@ -37,7 +37,7 @@ var allItemData	= [
 		image: '/images/gameImages/light_tower_4.png',
 		type: 'plasma',
 		level: 4,
-		cost: 135,
+		cost: 140,
 		range: 160,
 		damage: 65,	
 		cd:3
@@ -82,7 +82,7 @@ var allItemData	= [
 		damage: 30,
 		slow: 0.6,
 		duration:60,
-		cd: 16,
+		cd: 15,
 		splash:64
 	},
 	{
@@ -90,12 +90,12 @@ var allItemData	= [
 		image: '/images/gameImages/ice_tower_4.png',
 		type: 'glyph',
 		level: 4,
-		cost: 150,
+		cost: 160,
 		range: 112,
 		damage: 50,
 		slow:0.8,
 		duration:80,
-		cd: 14,
+		cd: 12,
 		splash:64
 	},
 

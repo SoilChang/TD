@@ -74,12 +74,13 @@ cMonster = function(type,amt) {
         newMonster.y = - newMonster.h - i*newMonster.h*1.5
         newMonster.damage = mtype["damage"]
         newMonster.originSpeed = mtype["speed"]
-        newMonster.speed = (powerFreeze>740)? 0:mtype["speed"]
+        newMonster.slowSpeed = mtype["speed"]
+        newMonster.speed = (powerFreeze>680)? 0:mtype["speed"]
         newMonster.currentHp = mtype["hp"]
         newMonster.maxHp = mtype["hp"]
         newMonster.bounty = mtype["bounty"]
-        newMonster.freezeCd = (powerFreeze>740 && monsters.length!=0)? 
-            powerFreeze-740:0
+        newMonster.freezeCd = (powerFreeze>680 && monsters.length!=0)? 
+            powerFreeze-680:0
         newMonster.slowCd = 0
         newMonster.dead = 0
         //add monster to array
@@ -144,7 +145,7 @@ monsterEffect = function() {
             mob.freezeCd--;
         } 
         else if (mob.freezeCd == 1) {  
-            mob.speed = mob.originSpeed
+            mob.speed = mob.slowSpeed
             mob.freezeCd--
             stopAnimate(false);
         }
@@ -154,7 +155,8 @@ monsterEffect = function() {
             mob.slowCd--;
         } 
         else if (mob.slowCd == 1) {
-            mob.speed = mob.originSpeed
+            mob.slowSpeed = mob.originSpeed
+            mob.speed = mob.slowSpeed
             mob.slowCd--
         }
     }
