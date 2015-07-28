@@ -10,32 +10,39 @@ saving = function() {
     gameProgress['health'] = health;
     gameProgress['wave'] = wave;
     gameProgress['countDown'] = countDown;
+    gameProgress['dmgCount'] = dmgCount;
+    if (lastMon!=false){
+        gameProgress['lastMon'] = true
+    }else{gameProgress['lastMon'] = false}
 
     gameProgress['powerFreeze'] = powerFreeze;
     gameProgress['powerMeteorite'] = powerMeteorite;
     gameProgress['meteoriteOver'] = meteoriteOver;
-    gameProgress['invinCd'] = castleInvincible.cd;
+    gameProgress['scaleX'] = redCircle.scaleX;
+    gameProgress['scaleY'] = redCircle.scaleY;
+    gameProgress['x'] = redCircle.x;
+    gameProgress['y'] = redCircle.y;
     gameProgress['invinActie'] = castleInvincible.active;
+    gameProgress['invinCd'] = castleInvincible.cd;
     gameProgress['invinBlock'] = castleInvincible.blocks;
     gameProgress['powerDD'] = powerDD;
     gameProgress['powerCD'] = powerCD;
 
-    if (Meteor.user()!==null) {
-        gameProgress['hpBonus'] = hpBonus 
-        gameProgress['attBonus'] = attBonus
-        gameProgress['armorBonus'] = armorBonus
 
-        gameProgress['allyHp'] = allyHp 
-        gameProgress['allyArmor'] = allyArmor
-        gameProgress['allyAttack'] = allyAttack
-    }
+    gameProgress['hpBonus'] = hpBonus 
+    gameProgress['attBonus'] = attBonus
+    gameProgress['armorBonus'] = armorBonus
+
+    gameProgress['allyHp'] = allyHp 
+    gameProgress['allyArmor'] = allyArmor
+    gameProgress['allyAttack'] = allyAttack
 
     gameProgress['tower'] = [];
     gameProgress['healer'] = [];
     gameProgress['monster'] = [];
     gameProgress['shot'] = [];
 
-    if (towers!=false) {
+    if (towers.length!=0) {
         for (var i=0;i<towers.length;i++) {
             if (towers[i]==false) {
                 gameProgress['tower'].push(false)
@@ -50,7 +57,7 @@ saving = function() {
             gameProgress['tower'].push(tObj)
         }
     }
-    if (healers!=false) {
+    if (healers.length!=0) {
         for (var i=0;i<healers.length;i++) {
             if (healers[i]==false) {
                 gameProgress['healer'].push(false)
@@ -65,7 +72,33 @@ saving = function() {
             gameProgress['healer'].push(hObj)
         }
     }
-    if (monsters!=false) {
+    if (shots.length!=0){
+        for (var i=0;i<shots.length;i++){
+            var sObj = {}
+
+            sObj.name = shots[i].name
+            sObj.x = shots[i].x
+            sObj.y = shots[i].y
+            sObj.d = shots[i].d//destination
+            sObj.dX = shots[i].dX
+            sObj.dY = shots[i].dY
+            sObj.c = shots[i].c //counter for dist travelled
+            //shots properties
+            sObj.w = shots[i].w
+            sObj.h = shots[i].h
+            sObj.speed = shots[i].speed
+            sObj.damage = shots[i].damage
+            sObj.splash = shots[i].splash
+            sObj.effect = shots[i].effect
+            //special properties
+            if (sObj.name == "iceTower") {
+                sObj.slow = shots[i].slow
+                sObj.slowDuration = shots[i].slowDuration
+            };
+            gameProgress['shot'].push(sObj)
+        }
+    }
+    if (monsters.length!=0) {
         for (var i=0;i<monsters.length;i++) {
             if (monsters[i].dead==1) {
                 continue
@@ -91,7 +124,11 @@ saving = function() {
     
     if (Meteor.user() !== null) {
         Meteor.call('saveGame', gameProgress, Meteor.userId());
-    };
+        alert('Game is saved on Account data')
+    }else{
+        localStorage.towerDefense = JSON.stringify(gameProgress)
+        alert('Game is saved on Local data')
+    }
 };
 
 /*#########################################################################
@@ -103,7 +140,7 @@ creation = function(type) {
     switch (type) {
         case 'tower':
             var tTrack = gameProgress['tower']
-            if (tTrack!=false) {
+            if (tTrack.length!=0) {
                 for (var i=0;i<tTrack.length;i++) {
                     var t = tTrack[i]
                     if (t==false) {
@@ -156,7 +193,7 @@ creation = function(type) {
             break;
         case 'fountain':
             var hTrack = gameProgress['healer']
-            if (hTrack!=false) {
+            if (hTrack.length!=0) {
                 for (var i=0;i<hTrack.length;i++) {
                     var h = hTrack[i]
                     if (h==false) {
@@ -192,10 +229,45 @@ creation = function(type) {
                 }
             }
             break;
+
+        case 'shot':
+            var sTrack = gameProgress['shot']
+            if (sTrack.length!=0) {
+                for (var i=0;i<sTrack.length;i++) {
+                    var s = sTrack[i]
+
+                    var sData = towerData[s.name]['shot']
+                    var newShot = new createjs.Sprite(sData,'fire')
+
+                    newShot.x = s.x
+                    newShot.y = s.y
+                    newShot.d = s.d//destination
+                    newShot.dX = s.dX
+                    newShot.dY = s.dY
+                    newShot.c = s.c //counter for dist travelled
+                    //shots properties
+                    newShot.name = s.name
+                    newShot.w = s.w
+                    newShot.h = s.h
+                    newShot.speed = s.speed
+                    newShot.damage = s.damage
+                    newShot.splash = s.splash
+                    newShot.effect = s.effect
+                    //special properties
+                    if (s.name == "iceTower") {
+                        newShot.slow = s.slow
+                        newShot.slowDuration = s.slowDuration
+                    };
+
+                    shots.push(newShot)
+                    stage.addChild(newShot)
+                }
+            }
+            break;
         
         case 'monster':            
             var mTrack = gameProgress['monster']
-            if (mTrack!=false) {
+            if (mTrack.length!=0) {
                 for (var i=0; i<mTrack.length; i++) {
                     var m = mTrack[i]
                     var mData = monsterData[m.name]
@@ -205,7 +277,21 @@ creation = function(type) {
                     healthbar.sourceRect = new createjs.Rectangle(0,0,
                         m.currentHp/m.maxHp*mData["w"],3);
                     healthbar.y = -5
-                    var m1 = new createjs.Sprite(mData["image"])
+                    var dir
+                    for (var j=0;j<m.pos.length;j++){
+                        if (m.pos[j]>0){
+                            if (j==0){
+                                dir = 'up'
+                            }
+                            else if (j==1){
+                                dir = 'right'
+                            }
+                            else if (j==2){
+                                dir = 'down'
+                            }else{dir='left'}
+                        }
+                    }
+                    var m1 = new createjs.Sprite(mData["image"],dir)
                     //add properties to monster
                     var newMonster = new createjs.Container()
                     newMonster.addChild(healthbar, m1)

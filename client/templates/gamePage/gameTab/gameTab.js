@@ -102,7 +102,7 @@ gameData = function(type) {
             hoverT = false; //image of tower selected to buy
             document.getElementById("infoText").innerHTML = 
             "Before the game starts, you can click the tower/power buttons to see"+
-            " the info and animations.<br><br> For keyboard SHORTCUTS, view under Guides tab no.5.";
+            " the info and animations.<br> For keyboard SHORTCUTS, view under Guides tab no.5.";
 
             $('.powerBtn').addClass('cooldown');
             $('#fountainBtn').addClass('cooldown');
@@ -130,6 +130,7 @@ gameData = function(type) {
 
             break;
         case 'saved' :
+            speed = 20
             addMonster();
             monsters = []; 
             monsterDead = [];
@@ -139,8 +140,12 @@ gameData = function(type) {
             powerFreeze = gameProgress['powerFreeze'];
             powerMeteorite = gameProgress['powerMeteorite'];
             meteoriteOver = gameProgress['meteoriteOver'];
-            castleInvincible.cd = gameProgress['invinCd'];
+            redCircle.scaleX = gameProgress['scaleX']
+            redCircle.scaleY = gameProgress['scaleY']
+            redCircle.x = gameProgress['x']
+            redCircle.y = gameProgress['y']
             castleInvincible.active = gameProgress['invinActive'];
+            castleInvincible.cd = gameProgress['invinCd'];
             castleInvincible.blocks = gameProgress['invinBlock'];
             powerDD = gameProgress['powerDD'];
             powerCD = gameProgress['powerCD'];
@@ -150,6 +155,7 @@ gameData = function(type) {
             cashy = gameProgress['cash'];
             wave = gameProgress['wave'];
             countDown = gameProgress['countDown'];
+            lastMon = gameProgress['lastMon']
             hpBonus = gameProgress['hpBonus'];
             attBonus = gameProgress['attBonus'];
             armorBonus = gameProgress['armorBonus'];
@@ -158,7 +164,6 @@ gameData = function(type) {
             allyAttack = gameProgress['allyAttack']; 
             checkGG = 0;
             errorCD = 0; //time for error message to stay on canvas
-            lastMon = false; //to start countdown
             targetTower = false; //selected tower on map
             towerType = false; //selected tower to buy
             towerName = false; 
@@ -166,45 +171,86 @@ gameData = function(type) {
             hoverT = false; //image of tower selected to buy
 
             for (var i=2;i<=wave;i++) {
-                if (i%10 == 0) {
-
-                    monsterData["mario"]["bounty"]+=1;
-                    monsterData["warrior"]["bounty"]+=1;
-                    monsterData["armored"]["bounty"]+=1;
-                };
+                if (wave%15 == 0){
+                    monsterData["wizard"]["damage"]+=2            
+                    monsterData["mario"]["damage"]+=1
+                    monsterData["warrior"]["damage"]+=1
+                    monsterData["armored"]["damage"]+=1
+                }
+                if (wave%10 == 0){
+                    if (wave<=30){
+                        monsterData["mario"]["bounty"]+=1
+                        monsterData["warrior"]["bounty"]+=1
+                        monsterData["armored"]["bounty"]+=1                
+                    }
+                    else if(wave<=60){                
+                        monsterData["mario"]["bounty"]+=2
+                        monsterData["warrior"]["bounty"]+=2
+                        monsterData["armored"]["bounty"]+=2  
+                    }else{
+                        monsterData["mario"]["bounty"]+=3
+                        monsterData["warrior"]["bounty"]+=3
+                        monsterData["armored"]["bounty"]+=3                
+                    }
+                }
+                if (wave%7 == 0){
+                    if (i==7){
+                        continue;
+                    }
+                    monsterData['wizard']['hp']*=3
+                    if (wave<=21){
+                        monsterData["wizard"]["bounty"]+=1
+                    }
+                    else if(wave<=42){
+                        monsterData["wizard"]["bounty"]+=2                
+                    }else{
+                        monsterData["wizard"]["bounty"]+=3  
+                    }
+                }
                 if (i%5 == 0) {
-                    monsterData["mario"]["damage"]+=1;
-                    monsterData["warrior"]["damage"]+=1;
-                    monsterData["armored"]["damage"]+=1;
                     if (i==5) {
                         continue;
                     };
-                    monsterData["armored"]["hp"]*=2.8;
+                    if (wave<=42){
+                        monsterData["armored"]["hp"]*=2.4                
+                    }else{
+                        monsterData["armored"]["hp"]*=2
+                    }
                 }
                 else if (i%3 == 0) {
                     if (i==3) {
                         continue;
                     };
-                    monsterData["warrior"]["hp"]*=2;
+                    if (wave<=42){
+                        monsterData["warrior"]["hp"]*=2                
+                    }else{                
+                        monsterData["warrior"]["hp"]*=1.5
+                    }
                 }
                 else {
-                    monsterData["mario"]["hp"]*=1.3;
+                    if (wave<=42){
+                        monsterData["mario"]["hp"]*=1.4                
+                    }else{                
+                        monsterData["mario"]["hp"]*=1.2
+                    }
                 };
             };
             $('.powerBtn').addClass('cooldown');
 
-            if (Meteor.user().ability_freeze && powerFreeze==0) {
-                $('#freezePower').removeClass('cooldown');
-            };
-            if (Meteor.user().ability_meteorite && powerMeteorite==0) {
-                $('#meteoritePower').removeClass('cooldown');
-            };
-            if (Meteor.user().ability_block && castleInvincible.cd==0) {
-                $('#invinciblePower').removeClass('cooldown');
-            };
-            if (Meteor.user().ability_doubleDamage && powerDD==0) {
-                $('#ddPower').removeClass('cooldown');
-            };
+            if (Meteor.user()!=null){
+                if (Meteor.user().ability_freeze && powerFreeze==0) {
+                    $('#freezePower').removeClass('cooldown');
+                };
+                if (Meteor.user().ability_meteorite && powerMeteorite==0) {
+                    $('#meteoritePower').removeClass('cooldown');
+                };
+                if (Meteor.user().ability_block && castleInvincible.cd==0) {
+                    $('#invinciblePower').removeClass('cooldown');
+                };
+                if (Meteor.user().ability_doubleDamage && powerDD==0) {
+                    $('#ddPower').removeClass('cooldown');
+                };                
+            }
 
             break;
     };
@@ -236,8 +282,15 @@ Template.gameTab.events({
             $('.towerBtn').removeClass('selected');  
         }
 	},
+    'click #saveBtn': function(){
+        saving();
+    },
 	'click #nextBtn': function(){
-		nextWave();
+        if (countDown>0){
+            countDown=1            
+        }else {
+            error('Please wait for monsters to finish spawning')
+        }
 	},
     'click #ff1': function(){
         ff(0);
@@ -431,12 +484,23 @@ menu = function() {
 
     //to enable continue game
     if (Meteor.user() !== null && Meteor.loggingIn() !== true) {
-        if (Meteor.user().savedGame) {
+        if (Meteor.user().savedGame!=false) {
             line3.color = "#ffa500"
             c3.on('mouseover',handleLine)
             c3.on('mouseout',handleLine)
             c3.on('click',handleLine)
         }
+        else if (localStorage.towerDefense!==undefined){
+            line3.color = "#ffa500"
+            c3.on('mouseover',handleLine)
+            c3.on('mouseout',handleLine)
+            c3.on('click',handleLine)
+        }
+    }else if (localStorage.towerDefense!==undefined){
+        line3.color = "#ffa500"
+        c3.on('mouseover',handleLine)
+        c3.on('mouseout',handleLine)
+        c3.on('click',handleLine)
     }
 
     var ticking = createjs.Ticker.on("tick", stage);
@@ -484,14 +548,21 @@ menu = function() {
                 currentGame();
             }
             else if (event.target == c3) {
-                if (Meteor.user() !== null) {
-                    animateGame();
-                    gameProgress = Meteor.user().savedGame;
-                    continueGame();                    
-                } else {   
-                    alert('Please sign in to load saved game')                 
-                    //JSON.parse(localStorage.towerDefense)
+                animateGame();
+                if (Meteor.user() !== null && Meteor.user().savedGame) {
+                    if (localStorage.towerDefense!=undefined){
+                        if (confirm('Local data - Wave:'+
+                            JSON.parse(localStorage.towerDefense)['wave'] + '\n' +
+                            'Account data - Wave:'+ Meteor.user().savedGame['wave'] + '\n'+
+                            'Click OK to load Local data' + '\n'+
+                            'and CANCEL to load Account data')){
+                            gameProgress = JSON.parse(localStorage.towerDefense)                            
+                        }else{gameProgress = Meteor.user().savedGame;}
+                    }else{gameProgress = Meteor.user().savedGame;}   
+                } else {                    
+                    gameProgress = JSON.parse(localStorage.towerDefense)
                 }
+                continueGame();
             }
         }
     }
@@ -804,6 +875,7 @@ continueGame = function() {
     creation('tower')
     creation('fountain')
     creation('monster')
+    creation('shot')
 
     gameRunning = 1
     //edit UI
@@ -825,7 +897,7 @@ continueGame = function() {
     document.getElementById("cdTimer").innerHTML = 
     ((countDown/20)<=0) ? 0 : (countDown/20);
 
-
+    stopAnimate(true);
     stage.enableMouseOver(0);
     stage.addChild(castle)
     stage.addChild(pScreen);
@@ -1017,9 +1089,6 @@ ff = function(ffSpeed) {
 //next wave
 nextWave = function() {
     if (!createjs.Ticker.getPaused()) {
-        if (Meteor.user() !== null) {
-            saving();
-        }
         fountainHeal() //heal the castle
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
@@ -1149,6 +1218,7 @@ isOver = function() {
         }
 
         Meteor.call('gameOver', Meteor.userId());
+        localStorage.towerDefense = undefined
         Meteor.call('pushRanking', gameRecord);
 
         if (confirm("Game Over!!"+"\n"+
@@ -1156,7 +1226,10 @@ isOver = function() {
             clearStage();
             Router.go('/leaderBoard');
         } else { gameOverAlert(); }
-    } else { gameOverAlert(); }
+    } else {
+        localStorage.towerDefense = undefined; 
+        gameOverAlert(); 
+    }
 }
 
 gameOverAlert = function() {
