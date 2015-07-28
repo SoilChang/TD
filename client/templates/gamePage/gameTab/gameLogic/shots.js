@@ -151,9 +151,10 @@ shotsSplash = function(shot) {
             }
         }
     }
-    if (monstersDead) {
+    if (monstersDead.length!=0) {
         monstersDead.sort(function(a,b){return b-a});
         for (var i=0;i<monstersDead.length;i++) {
+            console.log('test')
             isDead(monstersDead[i]);
         }
     }

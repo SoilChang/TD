@@ -137,6 +137,7 @@ gameData = function(type) {
             shots = [];
             towers = [];
             healers = [];
+            dmgCount = gameProgress['dmgCount'];
             powerFreeze = gameProgress['powerFreeze'];
             powerMeteorite = gameProgress['powerMeteorite'];
             meteoriteOver = gameProgress['meteoriteOver'];
@@ -1218,7 +1219,7 @@ isOver = function() {
         }
 
         Meteor.call('gameOver', Meteor.userId());
-        localStorage.towerDefense = undefined
+        delete localStorage.towerDefense
         Meteor.call('pushRanking', gameRecord);
 
         if (confirm("Game Over!!"+"\n"+
@@ -1227,7 +1228,7 @@ isOver = function() {
             Router.go('/leaderBoard');
         } else { gameOverAlert(); }
     } else {
-        localStorage.towerDefense = undefined; 
+        delete localStorage.towerDefense 
         gameOverAlert(); 
     }
 }
