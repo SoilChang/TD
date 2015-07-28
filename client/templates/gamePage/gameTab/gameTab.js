@@ -934,7 +934,6 @@ tick = function(event) {
 
         powerCd(); // cooldown for powers
         monsterEffect();//controls effect on monster
-
         towerAttacks();//check for tower attack
         if (shots!=false) {
             shotsHit();//check for collison

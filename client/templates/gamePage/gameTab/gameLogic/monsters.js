@@ -166,7 +166,6 @@ monsterEffect = function() {
 monsterMovement = function() {
     for (var i=0;i<monsters.length;i++) {
         var mob = monsters[i]
-
         //section 1
         if (mob.y<=coordinates[1][1]-mob.h/2 &&
             mob.x<=coordinates[1][0]) {

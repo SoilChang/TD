@@ -113,6 +113,7 @@ saving = function() {
             mObj.bounty = monsters[i].bounty
             mObj.maxHp = monsters[i].maxHp
             mObj.currentHp = monsters[i].currentHp
+            mObj.slowSpeed = monsters[i].slowSpeed
             mObj.speed = monsters[i].speed
             mObj.freezeCd = monsters[i].freezeCd
             mObj.slowCd = monsters[i].slowCd
@@ -291,7 +292,7 @@ creation = function(type) {
                             }else{dir='left'}
                         }
                     }
-                    var m1 = new createjs.Sprite(mData["image"],dir)
+                    var m1 = new createjs.Sprite(mData["image"])
                     //add properties to monster
                     var newMonster = new createjs.Container()
                     newMonster.addChild(healthbar, m1)
@@ -304,6 +305,7 @@ creation = function(type) {
                     newMonster.y = m.y
                     newMonster.damage = m.damage 
                     newMonster.originSpeed = mData["speed"]
+                    newMonster.slowSpeed = m.slowSpeed
                     newMonster.speed = m.speed
                     newMonster.currentHp = m.currentHp
                     newMonster.maxHp = m.maxHp
