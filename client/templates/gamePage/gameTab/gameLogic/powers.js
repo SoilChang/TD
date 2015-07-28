@@ -391,7 +391,7 @@ updatePower = function(type) {
 
     if (type=="freeze") {
         pow += "Freezing Field" + "<br>"
-        effect += "Freeze monster for 3 Sec." + "<br>"
+        effect += "Freeze monster for 6 Sec." + "<br>"
         cd += 40 + " Sec" + "<br>"
     }
     else if (type=="meteorite") {        
