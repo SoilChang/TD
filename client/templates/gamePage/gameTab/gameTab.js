@@ -156,7 +156,6 @@ gameData = function(type) {
             cashy = gameProgress['cash'];
             wave = gameProgress['wave'];
             countDown = gameProgress['countDown'];
-            lastMon = gameProgress['lastMon']
             hpBonus = gameProgress['hpBonus'];
             attBonus = gameProgress['attBonus'];
             armorBonus = gameProgress['armorBonus'];
@@ -877,6 +876,10 @@ continueGame = function() {
     creation('fountain')
     creation('monster')
     creation('shot')
+
+    if (gameProgress['lastMon']){
+        lastMon = monsters[monsters.length-1]
+    }else{lastMon=false}
 
     gameRunning = 1
     //edit UI
