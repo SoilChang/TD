@@ -599,16 +599,16 @@ imageload = function() {
     castleHpI = new Image();
     castleHpI.src = "/images/gameImages/castleLifebar.png"
     castleHp = new createjs.Bitmap(castleHpI);
-    castleHp.y = 65
+    castleHp.y = 55
 
     castleText = new createjs.Text(
         0 + "/" + 0 , "11px Arial", "#fff");
-    castleText.y = 64
+    castleText.y = 54
     castleText.x = 33
     castleText.textAlign = "center"
     
     castle = new createjs.Container();
-    castle.addChild(castleHp, castleI, castleText);
+    castle.addChild(castleI,castleHp, castleText);
     castle.x = 320;
     castle.y = 192;
 
