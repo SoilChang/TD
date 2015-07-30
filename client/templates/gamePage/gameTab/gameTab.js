@@ -68,6 +68,7 @@ gameData = function(type) {
             speed = 20; //speed of game
             addMonster();
             dmgCount = [];
+            bombs = [] //bombs on map
             monsters = []; //monsters on map
             monsterDead = []; //animation when monster die
             shots = []; //shots on map
@@ -87,6 +88,7 @@ gameData = function(type) {
             castleInvincible.blocks = 5;
             powerDD=0;
             powerCD=0;
+            bombActive = false
             scorez = 0;
             maxHealth = 18;
             health = maxHealth;
@@ -342,6 +344,9 @@ Template.gameTab.events({
     'click #upgradeBtn': function() {
         upgradeTower();
     },
+    'click #upgradeBombBtn': function(){
+        upgradeBomb();
+    },
     'click #sellBtn': function() {
         sellTower();
     },
@@ -353,6 +358,7 @@ Template.gameTab.events({
 Template.gameTab.onRendered(function() {
     $('.towerBtn').click(
         function(){
+        bombActive=false
         $('.towerBtn').removeClass('selected');
         $('.powerBtn').removeClass('selected');        
         $(this).addClass('selected');
@@ -387,6 +393,13 @@ Template.gameTab.onRendered(function() {
 init = function() {
     stage = new createjs.Stage("playingField");
     stage.enableMouseOver();
+    bombActive = false
+    stage.on("stagemousemove",function(evt) {
+        if (bombActive) {
+            bomb.x = evt.stageX-20;
+            bomb.y = evt.stageY-22;
+        }
+    })
 
     imageload(); //load image into canvas
     pauseScreen(); //load pause screen in canvas
@@ -522,7 +535,8 @@ menu = function() {
         createjs.Ticker.setFPS(20);   
 
         stage.addChild(background)
-        grid(); //load grid onto map    
+        grid(); //load grid onto map   
+        bombGrid() //load grid for bomb
         onGame = 1 //controls keyboard functions
 
         $('#ff1').addClass('selected');            
@@ -591,6 +605,12 @@ imageload = function() {
     //load background
     background = new createjs.Bitmap(backgroundI);
 
+    //ice background image
+    iceBackgroundI = new Image();
+    iceBackgroundI.src = "/images/gameImages/3dStage_frozen.png"
+    //load background
+    iceBackground = new createjs.Bitmap(iceBackgroundI);
+
     //castle image
     castleIm = new Image();
     castleIm.src = "/images/gameImages/castle64.png"
@@ -636,6 +656,20 @@ imageload = function() {
     castleBlock.x = 368;
     castleBlock.y = 208;
     castleBlock.cd = -1;
+
+    chI = {
+        images: ["/images/gameImages/castleHeal.png"],
+        frames: {width:74, height:64, count:9},
+        animations: {
+            heals:[0,8,'end',.4],
+            end:[9]
+        }
+    };
+
+    castleHealI = new createjs.SpriteSheet(chI);
+    castleHeal = new createjs.Sprite(castleHealI,'end')
+    castleHeal.x=315
+    castleHeal.y=182
 
     //light tower level 1
     lightTower1 = new Image();
@@ -701,6 +735,29 @@ imageload = function() {
     fountain4 = new Image();
     fountain4.src = "/images/gameImages/regenTower_4.png";
 
+    bI = {
+        images: ["/images/gameImages/bomb.png"],
+        frames: {width:32, height:32, count:3},
+        animations: {
+            explode:[0,3,'end',.2],
+            end:[4],
+            ignite:[0]
+        }
+    };
+
+    bombI = new createjs.SpriteSheet(bI);
+    bomb = new createjs.Sprite(bombI)
+
+    eI = {
+        images: ["/images/gameImages/explosio.png"],
+        frames: {width:32, height:32, count:3},
+        animations: {
+            explode:[0,3,'end',.2],
+            end:[4],
+        }
+    };
+
+    explosiveI = new createjs.SpriteSheet(eI);
 
     //hp image
     healthbarI = new Image();
@@ -798,8 +855,13 @@ newGame = function() {
     castleHp.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
+    stage.addChild(castleHeal)
     //line of creep path
     //path();
+    bomb.level = 1
+    bomb.cost = [5,5,10,15]
+    bomb.upgrade = [40,70,90]
+    bomb.damage = [50,500,2000,20000]
 
 
     //edit UI
@@ -920,6 +982,7 @@ continueGame = function() {
 //ticker events
 tick = function(event) {
     errorTextcd();
+    
     if (document.getElementById("cash")==null) {
         createjs.Sound.stop()
         clearStage();
@@ -933,6 +996,10 @@ tick = function(event) {
         extraAnimate(); // adds extra animation
         if (monsterDead!=false) {
             animateDead(); //animation when monster die            
+        }
+        if (bombs.length!=0){
+            bombHit()
+            bombCd()
         }
 
         powerCd(); // cooldown for powers
@@ -1026,7 +1093,7 @@ function animateDead() {
             kill.push(i)
         }
     }
-    if (kill) {
+    if (kill.length!=0) {
         kill.sort(function(a,b){return b-a});
         for (var i=0;i<kill.length;i++) {
             stage.removeChild(monsterDead[kill[i]])

@@ -20,7 +20,7 @@ var allItemData = [
 		price: 4,
 		hpBonus: 0,
 		armourBonus: 0,
-		attackBonus: 20,
+		attackBonus: 35,
 
 	},
 	{
@@ -269,9 +269,9 @@ var allItemData = [
 		url: '/images/gamePage/diamondEye.png',
 		type: 'relic',
 		price: 5,
-		hpBonus: 3,
+		hpBonus: 2,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 10,
 		magicalPower: 'The owner of this ring get extra starting gold'
 	},
 	{
@@ -279,7 +279,7 @@ var allItemData = [
 		url: '/images/gamePage/leoricJewwlry.png',
 		type: 'relic',
 		price: 10,
-		hpBonus: 3,
+		hpBonus: 5,
 		armourBonus: 0,
 		attackBonus: 0,
 		magicalPower: 'This ring grants you the ability to build regenerative tower'
@@ -289,8 +289,8 @@ var allItemData = [
 		url: '/images/gamePage/sandWall.png',
 		type: 'relic',
 		price: 10,
-		hpBonus: 3,
-		armourBonus: 0,
+		hpBonus: 1,
+		armourBonus: 1,
 		attackBonus: 0,
 		magicalPower: 'Block all damages for 5 instances.'
 	},
@@ -309,9 +309,9 @@ var allItemData = [
 		url: '/images/gamePage/dragonsBlood.png',
 		type: 'relic',
 		price: 10,
-		hpBonus: 3,
+		hpBonus: 2,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 80,
 		magicalPower: "Double tower damage for 10 seconds."
 	},
 	{
@@ -329,9 +329,9 @@ var allItemData = [
 		url: '/images/gamePage/ringOfDarkness.png',
 		type: 'relic',
 		price: 15,
-		hpBonus: 3,
+		hpBonus: 2,
 		armourBonus: 0,
-		attackBonus: 0,
+		attackBonus: 45,
 		magicalPower: 'This ring grants you the ability to shower your enemies with meteorite.'
 	},
 	

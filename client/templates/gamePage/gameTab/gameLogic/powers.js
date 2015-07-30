@@ -10,9 +10,14 @@ power = function(type) {
     stage.removeChild(hoverT)
     hoverGrid = false
     towerType = false
-    towerName = false      
+    towerName = false  
+    bombActive = false    
     toggleAoe();
     
+    if (type=='bomb'){
+        bombActive=true
+        $('#bombPower').addClass('selected');
+    }
     updatePower(type);
 
     //if game is paused
@@ -25,10 +30,10 @@ power = function(type) {
             item = "'Undead Bone'"
             if (gameRunning==0){
                 $('#freezePower').addClass('selected')
-                $("#freezeField").fadeIn(100,function(){
-                    $("#freezeField").fadeOut(2900,function(){            
-                    });
-                });
+                animateFreeze()
+                setTimeout(function(){
+                    stage.removeChild(iceBackground)
+                },2000)
             }
         }
         else if(type=="meteorite"){
@@ -107,7 +112,9 @@ power = function(type) {
                 error("Please buy the "+ itemd + " to use the "+named+"." )                  
             }
         } else{
-            error("Please sign in to use the "+named+".")          
+            if (type!='bomb'){
+                error("Please sign in to use the "+named+".")                
+            }        
         }
     }
     else {//game running
@@ -118,7 +125,6 @@ power = function(type) {
                 if (Meteor.user().ability_freeze) {
                     if (powerFreeze==0) {
                         powerFreeze = 800
-                        //$('#freezePower').removeClass('selected')
                         $('#freezePower').addClass('cooldown')
                         for (var i=0;i<monsters.length;i++) {
                             monsters[i].speed=0
@@ -175,7 +181,9 @@ power = function(type) {
                 }
             }
         } else {
-            error("Please sign in first.")
+            if (type!='bomb'){
+                error("Please sign in first.")                
+            }
         }
     }
 }
@@ -183,11 +191,8 @@ power = function(type) {
 //animations
 powerEffect = function(type){
     if (type=='freeze'){
-        updateIcon(type,'add')
-        $("#freezeField").fadeIn(2000/speed,function(){
-            $("#freezeField").fadeOut(18000/speed,function(){
-            });
-        });
+        updateIcon(type,'add')    
+        animateFreeze()
     }
     else if (type=='meteorite'){
         updateIcon(type,'add')
@@ -250,6 +255,23 @@ powerEffect = function(type){
     }
 };
 
+animateFreeze = function(){
+    stage.addChild(iceBackground)
+    for (var i=0;i<towers.length;i++){
+        stage.addChild(towers[i])
+    }
+    for (var i=0;i<monsters.length;i++){
+        stage.addChild(monsters[i])
+    }
+    for (var i=0;i<shots.length;i++){
+        stage.addChild(shots[i])
+    }
+    for (var i=0;i<healers.length;i++){
+        stage.addChild(healers[i])
+    }
+    stage.addChild(castle)
+}
+
 meteoriteScale = function(){
     var kills=[]
     if (redCircle.scaleX<.8){
@@ -311,7 +333,8 @@ powerCd = function() {
                 Math.round((powerFreeze-680)/2)/10 + "</div>" 
             }
             else if (powerFreeze==681){
-                updateIcon('freeze','remove')              
+                updateIcon('freeze','remove')
+                stage.removeChild(iceBackground)            
             }
             powerFreeze--
         } else if (powerFreeze==1) {
@@ -412,21 +435,29 @@ updatePower = function(type) {
         cd += 40 + " Sec" + "<br>"
     }
     else if (type=='bomb'){
-        pow += "Bomb" + "<br>"
+        var level = (bomb.level<4)? bomb.level+"-->"+(bomb.level+1):'Max level'
+        var upgrade = (bomb.level<4)? 
+        "<input type='button' value='Upgrade' id='upgradeBombBtn'>" +
+        bomb.upgrade[bomb.level-1]:""
+        var dmg = (bomb.level<4)? "Damage: " + bomb.damage[bomb.level-1]+"-->"+
+        bomb.damage[bomb.level]: "Damage: "+bomb.damage[bomb.level-1]
+        var cost = (bomb.level<4)? "Cost: "+bomb.cost[bomb.level-1]+"-->"+
+        bomb.cost[bomb.level]:"Cost: "+bomb.cost[bomb.level-1]
+        pow += "Bomb" + "<br>" 
         effect += "Explodes and deal damage to surrounding area" + "<br>"
-        cd += "no cooldown" +"<br>"
-        delay = "Delays: 3 Sec" + "<br>"
-        errors = "Coming Soon ..."  
+        cd =""
+        delay = "Delay: 1 Sec" + "<br>"+"Level: "+level+"<br>"+
+        dmg+"<br>"+cost+"<br>"+upgrade+"<br>"
     }
 
-    var errorEdit="<span class='errorText'>" + errors + "</span>"
+    //var errorEdit="<span class='errorText'>" + errors + "</span>"
 
     document.getElementById("infoText").innerHTML = 
     pow + 
     effect + 
     cd +
-    delay +
-    errorEdit
+    delay
+    //errorEdit
 
 }
 
@@ -473,4 +504,327 @@ updateIcon = function(type,edit){
         }
     }
 }
+/*#########################################################################
+
+                 Bomb Effects
+
+#########################################################################*/
+bombType=false
+//grid
+bombGrid = function() {
+    //hitarea of map
+    bombsT=[]
+    //left area
+    bombsT[0] = []
+    bomb0=[1, stage.canvas.height/32-2]
+
+    for (var i=0;i<bomb0[0];i++) {
+        bombsT[0][i] = [];
+    };
+
+    for (var i=0;i<bomb0[0];i++) {
+        for (var j=0;j<bomb0[1];j++) {
+            bombsT[0][i][j] = new createjs.Shape();
+            bombsT[0][i][j].graphics.beginFill("#f00").drawRect(64+16+32*i,
+                16+32*j,32,32);
+            bombsT[0][i][j].alpha=0.01;
+            bombsT[0][i][j].coord=[32*i,32*j]
+            bombsT[0][i][j].pt=[0,i,j];
+            bombsT[0][i][j].on("mouseover", buildBomb);
+            bombsT[0][i][j].on("mouseout", buildBomb);
+            bombsT[0][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[0][i][j]);
+        };
+    };
+    //bottom area
+    bombsT[1] = []
+    bomb1=[(stage.canvas.width/32)-7,1]
+
+    for (var i=0;i<bomb1[0];i++) {
+        bombsT[1][i] = [];
+    };
+
+    for (var i=0;i<bomb1[0];i++) {
+        for (var j=0;j<bomb1[1];j++) {
+            bombsT[1][i][j] = new createjs.Shape();
+            bombsT[1][i][j].graphics.beginFill("#f00").drawRect(16+32+64+32*i,
+                (stage.canvas.height-32-64+16)+32*j,32,32);
+            bombsT[1][i][j].alpha=0.01;
+            bombsT[1][i][j].coord=[64+32*i,stage.canvas.height-32];
+            bombsT[1][i][j].pt=[1,i,j];
+            bombsT[1][i][j].on("mouseover", buildBomb);
+            bombsT[1][i][j].on("mouseout", buildBomb);
+            bombsT[1][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[1][i][j]);
+        };
+    };
+    //top area
+    bombsT[2] = []
+    bomb2=[(stage.canvas.width/32)-9,1]
+
+    for (var i=0;i<bomb2[0];i++) {
+        bombsT[2][i] = [];
+    };
+
+    for (var i=0;i<bomb2[0];i++) {
+        for (var j=0;j<bomb2[1];j++) {
+            bombsT[2][i][j] = new createjs.Shape();
+            bombsT[2][i][j].graphics.beginFill("#f00").drawRect(128+16+64+32*i,
+                64+16+32*j,32,32);
+            bombsT[2][i][j].alpha=0.01;
+            bombsT[2][i][j].coord=[128+32*i,32*j];
+            bombsT[2][i][j].pt=[2,i,j];
+            bombsT[2][i][j].on("mouseover", buildBomb);
+            bombsT[2][i][j].on("mouseout", buildBomb);
+            bombsT[2][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[2][i][j]);
+        };
+    };
+    //left inner area
+    bombsT[3] = []
+    bomb3=[1,7]
+
+    for (var i=0;i<bomb3[0];i++) {
+        bombsT[3][i] = [];
+    };
+
+    for (var i=0;i<bomb3[0];i++) {
+        for (var j=0;j<bomb3[1];j++) {
+            bombsT[3][i][j] = new createjs.Shape();
+            bombsT[3][i][j].graphics.beginFill("#f00").drawRect(128+16+64+32*i,
+                128-16+32*j,32,32);
+            bombsT[3][i][j].alpha=0.01;
+            bombsT[3][i][j].coord=[128+32*i,64+32*j];
+            bombsT[3][i][j].pt=[3,i,j];
+            bombsT[3][i][j].on("mouseover", buildBomb);
+            bombsT[3][i][j].on("mouseout", buildBomb);
+            bombsT[3][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[3][i][j]);
+        };
+    };       
+    //bottom inner area
+    bombsT[4] = []
+    bomb4=[14,1]
+
+    for (var i=0;i<bomb4[0];i++) {
+        bombsT[4][i] = [];
+    };
+
+    for (var i=0;i<bomb4[0];i++) {
+        for (var j=0;j<bomb4[1];j++) {
+            bombsT[4][i][j] = new createjs.Shape();
+            bombsT[4][i][j].graphics.beginFill("#f00").drawRect(192+16+32*i,
+                stage.canvas.height-160-64+16+32*j,32,32);
+            bombsT[4][i][j].alpha=0.01;
+            bombsT[4][i][j].coord=[192+32*i,stage.canvas.height-160+32*j];
+            bombsT[4][i][j].pt=[4,i,j];
+            bombsT[4][i][j].on("mouseover", buildBomb);
+            bombsT[4][i][j].on("mouseout", buildBomb);
+            bombsT[4][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[4][i][j]);
+        };
+    };
+    //top inner area
+    bombsT[5] = []
+    bomb5=[9,1]
+
+    for (var i=0;i<bomb5[0];i++) {
+        bombsT[5][i] = [];
+    };
+
+    for (var i=0;i<bomb5[0];i++) {
+        for (var j=0;j<bomb5[1];j++) {
+            bombsT[5][i][j] = new createjs.Shape();
+            bombsT[5][i][j].graphics.beginFill("#f00").drawRect(256+16+128+32*i,
+                128+16+64+32*j,32,32);
+            bombsT[5][i][j].alpha=0.01;
+            bombsT[5][i][j].coord=[256+32*i,128+32*j];
+            bombsT[5][i][j].on("mouseover", buildBomb);
+            bombsT[5][i][j].on("mouseout", buildBomb);
+            bombsT[5][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[5][i][j]);
+        };
+    };
+    //right inner area
+    bombsT[8] = []
+    bomb8=[1,4]
+
+    for (var i=0;i<bomb8[0];i++) {
+        bombsT[8][i] = [];
+    };
+
+    for (var i=0;i<bomb8[0];i++) {
+        for (var j=0;j<bomb8[1];j++) {
+            bombsT[8][i][j] = new createjs.Shape();
+            bombsT[8][i][j].graphics.beginFill("#f00").drawRect(704-64+16+32*i,
+                128-16+128+32*j,32,32);
+            bombsT[8][i][j].alpha=0.01;
+            bombsT[8][i][j].coord=[704+32*i,128+32*j];
+            bombsT[8][i][j].on("mouseover", buildBomb);
+            bombsT[8][i][j].on("mouseout", buildBomb);
+            bombsT[8][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[8][i][j]);
+        };
+    };
+    //right area
+    bombsT[9] = []
+    bomb9=[1,12]
+
+    for (var i=0;i<bomb9[0];i++) {
+        bombsT[9][i] = [];
+    };
+
+    for (var i=0;i<bomb9[0];i++) {
+        for (var j=0;j<bomb9[1];j++) {
+            bombsT[9][i][j] = new createjs.Shape();
+            bombsT[9][i][j].graphics.beginFill("#f00").drawRect(832-64+16+32*i,
+                128-16+32*j,32,32);
+            bombsT[9][i][j].alpha=0.01;
+            bombsT[9][i][j].coord=[832+32*i,32*j];
+            bombsT[9][i][j].on("mouseover", buildBomb);
+            bombsT[9][i][j].on("mouseout", buildBomb);
+            bombsT[9][i][j].on("click", buildBomb); 
+            stage.addChild(bombsT[9][i][j]);
+        };
+    };
+};
+
+buildBomb = function(event) {
+    if (bombActive){
+        if (event.type=='mouseover'){
+            stage.addChild(bomb)
+        }else{stage.removeChild(bomb)}
+        if (event.type=='click' && (!createjs.Ticker.getPaused()||true)){
+            if (bomb.cost[bomb.level-1]<=cashy){
+                cashy-=bomb.cost[bomb.level-1]
+                document.getElementById('cash').innerHTML = cashy
+                var bombIgnited = new createjs.Sprite(bombI,'explode')
+                bombIgnited.level = bomb.level
+                bombIgnited.x = bomb.x
+                bombIgnited.y = bomb.y
+                bombIgnited.cd = 18
+                bombIgnited.damage = bomb.damage[bomb.level-1]
+                bombIgnited.type = 'bomb'
+
+                stage.addChild(bombIgnited)
+                bombs.push(bombIgnited)
+                bombActive = false
+                $('#bombPower').removeClass('selected')
+
+            }else{
+                error("Insufficient Cash")
+            }
+        }
+    }
+}
+
+upgradeBomb = function(){
+    if (bomb.upgrade[bomb.level-1]<=cashy){
+        cashy-=bomb.upgrade[bomb.level-1]
+        document.getElementById('cash').innerHTML = cashy
+        bomb.level+=1
+        updatePower('bomb') 
+    }else{
+        error("Insufficient Cash!")
+    }
+}
+
+bombCd = function(){
+    var done=[]
+    for (var i=0;i<bombs.length;i++){
+        if (bombs[i].cd>1){
+            bombs[i].cd--
+            if (bombs[i].type=='explosion'){
+                if (bombs[i].cd==12){
+                    if (bombs[i].level==1){
+                        continue;
+                    }
+                    else if (bombs[i].level==2){
+                        bombs[i].x -= 8
+                        bombs[i].y -= 8
+                        bombs[i].scaleX = 1.5
+                        bombs[i].scaleY = 1.5                       
+                    }else{                        
+                        bombs[i].x -= 16
+                        bombs[i].y -= 16
+                        bombs[i].scaleX = 2
+                        bombs[i].scaleY = 2 
+                    }                
+                }
+                else if (bombs[i].cd==6){
+                    if (bombs[i].level==1){
+                        continue
+                    }
+                    else if (bombs[i].level==2){
+                        bombs[i].x -= 8
+                        bombs[i].y -= 8
+                        bombs[i].scaleX = 2
+                        bombs[i].scaleY = 2                       
+                    }else{          
+                        bombs[i].x -=16
+                        bombs[i].y -=16
+                        bombs[i].scaleX = 3
+                        bombs[i].scaleY = 3
+                    }      
+                }
+            }
+        }
+        else if (bombs[i].cd==1){
+            stage.removeChild(bombs[i])
+            done.push(i)
+            bombs[i].cd--
+            if (bombs[i].type=='bomb'){
+                var explosive = new createjs.Sprite(explosiveI,'explode')
+                explosive.cd = 18
+                explosive.type ='explosion'
+                explosive.level = bombs[i].level
+                explosive.x = bombs[i].x
+                explosive.y = bombs[i].y
+                explosive.damage = bombs[i].damage
+                if (bombs[i].level==1){
+                    explosive.w = 32
+                }
+                else if (bombs[i].level==2){
+                    explosive.w = 64
+                }
+                else{
+                    explosive.w = 96
+                }
+                stage.addChild(explosive)
+                bombs.push(explosive)
+            }
+        }
+    }
+    if (done.length!=0) {
+        done.sort(function(a,b){return b-a});
+        for (var i=0;i<done.length;i++) {
+            stage.removeChild(bombs[done[i]])
+            bombs.splice(done[i],1)
+        }        
+    }
+}
+
+bombHit = function(){
+    for (var i=0;i<bombs.length;i++){
+        for (var j=0;j<monsters.length;j++){
+            if (bombs[i].x <= (monsters[j].x+monsters[j].w) &&
+                monsters[j].x <= (bombs[i].x+bombs[i].w) &&
+                bombs[i].y <= (monsters[j].y+monsters[j].h) &&
+                monsters[j].y <= (bombs[i].y+bombs[i].w)) {
+
+                monsters[j].currentHp-=bombs[i].damage
+                monsters[j].getChildAt(0).sourceRect = 
+                new createjs.Rectangle(0,0,monsters[j]
+                    .currentHp/monsters[j].maxHp*monsters[j].w,3);
+
+                if (monsters[j].currentHp<=0){
+                    isDead(j)
+                }
+                break;
+            }
+
+        }
+    }
+}
+
 

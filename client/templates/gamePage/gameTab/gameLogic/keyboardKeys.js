@@ -5,7 +5,6 @@ keydown = function(event) {
     }
 }
 
-
 keyboards = function() {
     if (keys[27]) {//esc
         delete keys[27]
