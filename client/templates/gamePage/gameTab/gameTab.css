@@ -143,22 +143,6 @@
 #playingField{
 	margin-top: 2px;
 	z-index: 5;
-
-}
-
-#stage3d{
-	position: absolute;
-	width: 896px;
-	height: 544px;
-	z-index: -1;
-}
-
-#stage3d_frozen{
-	position: absolute;
-	width: 896px;
-	height: 544px;
-	z-index: -1;
-	display:none;
 }
 
 #meteor{
