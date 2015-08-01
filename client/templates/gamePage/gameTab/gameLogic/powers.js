@@ -193,6 +193,14 @@ powerEffect = function(type){
     if (type=='freeze'){
         updateIcon(type,'add')    
         animateFreeze()
+        $("#stage3d_frozen").fadeIn(1000);
+        $("#stage3d").fadeOut(1000,function(){
+            Meteor.setTimeout(function(){
+                $("#stage3d_frozen").fadeOut(1000),
+                $("#stage3d").fadeIn(1000)
+            },4000);
+        });
+
     }
     else if (type=='meteorite'){
         updateIcon(type,'add')
@@ -207,6 +215,7 @@ powerEffect = function(type){
                 artillerySound.play().setVolume(10);
             }
             $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
+            $("#stage3d").effect("shake");
             $("#playingField").effect("shake",function(){
                 if (!muted) {      
                     explosionSound.play().setVolume(10);
@@ -256,7 +265,7 @@ powerEffect = function(type){
 };
 
 animateFreeze = function(){
-    stage.addChild(iceBackground)
+    // stage.addChild(iceBackground)
     for (var i=0;i<towers.length;i++){
         stage.addChild(towers[i])
     }

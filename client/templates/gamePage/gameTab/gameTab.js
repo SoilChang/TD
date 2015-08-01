@@ -600,16 +600,16 @@ path = function() {
 //loads required image into canvas
 imageload = function() {
     //background image
-    backgroundI = new Image();
-    backgroundI.src = "/images/gameImages/3dStage.png"
+    // backgroundI = new Image();
+    // backgroundI.src = "/images/gameImages/3dStage.png"
     //load background
     background = new createjs.Bitmap(backgroundI);
 
     //ice background image
-    iceBackgroundI = new Image();
-    iceBackgroundI.src = "/images/gameImages/3dStage_frozen.png"
+    // iceBackgroundI = new Image();
+    // iceBackgroundI.src = "/images/gameImages/3dStage_frozen.png"
     //load background
-    iceBackground = new createjs.Bitmap(iceBackgroundI);
+    // iceBackground = new createjs.Bitmap(iceBackgroundI);
 
     //castle image
     castleIm = new Image();
