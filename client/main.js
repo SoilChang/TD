@@ -29,6 +29,6 @@ musicBoxSound = new buzz.sound("/sound/Music_Box");
 // double damage
 slideInSound = new buzz.sound("/sound/slideIn");
 
-BGsound.play().loop().setVolume(20);
+// BGsound.play().loop().setVolume(20);
 
 

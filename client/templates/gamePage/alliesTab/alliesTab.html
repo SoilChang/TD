@@ -104,14 +104,14 @@
 				<h3 style="text-align:center; font-weight:bold; font-family:lucida sans unicode">Control Panel</h3>
 				<hr>
 
-				<div style="position: absolute; width:450px; height:120px; ">
+				<div style="position: absolute; width:450px; height:120px; color:white;">
 					<ul>
 						{{#if showAllyStats}}
 						<p style="font-size:20px">{{showAllyStats.statusMessage}}</p> 
 						<li style="font-size:20px">Hp Bonus: {{showAllyStats.hpBonus}}</li>
 						<li style="font-size:20px">armour Bonus: {{showAllyStats.armourBonus}}</li>
 						<li style="font-size:20px">attack Bonus: {{showAllyStats.attackBonus}}</li>
-						<P>You get 15% of the bonus if you join this ally</P>
+						<P>(You get 15% of the bonus if you join this ally)</P>
 						{{/if}}
 					</ul>
 
@@ -120,19 +120,35 @@
 
 
 				<!-- your allies -->
-				<div style="position:absolute; height:100px; width:450px; margin-top:190px; overflow-y:hidden; overflow-x:hidden; border:2px black solid">
-					{{#each seeYourAlly}}
-						<p>{{username}}{{ profile.name }}</p>
-					{{/each}}
+				<p style="position:absolute; margin-top:180px;">
+					<span style="font-weight:bold;color:#1F14B5;font-size:13px;font-family:courier new, courier, monospace;">
+						Your Allies(you can only choose 3):
+					</span>
+				</p>
+				<div style="position:absolute; height:80px; width:450px; margin-top:210px; overflow-y:hidden; overflow-x:hidden; border:2px #1F14B5 solid">
+					<ul>
+						{{#each seeYourAlly}}
+							<li style="margin:5px;">
+								<span style="color:white;">
+									{{username}}{{ profile.name }}
+								</span>
+							</li>
+						{{/each}}
+					</ul>
+						
 				</div>
 
 				<!-- all user search box -->
-				<div style="position:absolute; height:100px; width:450px; margin-top:300px; overflow-y:scroll; overflow-x:hidden; border:2px black solid">
-					<P>All users</P>
-					<ul>
+				<P style="position:absolute; margin-top:310px;">
+					<span style="font-weight:bold;color:#53DE49;font-size:13px;font-family:courier new, courier, monospace;">
+						All users( "ctrl+F" to find):
+					</span>
 
+				</P>
+				<div style="position:absolute; height:70px; width:450px; margin-top:340px; overflow-y:scroll; overflow-x:hidden; border:2px #53DE49 solid">
+					<ul>
 						{{#each findAllUser}}
-						<li>
+						<li style="margin 7px;">
 							<p style="display:inline-block; width:325px; font-size:15px; color:white;">{{username}}{{profile.name}}</p>
 							<input id="followUser" type="submit" name="followUser" value="follow" style="display:inline-block; width:50px;">
 						</li>	
