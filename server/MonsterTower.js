@@ -211,22 +211,25 @@ for(var i=0; i<len; i++){
 		MonsterTower.insert(allItemData[i]);
 	}else{
 		// if found
-	/*	MonsterTower.update({_id: object._id},{$set:{
-			image: allItemData[i].image,
-			speed: allItemData[i].speed,
-			hp: allItemData[i].hp,
-			bounty: allItemData[i].bounty,
-			damage:allItemData[i].damage,
-			description:allItemData[i].description,
-			sequence: allItemData[i].sequence,
+		/*MonsterTower.update({_id: object._id},{$set:{
 
-			level: allItemData[i].level,
-			cost: allItemData[i].cost,
-			range: allItemData[i].range,
-			cd: allItemData[i].cd,
-			slow: allItemData[i].slow,
-			duration: allItemData[i].duration,
-			splash: allItemData[i].splash
 		}});*/
 	}
 }
+
+
+// image: allItemData[i].image,
+// speed: allItemData[i].speed,
+// hp: allItemData[i].hp,
+// bounty: allItemData[i].bounty,
+// damage:allItemData[i].damage,
+// description:allItemData[i].description,
+// sequence: allItemData[i].sequence,
+
+// level: allItemData[i].level,
+// cost: allItemData[i].cost,
+// range: allItemData[i].range,
+// cd: allItemData[i].cd,
+// slow: allItemData[i].slow,
+// duration: allItemData[i].duration,
+// splash: allItemData[i].splash
