@@ -27,6 +27,7 @@ saving = function() {
     gameProgress['invinBlock'] = castleInvincible.blocks;
     gameProgress['powerDD'] = powerDD;
     gameProgress['powerCD'] = powerCD;
+    gameProgress['bombLevel'] = bomb.level
 
 
     gameProgress['hpBonus'] = hpBonus 
@@ -41,6 +42,7 @@ saving = function() {
     gameProgress['healer'] = [];
     gameProgress['monster'] = [];
     gameProgress['shot'] = [];
+    gameProgress['bomb'] = [];
 
     if (towers.length!=0) {
         for (var i=0;i<towers.length;i++) {
@@ -119,6 +121,27 @@ saving = function() {
             mObj.slowCd = monsters[i].slowCd
             gameProgress['monster'].push(mObj)
         }
+    }
+
+    if (bombs.length!=0){
+        for (var i=0;i<bombs.length;i++){
+            var bObj = {}
+
+            bObj.type = bombs[i].type
+            bObj.level = bombs[i].level
+            bObj.x = bombs[i].x
+            bObj.y = bombs[i].y
+            bObj.damage = bombs[i].damage
+            bObj.cd = bombs[i].cd
+            if (bombs[i].type=='explosion'){
+                bObj.w = bombs[i].w
+                bObj.scaleX = bombs[i].scaleX
+                bObj.scaleY = bombs[i].scaleY
+            }
+
+            gameProgress['bomb'].push(bObj)
+        }
+
     }
 
     //localStorage.towerDefense = JSON.stringify(gameProgress)
@@ -266,6 +289,36 @@ creation = function(type) {
             }
             break;
         
+        case 'bomb':
+            var bTrack = gameProgress['bomb']
+            if (bTrack.length!=0) {
+                for (var i=0;i<bTrack.length;i++) {
+                    var b = bTrack[i]
+
+                    var newBomb 
+                    if (b.type=='bomb'){
+                        newBomb = new createjs.Sprite(bombI,'explode')
+                    }else{
+                        newBomb = new createjs.Sprite(explosiveI,'explode')
+                        newBomb.w = b.w
+                        newBomb.scaleX = b.scaleX
+                        newBomb.scaleY = b.scaleY
+                    }
+
+
+                    newBomb.type = b.type
+                    newBomb.level = b.level
+                    newBomb.x = b.x
+                    newBomb.y = b.y
+                    newBomb.cd = b.cd
+                    newBomb.damage = b.damage
+
+                    bombs.push(newBomb)
+                    stage.addChild(newBomb)
+                }
+            }
+            break;
+
         case 'monster':            
             var mTrack = gameProgress['monster']
             if (mTrack.length!=0) {
@@ -292,7 +345,7 @@ creation = function(type) {
                             }else{dir='left'}
                         }
                     }
-                    var m1 = new createjs.Sprite(mData["image"])
+                    var m1 = new createjs.Sprite(mData["image"],dir)
                     //add properties to monster
                     var newMonster = new createjs.Container()
                     newMonster.addChild(healthbar, m1)

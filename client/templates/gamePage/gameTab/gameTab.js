@@ -144,6 +144,8 @@ gameData = function(type) {
             shots = [];
             towers = [];
             healers = [];
+            bombs = [];
+            bomb.level = gameProgress['bombLevel']
             dmgCount = gameProgress['dmgCount'];
             powerFreeze = gameProgress['powerFreeze'];
             powerMeteorite = gameProgress['powerMeteorite'];
@@ -975,6 +977,7 @@ continueGame = function() {
     creation('fountain')
     creation('monster')
     creation('shot')
+    creation('bomb')
 
     if (gameProgress['lastMon']){
         lastMon = monsters[monsters.length-1]
@@ -1311,6 +1314,12 @@ stopAnimate = function(condition) {
                 break;
             }
         }
+    }
+    for (var i=0;i<bombs.length;i++) {
+        if (condition){
+            bombs[i].gotoAndStop();
+        }else{bombs[i].gotoAndPlay();}
+        
     }
 }
 
