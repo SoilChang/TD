@@ -189,7 +189,7 @@ var allItemData	= [
 	},
 	{
 		name: "Batman",
-		image: '/images/gameImages/blueFlash_Single.png',
+		image: '/images/gameImages/blueFlash_single.png',
 		sequence:5,
 		type: 'monster',
 		speed: 2,
