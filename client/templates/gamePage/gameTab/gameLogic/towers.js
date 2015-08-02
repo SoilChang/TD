@@ -471,6 +471,8 @@ fountainHeal = function() {
                 healers[i].cd--
             } else {
                 if (health<maxHealth) {
+                    stage.addChild(castleHeal)
+                    castleHeal.gotoAndPlay('heal')
                     healers[i].cd = healers[i].maxCd-1
                     if ((health+healers[i].damage)>=maxHealth) {
                         health=maxHealth

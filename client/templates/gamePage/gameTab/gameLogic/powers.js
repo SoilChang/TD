@@ -30,40 +30,13 @@ power = function(type) {
             item = "'Undead Bone'"
             if (gameRunning==0){
                 $('#freezePower').addClass('selected')
-                animateFreeze()
-                setTimeout(function(){
-                    stage.removeChild(iceBackground)
-                },2000)
             }
         }
         else if(type=="meteorite"){
             names = 'Meteorite'
             item = "'Ring of Darkness'"
             if (gameRunning==0){
-                $('#meteoritePower').addClass('selected') 
-                if (!muted) {      
-                    CometSound.play().setVolume(15);
-                } 
-                $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},2000,function(){
-                    $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
-                });  
-                $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},2000,function(){
-                    if (!muted) {      
-                        artillerySound.play().setVolume(10);
-                    } 
-                    $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
-                    $("#playingField").effect("shake",function(){
-                        if (!muted) {      
-                            explosionSound.play().setVolume(10);
-                        } 
-                        $("#redCircle").show(function(){
-                            $("#explosion").animate({height:"300px",marginLeft:"520px",marginTop:"170px",opacity:"0.1"},1000,function(){
-                                $("#explosion").css({"height":"0px","margin-left":"670px","margin-top":"320px","opacity":"1.0"});
-
-                            });
-                        });           
-                    });              
-                });               
+                $('#meteoritePower').addClass('selected')      
             }
         }
         else if(type=="invincibility"){
@@ -71,19 +44,6 @@ power = function(type) {
             item = "'Sand Wall'"
             if (gameRunning==0){                
                 $('#invinciblePower').addClass('selected')
-                $("#angel").show();
-                if (!muted) {      
-                    musicBoxSound.play().setVolume(6);
-                } 
-                $("#angel").animate({"margin-top":"180px"},500,function(){
-                    $("#wings").show();
-                    $("#wings").animate({"width":"400px","margin-left":"240"},1000,function(){
-                        $("#angel").animate({"margin-top":"-300px"},500);
-                        $("#wings").animate({"margin-top":"-300px"},500,function(){
-                            $("#wings").css({"width":"0px","margin-left":"440px","margin-top":"130px","display":"none"})
-                        });
-                    });
-                });
             }
         }
         else if(type=="dd"){
@@ -91,12 +51,6 @@ power = function(type) {
             item = "'Dragon's Blood'"
             if (gameRunning==0){                
                 $('#ddPower').addClass('selected')
-                if (!muted) {      
-                    slideInSound.play().setSpeed(2).setVolume(35);
-                } 
-                $("#doubleDamage").show(300,function(){
-                    $("#doubleDamage").hide("puff");
-                });
             }
         }
 
@@ -353,8 +307,8 @@ powerCd = function() {
         } else{
             powerMeteorite--
             meteoriteOver=0
-            redCircle.scaleX = .01;
-            redCircle.scaleY = .01;
+            redCircle.scaleX = .1;
+            redCircle.scaleY = .1;
             redCircle.x = 673;
             redCircle.y = 314;
             $('#meteoritePower').removeClass('cooldown') 
@@ -753,7 +707,10 @@ bombCd = function(){
                 }
                 else if (bombs[i].cd==6){
                     if (bombs[i].level==1){
-                        continue
+                        bombs[i].x -= 8
+                        bombs[i].y -= 8
+                        bombs[i].scaleX = 1.5
+                        bombs[i].scaleY = 1.5 
                     }
                     else if (bombs[i].level==2){
                         bombs[i].x -= 8
@@ -761,10 +718,10 @@ bombCd = function(){
                         bombs[i].scaleX = 2
                         bombs[i].scaleY = 2                       
                     }else{          
-                        bombs[i].x -=16
-                        bombs[i].y -=16
-                        bombs[i].scaleX = 3
-                        bombs[i].scaleY = 3
+                        bombs[i].x -=8
+                        bombs[i].y -=8
+                        bombs[i].scaleX = 2.5
+                        bombs[i].scaleY = 2.5
                     }      
                 }
             }

@@ -31,7 +31,7 @@ onGame = 0;
 
 //#########################################################################
 var gameTicker, hit0, hit1, hit2, hit3, hit4, hit5, hit6, hit7, hit8, hit9,
-s1, s2, s3, s4,//monster sprites
+s1, s2, s3, s4, s5,//monster sprites
 backgroundI, castleIm, castleI, castleInvincibleI,//canvas images & variable
 castleLifebar, castleHpI,
 castleHitI, castleBlockI, monsterKillI, //added animations
@@ -48,6 +48,7 @@ ffCount, errorCD, pScreen;
 #########################################################################*/
 gameProgress = {}; //saved game
 monsterData = {}; //types of monsters
+monsterImage = []//image of monsters
 towerData = {}; //types of towers
 ffCount = [20,40,80,160];
 coordinates = [
@@ -69,6 +70,10 @@ gameData = function(type) {
             addMonster();
             dmgCount = [];
             bombs = [] //bombs on map
+            bomb.level = 1
+            bomb.cost = [5,5,10,15]
+            bomb.upgrade = [40,70,90]
+            bomb.damage = [50,500,2000,20000]
             monsters = []; //monsters on map
             monsterDead = []; //animation when monster die
             shots = []; //shots on map
@@ -78,10 +83,10 @@ gameData = function(type) {
             powerMeteorite = 0; 
             meteoriteOver = 0;
             //resets meteorite image
-            redCircle.scaleX = .01;
-            redCircle.scaleY = .01;
-            redCircle.x = 673;
-            redCircle.y = 314;
+            redCircle.scaleX = .2;
+            redCircle.scaleY = .2;
+            redCircle.x = 627;
+            redCircle.y = 268;
             //resets invincibility power
             castleInvincible.active = 0;
             castleInvincible.cd = 0;
@@ -104,7 +109,7 @@ gameData = function(type) {
             hoverT = false; //image of tower selected to buy
             document.getElementById("infoText").innerHTML = 
             "Before the game starts, you can click the tower/power buttons to see"+
-            " the info and animations.<br> For keyboard SHORTCUTS, view under Guides tab no.5.";
+            " the info.<br> For keyboard SHORTCUTS, view under Guides tab no.5.";
 
             $('.powerBtn').addClass('cooldown');
             $('#fountainBtn').addClass('cooldown');
@@ -661,7 +666,7 @@ imageload = function() {
         images: ["/images/gameImages/castleHeal.png"],
         frames: {width:74, height:64, count:9},
         animations: {
-            heals:[0,8,'end',.4],
+            heal:[0,8,'end',.4],
             end:[9]
         }
     };
@@ -749,11 +754,11 @@ imageload = function() {
     bomb = new createjs.Sprite(bombI)
 
     eI = {
-        images: ["/images/gameImages/explosio.png"],
-        frames: {width:32, height:32, count:3},
+        images: ["/images/gameImages/ice_explosion.png"],
+        frames: {width:32, height:32, count:7},
         animations: {
-            explode:[0,3,'end',.2],
-            end:[4],
+            explode:[0,6,'end',.5],
+            end:[7],
         }
     };
 
@@ -819,6 +824,19 @@ imageload = function() {
     };
     wizardI = new createjs.SpriteSheet(s4); 
 
+    //wizard unit
+    s5 = {
+        images: ["/images/gameImages/blue_flash.png"],
+        frames: {width:40, height:70, count:1, spacing:0, margin:20},
+        animations: {
+            right:[6,8,'right',.4],
+            up:[3,5,'up',.4],
+            down:[0,2,'down',.4],
+            left:[9,11,'left',.4]
+        }
+    };
+    batmanI = new createjs.SpriteSheet(s5); 
+
     //power animations
     redCircleI = new Image();
     redCircleI.src = "/images/gameImages/redCircle.png"
@@ -828,6 +846,30 @@ imageload = function() {
     redCircle.x = 673;
     redCircle.y = 314;
 };
+
+monsterImageLoad = 
+function(name,link,w,h,c,u,r,d,l,s){
+    //name, link, width, height, count, up,right,down,left,speed
+    var num = c/4
+    var r1 = num*2-1
+    var d1 = num*2
+    var d2 = num*3-1
+    var l1 = num*3
+    var l2 = c-1
+
+    var newS = {
+        images: [link],
+        frames: {width:w, height:h, count:c},
+        animations: {
+            up:[0,num-1,'up',s],
+            right:[num,r1,'right',s],
+            down:[d1,d2,'down',s],
+            left:[l1,l2,'left',s]
+        }
+    };
+    name = new createjs.SpriteSheet(newS)
+
+} 
 
 /*#########################################################################
 
@@ -855,13 +897,8 @@ newGame = function() {
     castleHp.sourceRect = new createjs.Rectangle(0,0,64,10);
 
     stage.addChild(castle)
-    stage.addChild(castleHeal)
     //line of creep path
     //path();
-    bomb.level = 1
-    bomb.cost = [5,5,10,15]
-    bomb.upgrade = [40,70,90]
-    bomb.damage = [50,500,2000,20000]
 
 
     //edit UI
@@ -1159,7 +1196,6 @@ ff = function(ffSpeed) {
 //next wave
 nextWave = function() {
     if (!createjs.Ticker.getPaused()) {
-        fountainHeal() //heal the castle
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
@@ -1188,13 +1224,14 @@ nextWave = function() {
         }
         if (wave%7 ==0) {
             cMonster("wizard",5)
-            monsterData['wizard']['hp']*=3
             if (wave<=21){
                 monsterData["wizard"]["bounty"]+=1
             }
             else if(wave<=42){
+                monsterData['wizard']['hp']*=3
                 monsterData["wizard"]["bounty"]+=2                
             }else{
+                monsterData['wizard']['hp']*=1.5
                 monsterData["wizard"]["bounty"]+=3  
             }
         }
@@ -1203,7 +1240,7 @@ nextWave = function() {
             if (wave<=42){
                 monsterData["armored"]["hp"]*=2.4                
             }else{
-                monsterData["armored"]["hp"]*=2
+                monsterData["armored"]["hp"]*=1.4
             }
         }
         else if (wave%3 == 0) {
@@ -1211,7 +1248,7 @@ nextWave = function() {
             if (wave<=42){
                 monsterData["warrior"]["hp"]*=2                
             }else{                
-                monsterData["warrior"]["hp"]*=1.5
+                monsterData["warrior"]["hp"]*=1.2
             }
         }
         else {
@@ -1219,9 +1256,12 @@ nextWave = function() {
             if (wave<=42){
                 monsterData["mario"]["hp"]*=1.4                
             }else{                
-                monsterData["mario"]["hp"]*=1.2
+                monsterData["mario"]["hp"]*=1.05
             }
-        }       
+        }  
+
+        //heal the castle
+        fountainHeal()      
     }
 }
 
