@@ -210,6 +210,11 @@ Template.alliesTab.helpers({
 		}else{
 			return Meteor.users.find({_id:{$in:Meteor.user().ally}});
 		}
+	},
+
+	loadPercent:function(){
+		var percent = MonsterTower.findOne({name:"systemVariables"});
+		return percent.allyBonus*100;
 	}
 
 

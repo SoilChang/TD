@@ -187,6 +187,15 @@ var allItemData	= [
 		damage: 3,
 		description:"With his magic powers, he can deal more damage to your castle than an average monster."
 	},
+
+	/*#############################################
+                         system variables
+		###############################################*/
+	{
+		name: "systemVariables",
+		allyBonus: 0.3
+	},
+
 ];
 
 

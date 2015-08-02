@@ -227,12 +227,13 @@ Meteor.methods({
 		// pull out ally stats
 		var ally = Meteor.user().ally;
 		var idx = _.indexOf(ally, identity);
-		if(idx){
+		var multiplier = MonsterTower.findOne({name:"systemVariables"});
+		if(idx >= 0){
 			var object = Meteor.users.findOne({_id:identity});
 				// minus stats
-			hpPlus = Math.ceil(object.hpBonus*0.15);
-			armourPlus = Math.ceil(object.armourBonus*0.15);
-			attackPlus = Math.ceil(object.attackBonus*0.15);
+			hpPlus = Math.ceil(object.hpBonus*multiplier.allyBonus);
+			armourPlus = Math.ceil(object.armourBonus*multiplier.allyBonus);
+			attackPlus = Math.ceil(object.attackBonus*multiplier.allyBonus);
 			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 			ally.splice(idx,1);
 
@@ -242,12 +243,12 @@ Meteor.methods({
 		// pull out your stats from the other person
 		ally = Meteor.users.findOne({_id:identity}).ally;
 		idx = _.indexOf(ally, currentUserId);
-		if(idx){
+		if(idx >= 0){
 			var object = Meteor.users.findOne({_id:currentUserId});
 				// minus stats
-			hpPlus = Math.ceil(object.hpBonus*0.15);
-			armourPlus = Math.ceil(object.armourBonus*0.15);
-			attackPlus = Math.ceil(object.attackBonus*0.15);
+			hpPlus = Math.ceil(object.hpBonus*multiplier.allyBonus);
+			armourPlus = Math.ceil(object.armourBonus*multiplier.allyBonus);
+			attackPlus = Math.ceil(object.attackBonus*multiplier.allyBonus);
 			Meteor.users.update({_id:identity}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 			ally.splice(idx,1);
 
@@ -274,12 +275,12 @@ Meteor.methods({
 		if( _.indexOf(ally, identity) >= 0)
 			return;
 	
-
+		var multiplier = MonsterTower.findOne({name:"systemVariables"});
 		// incrase bonus
 		var object = Meteor.users.findOne({_id:identity});
-		var hpPlus = Math.ceil(object.hpBonus*0.15);
-		var armourPlus = Math.ceil(object.armourBonus*0.15);
-		var attackPlus = Math.ceil(object.attackBonus*0.15);
+		var hpPlus = Math.ceil(object.hpBonus*multiplier.allyBonus);
+		var armourPlus = Math.ceil(object.armourBonus*multiplier.allyBonus);
+		var attackPlus = Math.ceil(object.attackBonus*multiplier.allyBonus);
 		Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:hpPlus, allyArmour:armourPlus, allyAttack:attackPlus }});
 
 
@@ -291,9 +292,9 @@ Meteor.methods({
 			
 			// remove ally bonus
 			object = Meteor.users.findOne( {_id: ally[0]} );
-			hpPlus = Math.ceil(object.hpBonus*0.15);
-			armourPlus = Math.ceil(object.armourBonus*0.15);
-			attackPlus = Math.ceil(object.attackBonus*0.15);
+			hpPlus = Math.ceil(object.hpBonus*multiplier.allyBonus);
+			armourPlus = Math.ceil(object.armourBonus*multiplier.allyBonus);
+			attackPlus = Math.ceil(object.attackBonus*multiplier.allyBonus);
 			Meteor.users.update({_id:Meteor.userId()}, {$inc:{allyHp:-hpPlus, allyArmour:-armourPlus, allyAttack:-attackPlus }});
 
 			ally.splice(0,1);
