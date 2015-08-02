@@ -24,8 +24,9 @@ Accounts.onCreateUser(function(options,user) {
 	user.following = [];
 	user.ally = [];
 	user.prizeTime = 0;
-	if (options.profile)
+	if (options.profile){
     	user.profile = options.profile;
+    }
  	return user;
 
 });

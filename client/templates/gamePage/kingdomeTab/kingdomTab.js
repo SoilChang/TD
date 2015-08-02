@@ -6,9 +6,9 @@ Template.kingdomTab.helpers({
 			return [{username:"Log In To See", gem: 0, hpBonus: 0,armourBonus:0,attackBonus:0,allyHp:0,allyArmour:0,allyAttack:0}] ;
 		}else{
 			/*the reason why i don't use Meteor.user() straight away is because in the 
-			html, i use each block. it only accepts an array. only Meteor.users.fin() returns
+			html, i use each block. it only accepts an array. only Meteor.users.find() returns
 			an array. */
-			return Meteor.users.find({_id:Meteor.user()._id});
+			return Meteor.users.find({_id:Meteor.userId()});
 		}
 	},
 	'inventoryItem' : function(type){	
@@ -22,6 +22,17 @@ Template.kingdomTab.helpers({
 			}
 		}
 	},
+
+	"loadProfilePic":function(){
+		var currentUserId = Meteor.userId();
+		var user= Meteor.users.findOne(currentUserId);
+		if (user.services.facebook){
+	            return "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
+		}
+	    else{
+	        return "/images/gamePage/user_unknown.png";
+	    }
+	}
 	
 });
 
