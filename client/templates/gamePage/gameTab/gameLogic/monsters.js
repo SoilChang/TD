@@ -50,6 +50,16 @@ addMonster = function() {
         "bounty":mob[3].bounty, 
         "damage":mob[3].damage
     };
+    //boss
+    monsterData["boss"] ={
+        "image":batmanI, 
+        "w": 29, 
+        "h": 40, 
+        "speed": mob[4].speed, 
+        "hp":    mob[4].hp, 
+        "bounty":mob[4].bounty, 
+        "damage":mob[4].damage
+    };
 }
 
 
@@ -257,7 +267,7 @@ monsterMovement = function() {
                 mob.pos[3]++;
             }
         }
-        //monster attacks castle
+        //tacks castle
         else {
             if (!mob.dead) {
                 if (!(mob.level in dmgCount)){

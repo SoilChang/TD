@@ -187,6 +187,17 @@ var allItemData	= [
 		damage: 3,
 		description:"With his magic powers, he can deal more damage to your castle than an average monster."
 	},
+	{
+		name: "Batman",
+		image: '/images/gameImages/blueFlash_Single.png',
+		sequence:5,
+		type: 'monster',
+		speed: 2,
+		hp: 300,
+		bounty: 10,
+		damage: 5,
+		description:"The boss monster, dealing more damage and giving you more gold."
+	},
 
 	/*#############################################
                          system variables

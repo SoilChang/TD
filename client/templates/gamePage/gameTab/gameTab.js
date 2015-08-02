@@ -826,11 +826,11 @@ imageload = function() {
 
     //wizard unit
     s5 = {
-        images: ["/images/gameImages/blue_flash.png"],
-        frames: {width:40, height:70, count:1, spacing:0, margin:20},
+        images: ["/images/gameImages/blueFlash.png"],
+        frames: {width:29, height:40, count:12, spacing:1},
         animations: {
-            right:[6,8,'right',.4],
-            up:[3,5,'up',.4],
+            right:[3,5,'right',.4],
+            up:[6,8,'up',.4],
             down:[0,2,'down',.4],
             left:[9,11,'left',.4]
         }
@@ -1205,29 +1205,36 @@ nextWave = function() {
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
+            monsterData["boss"]["damage"]+=1
         }
         if (wave%10 == 0) {
+            cMonster("boss",1)
+            if(wave<=42){
+                monsterData['wizard']['hp']*=2.2         
+            }else{
+                monsterData['wizard']['hp']*=1.5
+            }
             if (wave<=30){
                 monsterData["mario"]["bounty"]+=1
                 monsterData["warrior"]["bounty"]+=1
-                monsterData["armored"]["bounty"]+=1                
+                monsterData["armored"]["bounty"]+=1 
+                monsterData["boss"]["bounty"]+=5              
             }
             else if(wave<=60){                
                 monsterData["mario"]["bounty"]+=2
                 monsterData["warrior"]["bounty"]+=2
-                monsterData["armored"]["bounty"]+=2  
+                monsterData["armored"]["bounty"]+=2
+                monsterData["boss"]["bounty"]+=10 
             }else{
                 monsterData["mario"]["bounty"]+=3
                 monsterData["warrior"]["bounty"]+=3
-                monsterData["armored"]["bounty"]+=3                
+                monsterData["armored"]["bounty"]+=3 
+                monsterData["boss"]["bounty"]+=15               
             }
         }
-        if (wave%7 ==0) {
+        else if (wave%7 ==0) {
             cMonster("wizard",5)
-            if (wave<=21){
-                monsterData["wizard"]["bounty"]+=1
-            }
-            else if(wave<=42){
+            if(wave<=42){
                 monsterData['wizard']['hp']*=3
                 monsterData["wizard"]["bounty"]+=2                
             }else{
