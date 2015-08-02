@@ -133,6 +133,9 @@ saving = function() {
             bObj.y = bombs[i].y
             bObj.damage = bombs[i].damage
             bObj.cd = bombs[i].cd
+            bObj.slow = bombs[i].slow
+            bObj.slowDuration = bombs[i].slowDuration
+            bObj.unUsed=bombs[i].unUsed
             if (bombs[i].type=='explosion'){
                 bObj.w = bombs[i].w
                 bObj.scaleX = bombs[i].scaleX
@@ -312,6 +315,9 @@ creation = function(type) {
                     newBomb.y = b.y
                     newBomb.cd = b.cd
                     newBomb.damage = b.damage
+                    newBomb.slow = b.slow
+                    newBomb.slowDuration = b.slowDuration
+                    newBomb.unUsed=b.unUsed
 
                     bombs.push(newBomb)
                     stage.addChild(newBomb)

@@ -15,7 +15,6 @@ power = function(type) {
     toggleAoe();
     
     if (type=='bomb'){
-        bombActive=true
         $('#bombPower').addClass('selected');
     }
     updatePower(type);
@@ -133,6 +132,9 @@ power = function(type) {
                 error("Please buy the <span class='item'>'Dragon's Blood'</span>"+
                  "to use <span class='item'>Double Damage</span>.")
                 }
+            }
+            if (type=='bomb'){
+                bombActive=true
             }
         } else {
             if (type!='bomb'){
@@ -397,8 +399,8 @@ updatePower = function(type) {
         bomb.damage[bomb.level]: "Damage: "+bomb.damage[bomb.level-1]
         var cost = (bomb.level<4)? "Cost: "+bomb.cost[bomb.level-1]+"-->"+
         bomb.cost[bomb.level]:"Cost: "+bomb.cost[bomb.level-1]
-        pow += "Bomb" + "<br>" 
-        effect += "Explodes and deal damage to surrounding area" + "<br>"
+        pow += "Ice Bomb" + "<br>" 
+        effect += "Damages and slow monsters" + "<br>"
         cd =""
         delay = "Delay: 1 Sec" + "<br>"+"Level: "+level+"<br>"+
         dmg+"<br>"+cost+"<br>"+upgrade+"<br>"
@@ -659,6 +661,9 @@ buildBomb = function(event) {
                 bombIgnited.cd = 18
                 bombIgnited.damage = bomb.damage[bomb.level-1]
                 bombIgnited.type = 'bomb'
+                bombIgnited.slow = .5
+                bombIgnited.slowDuration = 80
+                bombIgnited.unUsed = 1
 
                 stage.addChild(bombIgnited)
                 bombs.push(bombIgnited)
@@ -738,6 +743,10 @@ bombCd = function(){
                 explosive.x = bombs[i].x
                 explosive.y = bombs[i].y
                 explosive.damage = bombs[i].damage
+                explosive.slow = bombs[i].slow
+                explosive.slowDuration = bombs[i].slowDuration
+                explosive.unUsed = bombs[i].unUsed
+
                 if (bombs[i].level==1){
                     explosive.w = 32
                 }
@@ -764,10 +773,29 @@ bombCd = function(){
 bombHit = function(){
     for (var i=0;i<bombs.length;i++){
         for (var j=0;j<monsters.length;j++){
-            if (bombs[i].x <= (monsters[j].x+monsters[j].w) &&
+            if (bombs[i].type=='explosion' &&
+                bombs[i].unUsed &&
+                bombs[i].x <= (monsters[j].x+monsters[j].w) &&
                 monsters[j].x <= (bombs[i].x+bombs[i].w) &&
                 bombs[i].y <= (monsters[j].y+monsters[j].h) &&
                 monsters[j].y <= (bombs[i].y+bombs[i].w)) {
+
+
+
+                if (monsters[j].slowCd<=0 || 
+                    (monsters[j].originSpeed*(1-bombs[i].slow))<monsters[j].speed) {
+                    if (monsters[j].speed*(1-bombs[i].slow)<=.8) {
+                        monsters[j].slowSpeed = .8
+                        monster[j].speed = .8
+                    } else {
+                        monsters[j].slowSpeed *= (1-bombs[i].slow) 
+                        monsters[j].speed = monsters[j].slowSpeed
+                    }
+                } 
+                monsters[j].slowCd = bombs[i].slowDuration
+
+
+
 
                 monsters[j].currentHp-=bombs[i].damage
                 monsters[j].getChildAt(0).sourceRect = 
@@ -777,11 +805,13 @@ bombHit = function(){
                 if (monsters[j].currentHp<=0){
                     isDead(j)
                 }
+                bombs[i].unUsed=0
                 break;
             }
 
         }
     }
 }
+
 
 
