@@ -67,6 +67,7 @@
 	overflow-y:auto;
 	overflow-x: hidden;
 	border-radius:5px;
+	display:none;
 }
 
 #c-kingdom-closeButton{

@@ -69,3 +69,64 @@ Template.kingdomTab.events({
 		$('#c-kingdom-closeButton').css({'margin-left':'845px', 'width': '30px', 'height': '30px'});
 	}
 });
+
+Template.kingdomTab.onRendered(function(){
+	$('#c-kingdom-button_group-Helmets').click(function(){
+		$('#c-kingdom-item_display-Helmets').show();
+		$('#c-kingdom-item_display-Chest_Plates').hide();
+		$('#c-kingdom-item_display-Legs').hide();
+		$('#c-kingdom-item_display-Arms').hide();
+		$('#c-kingdom-item_display-Weapons').hide();
+		$('#c-kingdom-item_display-Mystical_Relic').hide();
+	});
+
+	// when click on chest plate, show chest plate tab and hide the rest
+	$('#c-kingdom-button_group-Chest_Plates').click(function(){
+		$('#c-kingdom-item_display-Helmets').hide();
+		$('#c-kingdom-item_display-Chest_Plates').show();
+		$('#c-kingdom-item_display-Legs').hide();
+		$('#c-kingdom-item_display-Arms').hide();
+		$('#c-kingdom-item_display-Weapons').hide();
+		$('#c-kingdom-item_display-Mystical_Relic').hide();
+	});
+
+	// when click on legs, show legs tab and hide the rest
+	$('#c-kingdom-button_group-Legs').click(function(){
+		$('#c-kingdom-item_display-Helmets').hide();
+		$('#c-kingdom-item_display-Chest_Plates').hide();
+		$('#c-kingdom-item_display-Legs').show();
+		$('#c-kingdom-item_display-Arms').hide();
+		$('#c-kingdom-item_display-Weapons').hide();
+		$('#c-kingdom-item_display-Mystical_Relic').hide();
+	});
+
+	// when click on arms, show arms tab and hide the rest
+	$('#c-kingdom-button_group-Arms').click(function(){
+		$('#c-kingdom-item_display-Helmets').hide();
+		$('#c-kingdom-item_display-Chest_Plates').hide();
+		$('#c-kingdom-item_display-Legs').hide();
+		$('#c-kingdom-item_display-Arms').show();
+		$('#c-kingdom-item_display-Weapons').hide();
+		$('#c-kingdom-item_display-Mystical_Relic').hide();
+	});
+
+	// when click on weapon, show weapon tab and hide the rest
+	$('#c-kingdom-button_group-Weapons').click(function(){
+		$('#c-kingdom-item_display-Helmets').hide();
+		$('#c-kingdom-item_display-Chest_Plates').hide();
+		$('#c-kingdom-item_display-Legs').hide();
+		$('#c-kingdom-item_display-Arms').hide();
+		$('#c-kingdom-item_display-Weapons').show();
+		$('#c-kingdom-item_display-Mystical_Relic').hide();
+	});
+
+	// when click on mystical chest, show mystical chest tab and hide the rest
+	$('#c-kingdom-button_group-Mystical_Relic').click(function(){
+		$('#c-kingdom-item_display-Helmets').hide();
+		$('#c-kingdom-item_display-Chest_Plates').hide();
+		$('#c-kingdom-item_display-Legs').hide();
+		$('#c-kingdom-item_display-Arms').hide();
+		$('#c-kingdom-item_display-Weapons').hide();
+		$('#c-kingdom-item_display-Mystical_Relic').show();
+	});
+});
