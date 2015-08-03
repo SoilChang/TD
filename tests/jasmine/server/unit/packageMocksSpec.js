@@ -7090,7 +7090,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "deb20fe400d6b8c418d8dad54c3d4747e6046f1b"
+                  "value": "b9b1cd11754259e926e0f07ed787d2824b52e3a5"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7877,7 +7877,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "dc70ce877862db737bdad6f689e521100590a58c"
+          "value": "c3f1e9dfb24c4c17a1507b422359115337331dc8"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
@@ -10005,7 +10005,13 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function"
+              "type": "function",
+              "members": {
+                "displayName": {
+                  "type": "constant",
+                  "value": "rename"
+                }
+              }
             },
             "realpath": {
               "type": "function",
@@ -10158,7 +10164,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ";"
+              "value": ":"
             },
             "convertToStandardPath": {
               "type": "function"
