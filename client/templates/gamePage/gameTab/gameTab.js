@@ -66,6 +66,12 @@ coordinates = [
 gameData = function(type) {
     switch (type) {
         case 'new' :
+            hpBonus = 0
+            attBonus = 0
+            armorBonus = 0
+            allyHp = 0
+            allyArmor = 0
+            allyAttack = 0
             speed = 20; //speed of game
             addMonster();
             dmgCount = [];
@@ -1042,6 +1048,7 @@ tick = function(event) {
             bombCd()
         }
 
+        monsterMovement();//controls monster movement
         powerCd(); // cooldown for powers
         monsterEffect();//controls effect on monster
         towerAttacks();//check for tower attack
@@ -1050,7 +1057,6 @@ tick = function(event) {
             shotsMovement();//controls movement of shots fired
         };
 
-        monsterMovement();//controls monster movement
 
     };
 
@@ -1203,19 +1209,19 @@ nextWave = function() {
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
 
-        if (wave%15 == 0){
+        if (wave%12 == 0){
             monsterData["wizard"]["damage"]+=2            
             monsterData["mario"]["damage"]+=1
             monsterData["warrior"]["damage"]+=1
             monsterData["armored"]["damage"]+=1
-            monsterData["boss"]["damage"]+=1
+            monsterData["boss"]["damage"]+=5
         }
         if (wave%10 == 0) {
             cMonster("boss",1)
             if(wave<=42){
-                monsterData['wizard']['hp']*=2.2         
+                monsterData['boss']['hp']*=3       
             }else{
-                monsterData['wizard']['hp']*=1.5
+                monsterData['boss']['hp']*=1.6
             }
             if (wave<=30){
                 monsterData["mario"]["bounty"]+=1
