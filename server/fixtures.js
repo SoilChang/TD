@@ -348,13 +348,9 @@ for(var i=0; i<len; i++){
 		eqpList.insert(allItemData[i]);
 	}else{
 		// if found
-		/*eqpList.update({_id: object._id},{$set:{
-			price: allItemData[i].price,
-			hpBonus: allItemData[i].hpBonus,
-			armourBonus: allItemData[i].armourBonus,
-			attackBonus: allItemData[i].attackBonus,
-			magicalPower:allItemData[i].magicalPower
-		}});*/
+		/*eqpList.remove({_id: object._id});
+		_.extend( {_id:object._id} , allItemData[i] );
+		eqpList.insert(allItemData[i]);*/
 	}
 }
 

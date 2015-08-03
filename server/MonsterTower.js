@@ -216,31 +216,15 @@ var len = allItemData.length;
 // loop through each item in the fixtures
 for(var i=0; i<len; i++){
 	var object = MonsterTower.findOne({name: allItemData[i].name });
-
 	if(!object){
 		// if cannot find anything
 		MonsterTower.insert(allItemData[i]);
 	}else{
 		// if found
-		/*MonsterTower.update({_id: object._id},{$set:{
-
-		}});*/
+	/*	MonsterTower.remove({_id: object._id});
+		_.extend( {_id:object._id} , allItemData[i] );
+		MonsterTower.insert(allItemData[i]);*/
 	}
 }
 
 
-// image: allItemData[i].image,
-// speed: allItemData[i].speed,
-// hp: allItemData[i].hp,
-// bounty: allItemData[i].bounty,
-// damage:allItemData[i].damage,
-// description:allItemData[i].description,
-// sequence: allItemData[i].sequence,
-
-// level: allItemData[i].level,
-// cost: allItemData[i].cost,
-// range: allItemData[i].range,
-// cd: allItemData[i].cd,
-// slow: allItemData[i].slow,
-// duration: allItemData[i].duration,
-// splash: allItemData[i].splash
