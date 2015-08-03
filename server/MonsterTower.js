@@ -206,6 +206,61 @@ var allItemData	= [
 		name: "systemVariables",
 		allyBonus: 0.3
 	},
+	{
+		name:'mario1',
+		type:"multiplier",//mario
+		sequence:1,
+		damage:1,
+		bounty:1,
+		bounty1:2,
+		hp:1.4,
+		hp1:1.05
+
+	},
+	{
+		name:'warrior1',
+		type:"multiplier",//warrior
+		sequence:2,
+		damage:1,
+		bounty:1,
+		bounty1:2,
+		hp:2,
+		hp1:1.2
+		
+	},
+	{
+		name:'armoured1',
+		type:"multiplier",//armoured
+		sequence:3,
+		damage:1,
+		bounty:1,
+		bounty1:2,
+		hp:2.4,
+		hp1:1.4
+		
+	},
+	{
+		name:'wizard1',
+		type:"multiplier",//wizard
+		sequence:4,
+		damage:2,
+		bounty:2,
+		bounty1:3,
+		hp:3,
+		hp1:1.5
+		
+	},
+	{
+		name:'boss1',
+		type:"multiplier",//boss
+		sequence:5,
+		damage:3,
+		bounty:4,
+		bounty1:6,
+		hp:3,
+		hp1:1.6
+		
+	}
 
 ];
 
