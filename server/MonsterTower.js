@@ -211,10 +211,12 @@ var allItemData	= [
 		type:"multiplier",//mario
 		sequence:1,
 		damage:1,
+		damage1:0,
 		bounty:1,
 		bounty1:2,
 		hp:1.4,
-		hp1:1.05
+		hp1:1.05,
+		hp2:0
 
 	},
 	{
@@ -222,10 +224,12 @@ var allItemData	= [
 		type:"multiplier",//warrior
 		sequence:2,
 		damage:1,
+		damage1:0,
 		bounty:1,
 		bounty1:2,
 		hp:2,
-		hp1:1.2
+		hp1:1.2,
+		hp2:0
 		
 	},
 	{
@@ -233,10 +237,12 @@ var allItemData	= [
 		type:"multiplier",//armoured
 		sequence:3,
 		damage:1,
+		damage1:0,
 		bounty:1,
 		bounty1:2,
 		hp:2.4,
-		hp1:1.4
+		hp1:1.4,
+		hp2:0
 		
 	},
 	{
@@ -244,10 +250,12 @@ var allItemData	= [
 		type:"multiplier",//wizard
 		sequence:4,
 		damage:2,
+		damage1:0,
 		bounty:2,
 		bounty1:3,
 		hp:3,
-		hp1:1.5
+		hp1:1.5,
+		hp2:0
 		
 	},
 	{
@@ -255,10 +263,12 @@ var allItemData	= [
 		type:"multiplier",//boss
 		sequence:5,
 		damage:3,
+		damage1:0,
 		bounty:4,
 		bounty1:6,
 		hp:3,
-		hp1:1.6
+		hp1:1.6,
+		hp2:0
 		
 	}
 
