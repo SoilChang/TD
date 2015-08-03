@@ -1203,76 +1203,75 @@ ff = function(ffSpeed) {
 }
 
 //next wave
+var stats = false
 nextWave = function() {
+    if (stats==false){
+        stats = MonsterTower.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
+    } 
     if (!createjs.Ticker.getPaused()) {
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
 
         if (wave%12 == 0){
-            monsterData["wizard"]["damage"]+=2            
-            monsterData["mario"]["damage"]+=1
-            monsterData["warrior"]["damage"]+=1
-            monsterData["armored"]["damage"]+=1
-            monsterData["boss"]["damage"]+=5
+            monsterData["wizard"]["damage"]+=stats[3].damage       
+            monsterData["mario"]["damage"]+=stats[0].damage
+            monsterData["warrior"]["damage"]+=stats[1].damage
+            monsterData["armored"]["damage"]+=stats[2].damage
+            monsterData["boss"]["damage"]+=stats[4].damage
         }
         if (wave%10 == 0) {
             cMonster("boss",1)
             if(wave<=42){
-                monsterData['boss']['hp']*=3       
+                monsterData['boss']['hp']*=stats[4].hp
             }else{
-                monsterData['boss']['hp']*=1.6
+                monsterData['boss']['hp']*=stats[4].hp1
             }
-            if (wave<=30){
-                monsterData["mario"]["bounty"]+=1
-                monsterData["warrior"]["bounty"]+=1
-                monsterData["armored"]["bounty"]+=1 
-                monsterData["boss"]["bounty"]+=5              
+            if (wave<=40){
+                monsterData["mario"]["bounty"]+=stats[0].bounty
+                monsterData["warrior"]["bounty"]+=stats[1].bounty
+                monsterData["armored"]["bounty"]+=stats[2].bounty
+                monsterData["boss"]["bounty"]+=stats[4].bounty
             }
-            else if(wave<=60){                
-                monsterData["mario"]["bounty"]+=2
-                monsterData["warrior"]["bounty"]+=2
-                monsterData["armored"]["bounty"]+=2
-                monsterData["boss"]["bounty"]+=10 
-            }else{
-                monsterData["mario"]["bounty"]+=3
-                monsterData["warrior"]["bounty"]+=3
-                monsterData["armored"]["bounty"]+=3 
-                monsterData["boss"]["bounty"]+=15               
+            else{                
+                monsterData["mario"]["bounty"]+=stats[0].bounty1
+                monsterData["warrior"]["bounty"]+=stats[1].bounty1
+                monsterData["armored"]["bounty"]+=stats[2].bounty1
+                monsterData["boss"]["bounty"]+=stats[4].bounty1
             }
         }
         else if (wave%7 ==0) {
             cMonster("wizard",5)
             if(wave<=42){
-                monsterData['wizard']['hp']*=3
-                monsterData["wizard"]["bounty"]+=2                
+                monsterData['wizard']['hp']*=stats[3].hp
+                monsterData["wizard"]["bounty"]+=stats[3].bounty          
             }else{
-                monsterData['wizard']['hp']*=1.5
-                monsterData["wizard"]["bounty"]+=3  
+                monsterData['wizard']['hp']*=stats[3].hp1
+                monsterData["wizard"]["bounty"]+=stats[4].bounty1
             }
         }
         else if (wave%5 == 0) {
             cMonster("armored",8);
             if (wave<=42){
-                monsterData["armored"]["hp"]*=2.4                
+                monsterData["armored"]["hp"]*=stats[2].hp              
             }else{
-                monsterData["armored"]["hp"]*=1.4
+                monsterData["armored"]["hp"]*=stats[2].hp1
             }
         }
         else if (wave%3 == 0) {
             cMonster("warrior",6);
             if (wave<=42){
-                monsterData["warrior"]["hp"]*=2                
+                monsterData["warrior"]["hp"]*=stats[1].hp     
             }else{                
-                monsterData["warrior"]["hp"]*=1.2
+                monsterData["warrior"]["hp"]*=stats[1].hp1
             }
         }
         else {
             cMonster("mario",9);
             if (wave<=42){
-                monsterData["mario"]["hp"]*=1.4                
+                monsterData["mario"]["hp"]*=stats[0].hp             
             }else{                
-                monsterData["mario"]["hp"]*=1.05
+                monsterData["mario"]["hp"]*=stats[0].hp1
             }
         }  
 
