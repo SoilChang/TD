@@ -7089,7 +7089,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "f527e6149ce7d8c9a956cf8066e12bde115547b8"
+                  "value": "422e5a5c32618d1eb252a686242e488adf7de211"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7876,11 +7876,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "cf4ef2a02f8b57c1fbea8ded49cf207451ea7911"
+          "value": "e0626a2eb243d9b198d4eca3c39270dcef589128"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "3bca2a83fdd418c802f99730794773c2d34fdebb"
+          "value": "adf01551b77e606b4f8ba31d8791c330b22a370b"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
@@ -10004,13 +10004,7 @@ var packageMetadata = {
               }
             },
             "rename": {
-              "type": "function",
-              "members": {
-                "displayName": {
-                  "type": "constant",
-                  "value": "rename"
-                }
-              }
+              "type": "function"
             },
             "realpath": {
               "type": "function",
@@ -10163,7 +10157,7 @@ var packageMetadata = {
             },
             "pathOsDelimiter": {
               "type": "constant",
-              "value": ":"
+              "value": ";"
             },
             "convertToStandardPath": {
               "type": "function"
@@ -10184,6 +10178,16 @@ var packageMetadata = {
               "type": "function"
             }
           }
+        }
+      }
+    }
+  },
+  "velocity:source-map-support": {
+    "SourceMapSupport": {
+      "type": "object",
+      "members": {
+        "install": {
+          "type": "function"
         }
       }
     }
@@ -10334,6 +10338,9 @@ var packageMetadata = {
     "Velocity": {
       "type": "object",
       "members": {
+        "reusableMirrors": {
+          "type": "array"
+        },
         "startup": {
           "type": "function"
         },
@@ -10359,6 +10366,9 @@ var packageMetadata = {
           "type": "function"
         },
         "registerTestingFramework": {
+          "type": "function"
+        },
+        "unregisterTestingFramework": {
           "type": "function"
         },
         "onTest": {
@@ -10730,6 +10740,9 @@ var packageMetadata = {
       "type": "object",
       "members": {
         "onTest": {
+          "type": "function"
+        },
+        "setKarmaConfig": {
           "type": "function"
         }
       }
