@@ -15,8 +15,8 @@ var allItemData=[
 		bounty:1,
 		bounty1:2,
 		hp:1.4,
-		hp1:1.1,
-		hp2:1
+		hp1:1.3,
+		hp2:1.2
 
 	},
 	{
@@ -28,8 +28,8 @@ var allItemData=[
 		bounty:1,
 		bounty1:2,
 		hp:1.8,
-		hp1:1.2,
-		hp2:1
+		hp1:1.4,
+		hp2:1.6
 		
 	},
 	{
@@ -39,8 +39,8 @@ var allItemData=[
 		bounty:1,
 		bounty1:2,
 		hp:4,
-		hp1:2.5,
-		hp2:1
+		hp1:2,
+		hp2:2.3
 		
 	},
 	{
@@ -50,8 +50,8 @@ var allItemData=[
 		bounty:2,
 		bounty1:3,
 		hp:3.2,
-		hp1:2.2,
-		hp2:1
+		hp1:2,
+		hp2:2.2
 		
 	},
 	{
@@ -61,8 +61,8 @@ var allItemData=[
 		bounty:4,
 		bounty1:6,
 		hp:5,
-		hp1:2.6,
-		hp2:1
+		hp1:2.2,
+		hp2:2.5
 		
 	},
 	{
@@ -74,17 +74,17 @@ var allItemData=[
 		waveArmored:5,
 		waveWizard:7,
 		waveBoss:10,
-		waveBounty:35,
-		marioHpWave:25,
-		marioHpWave1:100,
+		waveBounty:45,
+		marioHpWave:24,
+		marioHpWave1:71,
 		warriorHpWave:30,
-		warriorHpWave1:100,
-		armoredHpWave:30,
-		armoredHpWave1:100,
+		warriorHpWave1:66,
+		armoredHpWave:35,
+		armoredHpWave1:75,
 		wizardHpWave:21,
-		wizardHpWave1:100,
+		wizardHpWave1:70,
 		bossHpWave:30,
-		bossHpWave1:100
+		bossHpWave1:70
 		
 	}
 ];

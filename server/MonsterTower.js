@@ -37,10 +37,10 @@ var allItemData	= [
 		image: '/images/gameImages/light_tower_4.png',
 		type: 'plasma',
 		level: 4,
-		cost: 140,
-		range: 160,
-		damage: 65,	
-		cd:3
+		cost: 150,
+		range: 170,
+		damage: 70,	
+		cd:4
 	},
 
 	/*#############################################
@@ -92,7 +92,7 @@ var allItemData	= [
 		level: 4,
 		cost: 200,
 		range: 112,
-		damage: 100,
+		damage: 80,
 		slow:0.8,
 		duration:100,
 		cd: 12,

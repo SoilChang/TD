@@ -1284,6 +1284,19 @@ nextWave = function() {
                 }
             }
         }
+        if (wave%15==0){
+            if (wave<=stats[0].waveBounty){
+                monsterData["mario"]["bounty"]+=stats[1].bounty
+                monsterData["warrior"]["bounty"]+=stats[2].bounty
+                monsterData["armored"]["bounty"]+=stats[3].bounty
+                monsterData["boss"]["bounty"]+=stats[5].bounty                
+            }else{                
+                monsterData["mario"]["bounty"]+=stats[1].bounty1
+                monsterData["warrior"]["bounty"]+=stats[2].bounty1
+                monsterData["armored"]["bounty"]+=stats[3].bounty1
+                monsterData["boss"]["bounty"]+=stats[5].bounty1
+            }
+        }
         if (wave%stats[0].waveBoss == 0) {
             cMonster("boss",1)
             if(wave<=stats[0].bossHpWave){
@@ -1292,25 +1305,6 @@ nextWave = function() {
                 monsterData['boss']['hp']*=stats[5].hp1
             }else{
                 monsterData['boss']['hp']*=stats[5].hp2
-            }
-            if (wave<=stats[0].waveBounty){
-                if (wave==10){
-                    monsterData["mario"]["bounty"]+=stats[1].bounty
-                    monsterData["armored"]["bounty"]+=stats[3].bounty
-                    monsterData["boss"]["bounty"]+=stats[5].bounty
-
-                }else{
-                    monsterData["mario"]["bounty"]+=stats[1].bounty
-                    monsterData["warrior"]["bounty"]+=stats[2].bounty
-                    monsterData["armored"]["bounty"]+=stats[3].bounty
-                    monsterData["boss"]["bounty"]+=stats[5].bounty                    
-                }
-            }
-            else{                
-                monsterData["mario"]["bounty"]+=stats[1].bounty1
-                monsterData["warrior"]["bounty"]+=stats[2].bounty1
-                monsterData["armored"]["bounty"]+=stats[3].bounty1
-                monsterData["boss"]["bounty"]+=stats[5].bounty1
             }
         }
         else if (wave%stats[0].waveWizard==0) {
