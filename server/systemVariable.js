@@ -27,7 +27,7 @@ var allItemData=[
 		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:2.2,
+		hp:1.8,
 		hp1:1.2,
 		hp2:1
 		
@@ -49,8 +49,8 @@ var allItemData=[
 		sequence:4,
 		bounty:2,
 		bounty1:3,
-		hp:3.4,
-		hp1:1.3,
+		hp:3.2,
+		hp1:2.2,
 		hp2:1
 		
 	},
@@ -61,7 +61,7 @@ var allItemData=[
 		bounty:4,
 		bounty1:6,
 		hp:5,
-		hp1:3,
+		hp1:2.6,
 		hp2:1
 		
 	},
@@ -75,13 +75,13 @@ var allItemData=[
 		waveWizard:7,
 		waveBoss:10,
 		waveBounty:35,
-		marioHpWave:30,
+		marioHpWave:25,
 		marioHpWave1:100,
 		warriorHpWave:30,
 		warriorHpWave1:100,
 		armoredHpWave:30,
 		armoredHpWave1:100,
-		wizardHpWave:30,
+		wizardHpWave:21,
 		wizardHpWave1:100,
 		bossHpWave:30,
 		bossHpWave1:100
