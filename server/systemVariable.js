@@ -7,28 +7,6 @@ var allItemData=[
 		allyBonus: 0.15
 	},
 	{
-		name:'wave',
-		type:"multiplier",
-		sequence:0,
-		waveDamage:12,
-		waveWarrior:3,
-		waveArmored:5,
-		waveWizard:7,
-		waveBoss:10,
-		waveBounty:35,
-		marioHpWave:30,
-		marioHpWave1:100,
-		warriorHpWave:30,
-		warriorHpWave1:100,
-		armoredHpWave:30,
-		armoredHpWave1:100,
-		wizardHpWave:30,
-		wizardHpWave1:100,
-		bossHpWave:30,
-		bossHpWave1:100
-		
-	},
-	{
 		name:'mario1',
 		type:"multiplier",//mario
 		sequence:1,
@@ -91,6 +69,28 @@ var allItemData=[
 		hp:3.6,
 		hp1:2,
 		hp2:0
+		
+	},
+	{
+		name:'wave',
+		type:"multiplier",
+		sequence:0,
+		waveDamage:12,
+		waveWarrior:3,
+		waveArmored:5,
+		waveWizard:7,
+		waveBoss:10,
+		waveBounty:35,
+		marioHpWave:30,
+		marioHpWave1:100,
+		warriorHpWave:30,
+		warriorHpWave1:100,
+		armoredHpWave:30,
+		armoredHpWave1:100,
+		wizardHpWave:30,
+		wizardHpWave1:100,
+		bossHpWave:30,
+		bossHpWave1:100
 		
 	}
 ];

@@ -12,6 +12,7 @@ power = function(type) {
     towerType = false
     towerName = false  
     bombActive = false    
+    targetTower = false
     toggleAoe();
     
     if (type=='bomb'){
@@ -83,8 +84,7 @@ power = function(type) {
                             monsters[i].speed=0
                             monsters[i].freezeCd = 120
                         }
-                        powerEffect(type)
-                        stopAnimate(true);                
+                        powerEffect(type)               
                     } else {                
                         error("Freeze on cooldown")
                     }
@@ -133,12 +133,14 @@ power = function(type) {
                  "to use <span class='item'>Double Damage</span>.")
                 }
             }
-            if (type=='bomb'){
+            else if (type=='bomb'){
                 bombActive=true
             }
         } else {
             if (type!='bomb'){
                 error("Please sign in first.")                
+            }else{
+                bombActive=true                
             }
         }
     }
@@ -226,6 +228,7 @@ animateFreeze = function(){
         stage.addChild(healers[i])
     }
     stage.addChild(castle)
+    stopAnimate(true) 
 }
 
 meteoriteScale = function(){
@@ -393,7 +396,7 @@ updatePower = function(type) {
     else if (type=='bomb'){
         var level = (bomb.level<4)? bomb.level+"-->"+(bomb.level+1):'Max level'
         var upgrade = (bomb.level<4)? 
-        "<input type='button' value='Upgrade' id='upgradeBombBtn'>" +
+        "<input type='button' value='Upgrade(g)' id='upgradeBombBtn'>" +
         bomb.upgrade[bomb.level-1]:""
         var dmg = (bomb.level<4)? "Damage: " + bomb.damage[bomb.level-1]+"-->"+
         bomb.damage[bomb.level]: "Damage: "+bomb.damage[bomb.level-1]

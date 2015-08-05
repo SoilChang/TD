@@ -1,7 +1,7 @@
 //controls keyboard actions
 keydown = function(event) {
     if (onGame){
-        keys[event.keyCode] = true;        
+        keys[event.keyCode] = true;    
     }
 }
 
@@ -12,10 +12,20 @@ keyboards = function() {
         $('.towerBtn').removeClass('selected');
         stage.removeChild(targetGrid);
         stage.removeChild(hoverT)
+        bombActive = false
         hoverGrid = false
         towerType = false
-        towerName = false      
+        towerName = false  
+        targetTower = false    
         toggleAoe();
+    }
+    else if (keys[84]){//t
+        delete keys[84]
+        if (countDown>0){
+            countDown=1            
+        }else {
+            error('Please wait for monsters to finish spawning')
+        }
     }
     else if (keys[82]){//r
         delete keys[82]
@@ -40,6 +50,15 @@ keyboards = function() {
         $('.powerBtn').removeClass('selected')
         $('#iceBtn').addClass('selected')
         buyTower('iceTower');
+    }
+    else if (keys[71]){//g
+        delete keys[71]
+        if (targetTower){
+            upgradeTower();
+        }
+        else if (bombActive){
+            upgradeBomb();
+        }
     }
     else if (keys[65]){//a
         delete keys[65]

@@ -46,6 +46,7 @@ ffCount, errorCD, pScreen;
                  Game Data
 
 #########################################################################*/
+var stats=false;
 gameProgress = {}; //saved game
 monsterData = {}; //types of monsters
 monsterImage = []//image of monsters
@@ -179,6 +180,7 @@ gameData = function(type) {
             allyAttack = gameProgress['allyAttack']; 
             checkGG = 0;
             errorCD = 0; //time for error message to stay on canvas
+            bombActive = false
             targetTower = false; //selected tower on map
             towerType = false; //selected tower to buy
             towerName = false; 
@@ -186,68 +188,82 @@ gameData = function(type) {
             hoverT = false; //image of tower selected to buy
 
             for (var i=2;i<=wave;i++) {
-                if (wave%15 == 0){
-                    monsterData["wizard"]["damage"]+=2            
-                    monsterData["mario"]["damage"]+=1
-                    monsterData["warrior"]["damage"]+=1
-                    monsterData["armored"]["damage"]+=1
+                if (i%stats[0].waveDamage == 0){
+                    monsterData["wizard"]["damage"]+=stats[4].damage       
+                    monsterData["mario"]["damage"]+=stats[1].damage
+                    monsterData["warrior"]["damage"]+=stats[2].damage
+                    monsterData["armored"]["damage"]+=stats[3].damage
+                    monsterData["boss"]["damage"]+=stats[5].damage
                 }
-                if (wave%10 == 0){
-                    if (wave<=30){
-                        monsterData["mario"]["bounty"]+=1
-                        monsterData["warrior"]["bounty"]+=1
-                        monsterData["armored"]["bounty"]+=1                
-                    }
-                    else if(wave<=60){                
-                        monsterData["mario"]["bounty"]+=2
-                        monsterData["warrior"]["bounty"]+=2
-                        monsterData["armored"]["bounty"]+=2  
+                if (i%stats[0].waveBoss == 0){
+                    if (i<=stats[0].bossHpWave){
+                        monsterData['boss']['hp']*=stats[5].hp
+                    }else if (wave<=stats[0].bossHpWave1){
+                        monsterData['boss']['hp']*=stats[5].hp1
                     }else{
-                        monsterData["mario"]["bounty"]+=3
-                        monsterData["warrior"]["bounty"]+=3
-                        monsterData["armored"]["bounty"]+=3                
+                        monsterData['boss']['hp']*=stats[5].hp2
+                    }
+                    if (i<=stats[0].waveBounty){
+                        monsterData["mario"]["bounty"]+=stats[1].bounty
+                        monsterData["warrior"]["bounty"]+=stats[2].bounty
+                        monsterData["armored"]["bounty"]+=stats[3].bounty
+                        monsterData["boss"]["bounty"]+=stats[5].bounty
+                    }
+                    else{                
+                        monsterData["mario"]["bounty"]+=stats[1].bounty1
+                        monsterData["warrior"]["bounty"]+=stats[2].bounty1
+                        monsterData["armored"]["bounty"]+=stats[3].bounty1
+                        monsterData["boss"]["bounty"]+=stats[5].bounty1
                     }
                 }
-                if (wave%7 == 0){
+                else if (i%stats[0].waveWizard == 0){
                     if (i==7){
                         continue;
                     }
-                    monsterData['wizard']['hp']*=3
-                    if (wave<=21){
-                        monsterData["wizard"]["bounty"]+=1
-                    }
-                    else if(wave<=42){
-                        monsterData["wizard"]["bounty"]+=2                
+                    if(i<=stats[0].wizardHpWave){
+                        monsterData['wizard']['hp']*=stats[4].hp
+                        monsterData["wizard"]["bounty"]+=stats[4].bounty          
+                    }else if (i<=stats[0].wizardHpWave1){
+                        monsterData['wizard']['hp']*=stats[4].hp1
+                        monsterData["wizard"]["bounty"]+=stats[4].bounty1
                     }else{
-                        monsterData["wizard"]["bounty"]+=3  
+                        monsterData['wizard']['hp']*=stats[4].hp2
+                        monsterData["wizard"]["bounty"]+=stats[4].bounty1
                     }
                 }
-                if (i%5 == 0) {
+                else if (i%stats[0].waveArmored == 0) {
                     if (i==5) {
                         continue;
                     };
-                    if (wave<=42){
-                        monsterData["armored"]["hp"]*=2.4                
+                    if (i<=stats[0].armoredHpWave){
+                        monsterData["armored"]["hp"]*=stats[3].hp              
+                    }else if (i<=stats[0].armoredHpWave1){                
+                        monsterData["armored"]["hp"]*=stats[3].hp1
                     }else{
-                        monsterData["armored"]["hp"]*=2
+                        monsterData["armored"]["hp"]*=stats[3].hp2
                     }
                 }
-                else if (i%3 == 0) {
+                else if (i%stats[0].waveWarrior == 0) {
                     if (i==3) {
                         continue;
                     };
-                    if (wave<=42){
-                        monsterData["warrior"]["hp"]*=2                
+                    if (i<=stats[0].warriorHpWave){
+                        monsterData["warrior"]["hp"]*=stats[2].hp     
+                    }else if (i<=stats[0].warriorHpWave1){                
+                        monsterData["warrior"]["hp"]*=stats[2].hp1
                     }else{                
-                        monsterData["warrior"]["hp"]*=1.5
+                        monsterData["warrior"]["hp"]*=stats[2].hp2
                     }
                 }
                 else {
-                    if (wave<=42){
-                        monsterData["mario"]["hp"]*=1.4                
+                    if (i<=stats[0].marioHpWave){
+                        monsterData["mario"]["hp"]*=stats[1].hp             
+                    }else if (i<=stats[0].marioHpWave1){                
+                        monsterData["mario"]["hp"]*=stats[1].hp1
                     }else{                
-                        monsterData["mario"]["hp"]*=1.2
+                        monsterData["mario"]["hp"]*=stats[1].hp2
                     }
+
                 };
             };
             $('.powerBtn').addClass('cooldown');
@@ -372,6 +388,7 @@ Template.gameTab.onRendered(function() {
     $('.towerBtn').click(
         function(){
         bombActive=false
+        targetTower=false
         $('.towerBtn').removeClass('selected');
         $('.powerBtn').removeClass('selected');        
         $(this).addClass('selected');
@@ -551,6 +568,10 @@ menu = function() {
         grid(); //load grid onto map   
         bombGrid() //load grid for bomb
         onGame = 1 //controls keyboard functions
+
+        if (stats==false){   
+            stats = SystemVariable.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
+        } 
 
         $('#ff1').addClass('selected');            
     }
@@ -912,7 +933,7 @@ newGame = function() {
     //edit UI
     $('.ff').removeClass('selected');  
     $('#ff1').addClass('selected');
-    document.getElementById('pauseBtn').value = 'Start'
+    document.getElementById('pauseBtn').value = 'Start(`)'
 
     document.getElementById('freezeCd').innerHTML = ''
     document.getElementById('invincibleCd').innerHTML = ''
@@ -938,7 +959,7 @@ newGame = function() {
 currentGame = function() {
     $('.ff').removeClass('selected');  
     $('#ff1').addClass('selected');
-    document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById('pauseBtn').value = 'Play(`)';
 
     document.getElementById("armor").innerHTML = armorBonus+
     '<span class="ally">+'+allyArmor+'</span>'
@@ -993,7 +1014,7 @@ continueGame = function() {
     //edit UI
     $('.ff').removeClass('selected');  
     $('#ff1').addClass('selected');
-    document.getElementById('pauseBtn').value = 'Play';
+    document.getElementById('pauseBtn').value = 'Play(`)';
     
     document.getElementById("armor").innerHTML = armorBonus+
     '<span class="ally">+'+allyArmor+'</span>'
@@ -1203,17 +1224,12 @@ ff = function(ffSpeed) {
 }
 
 //next wave
-var stats = false
 nextWave = function() {
-    if (stats==false){   
-        stats = SystemVariable.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
-    } 
     if (!createjs.Ticker.getPaused()) {
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
 
-        console.log(wave%stats[0].waveWizard)
         if (wave%stats[0].waveDamage == 0){
             monsterData["wizard"]["damage"]+=stats[4].damage       
             monsterData["mario"]["damage"]+=stats[1].damage
@@ -1311,7 +1327,8 @@ togglePause = function() {
         stage.removeChild(pScreen);
         stage.enableMouseOver();
     }
-    document.getElementById("pauseBtn").value = !paused ? "play" : "pause";
+    document.getElementById("pauseBtn").value = !paused ? "play(`)" : "pause(`)";
+    bombActive = !paused ? false : true;
 
     //stop animation when paused
     if (powerFreeze==0){
@@ -1321,22 +1338,20 @@ togglePause = function() {
 };
 
 stopAnimate = function(condition) {
-    for (var i=0;i<monsters.length;i++) {
-        for (var j=0;j<4;j++) {
-            if (condition) {
-                monsters[i].getChildAt(1).gotoAndStop();
-                break;
-            } else {
-                monsters[i].getChildAt(1).gotoAndPlay();
-                break;
-            }
+    if (condition){
+        for (var i=0;i<monsters.length;i++) {
+            monsters[i].getChildAt(1).gotoAndStop();
         }
-    }
-    for (var i=0;i<bombs.length;i++) {
-        if (condition){
+        for (var i=0;i<bombs.length;i++) {
             bombs[i].gotoAndStop();
-        }else{bombs[i].gotoAndPlay();}
-        
+        }
+    }else {
+        for (var i=0;i<monsters.length;i++) {
+            monsters[i].getChildAt(1).gotoAndPlay();
+        }
+        for (var i=0;i<bombs.length;i++) {
+            bombs[i].gotoAndPlay();
+        }
     }
 }
 
@@ -1386,7 +1401,7 @@ gameOverAlert = function() {
         stopAnimate(true)
         pScreen.getChildAt(1).text = "GAME OVER"
         stage.addChild(pScreen)
-        document.getElementById('pauseBtn').value = 'Restart';
+        document.getElementById('pauseBtn').value = 'Restart(`)';
     }
 
 }

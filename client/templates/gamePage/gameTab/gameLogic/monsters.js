@@ -24,7 +24,7 @@ addMonster = function() {
         "image":warriorI, 
         "w": 24, 
         "h": 31, 
-        "speed": mob[1].hp, 
+        "speed": mob[1].speed, 
         "hp":    mob[1].hp, 
         "bounty":mob[1].bounty, 
         "damage":mob[1].damage
@@ -120,21 +120,25 @@ cAnimation = function() {
             if (j==0) {
                 if (checkPos==1) {
                     monsters[i].getChildAt(1).gotoAndPlay("up")
+                    monsters[i].pos[j]++
                 };
             }
             else if (j==1) {
                 if (checkPos==1) {
                     monsters[i].getChildAt(1).gotoAndPlay("right")
+                    monsters[i].pos[j]++
                 };
             }
             else if (j==2) {
                 if (checkPos==1) {
                     monsters[i].getChildAt(1).gotoAndPlay("down")
+                    monsters[i].pos[j]++
                 };
             }
             else if (j==3) {
                 if (checkPos==1) {
                     monsters[i].getChildAt(1).gotoAndPlay("left")
+                    monsters[i].pos[j]++
                 };
             }
         }    
@@ -183,7 +187,6 @@ monsterMovement = function() {
             mob.y+=mob.speed;
             if (mob.pos[2]==1) {
                 cAnimation();
-                mob.pos[2]++;
             }
         }
         //section 2
@@ -192,10 +195,7 @@ monsterMovement = function() {
             mob.x+=mob.speed;
             if (mob.pos[1]==0) {
                 mob.pos=[0,1,0,0];
-            }
-            else if (mob.pos[1]==1) {
                 cAnimation();
-                mob.pos[1]++;
             }
         }
         //section 3
@@ -204,10 +204,7 @@ monsterMovement = function() {
             mob.y-=mob.speed;
             if (mob.pos[0]==0) {
                 mob.pos=[1,0,0,0];
-            }
-            else if (mob.pos[0]==1) {
                 cAnimation();
-                mob.pos[0]++;
             }
         }
         //section 4
@@ -216,10 +213,7 @@ monsterMovement = function() {
             mob.x-=mob.speed;
             if (mob.pos[3]==0) {
                 mob.pos=[0,0,0,1];
-            }
-            else if (mob.pos[3]==1) {
                 cAnimation();
-                mob.pos[3]++;
             }
         }
         //section 5
@@ -228,10 +222,7 @@ monsterMovement = function() {
             mob.y+=mob.speed;
             if (mob.pos[2]==0) {
                 mob.pos=[0,0,1,0];
-            }
-            else if (mob.pos[2]==1) {
                 cAnimation();
-                mob.pos[2]++;
             }
         }
         //section 6
@@ -240,10 +231,7 @@ monsterMovement = function() {
             mob.x+=mob.speed;
             if (mob.pos[1]==0) {
                 mob.pos=[0,1,0,0];
-            }
-            else if (mob.pos[1]==1) {
                 cAnimation();
-                mob.pos[1]++;
             }
         }
         //section 7
@@ -251,10 +239,7 @@ monsterMovement = function() {
             mob.y-=mob.speed;
             if (mob.pos[0]==0) {
                 mob.pos=[1,0,0,0];
-            }
-            else if (mob.pos[0]==1) {
                 cAnimation();
-                mob.pos[0]++;
             }
         }
         //section 8
@@ -262,10 +247,7 @@ monsterMovement = function() {
             mob.x-=mob.speed;
             if (mob.pos[3]==0) {
                 mob.pos=[0,0,0,1];
-            }
-            else if (mob.pos[3]==1) {
                 cAnimation();
-                mob.pos[3]++;
             }
         }
         //monster attacks castle

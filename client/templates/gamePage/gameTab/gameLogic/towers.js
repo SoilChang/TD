@@ -296,7 +296,7 @@ updateInfo = function(tower) {
         basic +
         splash +
         effect +
-        "<input type='button' value='Upgrade' id='upgradeBtn'>" + 
+        "<input type='button' value='Upgrade(g)' id='upgradeBtn'>" + 
         towerData[tower.name]["cost"][tower.level] + "<br>" +
         "<input type='button' value='Sell' id='sellBtn'>" +
         sellPrice
