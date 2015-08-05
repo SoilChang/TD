@@ -163,9 +163,9 @@ shotsSplash = function(shot) {
 shotsEffect = function(shot,monster) {
     if (shot.name=="iceTower") {
         if (monster.slowCd<=0 || (monster.originSpeed*(1-shot.slow))<monster.speed) {
-            if (monster.speed*(1-shot.slow)<=.8) {
-                monster.slowSpeed = .8
-                monster.speed = .8
+            if (monster.speed*(1-shot.slow)<=.6) {
+                monster.slowSpeed = .6
+                monster.speed = .6
             } else {
                 monster.slowSpeed *= (1-shot.slow) 
                 monster.speed = monster.slowSpeed

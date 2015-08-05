@@ -12,6 +12,7 @@ keyboards = function() {
         $('.towerBtn').removeClass('selected');
         stage.removeChild(targetGrid);
         stage.removeChild(hoverT)
+        stage.removeChild(bomb)
         bombActive = false
         hoverGrid = false
         towerType = false

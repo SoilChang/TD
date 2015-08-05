@@ -387,6 +387,7 @@ Template.gameTab.events({
 Template.gameTab.onRendered(function() {
     $('.towerBtn').click(
         function(){
+        stage.removeChild(bomb)
         bombActive=false
         targetTower=false
         $('.towerBtn').removeClass('selected');
@@ -1140,9 +1141,34 @@ isDead = function(index) {
     stage.addChild(monsterKill)
     monsterDead.push(monsterKill)
 
+    var score = monsters[index].damage
+    if (wave<=45){
+        if (monsters[index].level%10==0 && score>5){
+            score=5
+        }
+        else if (score>3){
+            score=3
+        }
+    }
+    else if (wave<=75){
+        if (monsters[index].level%10==0 && score>10){
+            score=10
+        }
+        else if (score>6){
+            score=6
+        }
+    }
+    else{
+        if (monsters[index].level%10==0 && score>15){
+            score=15
+        }
+        else if (score>10){
+            score=10
+        }
+    }
     stage.removeChild(monsters[index]);
     cashy+=monsters[index].bounty;
-    scorez+=monsters[index].bounty;
+    scorez+=score;
     monsters.splice(index,1);
     document.getElementById("cash").innerHTML= cashy;
     document.getElementById("score").innerHTML= scorez;
@@ -1229,13 +1255,34 @@ nextWave = function() {
         wave++;
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
-
-        if (wave%stats[0].waveDamage == 0){
-            monsterData["wizard"]["damage"]+=stats[4].damage       
-            monsterData["mario"]["damage"]+=stats[1].damage
-            monsterData["warrior"]["damage"]+=stats[2].damage
-            monsterData["armored"]["damage"]+=stats[3].damage
-            monsterData["boss"]["damage"]+=stats[5].damage
+        if (Meteor.user()===null){
+            if (wave<=40){
+                if (wave%10==0){
+                    monsterData["wizard"]["damage"]+=1      
+                    monsterData["mario"]["damage"]+=1
+                    monsterData["warrior"]["damage"]+=1
+                    monsterData["armored"]["damage"]+=1
+                    monsterData["boss"]["damage"]+=2
+                }
+            }
+            else if (wave<=70){
+                if (wave%7==0){
+                    monsterData["wizard"]["damage"]+=1     
+                    monsterData["mario"]["damage"]+=1
+                    monsterData["warrior"]["damage"]+=1
+                    monsterData["armored"]["damage"]+=1
+                    monsterData["boss"]["damage"]+=2
+                }
+            }
+            else{
+                if (wave%5==0){
+                    monsterData["wizard"]["damage"]+=2       
+                    monsterData["mario"]["damage"]+=1
+                    monsterData["warrior"]["damage"]+=1
+                    monsterData["armored"]["damage"]+=1
+                    monsterData["boss"]["damage"]+=3
+                }
+            }
         }
         if (wave%stats[0].waveBoss == 0) {
             cMonster("boss",1)
@@ -1247,10 +1294,17 @@ nextWave = function() {
                 monsterData['boss']['hp']*=stats[5].hp2
             }
             if (wave<=stats[0].waveBounty){
-                monsterData["mario"]["bounty"]+=stats[1].bounty
-                monsterData["warrior"]["bounty"]+=stats[2].bounty
-                monsterData["armored"]["bounty"]+=stats[3].bounty
-                monsterData["boss"]["bounty"]+=stats[5].bounty
+                if (wave==10){
+                    monsterData["mario"]["bounty"]+=stats[1].bounty
+                    monsterData["armored"]["bounty"]+=stats[3].bounty
+                    monsterData["boss"]["bounty"]+=stats[5].bounty
+
+                }else{
+                    monsterData["mario"]["bounty"]+=stats[1].bounty
+                    monsterData["warrior"]["bounty"]+=stats[2].bounty
+                    monsterData["armored"]["bounty"]+=stats[3].bounty
+                    monsterData["boss"]["bounty"]+=stats[5].bounty                    
+                }
             }
             else{                
                 monsterData["mario"]["bounty"]+=stats[1].bounty1
@@ -1259,7 +1313,7 @@ nextWave = function() {
                 monsterData["boss"]["bounty"]+=stats[5].bounty1
             }
         }
-        else if (wave%stats[0].waveWizard ==0) {
+        else if (wave%stats[0].waveWizard==0) {
             cMonster("wizard",5)
             if(wave<=stats[0].wizardHpWave){
                 monsterData['wizard']['hp']*=stats[4].hp
@@ -1283,7 +1337,7 @@ nextWave = function() {
             }
         }
         else if (wave%stats[0].waveWarrior == 0) {
-            cMonster("warrior",6);
+            cMonster("warrior",5);
             if (wave<=stats[0].warriorHpWave){
                 monsterData["warrior"]["hp"]*=stats[2].hp     
             }else if (wave<=stats[0].warriorHpWave1){                
@@ -1328,7 +1382,9 @@ togglePause = function() {
         stage.enableMouseOver();
     }
     document.getElementById("pauseBtn").value = !paused ? "play(`)" : "pause(`)";
-    bombActive = !paused ? false : true;
+    if (paused){
+        bombActive=false
+    }
 
     //stop animation when paused
     if (powerFreeze==0){

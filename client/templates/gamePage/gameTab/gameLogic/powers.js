@@ -8,6 +8,7 @@ power = function(type) {
     $('.towerBtn').removeClass('selected');
     stage.removeChild(targetGrid);
     stage.removeChild(hoverT)
+    stage.removeChild(bomb)
     hoverGrid = false
     towerType = false
     towerName = false  

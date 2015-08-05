@@ -14,14 +14,14 @@ var allItemData=[
 		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:2,
-		hp1:1.2,
-		hp2:0
+		hp:1.4,
+		hp1:1.1,
+		hp2:1
 
 	},
 	{
 		name:'warrior1',
-		type:"multiplier",//warrior
+		type:"multiplier",
 		sequence:2,
 		damage:1,
 		damage1:0,
@@ -29,46 +29,40 @@ var allItemData=[
 		bounty1:2,
 		hp:2.2,
 		hp1:1.2,
-		hp2:0
+		hp2:1
 		
 	},
 	{
 		name:'armoured1',
-		type:"multiplier",//armoured
+		type:"multiplier",
 		sequence:3,
-		damage:1,
-		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:2.8,
-		hp1:1.8,
-		hp2:0
+		hp:4,
+		hp1:2.5,
+		hp2:1
 		
 	},
 	{
 		name:'wizard1',
-		type:"multiplier",//wizard
+		type:"multiplier",
 		sequence:4,
-		damage:2,
-		damage1:0,
 		bounty:2,
 		bounty1:3,
 		hp:3.4,
-		hp1:1.8,
-		hp2:0
+		hp1:1.3,
+		hp2:1
 		
 	},
 	{
 		name:'boss1',
-		type:"multiplier",//boss
+		type:"multiplier",
 		sequence:5,
-		damage:3,
-		damage1:0,
 		bounty:4,
 		bounty1:6,
-		hp:3.6,
-		hp1:2,
-		hp2:0
+		hp:5,
+		hp1:3,
+		hp2:1
 		
 	},
 	{

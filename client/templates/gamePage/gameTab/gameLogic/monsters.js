@@ -253,19 +253,6 @@ monsterMovement = function() {
         //monster attacks castle
         else {
             if (!mob.dead) {
-                if (!(mob.level in dmgCount)){
-                    dmgCount.push(mob.level)
-                    if (mob.level%7==0){
-                        monsterData["wizard"]["damage"]+=1                       
-                    }
-                    else{
-                        monsterData["wizard"]["damage"]+=1 
-                        monsterData["mario"]["damage"]+=1
-                        monsterData["warrior"]["damage"]+=1
-                        monsterData["armored"]["damage"]+=1
-                        monsterData["boss"]["damage"]+=1
-                    }
-                }
                 if (castleInvincible.active>=1){
                     if (castleInvincible.blocks>0){
                         castleBlock.cd = 5
@@ -287,9 +274,76 @@ monsterMovement = function() {
                 else if ((mob.damage-armorBonus)<=0){
                     castleBlock.cd = 5
                     stage.addChild(castleBlock)
+                    if (!(mob.level in dmgCount)){
+                        dmgCount.push(mob.level)
+                        if (mob.level<=70){
+                            if (mob.level%10==0){
+                                monsterData["boss"]["damage"]+=3
+                                monsterData["wizard"]["damage"]+=2
+                                monsterData["mario"]["damage"]+=1
+                                monsterData["warrior"]["damage"]+=1
+                                monsterData["armored"]["damage"]+=1                     
+                            }
+                            else if (mob.level%7==0){
+                                monsterData["boss"]["damage"]+=1
+                                monsterData["wizard"]["damage"]+=2
+                                monsterData["mario"]["damage"]+=1
+                                monsterData["warrior"]["damage"]+=1
+                                monsterData["armored"]["damage"]+=1
+                            }  
+                            else{
+                                monsterData["boss"]["damage"]+=1
+                                monsterData["wizard"]["damage"]+=1
+                                monsterData["mario"]["damage"]+=1
+                                monsterData["warrior"]["damage"]+=1
+                                monsterData["armored"]["damage"]+=1
+                            }                            
+                        }else{
+                            if (mob.level%10==0){
+                                monsterData["boss"]["damage"]+=5
+                                monsterData["wizard"]["damage"]+=3
+                                monsterData["mario"]["damage"]+=2
+                                monsterData["warrior"]["damage"]+=2
+                                monsterData["armored"]["damage"]+=2                     
+                            }
+                            else{
+                                monsterData["boss"]["damage"]+=3
+                                monsterData["wizard"]["damage"]+=3
+                                monsterData["mario"]["damage"]+=2
+                                monsterData["warrior"]["damage"]+=2
+                                monsterData["armored"]["damage"]+=2
+                            }     
+
+                        }
+                    }
                 } else {
                     if (allyHp>0) {
                         var dmg = allyHp - (mob.damage-armorBonus)
+                        if (wave<=45){
+                            if (mob.level%10==0 && dmg>5){
+                                dmg=5
+                            }
+                            else if (dmg>2){
+                                dmg=2
+                            }
+                        }
+                        else if (wave<=75){
+                            if (mob.level%10==0 && dmg>10){
+                                dmg=10
+                            }
+                            else if (dmg>4){
+                                dmg=4
+                            }
+                        }
+                        else{
+                            if (mob.level%10==0 && dmg>15){
+                                dmg=15
+                            }
+                            else if (dmg>6){
+                                dmg=6
+                            }
+                        }
+                        //actual dmg
                         if (dmg>=0) {
                             allyHp -= (mob.damage-armorBonus)
                         } else {
