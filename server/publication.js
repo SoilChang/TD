@@ -28,3 +28,7 @@ Meteor.publish('allUserData', function(){
 Meteor.publish("monstertower", function(){
 	return MonsterTower.find();
 });
+
+Meteor.publish("systemVariable",function(){
+	return SystemVariable.find();
+})

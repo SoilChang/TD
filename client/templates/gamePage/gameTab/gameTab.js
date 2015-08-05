@@ -1206,7 +1206,7 @@ ff = function(ffSpeed) {
 var stats = false
 nextWave = function() {
     if (stats==false){   
-        stats = MonsterTower.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
+        stats = SystemVariable.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
     } 
     if (!createjs.Ticker.getPaused()) {
         wave++;

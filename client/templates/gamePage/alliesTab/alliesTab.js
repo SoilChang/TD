@@ -213,7 +213,7 @@ Template.alliesTab.helpers({
 	},
 
 	loadPercent:function(){
-		var percent = MonsterTower.findOne({name:"systemVariables"});
+		var percent = SystemVariable.findOne({name:"systemVariables"});
 		return percent.allyBonus*100;
 	}
 

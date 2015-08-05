@@ -227,7 +227,7 @@ Meteor.methods({
 		// pull out ally stats
 		var ally = Meteor.user().ally;
 		var idx = _.indexOf(ally, identity);
-		var multiplier = MonsterTower.findOne({name:"systemVariables"});
+		var multiplier = SystemVariable.findOne({name:"systemVariables"});
 		if(idx >= 0){
 			var object = Meteor.users.findOne({_id:identity});
 				// minus stats
@@ -275,7 +275,7 @@ Meteor.methods({
 		if( _.indexOf(ally, identity) >= 0)
 			return;
 	
-		var multiplier = MonsterTower.findOne({name:"systemVariables"});
+		var multiplier = SystemVariable.findOne({name:"systemVariables"});
 		// incrase bonus
 		var object = Meteor.users.findOne({_id:identity});
 		var hpPlus = Math.ceil(object.hpBonus*multiplier.allyBonus);
