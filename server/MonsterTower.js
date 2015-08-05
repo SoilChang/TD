@@ -193,7 +193,7 @@ var allItemData	= [
 		sequence:5,
 		type: 'monster',
 		speed: 2,
-		hp: 300,
+		hp: 350,
 		bounty: 10,
 		damage: 5,
 		description:"The boss monster, dealing more damage and giving you more gold."
@@ -207,6 +207,28 @@ var allItemData	= [
 		allyBonus: 0.3
 	},
 	{
+		name:'wave',
+		type:"multiplier",
+		sequence:0,
+		waveDamage:12,
+		waveWarrior:3,
+		waveArmored:5,
+		waveWizard:7,
+		waveBoss:10,
+		waveBounty:35,
+		marioHpWave:30,
+		marioHpWave1:100,
+		warriorHpWave:30,
+		warriorHpWave1:100,
+		armoredHpWave:30,
+		armoredHpWave1:100,
+		wizardHpWave:30,
+		wizardHpWave1:100,
+		bossHpWave:30,
+		bossHpWave1:100
+		
+	},
+	{
 		name:'mario1',
 		type:"multiplier",//mario
 		sequence:1,
@@ -214,8 +236,8 @@ var allItemData	= [
 		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:1.4,
-		hp1:1.05,
+		hp:2,
+		hp1:1.2,
 		hp2:0
 
 	},
@@ -227,7 +249,7 @@ var allItemData	= [
 		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:2,
+		hp:2.2,
 		hp1:1.2,
 		hp2:0
 		
@@ -240,8 +262,8 @@ var allItemData	= [
 		damage1:0,
 		bounty:1,
 		bounty1:2,
-		hp:2.4,
-		hp1:1.4,
+		hp:2.8,
+		hp1:1.8,
 		hp2:0
 		
 	},
@@ -253,8 +275,8 @@ var allItemData	= [
 		damage1:0,
 		bounty:2,
 		bounty1:3,
-		hp:3,
-		hp1:1.5,
+		hp:3.4,
+		hp1:1.8,
 		hp2:0
 		
 	},
@@ -266,8 +288,8 @@ var allItemData	= [
 		damage1:0,
 		bounty:4,
 		bounty1:6,
-		hp:3,
-		hp1:1.6,
+		hp:3.6,
+		hp1:2,
 		hp2:0
 		
 	}

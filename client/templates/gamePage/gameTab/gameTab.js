@@ -1205,7 +1205,7 @@ ff = function(ffSpeed) {
 //next wave
 var stats = false
 nextWave = function() {
-    if (stats==false){
+    if (stats==false){   
         stats = MonsterTower.find({type:'multiplier'}, {sort:{sequence:1}}).fetch()
     } 
     if (!createjs.Ticker.getPaused()) {
@@ -1213,65 +1213,77 @@ nextWave = function() {
         document.getElementById("cdTimer").innerHTML = 0;
         document.getElementById("wave").innerHTML = wave;
 
-        if (wave%12 == 0){
-            monsterData["wizard"]["damage"]+=stats[3].damage       
-            monsterData["mario"]["damage"]+=stats[0].damage
-            monsterData["warrior"]["damage"]+=stats[1].damage
-            monsterData["armored"]["damage"]+=stats[2].damage
-            monsterData["boss"]["damage"]+=stats[4].damage
+        console.log(wave%stats[0].waveWizard)
+        if (wave%stats[0].waveDamage == 0){
+            monsterData["wizard"]["damage"]+=stats[4].damage       
+            monsterData["mario"]["damage"]+=stats[1].damage
+            monsterData["warrior"]["damage"]+=stats[2].damage
+            monsterData["armored"]["damage"]+=stats[3].damage
+            monsterData["boss"]["damage"]+=stats[5].damage
         }
-        if (wave%10 == 0) {
+        if (wave%stats[0].waveBoss == 0) {
             cMonster("boss",1)
-            if(wave<=42){
-                monsterData['boss']['hp']*=stats[4].hp
+            if(wave<=stats[0].bossHpWave){
+                monsterData['boss']['hp']*=stats[5].hp
+            }else if (wave<=stats[0].bossHpWave1){
+                monsterData['boss']['hp']*=stats[5].hp1
             }else{
-                monsterData['boss']['hp']*=stats[4].hp1
+                monsterData['boss']['hp']*=stats[5].hp2
             }
-            if (wave<=40){
-                monsterData["mario"]["bounty"]+=stats[0].bounty
-                monsterData["warrior"]["bounty"]+=stats[1].bounty
-                monsterData["armored"]["bounty"]+=stats[2].bounty
-                monsterData["boss"]["bounty"]+=stats[4].bounty
+            if (wave<=stats[0].waveBounty){
+                monsterData["mario"]["bounty"]+=stats[1].bounty
+                monsterData["warrior"]["bounty"]+=stats[2].bounty
+                monsterData["armored"]["bounty"]+=stats[3].bounty
+                monsterData["boss"]["bounty"]+=stats[5].bounty
             }
             else{                
-                monsterData["mario"]["bounty"]+=stats[0].bounty1
-                monsterData["warrior"]["bounty"]+=stats[1].bounty1
-                monsterData["armored"]["bounty"]+=stats[2].bounty1
-                monsterData["boss"]["bounty"]+=stats[4].bounty1
+                monsterData["mario"]["bounty"]+=stats[1].bounty1
+                monsterData["warrior"]["bounty"]+=stats[2].bounty1
+                monsterData["armored"]["bounty"]+=stats[3].bounty1
+                monsterData["boss"]["bounty"]+=stats[5].bounty1
             }
         }
-        else if (wave%7 ==0) {
+        else if (wave%stats[0].waveWizard ==0) {
             cMonster("wizard",5)
-            if(wave<=42){
-                monsterData['wizard']['hp']*=stats[3].hp
-                monsterData["wizard"]["bounty"]+=stats[3].bounty          
+            if(wave<=stats[0].wizardHpWave){
+                monsterData['wizard']['hp']*=stats[4].hp
+                monsterData["wizard"]["bounty"]+=stats[4].bounty          
+            }else if (wave<=stats[0].wizardHpWave1){
+                monsterData['wizard']['hp']*=stats[4].hp1
+                monsterData["wizard"]["bounty"]+=stats[4].bounty1
             }else{
-                monsterData['wizard']['hp']*=stats[3].hp1
+                monsterData['wizard']['hp']*=stats[4].hp2
                 monsterData["wizard"]["bounty"]+=stats[4].bounty1
             }
         }
-        else if (wave%5 == 0) {
+        else if (wave%stats[0].waveArmored == 0) {
             cMonster("armored",8);
-            if (wave<=42){
-                monsterData["armored"]["hp"]*=stats[2].hp              
+            if (wave<=stats[0].armoredHpWave){
+                monsterData["armored"]["hp"]*=stats[3].hp              
+            }else if (wave<=stats[0].armoredHpWave1){                
+                monsterData["armored"]["hp"]*=stats[3].hp1
             }else{
-                monsterData["armored"]["hp"]*=stats[2].hp1
+                monsterData["armored"]["hp"]*=stats[3].hp2
             }
         }
-        else if (wave%3 == 0) {
+        else if (wave%stats[0].waveWarrior == 0) {
             cMonster("warrior",6);
-            if (wave<=42){
-                monsterData["warrior"]["hp"]*=stats[1].hp     
+            if (wave<=stats[0].warriorHpWave){
+                monsterData["warrior"]["hp"]*=stats[2].hp     
+            }else if (wave<=stats[0].warriorHpWave1){                
+                monsterData["warrior"]["hp"]*=stats[2].hp1
             }else{                
-                monsterData["warrior"]["hp"]*=stats[1].hp1
+                monsterData["warrior"]["hp"]*=stats[2].hp2
             }
         }
         else {
             cMonster("mario",9);
-            if (wave<=42){
-                monsterData["mario"]["hp"]*=stats[0].hp             
+            if (wave<=stats[0].marioHpWave){
+                monsterData["mario"]["hp"]*=stats[1].hp             
+            }else if (wave<=stats[0].marioHpWave1){                
+                monsterData["mario"]["hp"]*=stats[1].hp1
             }else{                
-                monsterData["mario"]["hp"]*=stats[0].hp1
+                monsterData["mario"]["hp"]*=stats[1].hp2
             }
         }  
 

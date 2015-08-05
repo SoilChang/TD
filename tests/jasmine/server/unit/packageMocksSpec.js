@@ -7090,7 +7090,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "f527e6149ce7d8c9a956cf8066e12bde115547b8"
+                  "value": "47ccc364e00cc78063fe21ccd7cc1a3bd8c352e0"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7877,11 +7877,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "cf4ef2a02f8b57c1fbea8ded49cf207451ea7911"
+          "value": "a2551f2db81ac64832467ea9fd341bb9ffec47e6"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "3bca2a83fdd418c802f99730794773c2d34fdebb"
+          "value": "13cbcdf30dd773c3b258db34d3b8f35ce6d55c7a"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
@@ -9853,6 +9853,25 @@ var packageMetadata = {
           "type": "function"
         }
       }
+    },
+    "ObjectLogger": {
+      "type": "function",
+      "members": {
+        "prototype": {
+          "type": "object",
+          "members": {
+            "enter": {
+              "type": "function"
+            },
+            "return": {
+              "type": "function"
+            },
+            "bindMethod": {
+              "type": "function"
+            }
+          }
+        }
+      }
     }
   },
   "velocity:chokidar": {
@@ -10189,6 +10208,16 @@ var packageMetadata = {
       }
     }
   },
+  "velocity:source-map-support": {
+    "SourceMapSupport": {
+      "type": "object",
+      "members": {
+        "install": {
+          "type": "function"
+        }
+      }
+    }
+  },
   "sanjo:long-running-child-process": {
     "LongRunningChildProcess": {
       "type": "function",
@@ -10335,6 +10364,9 @@ var packageMetadata = {
     "Velocity": {
       "type": "object",
       "members": {
+        "reusableMirrors": {
+          "type": "array"
+        },
         "startup": {
           "type": "function"
         },
@@ -10362,6 +10394,9 @@ var packageMetadata = {
         "registerTestingFramework": {
           "type": "function"
         },
+        "unregisterTestingFramework": {
+          "type": "function"
+        },
         "onTest": {
           "type": "function"
         },
@@ -10380,11 +10415,11 @@ var packageMetadata = {
         },
         "mirrorMeteorVersion": {
           "type": "constant",
-          "value": "1.1.0.2_3"
+          "value": "1.1.0.3_2"
         },
         "mirrorMeteorRelease": {
           "type": "constant",
-          "value": "velocity:METEOR@1.1.0.2_3"
+          "value": "velocity:METEOR@1.1.0.3_2"
         },
         "mirrorMeteorToolReleaseName": {
           "type": "constant",
@@ -10392,11 +10427,11 @@ var packageMetadata = {
         },
         "mirrorMeteorToolVersion": {
           "type": "constant",
-          "value": "1.1.3_4"
+          "value": "1.1.4_2"
         },
         "mirrorMeteorToolRelease": {
           "type": "constant",
-          "value": "velocity:meteor-tool@1.1.3_4"
+          "value": "velocity:meteor-tool@1.1.4_2"
         }
       }
     },
@@ -10732,6 +10767,9 @@ var packageMetadata = {
       "members": {
         "onTest": {
           "type": "function"
+        },
+        "setKarmaConfig": {
+          "type": "function"
         }
       }
     }
@@ -10739,6 +10777,852 @@ var packageMetadata = {
   "velocity:html-reporter": {},
   "dburles:mongo-collection-instances": {},
   "houston:admin": {},
+  "meteorhacks:meteorx": {
+    "MeteorX": {
+      "type": "object",
+      "members": {
+        "onReady": {
+          "type": "function"
+        },
+        "Server": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "onConnection": {
+                  "type": "function"
+                },
+                "publish": {
+                  "type": "function"
+                },
+                "methods": {
+                  "type": "function"
+                },
+                "call": {
+                  "type": "function"
+                },
+                "apply": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "Session": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "sendReady": {
+                  "type": "function"
+                },
+                "sendAdded": {
+                  "type": "function"
+                },
+                "sendChanged": {
+                  "type": "function"
+                },
+                "sendRemoved": {
+                  "type": "function"
+                },
+                "getSendCallbacks": {
+                  "type": "function"
+                },
+                "getCollectionView": {
+                  "type": "function"
+                },
+                "added": {
+                  "type": "function"
+                },
+                "removed": {
+                  "type": "function"
+                },
+                "changed": {
+                  "type": "function"
+                },
+                "startUniversalSubs": {
+                  "type": "function"
+                },
+                "close": {
+                  "type": "function"
+                },
+                "send": {
+                  "type": "function"
+                },
+                "sendError": {
+                  "type": "function"
+                },
+                "processMessage": {
+                  "type": "function"
+                },
+                "protocol_handlers": {
+                  "type": "object",
+                  "members": {
+                    "sub": {
+                      "type": "function"
+                    },
+                    "unsub": {
+                      "type": "function"
+                    },
+                    "method": {
+                      "type": "function"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Subscription": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "error": {
+                  "type": "function"
+                },
+                "stop": {
+                  "type": "function"
+                },
+                "onStop": {
+                  "type": "function"
+                },
+                "added": {
+                  "type": "function"
+                },
+                "changed": {
+                  "type": "function"
+                },
+                "removed": {
+                  "type": "function"
+                },
+                "ready": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "SessionCollectionView": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "isEmpty": {
+                  "type": "function"
+                },
+                "diff": {
+                  "type": "function"
+                },
+                "diffDocument": {
+                  "type": "function"
+                },
+                "added": {
+                  "type": "function"
+                },
+                "changed": {
+                  "type": "function"
+                },
+                "removed": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "SessionDocumentView": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "getFields": {
+                  "type": "function"
+                },
+                "clearField": {
+                  "type": "function"
+                },
+                "changeField": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "MongoConnection": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "close": {
+                  "type": "function"
+                },
+                "rawCollection": {
+                  "type": "function"
+                },
+                "insert": {
+                  "type": "function"
+                },
+                "update": {
+                  "type": "function"
+                },
+                "remove": {
+                  "type": "function"
+                },
+                "dropCollection": {
+                  "type": "function"
+                },
+                "upsert": {
+                  "type": "function"
+                },
+                "find": {
+                  "type": "function"
+                },
+                "findOne": {
+                  "type": "function"
+                },
+                "tail": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "MongoCursor": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "forEach": {
+                  "type": "function"
+                },
+                "map": {
+                  "type": "function"
+                },
+                "fetch": {
+                  "type": "function"
+                },
+                "count": {
+                  "type": "function"
+                },
+                "rewind": {
+                  "type": "function"
+                },
+                "getTransform": {
+                  "type": "function"
+                },
+                "observe": {
+                  "type": "function"
+                },
+                "observeChanges": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "MongoOplogDriver": {
+          "type": "function",
+          "members": {
+            "cursorSupported": {
+              "type": "function"
+            },
+            "prototype": {
+              "type": "object",
+              "members": {
+                "stop": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "MongoPollingDriver": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "stop": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "Multiplexer": {
+          "type": "function",
+          "members": {
+            "prototype": {
+              "type": "object",
+              "members": {
+                "addHandleAndSendInitialAdds": {
+                  "type": "function"
+                },
+                "removeHandle": {
+                  "type": "function"
+                },
+                "ready": {
+                  "type": "function"
+                },
+                "queryError": {
+                  "type": "function"
+                },
+                "onFlush": {
+                  "type": "function"
+                },
+                "callbackNames": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "meteorhacks:kadira": {
+    "Kadira": {
+      "type": "object",
+      "members": {
+        "options": {
+          "type": "object",
+          "members": {
+            "appId": {
+              "type": "constant",
+              "value": "Sqk3ekD38qvw6MZr7"
+            },
+            "appSecret": {
+              "type": "constant",
+              "value": "007eeb64-b93a-4d62-9d10-677666ce26fc"
+            },
+            "payloadTimeout": {
+              "type": "constant",
+              "value": 20000
+            },
+            "endpoint": {
+              "type": "constant",
+              "value": "https://enginex.kadira.io"
+            },
+            "clientEngineSyncDelay": {
+              "type": "constant",
+              "value": 10000
+            },
+            "thresholds": {
+              "type": "object"
+            },
+            "hostname": {
+              "type": "constant",
+              "value": "Dylans-MacBook-Pro.local"
+            },
+            "proxy": {
+              "type": "null",
+              "value": null
+            },
+            "authHeaders": {
+              "type": "object",
+              "members": {
+                "KADIRA-APP-ID": {
+                  "type": "constant",
+                  "value": "Sqk3ekD38qvw6MZr7"
+                },
+                "KADIRA-APP-SECRET": {
+                  "type": "constant",
+                  "value": "007eeb64-b93a-4d62-9d10-677666ce26fc"
+                },
+                "Content-Type": {
+                  "type": "constant",
+                  "value": "application/json"
+                }
+              }
+            }
+          }
+        },
+        "EventBus": {
+          "type": "object",
+          "members": {
+            "on": {
+              "type": "function"
+            },
+            "emit": {
+              "type": "function"
+            },
+            "removeListener": {
+              "type": "function"
+            },
+            "removeAllListeners": {
+              "type": "function"
+            }
+          }
+        },
+        "Jobs": {
+          "type": "object",
+          "members": {
+            "getAsync": {
+              "type": "function"
+            },
+            "setAsync": {
+              "type": "function"
+            },
+            "get": {
+              "type": "function"
+            },
+            "set": {
+              "type": "function"
+            }
+          }
+        },
+        "checkWhyNoOplog": {
+          "type": "function"
+        },
+        "tracer": {
+          "type": "object",
+          "members": {
+            "start": {
+              "type": "function",
+              "refID": 25
+            },
+            "event": {
+              "type": "function",
+              "refID": 27
+            },
+            "eventEnd": {
+              "type": "function",
+              "refID": 29
+            },
+            "getLastEvent": {
+              "type": "function",
+              "refID": 31
+            },
+            "endLastEvent": {
+              "type": "function",
+              "refID": 33
+            },
+            "buildTrace": {
+              "type": "function",
+              "refID": 35
+            },
+            "addFilter": {
+              "type": "function",
+              "refID": 37
+            }
+          }
+        },
+        "Tracer": {
+          "type": "function",
+          "members": {
+            "stripSensitive": {
+              "type": "function"
+            },
+            "stripSelectors": {
+              "type": "function"
+            },
+            "prototype": {
+              "type": "object",
+              "members": {
+                "start": {
+                  "ref": 25
+                },
+                "event": {
+                  "ref": 27
+                },
+                "eventEnd": {
+                  "ref": 29
+                },
+                "getLastEvent": {
+                  "ref": 31
+                },
+                "endLastEvent": {
+                  "ref": 33
+                },
+                "buildTrace": {
+                  "ref": 35
+                },
+                "addFilter": {
+                  "ref": 37
+                }
+              }
+            }
+          }
+        },
+        "models": {
+          "type": "object",
+          "members": {
+            "methods": {
+              "type": "object",
+              "members": {
+                "methodMetricsByMinute": {
+                  "type": "object"
+                },
+                "errorMap": {
+                  "type": "object"
+                },
+                "maxEventTimesForMethods": {
+                  "type": "object"
+                },
+                "tracerStore": {
+                  "type": "object",
+                  "members": {
+                    "maxTotalPoints": {
+                      "type": "constant",
+                      "value": 30
+                    },
+                    "interval": {
+                      "type": "constant",
+                      "value": 60000
+                    },
+                    "archiveEvery": {
+                      "type": "constant",
+                      "value": 5
+                    },
+                    "maxTotals": {
+                      "type": "object"
+                    },
+                    "currentMaxTrace": {
+                      "type": "object"
+                    },
+                    "traceArchive": {
+                      "type": "array"
+                    },
+                    "processedCnt": {
+                      "type": "object"
+                    },
+                    "errorMap": {
+                      "type": "object"
+                    },
+                    "addTrace": {
+                      "type": "function",
+                      "refID": 56
+                    },
+                    "collectTraces": {
+                      "type": "function",
+                      "refID": 58
+                    },
+                    "start": {
+                      "type": "function",
+                      "refID": 60
+                    },
+                    "stop": {
+                      "type": "function",
+                      "refID": 62
+                    },
+                    "processTraces": {
+                      "type": "function",
+                      "refID": 64
+                    }
+                  }
+                },
+                "processMethod": {
+                  "type": "function"
+                },
+                "buildPayload": {
+                  "type": "function"
+                }
+              }
+            },
+            "pubsub": {
+              "type": "object",
+              "members": {
+                "metricsByMinute": {
+                  "type": "object"
+                },
+                "subscriptions": {
+                  "type": "object"
+                },
+                "tracerStore": {
+                  "type": "object",
+                  "members": {
+                    "maxTotalPoints": {
+                      "type": "constant",
+                      "value": 30
+                    },
+                    "interval": {
+                      "type": "constant",
+                      "value": 60000
+                    },
+                    "archiveEvery": {
+                      "type": "constant",
+                      "value": 5
+                    },
+                    "maxTotals": {
+                      "type": "object"
+                    },
+                    "currentMaxTrace": {
+                      "type": "object"
+                    },
+                    "traceArchive": {
+                      "type": "array"
+                    },
+                    "processedCnt": {
+                      "type": "object"
+                    },
+                    "errorMap": {
+                      "type": "object"
+                    },
+                    "addTrace": {
+                      "ref": 56
+                    },
+                    "collectTraces": {
+                      "ref": 58
+                    },
+                    "start": {
+                      "ref": 60
+                    },
+                    "stop": {
+                      "ref": 62
+                    },
+                    "processTraces": {
+                      "ref": 64
+                    }
+                  }
+                },
+                "buildPayload": {
+                  "type": "function"
+                },
+                "incrementHandleCount": {
+                  "type": "function"
+                },
+                "trackCreatedObserver": {
+                  "type": "function"
+                },
+                "trackDeletedObserver": {
+                  "type": "function"
+                }
+              }
+            },
+            "system": {
+              "type": "object",
+              "members": {
+                "startTime": {
+                  "type": "constant",
+                  "value": 1438757501686
+                },
+                "newSessions": {
+                  "type": "constant",
+                  "value": 0
+                },
+                "sessionTimeout": {
+                  "type": "constant",
+                  "value": 1800000
+                },
+                "usageLookup": {
+                  "type": "function"
+                },
+                "buildPayload": {
+                  "type": "function"
+                },
+                "getUsage": {
+                  "type": "function"
+                },
+                "handleSessionActivity": {
+                  "type": "function"
+                },
+                "countNewSession": {
+                  "type": "function"
+                },
+                "isSessionActive": {
+                  "type": "function"
+                }
+              }
+            },
+            "error": {
+              "type": "object",
+              "refID": 100,
+              "members": {
+                "appId": {
+                  "type": "constant",
+                  "value": "Sqk3ekD38qvw6MZr7"
+                },
+                "errors": {
+                  "type": "object"
+                },
+                "startTime": {
+                  "type": "constant",
+                  "value": 1438757501812
+                },
+                "maxErrors": {
+                  "type": "constant",
+                  "value": 10
+                },
+                "addFilter": {
+                  "type": "function"
+                },
+                "removeFilter": {
+                  "type": "function"
+                },
+                "applyFilters": {
+                  "type": "function"
+                },
+                "buildPayload": {
+                  "type": "function"
+                },
+                "errorCount": {
+                  "type": "function"
+                },
+                "trackError": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "env": {
+          "type": "object",
+          "members": {
+            "currentSub": {
+              "type": "null",
+              "value": null
+            },
+            "kadiraInfo": {
+              "type": "object",
+              "members": {
+                "slot": {
+                  "type": "constant",
+                  "value": 4
+                },
+                "get": {
+                  "type": "function"
+                },
+                "getOrNullIfOutsideFiber": {
+                  "type": "function"
+                },
+                "withValue": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "waitTimeBuilder": {
+          "type": "object",
+          "members": {
+            "register": {
+              "type": "function"
+            },
+            "build": {
+              "type": "function"
+            },
+            "trackWaitTime": {
+              "type": "function"
+            }
+          }
+        },
+        "errors": {
+          "ref": 100
+        },
+        "connect": {
+          "type": "function"
+        },
+        "authCheckFailures": {
+          "type": "constant",
+          "value": 0
+        },
+        "enableErrorTracking": {
+          "type": "function"
+        },
+        "disableErrorTracking": {
+          "type": "function"
+        },
+        "trackError": {
+          "type": "function"
+        },
+        "ignoreErrorTracking": {
+          "type": "function"
+        },
+        "errorFilters": {
+          "type": "object",
+          "members": {
+            "filterValidationErrors": {
+              "type": "function"
+            },
+            "filterCommonMeteorErrors": {
+              "type": "function"
+            }
+          }
+        },
+        "send": {
+          "type": "function"
+        },
+        "syncedDate": {
+          "type": "object",
+          "members": {
+            "endpoint": {
+              "type": "constant",
+              "value": "https://enginex.kadira.io/simplentp/sync"
+            },
+            "diff": {
+              "type": "constant",
+              "value": 0
+            },
+            "reSyncCount": {
+              "type": "constant",
+              "value": 0
+            },
+            "reSync": {
+              "type": "object",
+              "members": {
+                "baseTimeout": {
+                  "type": "constant",
+                  "value": 60000
+                },
+                "maxTimeout": {
+                  "type": "constant",
+                  "value": 600000
+                },
+                "minCount": {
+                  "type": "constant",
+                  "value": 0
+                },
+                "exponent": {
+                  "type": "constant",
+                  "value": 2.2
+                },
+                "minTimeout": {
+                  "type": "constant",
+                  "value": 10
+                },
+                "fuzz": {
+                  "type": "constant",
+                  "value": 0.5
+                },
+                "retryTimer": {
+                  "type": "null",
+                  "value": null
+                },
+                "clear": {
+                  "type": "function"
+                },
+                "retryLater": {
+                  "type": "function"
+                }
+              }
+            },
+            "setEndpoint": {
+              "type": "function"
+            },
+            "getTime": {
+              "type": "function"
+            },
+            "syncTime": {
+              "type": "function"
+            },
+            "sync": {
+              "type": "function"
+            },
+            "getServerTime": {
+              "type": "function"
+            }
+          }
+        }
+      }
+    }
+  },
   "session": {}
 }
 var globalContext = (typeof global !== 'undefined') ? global : window

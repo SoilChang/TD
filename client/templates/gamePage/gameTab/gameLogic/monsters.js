@@ -7,6 +7,7 @@
 addMonster = function() {
 
     var mob = MonsterTower.find({type:"monster"}, {sort:{sequence:1}}).fetch();
+
     //mario
     monsterData["mario"] ={
         "image":marioI, 
@@ -267,7 +268,7 @@ monsterMovement = function() {
                 mob.pos[3]++;
             }
         }
-        //tacks castle
+        //monster attacks castle
         else {
             if (!mob.dead) {
                 if (!(mob.level in dmgCount)){
@@ -280,6 +281,7 @@ monsterMovement = function() {
                         monsterData["mario"]["damage"]+=1
                         monsterData["warrior"]["damage"]+=1
                         monsterData["armored"]["damage"]+=1
+                        monsterData["boss"]["damage"]+=1
                     }
                 }
                 if (castleInvincible.active>=1){
