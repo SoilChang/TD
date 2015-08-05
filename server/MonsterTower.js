@@ -204,7 +204,7 @@ var allItemData	= [
 		###############################################*/
 	{
 		name: "systemVariables",
-		allyBonus: 0.3
+		allyBonus: 0.15
 	},
 	{
 		name:'wave',
@@ -308,9 +308,9 @@ for(var i=0; i<len; i++){
 		MonsterTower.insert(allItemData[i]);
 	}else{
 		// if found
-	/*	MonsterTower.remove({_id: object._id});
+		MonsterTower.remove({_id: object._id});
 		_.extend( {_id:object._id} , allItemData[i] );
-		MonsterTower.insert(allItemData[i]);*/
+		MonsterTower.insert(allItemData[i]);
 	}
 }
 
