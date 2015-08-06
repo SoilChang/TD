@@ -1099,9 +1099,13 @@ errorTextcd = function() {
 //timer for next wave
 timer = function() {
     if (lastMon) {
-        if (lastMon.y>0) {
+        if (lastMon.y>0 && lastMon.name!="boss") {
             countDown = 160;
-            lastMon = false
+            lastMon = false;
+        }
+        else if (lastMon.y>0){
+            countDown = 240;
+            lastMon = false;            
         }
     }
     else if (countDown==0) {
@@ -1299,6 +1303,9 @@ nextWave = function() {
         }
         if (wave%stats[0].waveBoss == 0) {
             cMonster("boss",1)
+            if (!muted) {
+                createjs.Sound.play('gameOverSound').volume=.3
+            }  
             if(wave<=stats[0].bossHpWave){
                 monsterData['boss']['hp']*=stats[5].hp
             }else if (wave<=stats[0].bossHpWave1){
@@ -1407,7 +1414,9 @@ stopAnimate = function(condition) {
 
 //game over
 isOver = function() {
-    createjs.Sound.play('gameOverSound').volume=.2
+    if (!muted) {
+        createjs.Sound.play('gameOver').volume = .5;
+    }  
     gameRunning=0
     var minWave = []
     for (var i=0;i<monsters.length;i++) {

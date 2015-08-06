@@ -156,19 +156,19 @@ powerEffect = function(type){
     else if (type=='meteorite'){
         updateIcon(type,'add')
         if (!muted) {      
-            CometSound.play().setVolume(15);
+            CometSound.play().setVolume(40);
         }
         $("#meteor").animate({marginLeft:"500px",marginTop:"130px"},40000/speed,function(){
             $("#meteor").css({"margin-top":"-250px", "margin-left":"-200px"});
         });  
         $("#impactShadow").animate({marginLeft:"615px", marginTop:"270px",height:"100px",opacity:"0.9"},40000/speed,function(){
             if (!muted) {      
-                artillerySound.play().setVolume(10);
+                artillerySound.play().setVolume(35);
             }
             $("#impactShadow").css({"height":"10px","margin-left":"-100px","margin-top":"300px;","opacity":"0.1"});
             $("#playingField").effect("shake",function(){
                 if (!muted) {      
-                    explosionSound.play().setVolume(10);
+                    explosionSound.play().setVolume(35);
                 }
                 $("#redCircle").show(function(){
                     powerMeteorite = 3600
@@ -186,7 +186,7 @@ powerEffect = function(type){
         updateIcon(type,'add');
         $("#angel").show();
         if (!muted) {      
-            musicBoxSound.play().setVolume(6);
+            musicBoxSound.play().setVolume(30);
         }
         $("#angel").animate({"margin-top":"180px"},1000/speed,function(){
             $("#wings").show();
@@ -204,7 +204,7 @@ powerEffect = function(type){
     else if (type=='dd'){
         updateIcon(type,'add')
         if (!muted) {      
-            slideInSound.play().setVolume(35).setSpeed(2);
+            slideInSound.play().setSpeed(2);
         }
         $("#doubleDamage").show(6000/speed,function(){
             $("#doubleDamage").hide("puff");

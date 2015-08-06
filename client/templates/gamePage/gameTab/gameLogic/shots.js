@@ -10,7 +10,7 @@ cShots = function(tower,monster) {
             createjs.Sound.play('iceSound');
         }
         else if (tower.name=='lightTower') {        
-            createjs.Sound.play('laserSound').volume=.1;
+            createjs.Sound.play('laserSound').volume=.6;
         }    
     }  
 

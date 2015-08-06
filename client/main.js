@@ -7,6 +7,7 @@ function loadSound() {
     createjs.Sound.registerSound("/sound/laugh.ogg",'gameOverSound');
     createjs.Sound.registerSound("/sound/ice.ogg",'iceSound');
     createjs.Sound.registerSound("/sound/laser.ogg",'laserSound');
+    createjs.Sound.registerSound("/sound/gameOver.mp3",'gameOver');
 
 };
 
@@ -29,6 +30,6 @@ musicBoxSound = new buzz.sound("/sound/Music_Box");
 // double damage
 slideInSound = new buzz.sound("/sound/slideIn");
 
-// BGsound.play().loop().setVolume(20);
+//BGsound.play().loop();
 
 
