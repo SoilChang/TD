@@ -342,15 +342,15 @@ var len = allItemData.length;
 // loop through each item in the fixtures
 for(var i=0; i<len; i++){
 	var object = eqpList.findOne({name: allItemData[i].name });
-
+	var data = allItemData[i]
 	if(!object){
 		// if cannot find anything
-		eqpList.insert(allItemData[i]);
+		eqpList.insert(data);
 	}else{
 		// if found
-		eqpList.remove({_id: object._id});
-		_.extend( {_id:object._id} , allItemData[i] );
-		eqpList.insert(allItemData[i]);
+		eqpList.remove({_id:  object._id});
+		_.extend(  data ,{_id: object._id} );
+		eqpList.insert(data);
 	}
 }
 

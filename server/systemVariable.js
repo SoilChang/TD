@@ -104,7 +104,7 @@ for(var i=0; i<len; i++){
 	}else{
 		// if found
 		SystemVariable.remove({_id: object._id});
-		_.extend( {_id:object._id} , allItemData[i] );
+		_.extend(allItemData[i] , {_id:object._id}  );
 		SystemVariable.insert(allItemData[i]);
 	}
 }
