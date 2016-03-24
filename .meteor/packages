@@ -21,11 +21,11 @@ mrt:facebook-sdk
 sorenpeterson:createjs
 brentjanderson:buzz
 momentjs:moment
-sanjo:jasmine
+# sanjo:jasmine
 velocity:html-reporter
 
 houston:admin
-meteorhacks:kadira
+# meteorhacks:kadira
 standard-minifiers
 meteor-base
 mobile-experience
