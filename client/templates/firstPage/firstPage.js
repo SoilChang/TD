@@ -84,14 +84,34 @@ Template.firstPage.onRendered(function(){
 		});
 	});
 
+
+	// animate the dialog box
+	function popText(name,time){
+		window.setTimeout(function(){
+			$(name).animate({"font-size":"30"},300,function(){
+				$(name).animate({"font-size":"14"},300)
+			});
+		},time);
+	}
 	window.setTimeout(function(){
 		$("#dialog").fadeIn(1500,function(){
 			window.setTimeout(function(){
 				$("#dialog").fadeOut(7000)
 			},3000)
+
+			// poping each word
+			var selectionCount = document.getElementById("dialog_text").childElementCount;
+			console.log("selectionCount="+selectionCount.toString());
+			for(var i = 1; i<=selectionCount;i++){
+				elem = "#dialogPop"+ i.toString();
+				console.log(elem);
+				popText(elem, 1500+i*300);
+			}
+
 		})
 	},1600)
 	
+
 
 	// facebook sdk stuff
 	 try {

@@ -84,19 +84,18 @@ img{
 #dialog{
 	/*positioning*/
 	position: absolute;
-	margin-left:575px;
-	margin-top:430px;
+	margin-left:545px;
+	margin-top:410px;
 	/*styling*/
 	background-color: white;
 	border-radius: 20px;
 	border:black dotted 2px;
-	height:100px;
-	width: 200px;
+	height:30px;
+	width: 500px;
 }
 
 #dialog_text{
 	text-align: center; 
-	padding-top:20px;
 	/*from text generator*/
 	text-shadow:1px 6px 1px rgba(155,255,125,1);
 	font-weight:normal;
