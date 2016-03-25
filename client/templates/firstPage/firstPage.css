@@ -79,3 +79,43 @@ img{
 	margin-top:500px;
 	height:100px;
 }
+
+
+#dialog{
+	/*positioning*/
+	position: absolute;
+	margin-left:575px;
+	margin-top:430px;
+	/*styling*/
+	background-color: white;
+	border-radius: 20px;
+	border:black dotted 2px;
+	height:100px;
+	width: 200px;
+}
+
+#dialog_text{
+	text-align: center; 
+	padding-top:20px;
+	/*from text generator*/
+	text-shadow:1px 6px 1px rgba(155,255,125,1);
+	font-weight:normal;
+	color:#000000;
+	letter-spacing:1pt;
+	word-spacing:2pt;
+	font-size:14px;
+	font-family:arial black, sans-serif;
+	line-height:1;
+}
+
+/*.arrow-left {
+	position: absolute;
+	margin-left:575px;
+	margin-top:430px;
+
+	width: 20%; 
+	height: 0; 
+	border-top: 30px solid transparent;
+	border-bottom: 30px solid transparent; 
+	border-right:30px solid blue; 
+}*/

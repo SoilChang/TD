@@ -1,7 +1,7 @@
 Template.firstPage.onRendered(function(){
 
 	// hide everything
-	$('#photoBook, #credit,#enter').hide();
+	$('#photoBook, #credit,#enter,#dialog').hide();
 
 	// animation for the second tower
 	$("#secTower").css({"margin-top":"-100px"});
@@ -84,7 +84,14 @@ Template.firstPage.onRendered(function(){
 		});
 	});
 
-
+	window.setTimeout(function(){
+		$("#dialog").fadeIn(1500,function(){
+			window.setTimeout(function(){
+				$("#dialog").fadeOut(7000)
+			},3000)
+		})
+	},1600)
+	
 
 	// facebook sdk stuff
 	 try {
