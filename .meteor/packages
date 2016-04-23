@@ -20,13 +20,12 @@ audit-argument-checks
 mrt:facebook-sdk
 sorenpeterson:createjs
 brentjanderson:buzz
-momentjs:moment
+# momentjs:moment
 # sanjo:jasmine
 velocity:html-reporter
 
 houston:admin
 # meteorhacks:kadira
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -41,3 +40,5 @@ spacebars
 check
 
 npm-bcrypt
+standard-minifier-css
+standard-minifier-js
